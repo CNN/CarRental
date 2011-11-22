@@ -1,4 +1,7 @@
 /build/
+/nbproject/
 /nbproject/private/
-dist/
+build/
+nbproject/
+nbproject/private/
 /dist/
