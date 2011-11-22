@@ -6,7 +6,7 @@ import java.awt.event.*;
  *
  * @author hypesystem
  */
-public final class CarRental implements Controller {
+public final class CarRental {
     public static final boolean DEBUG = true;
     private static CarRental instance;
     private Model model;
