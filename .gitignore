@@ -5,3 +5,6 @@ build/
 nbproject/
 nbproject/private/
 /dist/
+dist/
+/dist/javadoc/
+dist/javadoc/
