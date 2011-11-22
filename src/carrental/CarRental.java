@@ -7,6 +7,7 @@ import java.awt.event.*;
  * @author hypesystem
  */
 public final class CarRental implements Controller {
+    public static final boolean DEBUG = true;
     private static CarRental instance;
     private Model model;
     private View view;
@@ -41,6 +42,7 @@ public final class CarRental implements Controller {
     
     @Override
     public void appendLog(String string) {
+        if(CarRental.DEBUG) System.out.println(string);
         log = log+"\n"+string;
     }
     
