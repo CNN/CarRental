@@ -6,7 +6,7 @@ package carrental;
 
 /**
  * VehicleType holds information on each vehicle type
- * @author CompiledNothingNew
+ * @author CNN
  * @version 25 Nov. 2011
  */
 public class VehicleType //implements Updateable
