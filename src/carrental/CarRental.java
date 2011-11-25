@@ -4,7 +4,6 @@ import java.awt.event.*;
 
 /**
  *
- * @author hypesystem LOLOLOLOLOL
  */
 public final class CarRental {
     public static final boolean DEBUG = true;
