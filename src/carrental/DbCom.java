@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 /**
  * Communicator object for controller and database
  * @author CNN
- * @version 25 Nov. 2011
+ * @version 27 Nov. 2011
  */
 public class DbCom {
     private Connection conn;
