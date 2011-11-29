@@ -89,7 +89,7 @@ public class DbCom {
         try {
             // Fra mysql-connector-java-5.1.5-bin.jar, lagt i /program files/java/jdk1.7.0_01/jre/lib/ext/
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql:///carrental", "root", "1991");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/carrental", "root", "1991");
         } catch (SQLException exn) {
             System.out.println("Kan ikke Âbne databaseforbindelsen: " + exn);
         } catch (ClassNotFoundException exn) {
