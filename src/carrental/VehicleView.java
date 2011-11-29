@@ -21,7 +21,7 @@ public class VehicleView extends javax.swing.JFrame {
     /** Creates new form VehicleView */
     public VehicleView() {
         initComponents();
-        
+        com = new DbCom();
     }
 
     /** This method is called from within the constructor to
