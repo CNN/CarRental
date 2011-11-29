@@ -9,16 +9,19 @@
  * Created on Nov 25, 2011, 10:10:32 PM
  */
 package carrental;
+import java.util.ArrayList;
 
 /**
  *
  * @author Admin
  */
 public class VehicleView extends javax.swing.JFrame {
-
+    private int vCount = 0;
+    private DbCom com;
     /** Creates new form VehicleView */
     public VehicleView() {
         initComponents();
+        
     }
 
     /** This method is called from within the constructor to
@@ -47,12 +50,14 @@ public class VehicleView extends javax.swing.JFrame {
         jTextField6 = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jBLoadVehicles = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Create Vehicle");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -105,6 +110,15 @@ public class VehicleView extends javax.swing.JFrame {
 
         jLabel9.setText("Forslag til hvordan VehicleView kunne se ud. Prototype.");
 
+        jBLoadVehicles.setText("Load Vehicles");
+        jBLoadVehicles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBLoadVehiclesActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Next Vehicle");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -134,7 +148,11 @@ public class VehicleView extends javax.swing.JFrame {
                             .addComponent(jTextField4)
                             .addComponent(jTextField6)
                             .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel9))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                        .addComponent(jButton2))
+                    .addComponent(jBLoadVehicles, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -168,8 +186,12 @@ public class VehicleView extends javax.swing.JFrame {
                                 .addComponent(jLabel6)
                                 .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel7)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jBLoadVehicles)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jButton2))
                 .addContainerGap())
         );
 
@@ -196,6 +218,19 @@ public class VehicleView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+private void jBLoadVehiclesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLoadVehiclesActionPerformed
+    // When pressing LoadVehicles button
+    ArrayList<Vehicle> vehicles = com.getInformation();
+    if(vehicles != null){ //remember to reset vCount
+        jTextField1.setText("" + vehicles.get(vCount).getID());
+        jTextField2.setText(vehicles.get(vCount).getDescription());
+        jTextField3.setText("" + vehicles.get(vCount).getVehicleType());
+        jTextField4.setText(vehicles.get(vCount).getLicensplate());
+        jTextField5.setText("" + vehicles.get(vCount).getOdo());
+        jTextField6.setText(vehicles.get(vCount).getAdditional());
+    }
+}//GEN-LAST:event_jBLoadVehiclesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -233,6 +268,8 @@ public class VehicleView extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBLoadVehicles;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -6,6 +6,7 @@ package carrental;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.ArrayList;
 
 /**
  * Communicator object for controller and database
@@ -18,12 +19,50 @@ public class DbCom {
     
     public DbCom(){
     	openDb(); //create connection
-    	doStuff(); //run
-    	closeDb();
+    	//doStuff2(); //run
+    	//closeDb();
     }
     
     public static void main(String[] args){
         DbCom com = new DbCom();
+    }
+    
+    public ArrayList<Vehicle> getInformation(){
+        try {
+            dbStatement = conn.createStatement();
+        } catch (SQLException ex) {
+            Logger.getLogger(DbCom.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ArrayList<Vehicle> info = new ArrayList<Vehicle>();
+        String query = "SELECT id, type, description, licensplate, odo, additional FROM Vehicle";
+        try {
+            boolean ok = dbStatement.execute(query);
+            if (ok) {
+                ResultSet res = dbStatement.getResultSet();
+                while (res.next()) { 
+                    Vehicle v = new Vehicle(
+                            res.getInt("id"), 
+                            res.getInt("type"), 
+                            res.getString("description"), 
+                            res.getString("licensplate"), 
+                            res.getInt("odo"), 
+                            res.getString("additional")
+                            );
+                    //param: int ID, int vehicleType, String description, String licensplate, int odo, String additional
+                    info.add(v);
+                }
+            }
+        } catch (SQLException exn) {
+            System.out.println("Can not read from database: " + exn);   
+        }
+        return info; //ArrayList with information
+    }
+    
+    private void doStuff2(){
+        ArrayList<Vehicle> test = getInformation();
+        for(Vehicle ve : test){
+            System.out.println("" + ve.getDescription());
+        }
     }
     
     private void doStuff(){
