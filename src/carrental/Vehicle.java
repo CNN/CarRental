@@ -17,7 +17,7 @@ public class Vehicle //implements Upgradeable
     private String licensplate;
     private int odo;
     private String additional;
-    
+
     /**
      * Constructor for Vehicle
      * @param ID
