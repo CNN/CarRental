@@ -20,6 +20,7 @@ public class VehicleView extends javax.swing.JFrame {
     private DbCom com;
     /** Creates new form VehicleView */
     public VehicleView() {
+        com = new DbCom();
         initComponents();
         
     }
