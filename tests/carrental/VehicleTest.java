@@ -1,11 +1,5 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package carrental;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -18,17 +12,9 @@ public class VehicleTest {
     private static Vehicle vehicle;
 
     public VehicleTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
         vehicle = new Vehicle(1, 2, "This is a description", "This is the licenseplate", 20000, "Additional comment");
     }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
+    
     /**
      * Test of updateObject method, of class Vehicle.
      */
