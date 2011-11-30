@@ -3,18 +3,18 @@
  * and open the template in the editor.
  */
 package carrental;
-import java.util.ArrayList;
+import java.sql.Timestamp;
 
 /**
  * Reservation holds holds information on a reservation
  * @author CNN
  * @version 30 Nov. 2011
  */
-public class Reservation implements Booking, Updateable {
+public class Reservation implements Booking {
     private final int ID;
     private int vehicleID;
-    private long tStart;
-    private long tEnd;
+    private Timestamp tStart;
+    private Timestamp tEnd;
     private int customerID;
     
     /**
@@ -25,7 +25,7 @@ public class Reservation implements Booking, Updateable {
      * @param tEnd
      * @param customerID 
      */
-    public Reservation(int ID, int vehicleID, long tStart, long tEnd, int customerID){
+    public Reservation(int ID, int vehicleID, Timestamp tStart, Timestamp tEnd, int customerID){
         this.ID = ID;
         this.vehicleID = vehicleID;
         this.tStart = tStart;
@@ -40,11 +40,11 @@ public class Reservation implements Booking, Updateable {
      * @param tEnd
      * @param customerID 
      */
-    public void updateObject(ArrayList<String> update){
-        vehicleID = Integer.parseInt(update.get(0));
-        tStart = Long.parseLong(update.get(1));
-        tEnd = Long.parseLong(update.get(2));
-        customerID = Integer.parseInt(update.get(3));
+    public void updateObject(int vehicleID, Timestamp tStart, Timestamp tEnd, int customerID){
+        this.vehicleID = vehicleID;
+        this.tStart = tStart;
+        this.tEnd = tEnd;
+        this.customerID = customerID;
     }
     /**
      * 
@@ -64,14 +64,14 @@ public class Reservation implements Booking, Updateable {
      * 
      * @return Time start
      */
-    public long getTStart(){
+    public Timestamp getTStart(){
         return tStart;
     }
     /**
      * 
      * @return Time end
      */
-    public long getTEnd(){
+    public Timestamp getTEnd(){
         return tEnd;
     }
     /**
