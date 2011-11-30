@@ -1,5 +1,7 @@
 package carrental;
 
+import java.sql.Timestamp;
+
 /**
  * Interface for types of booking
  * Known classes to implement: Reservation, Maintenance
@@ -10,6 +12,6 @@ public interface Booking {
     //id, vid, start, end
     public int getID();
     public int getVehicleID();
-    public long getTStart();
-    public long getTEnd();
+    public Timestamp getTStart();
+    public Timestamp getTEnd();
 }
