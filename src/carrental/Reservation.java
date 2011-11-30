@@ -3,13 +3,14 @@
  * and open the template in the editor.
  */
 package carrental;
+import java.util.ArrayList;
 
 /**
  * Reservation holds holds information on a reservation
  * @author CNN
  * @version 25 Nov. 2011
  */
-public class Reservation implements Booking {
+public class Reservation implements Booking, Updateable {
     private final int ID;
     private int vehicleID;
     private long tStart;
@@ -39,7 +40,8 @@ public class Reservation implements Booking {
      * @param tEnd
      * @param customerID 
      */
-    public void updateObject(int vehicleID, long tStart, long tEnd, int customerID){
+    public void updateObject(ArrayList<String> update){
+        //TOOD Fix this:
         this.vehicleID = vehicleID;
         this.tStart = tStart;
         this.tEnd = tEnd;

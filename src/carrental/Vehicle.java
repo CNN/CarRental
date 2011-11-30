@@ -3,13 +3,14 @@
  * and open the template in the editor.
  */
 package carrental;
+import java.util.ArrayList;
 
 /**
  * Vehicle holds information on each vehicle
  * @author CNN
  * @version 25 Nov. 2011
  */
-public class Vehicle //implements Upgradeable
+public class Vehicle implements Updateable
 {
     private final int ID;
     private int vehicleType;
@@ -44,12 +45,12 @@ public class Vehicle //implements Upgradeable
      * @param odo
      * @param additional 
      */
-    public void updateObject(int vehicleType, String description, String licensplate, int odo, String additional){
-        this.vehicleType = vehicleType;
-        this.description = description;
-        this.licensplate = licensplate;
-        this.odo = odo;
-        this.additional = additional;
+    public void updateObject(ArrayList<String> update){
+        vehicleType = Integer.parseInt(update.get(1));  //0 is final PK
+        description = update.get(2);
+        licensplate = update.get(3);
+        odo = Integer.parseInt(update.get(4));
+        additional = update.get(5);
     }
     
     /**
