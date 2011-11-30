@@ -6,6 +6,7 @@ import java.sql.Timestamp;
  *
  * @author CNN
  */
+
 public class Maintenance implements Booking {
     private int id;
     private int vehicle_id;
@@ -49,5 +50,4 @@ public class Maintenance implements Booking {
     public int getVehicleID() {
         return vehicle_id;
     }
-    
 }
