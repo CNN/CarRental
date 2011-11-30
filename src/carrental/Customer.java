@@ -3,15 +3,13 @@
  * and open the template in the editor.
  */
 package carrental;
-import java.util.ArrayList;
 
 /**
  * Customer holds holds information on each customer
  * @author CNN
  * @version 30. Nov. 2011
  */
-public class Customer implements Updateable
-{
+public class Customer{
     private final int ID;
     private int telephone;
     private String name;
@@ -41,11 +39,11 @@ public class Customer implements Updateable
      * @param adress
      * @param eMail 
      */
-    public void updateObject(ArrayList<String> update){
-        telephone = Integer.parseInt(update.get(0));
-        name = update.get(1);
-        adress = update.get(2);
-        eMail = update.get(3);
+    public void updateObject(int telephone, String name, String adress, String eMail){
+        this.telephone = telephone;
+        this.name = name;
+        this.adress = adress;
+        this.eMail = eMail;
     }
     /**
      * 

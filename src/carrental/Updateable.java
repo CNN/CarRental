@@ -12,6 +12,7 @@ import java.util.ArrayList;
  * @version 30. Nov. 2011
  */
 public interface Updateable {
+    //TODO Create param checks for updateObject() for all implementing classes
     public void updateObject(ArrayList<String> update);
     public int getID();
 }
