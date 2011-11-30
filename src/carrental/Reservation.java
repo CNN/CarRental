@@ -41,11 +41,10 @@ public class Reservation implements Booking, Updateable {
      * @param customerID 
      */
     public void updateObject(ArrayList<String> update){
-        //TOOD Fix this:
-        this.vehicleID = vehicleID;
-        this.tStart = tStart;
-        this.tEnd = tEnd;
-        this.customerID = customerID;
+        vehicleID = Integer.parseInt(update.get(1)); //0 is final PK
+        tStart = Long.parseLong(update.get(2));
+        tEnd = Long.parseLong(update.get(3));
+        customerID = Integer.parseInt(update.get(4));
     }
     /**
      * 

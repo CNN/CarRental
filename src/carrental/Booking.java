@@ -7,5 +7,9 @@ package carrental;
  * @version 30. Nov. 2011
  */
 public interface Booking {
-    
+    //id, vid, start, end
+    public int getID();
+    public int getVehicleID();
+    public long getTStart();
+    public long getTEnd();
 }
