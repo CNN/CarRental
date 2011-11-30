@@ -46,11 +46,11 @@ public class Vehicle implements Updateable
      * @param additional 
      */
     public void updateObject(ArrayList<String> update){
-        vehicleType = Integer.parseInt(update.get(1));  //0 is final PK
-        description = update.get(2);
-        licensplate = update.get(3);
-        odo = Integer.parseInt(update.get(4));
-        additional = update.get(5);
+        vehicleType = Integer.parseInt(update.get(0));
+        description = update.get(1);
+        licensplate = update.get(2);
+        odo = Integer.parseInt(update.get(3));
+        additional = update.get(4);
     }
     
     /**
