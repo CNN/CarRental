@@ -25,7 +25,6 @@ public class VehicleTest {
         assertEquals(2, vehicle.getVehicleType());
         //ArrayList<String> update = new ArrayList<String>();
         String[] strings = new String[]{
-            "0",
             "3", 
             "This is a NEW description", 
             "This is the NEW licenseplate", 

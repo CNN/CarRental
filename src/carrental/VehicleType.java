@@ -38,9 +38,9 @@ public class VehicleType implements Updateable
      * @param pricePerDay 
      */
     public void updateObject(ArrayList<String> update){
-        name = update.get(1); //0 is final PK
-        description = update.get(2);
-        pricePerDay = Integer.parseInt(update.get(3));
+        name = update.get(0);
+        description = update.get(1);
+        pricePerDay = Integer.parseInt(update.get(2));
     }
     
     /**

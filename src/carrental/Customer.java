@@ -42,10 +42,10 @@ public class Customer implements Updateable
      * @param eMail 
      */
     public void updateObject(ArrayList<String> update){
-        telephone = Integer.parseInt(update.get(1));  //0 is final PK
-        name = update.get(2);
-        adress = update.get(3);
-        eMail = update.get(4);
+        telephone = Integer.parseInt(update.get(0));
+        name = update.get(1);
+        adress = update.get(2);
+        eMail = update.get(3);
     }
     /**
      * 
