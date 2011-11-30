@@ -8,6 +8,7 @@ package carrental;
  *
  * @author hypesystem
  */
-public class Maintenance implements Booking, Updateable {
+public class Maintenance //implements Booking , Updateable 
+{
     
 }

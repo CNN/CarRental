@@ -2,6 +2,8 @@ package carrental;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -21,7 +23,16 @@ public class VehicleTest {
     @Test
     public void testUpdateObject() {
         assertEquals(2, vehicle.getVehicleType());
-        vehicle.updateObject(3, "This is a NEW description", "This is the NEW licenseplate", 10000, "NEW Additional comment");
+        //ArrayList<String> update = new ArrayList<String>();
+        String[] strings = new String[]{
+            "0",
+            "3", 
+            "This is a NEW description", 
+            "This is the NEW licenseplate", 
+            "10000", 
+            "NEW Additional comment"
+        };
+        vehicle.updateObject(new ArrayList<>(Arrays.asList(strings)));
         //test that the vehicle's fields equals the new values.
         assertEquals(3, vehicle.getVehicleType());
         assertEquals("This is a NEW description", vehicle.getDescription());
