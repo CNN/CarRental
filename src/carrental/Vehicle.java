@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Vehicle holds information on each vehicle
  * @author CNN
- * @version 25 Nov. 2011
+ * @version 30 Nov. 2011
  */
 public class Vehicle implements Updateable
 {

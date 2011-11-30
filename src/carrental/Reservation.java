@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Reservation holds holds information on a reservation
  * @author CNN
- * @version 25 Nov. 2011
+ * @version 30 Nov. 2011
  */
 public class Reservation implements Booking, Updateable {
     private final int ID;

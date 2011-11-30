@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Communicator object for controller and database
  * @author CNN
- * @version 27 Nov. 2011
+ * @version 29 Nov. 2011
  */
 public class DbCom {
     private Connection conn;
