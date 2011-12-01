@@ -83,12 +83,14 @@ public class View {
     //Action performed when Customer button is pressed
     private void customerBtn(){
         allInvisible();
+        headlinePanel.setVisible(true);
         customer_panel.setVisible(true);
         frame.pack();
     }
     
     private void allInvisible(){
         overview_panel.setVisible(false);
+        headlinePanel.setVisible(false);
         customer_panel.setVisible(false);
 //        vehicle_panel.setVisible(false);
 //        vehicle_type_panel.setVisible(false);
@@ -246,8 +248,8 @@ public class View {
         //final setups
         headlinePanel.add(customer_panel, BorderLayout.CENTER);
         contentPane.add(headlinePanel, BorderLayout.CENTER);
-//        customer_panel.setVisible(false);
-//        contentPane.add(overview_panel, BorderLayout.CENTER);
+        headlinePanel.setVisible(false);
+        contentPane.add(overview_panel, BorderLayout.CENTER);
         contentPane.add(cpTop, BorderLayout.NORTH);
         contentPane.add(cpBottom, BorderLayout.SOUTH);
         contentPane.add(cpLeft, BorderLayout.WEST);
