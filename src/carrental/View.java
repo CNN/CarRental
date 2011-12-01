@@ -221,8 +221,8 @@ public class View {
         
         //final setups
         contentPane.add(customer_panel, BorderLayout.CENTER);
-        customer_panel.setVisible(false);
-        contentPane.add(overview_panel, BorderLayout.CENTER);
+//        customer_panel.setVisible(false);
+//        contentPane.add(overview_panel, BorderLayout.CENTER);
         contentPane.add(cpTop, BorderLayout.NORTH);
         contentPane.add(cpBottom, BorderLayout.SOUTH);
         contentPane.add(cpLeft, BorderLayout.WEST);
