@@ -14,6 +14,7 @@ public class View {
     private final String title = "CarRental DeLuxe";
     private Font headline;
     private JPanel contentPane, 
+            headlinePanel, 
             overview_panel, 
             vehicle_panel, 
             vehicle_type_panel,
@@ -28,9 +29,12 @@ public class View {
     private JLabel cpStatusLabel;
     private JList menuList;
     
+    //headlinePanel
+    private JLabel headlineLabel;
+    
     // customer_panel
-    private JPanel customer_panel_panel;
-    private JLabel customerHeadlineLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel, customerSearchLabel;
+    private JPanel customer_panel_left, customer_panel_center, customer_panel_right;
+    private JLabel customerNameLabel, customerPhoneLabel, customerAdressLabel, customerSearchLabel;
     private JTextField customerNameTextField, customerPhoneTextField, customerAdressTextField;
     private JList customerResultList;
     private JButton customerLoadBtn, customerSaveBtn;
@@ -104,19 +108,31 @@ public class View {
         contentPane = (JPanel)frame.getContentPane();
         contentPane.setLayout(new BorderLayout());
         
+        //headlinePanel
+        headlinePanel = new JPanel();
+        headlinePanel.setLayout(new BorderLayout());
+        //TODO Find proper color
+        headlinePanel.setBackground(Color.cyan);
+        
+        headlineLabel = new JLabel("Headline");
+        headlineLabel.setFont(headline);
+        headlineLabel.setHorizontalAlignment(JLabel.CENTER);
+        
+        headlinePanel.add(headlineLabel, BorderLayout.NORTH);
+        
         //customer panel
         customer_panel = new JPanel();
-        customer_panel.setLayout(new BorderLayout());
-        customer_panel_panel = new JPanel();
-        customer_panel_panel.setLayout(new GridLayout(0, 2));
-        
-        customerHeadlineLabel = new JLabel("Create/Edit Customer");
-        customerHeadlineLabel.setFont(headline);
+        customer_panel.setLayout(new GridLayout(0, 3));
+        customer_panel_left = new JPanel();
+        customer_panel_left.setLayout(new GridLayout(0, 1));
+        customer_panel_center = new JPanel();
+        customer_panel_center.setLayout(new GridLayout(0, 1));
+        customer_panel_right = new JPanel();
+        customer_panel_right.setLayout(new GridLayout(0, 1));
         
         //TODO create proper String[] resultList
         String[] resultList = new String[] {    "Search results"    };
         customerResultList = new JList(resultList);
-        customerSearchLabel = new JLabel("0 Results");
         
         customerLoadBtn = new JButton("Load Customer");
         customerSaveBtn = new JButton("Save Customer");
@@ -133,26 +149,34 @@ public class View {
         });
         
         customerNameLabel = new JLabel("Name");
+        customerNameLabel.setHorizontalAlignment(JLabel.RIGHT);
         customerPhoneLabel = new JLabel("Phone");
+        customerPhoneLabel.setHorizontalAlignment(JLabel.RIGHT);
         customerAdressLabel = new JLabel("Adress");
+        customerAdressLabel.setHorizontalAlignment(JLabel.RIGHT);
+        customerSearchLabel = new JLabel("0 Results");
+        customerSearchLabel.setHorizontalAlignment(JLabel.RIGHT);
         
         customerNameTextField = new JTextField();
         customerPhoneTextField = new JTextField();
         customerAdressTextField = new JTextField();
         
-        customer_panel_panel.add(customerNameLabel);
-        customer_panel_panel.add(customerNameTextField);
-        customer_panel_panel.add(customerPhoneLabel);
-        customer_panel_panel.add(customerPhoneTextField);
-        customer_panel_panel.add(customerAdressLabel);
-        customer_panel_panel.add(customerAdressTextField);
+        customer_panel_left.add(customerNameLabel);
+        customer_panel_left.add(customerPhoneLabel);
+        customer_panel_left.add(customerAdressLabel);
+        customer_panel_left.add(customerLoadBtn);
         
-        customer_panel.add(customerHeadlineLabel, BorderLayout.NORTH);
-        customer_panel.add(customer_panel_panel, BorderLayout.CENTER);
-        customer_panel.add(customerLoadBtn, BorderLayout.SOUTH);
-        customer_panel.add(customerSaveBtn, BorderLayout.SOUTH);
-        customer_panel.add(customerResultList, BorderLayout.EAST);
-        customer_panel.add(customerSearchLabel, BorderLayout.EAST);
+        customer_panel_center.add(customerNameTextField);
+        customer_panel_center.add(customerPhoneTextField);
+        customer_panel_center.add(customerAdressTextField);
+        customer_panel_center.add(customerSaveBtn);
+        
+        customer_panel_right.add(customerResultList);
+        customer_panel_right.add(customerSearchLabel);
+        
+        customer_panel.add(customer_panel_left);
+        customer_panel.add(customer_panel_center);
+        customer_panel.add(customer_panel_right);
         
         //contentPane left panel
         cpLeft = new JPanel();
@@ -220,7 +244,8 @@ public class View {
         overview_panel.add(opCenterLabel);
         
         //final setups
-        contentPane.add(customer_panel, BorderLayout.CENTER);
+        headlinePanel.add(customer_panel, BorderLayout.CENTER);
+        contentPane.add(headlinePanel, BorderLayout.CENTER);
 //        customer_panel.setVisible(false);
 //        contentPane.add(overview_panel, BorderLayout.CENTER);
         contentPane.add(cpTop, BorderLayout.NORTH);
