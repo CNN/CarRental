@@ -12,6 +12,7 @@ import javax.swing.*;
 public class View {
     private JFrame frame;
     private final String title = "CarRental DeLuxe";
+    private Font headline;
     private JPanel contentPane, 
             overview_panel, 
             vehicle_panel, 
@@ -29,7 +30,7 @@ public class View {
     
     // customer_panel
     private JPanel customer_panel_panel;
-    private JLabel customerNameLabel, customerPhoneLabel, customerAdressLabel, customerSearchLabel;
+    private JLabel customerHeadlineLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel, customerSearchLabel;
     private JTextField customerNameTextField, customerPhoneTextField, customerAdressTextField;
     private JList customerResultList;
     private JButton customerLoadBtn, customerSaveBtn;
@@ -45,42 +46,59 @@ public class View {
         buildGUI();
     }
     
+    //Action performed when Save Customer button is pressed
+    private void saveCustomerBtn(){
+        
+    }
+    
+    //Action performed when Soad Costumer button is pressed
+    private void loadCustomerBtn(){
+        
+    }
+    
     //Action performed when Home button is pressed
     private void homeBtn(){
         allInvisible();
         overview_panel.setVisible(true);
+        frame.pack();
     }
     //Action performed when Reservation button is pressed
     private void reservationBtn(){
         allInvisible();
         reservation_panel.setVisible(true);
+        frame.pack();
     }
     
     //Action performed when Vehicle button is pressed
     private void vehicleBtn(){
         allInvisible();
         vehicle_panel.setVisible(true);
+        frame.pack();
     }
     
     //Action performed when Customer button is pressed
     private void customerBtn(){
         allInvisible();
         customer_panel.setVisible(true);
+        frame.pack();
     }
     
     private void allInvisible(){
         overview_panel.setVisible(false);
-        vehicle_panel.setVisible(false);
-        vehicle_type_panel.setVisible(false);
         customer_panel.setVisible(false);
-        reservation_panel.setVisible(false);
-        maintenance_panel.setVisible(false);
-        maintenance_type_panel.setVisible(false);
+//        vehicle_panel.setVisible(false);
+//        vehicle_type_panel.setVisible(false);
+//        reservation_panel.setVisible(false);
+//        maintenance_panel.setVisible(false);
+//        maintenance_type_panel.setVisible(false);
     }
     
     //creates user interface
     private void buildGUI(){
         frame = new JFrame(title);
+        
+        //fonts
+        headline = new Font("Arial", Font.PLAIN, 24);
         
         //contentPane
         contentPane = (JPanel)frame.getContentPane();
@@ -88,14 +106,59 @@ public class View {
         
         //customer panel
         customer_panel = new JPanel();
+        customer_panel.setLayout(new BorderLayout());
         customer_panel_panel = new JPanel();
+        customer_panel_panel.setLayout(new GridLayout(0, 2));
         
-        customer_panel.add(customer_panel_panel);
+        customerHeadlineLabel = new JLabel("Create/Edit Customer");
+        customerHeadlineLabel.setFont(headline);
+        
+        //TODO create proper String[] resultList
+        String[] resultList = new String[] {    "Search results"    };
+        customerResultList = new JList(resultList);
+        customerSearchLabel = new JLabel("0 Results");
+        
+        customerLoadBtn = new JButton("Load Customer");
+        customerSaveBtn = new JButton("Save Customer");
+        
+        customerLoadBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                loadCustomerBtn();
+            }
+        });
+        customerSaveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                saveCustomerBtn();
+            }
+        });
+        
+        customerNameLabel = new JLabel("Name");
+        customerPhoneLabel = new JLabel("Phone");
+        customerAdressLabel = new JLabel("Adress");
+        
+        customerNameTextField = new JTextField();
+        customerPhoneTextField = new JTextField();
+        customerAdressTextField = new JTextField();
+        
+        customer_panel_panel.add(customerNameLabel);
+        customer_panel_panel.add(customerNameTextField);
+        customer_panel_panel.add(customerPhoneLabel);
+        customer_panel_panel.add(customerPhoneTextField);
+        customer_panel_panel.add(customerAdressLabel);
+        customer_panel_panel.add(customerAdressTextField);
+        
+        customer_panel.add(customerHeadlineLabel, BorderLayout.NORTH);
+        customer_panel.add(customer_panel_panel, BorderLayout.CENTER);
+        customer_panel.add(customerLoadBtn, BorderLayout.SOUTH);
+        customer_panel.add(customerSaveBtn, BorderLayout.SOUTH);
+        customer_panel.add(customerResultList, BorderLayout.EAST);
+        customer_panel.add(customerSearchLabel, BorderLayout.EAST);
         
         //contentPane left panel
         cpLeft = new JPanel();
         cpLeft.setLayout(new FlowLayout());
         
+        //TODO create proper String[] menuItems
         String[] menuItems = new String[]{  "Menu", "This is some sort of a menu"   };
         menuList = new JList(menuItems);
         
