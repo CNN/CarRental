@@ -1,0 +1,112 @@
+============================================================
+Calendar Component v5.1
+============================================================
+  - added a couple of ready to use calendar components each of each customizing various features of the calendar component library.
+  	These calendar components were thought as a way to help the developer using the component to find ready implemented the proper customizations he may need for the component.
+  - included separate jar archives for these ready to use calendar components in the component delivery. 
+  	Each of these archives must be added to the classpath only together with the calendarcomponent.jar library which contains the basic functionality.
+  - included the java source code of these calendar components in the component delivery
+  - enhanced the demo application to show these ready to use calendar components
+
+============================================================
+Calendar Component v5.0
+============================================================
+  - added the possibility to change the navigation controller or to no longer have a navigation controller
+
+============================================================
+Calendar Component v4.1
+============================================================
+  - improved the selection models. Now  the classes CalendarSelectionModelSingleIntervalSelection and CalendarSelectionModelMultipleIntervalSelection are using an excel like selection style.
+  - added the posibility to set or get the current date of month view. This can be achieved using the call to
+  calendarComponent.getCalendarView().getMonthView().getMonthViewCurrentDate()
+  or
+  calendarComponent.getCalendarView().getMonthView().setMonthViewCurrentDate(Date date)
+  This is different than the calendar selected date because the month view may also display other month than the one containing the selected date. 
+  - added the CalendarView class which can be used to get informations regarding the calendar parts. To obtain an instance of the CalendarView class one must call the getCalendarView() method from the CalendarComponent class.
+  - added the possibility to have access to the JComponents from which the Calendar Components are constructed.
+  For example in order to have access to the year text field one will have to write the below code sequence:
+  CalendarNavigationController calendarNavigationController = calendarComponent.getCalendarView().getNavigationController();
+  if (calendarNavigationController instanceof CalendarNavigationControllerDefault) {
+  	JTextField yearTextField = ((CalendarNavigationControllerDefault)calendarNavigationController).getYearTextField();
+  }
+  
+============================================================
+Calendar Component v4.0
+============================================================
+	- now the compponents extends JComponent and have default constructor. They can be used in a component pallete such as the one from NetBeans editor.
+	- removed the CalendarFactory as it is no longer needed. 
+	- added support for customizing the metrics of table cells, header cells, week cells and status panel.
+	- changed the default size of the component to be a wider in order to improve the visual effect. The previous metrics style is also available as the "Tight" metrics provider.
+	- improved the usage of background image. Now the image is scalled to fit the background of the component.
+	- added the properties "INTER_ROWS_SPACING" and "INTER_COLUMN_SPACING" which can be used to set the spacing between the cells.
+	- added Dotted Rect renderer
+	- added more external skins and improved the default skins
+	- added dynamical options in CalendarSkinStyle. Now the skins styles delivered together with the component are calculating the fonts dynamically based on the component font.
+	- improved the mouse and mouse motion events handling. Now the event is first delivered to the calendar part and it may be consumed before in order to no longer be handled by the component.
+	- improved the demo application:
+		* reorganized the "Main Features" panel by adding "Context Sensitive Help" and distributing the features in "Tabbed Panes"
+		* added to the "Skin Editor" panel the option "Save Skin Picture To File"
+		* added the "Events Manager" panel which can be used to store "Events" in the calendar cells. 
+				The events stored are sensitive to mouse and can be added, edited and stored. 
+				Also the events stored may be exported in an external file and can be loaded from there.
+				This panel can be used as an easy to use events manager application.
+
+============================================================
+Calendar Component v3.1
+============================================================
+	- added support for null dates
+	- added the status panel containing the Today and None buttons
+	- added mouseX and mouseY information to all the info classes from com.imagine.component.calendar.data package
+	- added the getChosedOption() function in CalendarDialog class to see whether a date seletion was made or whether the date selection was cancelled
+	- added the new features into the demo application
+
+============================================================
+Calendar Component v3.0
+============================================================
+  - added support for multiple date selection
+  - added support for disabled dates
+  - added a JTable Cell Editor constructed using the CalendarComboBox class
+  - now when the month or year is changed using the visual controls the date no longer automatically changes. The previous behaviour was not correct. In the previous implementation if one registered a DateListener this was called every time when the month and year was changed using the visual controls.
+  - now a calendar listener can receive the key and mouse events of the calendar table
+  - now the functions from CalendarRendererProvider class are no longer using as the first parameter a CalendarComponent. This is separately set through a setter.
+  - added the new features into the demo application
+
+============================================================
+Calendar Component v2.1
+============================================================
+  - added the "CLOSE_WHEN_DATE_SELECTED" property to the CalendarComboBox. When this is set to true the combobox will close when selecting a date.
+  - reorganized the demo application
+  - added hovered line, hovered column and transparent renderers providers
+  - added more code samples
+
+============================================================
+Calendar Component v2.0
+============================================================
+  - added suport for mouse hover effect
+  - added support for show/hide week
+  - added internationalization support
+  - added calendar events and calendar listeners. A calendar listener can register
+    to a calendar for being informed when the calendar properties are changed.
+  - added support for creating skin styles based on an external configuration file 
+    or from an external URL and included a skin editor into the demo application
+  - improved the appearance of java calendar component
+  - improved the demo application
+
+============================================================
+Calendar Component v1.1
+============================================================
+  - added combo box for date selection
+  - improved the rendering model. Now it is much easier to define custom renderers 
+    only for specific days not being forced also to implement the rendering 
+    for the other days
+
+
+============================================================
+Calendar Component v1.0 - Initial Release
+============================================================
+ - panel and dialog for date selection
+ - create skin or choose from predefined set
+ - create custom renderers or choose from predefined ones
+ - select the first day of the week
+ - set length of days names (ex: M, Mo, Mon etc)
+

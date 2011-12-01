@@ -1,0 +1,372 @@
+<html>
+<head>
+<title>README - Calendar Component v5.1 Professional</title>
+<style>
+
+/**************** Body and tag styles ****************/
+
+ol {
+padding-left:0px;
+}
+
+.container_main {
+padding:5px;
+}
+
+.javacode {
+font-family:courier;
+background-color:#f8f8f0;
+padding:5px;
+border:1px solid #c8c8c0;
+color:#000088;
+}
+
+
+body{
+font:76% Verdana,Tahoma,Arial,sans-serif;
+line-height:1.4em;
+text-align:center;
+color:#303030;
+background:#e8eaec;
+}
+
+pre{
+font:100% Verdana,Tahoma,Arial,sans-serif;
+}
+
+a{
+color:#467aa7;
+font-weight:bold;
+text-decoration:none;
+background-color:inherit;
+}
+
+a:hover{color:#2a5a8a; text-decoration:none; background-color:inherit;}
+a img{border:none;}
+
+p form{margin-top:0; margin-bottom:20px;}
+
+img.left,img.center,img.right{padding:4px; border:1px solid #a0a0a0;}
+img.left{float:left; margin:0 12px 5px 0;}
+img.center{display:block; margin:0 auto 5px auto;}
+img.right{float:right; margin:0 0 5px 12px;}
+
+/**************** Header and navigation styles ****************/
+
+#container{
+width:760px;
+margin:20px auto;
+padding:1px 0;
+text-align:left;
+background:#ffffff;
+color:#303030;
+border:2px solid #a0a0a0;
+}
+
+#header{
+height:90px;
+width:758px;
+margin:0 1px 1px 1px;
+background:#467aa7;
+color:#ffffff;
+}
+
+#header h1{
+padding:35px 0 0 20px;
+font-size:2.4em;
+background-color:inherit;
+color:#ffffff;
+letter-spacing:-2px;
+font-weight:normal;
+}
+
+#header h2{
+margin:10px 0 0 40px;
+font-size:1.4em;
+background-color:inherit;
+color:#f0f2f4;
+letter-spacing:-1px;
+font-weight:normal;
+}
+
+#navigation{
+height:2.2em;
+line-height:2.2em;
+width:758px;
+margin:0 1px;
+background:#578bb8;
+color:#ffffff;
+}
+
+#navigation li{
+float:left;
+list-style-type:none;
+border-right:1px solid #ffffff;
+white-space:nowrap;
+}
+
+#navigation li a{
+display:block;
+padding:0 10px;
+font-size:0.8em;
+font-weight:normal;
+text-transform:uppercase;
+text-decoration:none;
+background-color:inherit;
+color: #ffffff;
+}
+
+* html #navigation a {width:2%;}
+
+#navigation .selected,#navigation a:hover{
+background:#80b0da;
+color:#ffffff;
+text-decoration:none;
+}
+
+
+#content{
+float:left;
+width:720px;
+font-size:0.9em;
+padding:20px 0 10px 20px;
+}
+
+#content h2{
+display:block;
+margin:0 0 16px 0;
+font-size:1.7em;
+font-weight:normal;
+letter-spacing:-1px;
+color:#505050;
+background-color:inherit;
+}
+
+#content h2 a{font-weight:normal;}
+#content h3{margin:0 0 5px 0; font-size:1.4em; letter-spacing:-1px;}
+#content a:hover,#subcontent a:hover{text-decoration:underline;}
+#content ul,#content ol{margin:0 5px 16px 35px;}
+#content dl{margin:0 5px 10px 25px;}
+#content dt{font-weight:bold; margin-bottom:5px;}
+#content dd{margin:0 0 10px 15px;}
+
+/**************** Sidebar styles ****************/
+
+#subcontent{
+float:right;
+width:170px;
+padding:20px 20px 10px 0;
+line-height:1.4em;
+}
+
+#subcontent h2{
+display:block;
+margin:0 0 15px 0;
+font-size:1.6em;
+font-weight:normal;
+text-align:left;
+letter-spacing:-1px;
+color:#505050;
+background-color:inherit;
+}
+
+#subcontent p{margin:0 0 16px 0; font-size:0.9em;}
+
+/**************** Menublock styles ****************/
+
+.menublock{margin:0 0 20px 8px; font-size:0.9em;}
+.menublock li{list-style:none; display:block; padding:2px; margin-bottom:2px;}
+.menublock li a{font-weight:bold; text-decoration:none;}
+.menublock li a:hover{text-decoration:none;}
+.menublock li ul{margin:3px 0 3px 15px; font-size:1em; font-weight:normal;}
+.menublock li ul li{margin-bottom:0;}
+.menublock li ul a{font-weight:normal;}
+
+/**************** Searchbar styles ****************/
+
+#searchbar{margin:0 0 20px 0;}
+#searchbar form fieldset{margin-left:10px; border:0 solid;}
+
+#searchbar #s{
+height:1.2em;
+width:110px;
+margin:0 5px 0 0;
+border:1px solid #a0a0a0;
+}
+
+#searchbar #searchbutton{
+width:auto;
+padding:0 1px;
+border:1px solid #808080;
+font-size:0.9em;
+text-align:center;
+}
+
+#footer{
+clear:both;
+width:758px;
+padding:5px 0;
+margin:0 1px;
+font-size:10px;
+color:#f0f0f0;
+background:#467aa7;
+}
+
+#footer p{padding:0; margin:0; text-align:center;}
+#footer a{color:#f0f0f0; background-color:inherit; font-weight:bold;}
+#footer a:hover{color:#ffffff; background-color:inherit; text-decoration: underline;}
+
+/**************** Misc classes and styles ****************/
+
+.splitcontentleft{float:left; width:48%;}
+.splitcontentright{float:right; width:48%;}
+.clear{clear:both;}
+.small{font-size:0.8em;}
+.hide{display:none;}
+.textcenter{text-align:center;}
+.textright{text-align:right;}
+.important{color:#f02025; background-color:inherit; font-weight:bold;}
+
+.box{
+margin:0 0 20px 0;
+padding:10px;
+border:1px solid #c0c0c0;
+background-color:#fafbfc;
+color:#505050;
+line-height:1.5em;
+}
+
+.testimonials {
+margin-top:3px;
+margin-bottom:3px;
+background-color: #fefef5;
+padding:4px;border:1px solid #e0e0c0;
+font-family:verdana;
+font-size:13px;
+color:#333333;
+}
+
+
+.headerstyle {
+display:block;
+margin:30px 0 10px 0;
+padding:5px 0 5px 8px;
+background:#eee url(images/gradient2.png) repeat-x;
+color:#222;
+border-top:1px solid #ddd;
+border-right:1px solid #bbb;
+border-bottom:1px solid #bbb;
+border-left:1px solid #ddd;
+text-decoration:none;
+margin:20px 0 8px 0;
+font-size:1.4em;
+}
+
+input,textarea {
+border:1px solid #808080;
+font-family:verdana;
+font-size:13px;
+}
+</style>
+</head>
+<body>
+
+<div id="container">
+
+<div id="header">
+<h1>Calendar Component v5.1 Professional - README</h1>
+<h2></h2>
+</div>
+
+<div class="container_main">
+<pre>
+<big><b>Calendar Component v5.1</b></big>
+<a href="http://www.calendarcomponent.com">www.calendarcomponent.com</a>
+
+_____________________________________
+|
+|  TABLE OF CONTENTS
+|
+|  1. Description
+|  2. Customization
+|  3. Limitations
+|  4. Installation
+|  5. Payment & contact
+|
+_____________________________________
+
+
+== 1. Description ==
+
+This package contains a java calendar swing component which is 
+very simple to integrate, customize and enhance, 
+but yet powerfull in options and customization. 
+
+
+== 2. Customization ==
+
+ - create skin or choose from predefined set
+ - display either dialog or combo box (date selection edit/button) 
+ - a skin contains:
+   + settings for day cell: text color, background, font
+   + settings for selected day cell: text color, fill color, font
+   + settings for weekend days: text color, font
+   + settings for extra month days: text color, font
+   + grid color
+   + settings for week of year cells
+   + settings for day of week cells
+   + settings for status panel
+ - create custom renderer provider for day cell or select from predefined set (rectangle, 
+   round rectangle and oval). using a renderer you can customize:
+   + the appearance of the days in the current month
+   + the appearance of today date
+   + the appearance of weekend days
+   + the appearance of days belonging to previous and next month
+   + the appearance of certain days belonging to some years, months, weeks.
+ - select the first day of the week
+ - set length of days names (ex: M, Mo, Mon etc)
+ - set length of months names (ex. Dec, Decem, December)
+ - hover effect support
+ - show/hide week support
+ - multiple dates selection support
+ - disabled dates support
+ - null date support
+ - panel with Today and None labels
+ - support for defining metrics for calendar table cells, header cells, week cells and status panel
+ 
+See <a href="doc/howto.html">howto.html</a> for sample code snippets or 
+
+<a href="doc/api/index.html">API</a> documentation for the library
+
+== 3. Limitations ==
+
+Features we are working on an which will be available in the next releases:
+ - Support for time editing (hour, minute, second)
+ - Create other calendars with a different appearance
+These and other features will be soon available. 
+
+
+== 4. Installation ==
+
+Place the file calendarcomponent.jar in the classpath of your project.
+
+
+== 5. Payment & contact info ==
+
+Component price is: 
+	50$/developer licence 
+	100$/site licence
+	500$/source code licence
+	
+	25$/upgrade licence
+
+For other questions and requests, please feel free to contact:
+
+Gigel Chiazna
+<a href="mailto:info@calendarcomponent.com">info@calendarcomponent.com</a>
+
+
+</pre>
+</div>
+</body>
+</html>

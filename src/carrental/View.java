@@ -12,8 +12,13 @@ import javax.swing.*;
 public class View {
     private JFrame frame;
     private final String title = "CarRental DeLuxe";
-    private JPanel contentPane, overview_panel, vehicle_panel, vehicle_type_panel,
-            customer_panel, reservation_panel, maintenance_panel,
+    private JPanel contentPane, 
+            overview_panel, 
+            vehicle_panel, 
+            vehicle_type_panel,
+            customer_panel,
+            reservation_panel, 
+            maintenance_panel,
             maintenance_type_panel;
     
     //contentPane
@@ -21,6 +26,13 @@ public class View {
     private JPanel cpTop, cpBottom, cpLeft;
     private JLabel cpStatusLabel;
     private JList menuList;
+    
+    // customer_panel
+    private JPanel customer_panel_panel;
+    private JLabel customerNameLabel, customerPhoneLabel, customerAdressLabel, customerSearchLabel;
+    private JTextField customerNameTextField, customerPhoneTextField, customerAdressTextField;
+    private JList customerResultList;
+    private JButton customerLoadBtn, customerSaveBtn;
     
     //overview_panel
     private JLabel opCenterLabel;
@@ -73,6 +85,12 @@ public class View {
         //contentPane
         contentPane = (JPanel)frame.getContentPane();
         contentPane.setLayout(new BorderLayout());
+        
+        //customer panel
+        customer_panel = new JPanel();
+        customer_panel_panel = new JPanel();
+        
+        customer_panel.add(customer_panel_panel);
         
         //contentPane left panel
         cpLeft = new JPanel();
@@ -139,6 +157,8 @@ public class View {
         overview_panel.add(opCenterLabel);
         
         //final setups
+        contentPane.add(customer_panel, BorderLayout.CENTER);
+        customer_panel.setVisible(false);
         contentPane.add(overview_panel, BorderLayout.CENTER);
         contentPane.add(cpTop, BorderLayout.NORTH);
         contentPane.add(cpBottom, BorderLayout.SOUTH);
