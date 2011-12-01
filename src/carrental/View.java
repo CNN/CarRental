@@ -33,6 +33,39 @@ public class View {
         buildGUI();
     }
     
+    //Action performed when Home button is pressed
+    private void homeBtn(){
+        allInvisible();
+        overview_panel.setVisible(true);
+    }
+    //Action performed when Reservation button is pressed
+    private void reservationBtn(){
+        allInvisible();
+        reservation_panel.setVisible(true);
+    }
+    
+    //Action performed when Vehicle button is pressed
+    private void vehicleBtn(){
+        allInvisible();
+        vehicle_panel.setVisible(true);
+    }
+    
+    //Action performed when Customer button is pressed
+    private void customerBtn(){
+        allInvisible();
+        customer_panel.setVisible(true);
+    }
+    
+    private void allInvisible(){
+        overview_panel.setVisible(false);
+        vehicle_panel.setVisible(false);
+        vehicle_type_panel.setVisible(false);
+        customer_panel.setVisible(false);
+        reservation_panel.setVisible(false);
+        maintenance_panel.setVisible(false);
+        maintenance_type_panel.setVisible(false);
+    }
+    
     //creates user interface
     private void buildGUI(){
         frame = new JFrame(title);
@@ -62,6 +95,27 @@ public class View {
         vehicleBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/carrental/Icons/Car1.PNG")));
         customerBtn = new JButton("Customers");
         customerBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/carrental/Icons/Person1.PNG")));
+        
+        homeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                homeBtn();
+            }
+        });
+        reservationBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                reservationBtn();
+            }
+        });
+        vehicleBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                vehicleBtn();
+            }
+        });
+        customerBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                customerBtn();
+            }
+        });
         
         cpTop.add(homeBtn);
         cpTop.add(reservationBtn);
