@@ -41,6 +41,10 @@ public final class CarRental {
         if(CarRental.DEBUG) System.out.println(string);
         log = log+"\n"+string;
     }
+    public void appendLog(String string, Exception e) {
+        if(CarRental.DEBUG) System.out.println(e+": "+string);
+        log = log+"\n"+e+": "+string;
+    }
     
     private void printLog() {
         System.out.println(log);
