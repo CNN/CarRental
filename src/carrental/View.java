@@ -127,6 +127,7 @@ public class View {
         //headlinePanel
         headlinePanel = new JPanel();
         headlinePanel.setLayout(new BorderLayout());
+        headlinePanel.setBorder(new EtchedBorder());
         //TODO Find proper color
         headlinePanel.setBackground(Color.cyan);
         
@@ -142,6 +143,7 @@ public class View {
         //customer panel
         customer_panel = new JPanel();
         customer_panel.setLayout(new GridLayout(0, 3));
+        customer_panel.setBorder(new EtchedBorder());
         customer_panel_left = new JPanel();
         customer_panel_left.setLayout(new GridLayout(0, 1));
         customer_panel_center = new JPanel();
@@ -211,6 +213,7 @@ public class View {
         //contentPane top panel
         cpTop = new JPanel();
         cpTop.setLayout(new FlowLayout());
+        cpTop.setBorder(new EtchedBorder());
         
         homeBtn = new JButton("Home");
         homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/carrental/Icons/Home1.PNG")));
@@ -257,6 +260,7 @@ public class View {
         
         //overview_panel
         overview_panel = new JPanel();
+        overview_panel.setBorder(new EtchedBorder());
         opCenterLabel = new JLabel();
         
         opCenterLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/carrental/Capture.PNG")));
@@ -316,6 +320,17 @@ public class View {
         item = new JMenuItem("Quit");
         item.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {    quit();   }
+            }
+        );
+        menu.add(item);
+        
+        //Help menu
+        menu = new JMenu("Help");
+        menubar.add(menu);
+        
+        item = new JMenuItem("About");
+        item.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {       }
             }
         );
         menu.add(item);
