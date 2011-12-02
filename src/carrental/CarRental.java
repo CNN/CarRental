@@ -18,12 +18,11 @@ public final class CarRental {
         appendLog("Initializing...");
         model = new Model();
         view = new View(this);
-        printLog();
     }
     
     public static CarRental getInstance() {
         //should never happen that there is no instance, but just in case
-        if(instance == null) new CarRental();
+        if(instance == null) return new CarRental();
         return instance;
     }
     
@@ -43,7 +42,7 @@ public final class CarRental {
     }
     public void appendLog(String string, Exception e) {
         if(CarRental.DEBUG) System.out.println(e+": "+string);
-        log = log+"\n"+e+": "+string;
+        log = log+"\n"+string+": "+e;
     }
     
     private void printLog() {
@@ -52,7 +51,8 @@ public final class CarRental {
     
     
     public static void main(String[] args) {
-        CarRental controller = new CarRental();
+        //CarRental controller = new CarRental();
+        new DbCom();
     }
     
 }

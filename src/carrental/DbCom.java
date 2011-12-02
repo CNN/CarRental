@@ -130,6 +130,7 @@ public class DbCom {
             // Fra mysql-connector-java-5.1.5-bin.jar, lagt i /program files/java/jdk1.7.0_01/jre/lib/ext/
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost/carrental", "root", "N1ller1993");
+            CarRental.getInstance().appendLog("Connected to database.");
         }
         catch (SQLException e) {
             CarRental.getInstance().appendLog("Could not open database connection.",e);
