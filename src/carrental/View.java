@@ -3,6 +3,7 @@ package carrental;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.EtchedBorder;
 
 /**
  * GUI for CarRental project
@@ -50,6 +51,12 @@ public class View {
         buildGUI();
     }
     
+    //quit
+    private void quit(){
+        //TODO quit model and controller
+        System.exit(0);
+    }
+    
     //Action performed when Save Customer button is pressed
     private void saveCustomerBtn(){
         
@@ -69,6 +76,7 @@ public class View {
     //Action performed when Reservation button is pressed
     private void reservationBtn(){
         allInvisible();
+        setHeadline("Create/Edit Reservation");
         reservation_panel.setVisible(true);
         frame.pack();
     }
@@ -83,6 +91,7 @@ public class View {
     //Action performed when Customer button is pressed
     private void customerBtn(){
         allInvisible();
+        setHeadline("Create/Edit Customer");
         headlinePanel.setVisible(true);
         customer_panel.setVisible(true);
         frame.pack();
@@ -99,9 +108,14 @@ public class View {
 //        maintenance_type_panel.setVisible(false);
     }
     
+    private void setHeadline(String headline){
+        headlineLabel.setText(headline);
+    }
+    
     //creates user interface
     private void buildGUI(){
         frame = new JFrame(title);
+        makeMenuBar(frame);
         
         //fonts
         headline = new Font("Arial", Font.PLAIN, 24);
@@ -121,6 +135,9 @@ public class View {
         headlineLabel.setHorizontalAlignment(JLabel.CENTER);
         
         headlinePanel.add(headlineLabel, BorderLayout.NORTH);
+        
+        //reservation panel
+        
         
         //customer panel
         customer_panel = new JPanel();
@@ -183,6 +200,7 @@ public class View {
         //contentPane left panel
         cpLeft = new JPanel();
         cpLeft.setLayout(new FlowLayout());
+        cpLeft.setBorder(new EtchedBorder());
         
         //TODO create proper String[] menuItems
         String[] menuItems = new String[]{  "Menu", "This is some sort of a menu"   };
@@ -258,4 +276,48 @@ public class View {
         frame.setVisible(true);
     }
     
+    private void makeMenuBar(JFrame frame){
+        JMenuBar menubar = new JMenuBar();
+        JMenu menu, newMenu;
+        JMenuItem item;
+        
+        frame.setJMenuBar(menubar);
+        
+        //File menu
+        menu = new JMenu("File");
+        menubar.add(menu);
+        
+        newMenu = new JMenu("New");
+        menu.add(newMenu);
+        
+        item = new JMenuItem("Reservation");
+        item.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {    reservationBtn();   }
+            }
+        );
+        newMenu.add(item);
+        
+        item = new JMenuItem("Customer");
+        item.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {    customerBtn();   }
+            }
+        );
+        newMenu.add(item);
+        
+        item = new JMenuItem("Vehicle");
+        item.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {    vehicleBtn();   }
+            }
+        );
+        newMenu.add(item);
+        
+        menu.addSeparator();
+        
+        item = new JMenuItem("Quit");
+        item.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {    quit();   }
+            }
+        );
+        menu.add(item);
+    }
 }
