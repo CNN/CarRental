@@ -35,8 +35,8 @@ public class View {
     
     // customer_panel
     private JPanel customer_panel_left, customer_panel_center, customer_panel_right;
-    private JLabel customerNameLabel, customerPhoneLabel, customerAdressLabel, customerSearchLabel;
-    private JTextField customerNameTextField, customerPhoneTextField, customerAdressTextField;
+    private JLabel customerIDLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel, customerSearchLabel;
+    private JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField;
     private JList customerResultList;
     private JButton customerLoadBtn, customerSaveBtn;
     
@@ -169,6 +169,8 @@ public class View {
             }
         });
         
+        customerIDLabel = new JLabel("Customer ID: ");
+        customerIDLabel.setHorizontalAlignment(JLabel.RIGHT);
         customerNameLabel = new JLabel("Name");
         customerNameLabel.setHorizontalAlignment(JLabel.RIGHT);
         customerPhoneLabel = new JLabel("Phone");
@@ -178,15 +180,20 @@ public class View {
         customerSearchLabel = new JLabel("0 Results");
         customerSearchLabel.setHorizontalAlignment(JLabel.RIGHT);
         
+        customerIDTextField = new JTextField("0000");
+        customerIDTextField.setEditable(false);
+        customerIDTextField.setHorizontalAlignment(JTextField.RIGHT);
         customerNameTextField = new JTextField();
         customerPhoneTextField = new JTextField();
         customerAdressTextField = new JTextField();
         
+        customer_panel_left.add(customerIDLabel);
         customer_panel_left.add(customerNameLabel);
         customer_panel_left.add(customerPhoneLabel);
         customer_panel_left.add(customerAdressLabel);
         customer_panel_left.add(customerLoadBtn);
         
+        customer_panel_center.add(customerIDTextField);
         customer_panel_center.add(customerNameTextField);
         customer_panel_center.add(customerPhoneTextField);
         customer_panel_center.add(customerAdressTextField);
@@ -270,8 +277,8 @@ public class View {
         //final setups
         headlinePanel.add(customer_panel, BorderLayout.CENTER);
         contentPane.add(headlinePanel, BorderLayout.CENTER);
-        headlinePanel.setVisible(false);
-        contentPane.add(overview_panel, BorderLayout.CENTER);
+        headlinePanel.setVisible(true);
+        contentPane.add(headlinePanel, BorderLayout.CENTER);
         contentPane.add(cpTop, BorderLayout.NORTH);
         contentPane.add(cpBottom, BorderLayout.SOUTH);
         contentPane.add(cpLeft, BorderLayout.WEST);
