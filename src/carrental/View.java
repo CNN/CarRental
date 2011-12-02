@@ -115,6 +115,7 @@ public class View {
     //creates user interface
     private void buildGUI(){
         frame = new JFrame(title);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         makeMenuBar(frame);
         
         //fonts
