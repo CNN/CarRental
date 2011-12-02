@@ -221,15 +221,7 @@ public class VehicleView extends javax.swing.JFrame {
 
 private void jBLoadVehiclesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBLoadVehiclesActionPerformed
     // When pressing LoadVehicles button
-    ArrayList<Vehicle> vehicles = com.getInformation();
-    if(vehicles != null){ //remember to reset vCount
-        jTextField1.setText("" + vehicles.get(vCount).getID());
-        jTextField2.setText(vehicles.get(vCount).getDescription());
-        jTextField3.setText("" + vehicles.get(vCount).getVehicleType());
-        jTextField4.setText(vehicles.get(vCount).getLicensplate());
-        jTextField5.setText("" + vehicles.get(vCount).getOdo());
-        jTextField6.setText(vehicles.get(vCount).getAdditional());
-    }
+    CarRental.getInstance().appendLog("I should've gotten vehicles - but I was disabled.");
 }//GEN-LAST:event_jBLoadVehiclesActionPerformed
 
     /**

@@ -1,0 +1,1 @@
+java -cp "lib/crimson.jar;lib/calendarcomponent_demo.jar;lib/calendarcomponent.jar" com.imagine.component.calendar.simpledemo.CalendarDialogSimpleDemo

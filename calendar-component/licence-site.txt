@@ -1,0 +1,43 @@
+SITE LICENSE AGREEMENT
+
+
+A. TERMS DEFINITION
+
+1. SOFTWARE PRODUCT denotes the binary file of Calendar Component 
+(jar file that includes java classes and resources) and the Java API 
+Documentation of the component.
+
+2. DEVELOPER is the person developing software applications that may use
+the SOFTWARE PRODUCT.
+
+3. SITE is the physical location where more DEVELOPERS are working
+for the same company on the same product.
+
+
+B. GENERAL CONDITIONS
+
+1. The SOFTWARE PRODUCT is sold per SITE. More DEVELOPER may use it on 
+as many computers, working in the same SITE for the same product.
+
+2. Each DEVELOPER can use the SOFTWARE PRODUCT to develop, test and create 
+releases for any number of custom applications. 
+
+3. Each DEVELOPER cannot use it for creating other software products with 
+the same purpose (date selecting).
+
+4. You may not resell/ redistribute the SOFTWARE PRODUCT if it is not part 
+of an application.
+
+5. You may not decompile or disassemble the SOFTWARE PRODUCT.
+
+6. Use of the SOFTWARE PRODUCT constitutes your acceptance of these terms and 
+conditions and your agreement to abide by them.
+
+7. If you do not agree to the terms of this agreement, do not download, 
+purchase or use the SOFTWARE PRODUCT.
+
+8. You may make copies of the SOFTWARE PRODUCT for backup purpose.
+
+9. The product is licensed ROYALTY FREE. You pay to use them at design time. 
+You do not pay additional royalties when you create an executable and 
+distribute the component with that executable.

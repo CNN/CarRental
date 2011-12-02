@@ -1,0 +1,405 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>Calendar Component v5.1 Professional</title>
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+<meta name="description" content="Your website description goes here" />
+<meta name="keywords" content="your,keywords,goes,here" />
+<Style>
+
+/**************** Body and tag styles ****************/
+
+
+
+body{
+font:76% Verdana,Tahoma,Arial,sans-serif;
+line-height:1.4em;
+text-align:center;
+color:#303030;
+background:#e8eaec;
+}
+
+a{
+color:#467aa7;
+font-weight:bold;
+text-decoration:none;
+background-color:inherit;
+}
+
+a:hover{color:#2a5a8a; text-decoration:none; background-color:inherit;}
+a img{border:none;}
+
+p form{margin-top:0; margin-bottom:20px;}
+
+img.left,img.center,img.right{padding:4px; border:1px solid #a0a0a0;}
+img.left{float:left; margin:0 12px 5px 0;}
+img.center{display:block; margin:0 auto 5px auto;}
+img.right{float:right; margin:0 0 5px 12px;}
+
+/**************** Header and navigation styles ****************/
+
+#container{
+width:760px;
+margin:20px auto;
+padding:1px 0;
+text-align:left;
+background:#ffffff;
+color:#303030;
+border:2px solid #a0a0a0;
+}
+
+#header{
+height:90px;
+width:758px;
+margin:0 1px 1px 1px;
+background:#467aa7;
+color:#ffffff;
+}
+
+#header h1{
+padding:35px 0 0 20px;
+font-size:2.4em;
+background-color:inherit;
+color:#ffffff;
+letter-spacing:-2px;
+font-weight:normal;
+}
+
+#header h2{
+margin:10px 0 0 40px;
+font-size:1.4em;
+background-color:inherit;
+color:#f0f2f4;
+letter-spacing:-1px;
+font-weight:normal;
+}
+
+#navigation{
+height:2.2em;
+line-height:2.2em;
+width:758px;
+margin:0 1px;
+background:#578bb8;
+color:#ffffff;
+}
+
+#navigation li{
+float:left;
+list-style-type:none;
+border-right:1px solid #ffffff;
+white-space:nowrap;
+}
+
+#navigation li a{
+display:block;
+padding:0 10px;
+font-size:0.8em;
+font-weight:normal;
+text-transform:uppercase;
+text-decoration:none;
+background-color:inherit;
+color: #ffffff;
+}
+
+* html #navigation a {width:2%;}
+
+#navigation .selected,#navigation a:hover{
+background:#80b0da;
+color:#ffffff;
+text-decoration:none;
+}
+
+
+#content{
+float:left;
+width:720px;
+font-size:0.9em;
+padding:20px 0 10px 20px;
+}
+
+#content h2{
+display:block;
+margin:0 0 16px 0;
+font-size:1.7em;
+font-weight:normal;
+letter-spacing:-1px;
+color:#505050;
+background-color:inherit;
+}
+
+#content h2 a{font-weight:normal;}
+#content h3{margin:0 0 5px 0; font-size:1.4em; letter-spacing:-1px;}
+#content a:hover,#subcontent a:hover{text-decoration:underline;}
+#content ul,#content ol{margin:0 5px 16px 35px;}
+#content dl{margin:0 5px 10px 25px;}
+#content dt{font-weight:bold; margin-bottom:5px;}
+#content dd{margin:0 0 10px 15px;}
+
+/**************** Sidebar styles ****************/
+
+#subcontent{
+float:right;
+width:170px;
+padding:20px 20px 10px 0;
+line-height:1.4em;
+}
+
+#subcontent h2{
+display:block;
+margin:0 0 15px 0;
+font-size:1.6em;
+font-weight:normal;
+text-align:left;
+letter-spacing:-1px;
+color:#505050;
+background-color:inherit;
+}
+
+#subcontent p{margin:0 0 16px 0; font-size:0.9em;}
+
+/**************** Menublock styles ****************/
+
+.menublock{margin:0 0 20px 8px; font-size:0.9em;}
+.menublock li{list-style:none; display:block; padding:2px; margin-bottom:2px;}
+.menublock li a{font-weight:bold; text-decoration:none;}
+.menublock li a:hover{text-decoration:none;}
+.menublock li ul{margin:3px 0 3px 15px; font-size:1em; font-weight:normal;}
+.menublock li ul li{margin-bottom:0;}
+.menublock li ul a{font-weight:normal;}
+
+/**************** Searchbar styles ****************/
+
+#searchbar{margin:0 0 20px 0;}
+#searchbar form fieldset{margin-left:10px; border:0 solid;}
+
+#searchbar #s{
+height:1.2em;
+width:110px;
+margin:0 5px 0 0;
+border:1px solid #a0a0a0;
+}
+
+#searchbar #searchbutton{
+width:auto;
+padding:0 1px;
+border:1px solid #808080;
+font-size:0.9em;
+text-align:center;
+}
+
+#footer{
+clear:both;
+width:758px;
+padding:5px 0;
+margin:0 1px;
+font-size:10px;
+color:#f0f0f0;
+background:#467aa7;
+}
+
+#footer p{padding:0; margin:0; text-align:center;}
+#footer a{color:#f0f0f0; background-color:inherit; font-weight:bold;}
+#footer a:hover{color:#ffffff; background-color:inherit; text-decoration: underline;}
+
+/**************** Misc classes and styles ****************/
+
+.splitcontentleft{float:left; width:48%;}
+.splitcontentright{float:right; width:48%;}
+.clear{clear:both;}
+.small{font-size:0.8em;}
+.hide{display:none;}
+.textcenter{text-align:center;}
+.textright{text-align:right;}
+.important{color:#f02025; background-color:inherit; font-weight:bold;}
+
+.box{
+margin:0 0 20px 0;
+padding:10px;
+border:1px solid #c0c0c0;
+background-color:#fafbfc;
+color:#505050;
+line-height:1.5em;
+}
+
+.testimonials {
+margin-top:3px;
+margin-bottom:3px;
+background-color: #fefef5;
+padding:4px;border:1px solid #e0e0c0;
+font-family:verdana;
+font-size:13px;
+color:#333333;
+}
+
+
+.headerstyle {
+display:block;
+padding:5px 0 5px 8px;
+background:#eee url(images/gradient2.png) repeat-x;
+color:#222;
+border-top:1px solid #ddd;
+border-right:1px solid #bbb;
+border-bottom:1px solid #bbb;
+border-left:1px solid #ddd;
+text-decoration:none;
+margin:6px 0 8px 0;
+font-size:1.4em;
+}
+
+.myinput {
+border:1px solid #808080;
+font-family:verdana;
+font-size:13px;
+}
+
+</style>
+</head>
+
+<body>
+<div id="container">
+
+<div id="header">
+<h1>Calendar Component v5.1 Professional</h1>
+<h2></h2>
+</div>
+
+<div class=headerstyle><b>Calendar Applet</b></div>
+
+<script language = "Javascript">
+
+function setDate(date) {
+	// Set the value for the date hidden field to 
+	// the date displayed by the calendar applet.
+	document.forms[0].date.value = date;
+}
+
+function submitForm() {
+	// Set the value for the date hidden field to 
+	// the date displayed by the calendar applet.
+	document.forms[0].date.value = "" + CalendarApplet.getDate();
+}
+
+</script>
+
+<big>Date selection widget for web developers which can be used without programming expertise.</big>
+
+<p>
+
+<table width="100%">
+ <tr>
+  <Td width="50%" valign="top">
+
+<form method = "GET" action = "test.php" onSubmit = "javascript: submitForm();">
+
+<table cellspacing="2" cellpadding="2" border="0">
+<tr>
+    <td>Name:</td>
+    <td><input name = "name" type =  "textfield"></td>
+</tr>
+<tr>
+    <td>Email:</td>
+    <td><input name = "email" type = "textfield"></td>
+</tr>
+<tr>
+    <td>Date:</td>
+    <td > 
+    
+<!-- Start calendar snippet -->
+
+<input type = hidden name = "date" value = "">
+
+<APPLET 
+ARCHIVE="./lib/javascript_classes.zip, ./lib/calendarcomponent.jar" 
+code="com.imagine.component.calendar.applet.CalendarApplet.class" 
+alt="Java Applet!"
+align="absbottom" width="223" height="180" 
+ID= "CalendarApplet" CLASS = "CalendarApplet" NAME= "CalendarApplet"
+MAYSCRIPT
+SCRIPTABLE
+>
+
+<!-- 
+The name of the javascript function which is called when a date is chosed using the calendar applet.
+-->
+<PARAM name="JAVASCRIPT_FUNCTION" value="setDate">
+
+<PARAM name="BACKGROUND_COLOR" value="ffffff">
+<PARAM name="INITIAL_DATE" value="">
+<PARAM name="DATE_FORMAT" value="yyyy.MM.dd">
+
+<PARAM name="SHOW_WEEK" value="true">
+<PARAM name="SHOW_HOVER" value="true">
+<PARAM name="SHOW_STATUS_PANEL" value="true">
+<PARAM name="SHOW_GRID" value="true">
+<PARAM name="SHOW_EXTRA_MONTH_DAYS" value="true">
+
+
+<!-- 
+One of the values:
+SUNDAY
+MONDAY
+TUESDAY
+WEDNESDAY
+THURSDAY
+FRIDAY
+SATURDAY
+-->
+<PARAM name="FIRST_DAY_OF_WEEK" value="MONDAY">
+
+<PARAM name="CELL_TEXT_COLOR" value="023853">
+<PARAM name="CELL_FILL_COLOR" value="ffffff">
+<PARAM name="SELECTED_CELL_TEXT_COLOR" value="ffffff">
+<PARAM name="SELECTED_CELL_FILL_COLOR" value="3a88fb">
+<PARAM name="EXTRA_MONTH_CELL_TEXT_COLOR" value="84bffa">
+<PARAM name="WEEKEND_CELL_TEXT_COLOR" value="4091e3">
+<PARAM name="TODAY_COLOR" value="ff6600">
+<PARAM name="DISABLED_COLOR" value="ff6600">
+<PARAM name="GRID_COLOR" value="7cb4fa">
+<PARAM name="WEEK_CELL_TEXT_COLOR" value="ffffff">
+<PARAM name="WEEK_CELL_FILL_COLOR" value="41b1f5">
+<PARAM name="HEADER_CELL_TEXT_COLOR" value="ffffff">
+<PARAM name="HEADER_CELL_FILL_COLOR" value="287dfc">
+<PARAM name="HOVERED_CELL_TEXT_COLOR" value="ffffff">
+<PARAM name="HOVERED_CELL_FILL_COLOR" value="41b1f5">
+<PARAM name="STATUS_PANEL_TEXT_COLOR" value="3282fb">
+<PARAM name="STATUS_PANEL_HOVERED_TEXT_COLOR" value="7fb4f6">
+<PARAM name="STATUS_PANEL_FILL_COLOR" value="ffffff">
+
+<PARAM name="CELL_FONT" value="Arial, REGULAR, 10">
+<PARAM name="EXTRA_MONTH_CELL_FONT" value="Arial, REGULAR, 10">
+<PARAM name="WEEKEND_CELL_FONT" value="Arial, BOLD, 10">
+<PARAM name="HEADER_CELL_FONT" value="Arial, REGULAR, 10">
+<PARAM name="WEEK_CELL_FONT" value="Arial, REGULAR, 10">
+<PARAM name="STATUS_PANEL_FONT" value="Arial, BOLD, 10">
+
+</APPLET>
+
+<!-- End calendar snippet -->
+
+	</td>
+</tr>
+<tr>
+    <td><input name = "Submit" value = "Submit" type = "submit"></td>
+    <td></td>
+</tr>
+</table>
+
+</form>
+
+</td>
+<td valign = "top">
+
+This is an example of using the CalendarApplet in a web form.
+<p>
+When selecting a date using the calendar applet the "setDate" javascript function is called which passes the date selected with the calendar applet into the "date" hidden field of the HTML form. So when chosing a date and submiting the form the date selected is also submited as a CGI parameter because it is stored in the value of the "date" hidden field. Also when submiting the HTML form the submitForm() function is called which puts in the date hidden field the date chosed using the calendar applet.
+</p>
+<p> 
+If used in a dynamical web page (generated using a server side script) it can also be specified through the "INITIAL_DATE" applet parameter the initial date that will be displayed by the applet.
+</p>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>
