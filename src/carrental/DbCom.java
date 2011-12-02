@@ -11,7 +11,7 @@ import java.util.ArrayList;
 /**
  * Communicator object for controller and database
  * @author CNN
- * @version 29 Nov. 2011
+ * @version 2011-12-02
  */
 public class DbCom {
     private Connection conn;
@@ -21,6 +21,12 @@ public class DbCom {
     	openConnection();
     }
     
+    /**
+     * Get the first element matching the query string as an array of strings.
+     * The array can easily be inserted into an object of the fitting type.
+     * @param query string to match
+     * @return entry matching string
+     */
     public ArrayList<String> getFirstMatch(String query) {
         ArrayList<String> result = new ArrayList<>();
         try {
@@ -38,6 +44,13 @@ public class DbCom {
         }
         return result;
     }
+    
+    /**
+     * Get an array of all the matches of the query string as string arrays.
+     * Each arraylist of strings represents and entry in the table.
+     * @param query string to match
+     * @return entries matching string
+     */
     public ArrayList<ArrayList<String>> getMatches(String query) {
         ArrayList<ArrayList<String>> results = new ArrayList<>();
         try {
@@ -63,11 +76,25 @@ public class DbCom {
         return null;
     }
     
+    /**
+     * Save the object to the database. If the object exists (id found) the
+     * entry is updated, if not it is inserted.
+     * @param table the table to save to
+     * @param columns the collumns to save, ordered as the collumns in the table
+     */
+    public void saveArray(String table, ArrayList<String> columns) {
+        //null
+    }
+    
+    /**
+     * Creates a new statement, leaving the previous behind.
+     * @return 
+     */
     private Statement newStatement() {
         try {
             stm = conn.createStatement();
         } catch (SQLException e) {
-            Logger.getLogger(DbCom.class.getName()).log(Level.SEVERE, null, e);
+            CarRental.getInstance().appendLog("Failed to create a new statement.",e);
         }
         return stm;
     }
@@ -125,6 +152,9 @@ public class DbCom {
         }
     }*/
     
+    /**
+     * Connect to the database.
+     */
     private void openConnection() {
         try {
             // Fra mysql-connector-java-5.1.5-bin.jar, lagt i /program files/java/jdk1.7.0_01/jre/lib/ext/
@@ -140,6 +170,9 @@ public class DbCom {
         }
     }
     
+    /**
+     * Close the connection to the database
+     */
     public void closeConnection(){
         try {
             if(conn != null) conn.close();   
