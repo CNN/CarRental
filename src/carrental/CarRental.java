@@ -3,7 +3,8 @@ package carrental;
 import java.awt.event.*;
 
 /**
- *
+ * @author CNN
+ * @version 2011-12-02
  */
 public final class CarRental {
     public static final boolean DEBUG = true;
