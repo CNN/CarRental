@@ -16,48 +16,29 @@ import java.sql.Timestamp;
  */
 public class GraphicElement extends JComponent{
     private Canvas canvas;
-    private JPanel panel;
     private int height, width, pointerX, pointerY, pHeight, pWidth, textSpace;
     private ArrayList<Booking> bookings;
     private Timestamp tStart, tEnd;
-    private String textToPrint;
     
-    public JPanel GraphicElement(ArrayList<Booking> bookings, Timestamp tStart, Timestamp tEnd){
+    //need to convert timestamp to date
+    
+    public GraphicElement(ArrayList<Booking> bookings, Timestamp tStart, Timestamp tEnd){
         //initialise
         this.bookings = bookings;
         this.tStart = tStart;
         this.tEnd = tEnd;
         
-        panel = new JPanel();
         canvas = new Canvas();
         textSpace = 30;
         width = 800;
         height = 600;
         
         //do stuff
-        setPHeight();
-        for(Booking booking : bookings){
-            //evt. tjek om den er booket inden for den givne tidsperiode
-            movePointer(booking);
-            setPWidth(booking);
-            printVehicleName(booking);
-            if(booking.isMaintenance()){
-                paint(Graphics g, new Color.yellow, pointerX, pointerY, pWidth, pHeight);
-            }else{
-                paint(Graphics g, new Color.blue, pointerX, pointerY, pWidth, pHeight);
-            }
-        }
         
-        //return 
-        panel.add(canvas);
+        
+        //finalise
+        canvas.repaint();
         canvas.setVisible(true);
-        panel.setVisible(true);
-        return panel;
-    }
-    
-    private void printVehicleName(Booking booking){
-        textToPrint = model.getVehicleDescription(booking.getVehicleID());
-        paintText(Graphics g, Color.black, text, 0, pointerY);
     }
     
     /**
@@ -89,21 +70,27 @@ public class GraphicElement extends JComponent{
     
     //for testing
     public static void main(String[] args){
-        new GraphicElement();
+        //new GraphicElement();
     }
     
-    private void paintVehicleDescription(Graphics g){
-        g.setColor(Color.BLACK);
-        g.drawString("hej", 0, pointerY);
-    }
-    
-    public void paintText(Graphics g, Color color, String text, int x, int y){
-        g.setColor(color);
-        g.drawString(text, y, y);
-    }
-    
-    public void paint(Graphics g, Color color, int x, int y, int width, int height){
-        g.setColor(color);
-        g.fillRect(x, y, width, height);
+    public void paint(Graphics g){
+        setPHeight();
+        for(Booking booking : bookings){
+            //evt. tjek om den faktisk er booket inden for den viste tidsperiode
+            //tjek om der er flere bookings af det samme vehicle
+            movePointer(booking);
+            setPWidth(booking);
+            String textToPrint = model.getVehicleDescription(booking.getVehicleID()); //evt. gem vehicleDescription i en booking
+            g.setColor(Color.black);
+            g.drawString(textToPrint, 0, pointerY);
+            if(booking.isMaintenance()){
+                g.setColor(Color.yellow);
+            }else{
+                g.setColor(Color.blue);
+            }
+            // ! move pointerX to correct date
+            g.fillRect(pointerX, pointerY, pWidth, pHeight);
+        }
+        //paint x-koordinate description
     }
 }

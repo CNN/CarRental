@@ -14,4 +14,5 @@ public interface Booking {
     public int getVehicleID();
     public Timestamp getTStart();
     public Timestamp getTEnd();
+    public boolean isMaintenance();
 }
