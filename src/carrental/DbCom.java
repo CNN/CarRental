@@ -78,10 +78,59 @@ public class DbCom {
      * Save the object to the database. If the object exists (id found) the
      * entry is updated, if not it is inserted.
      * @param table the table to save to
-     * @param columns the collumns to save, ordered as the collumns in the table
+     * @param object the collumns to save, ordered as the collumns in the table
      */
-    public void saveArray(String table, ArrayList<String> columns) {
-        //null
+    public void saveArray(String table, ArrayList<String> object) {
+        //find types
+        try {
+            if(newStatement().execute("SELECT * FROM "+table+" LIMIT 1")) {
+                ResultSetMetaData meta = stm.getResultSet().getMetaData();
+                if(object.size() <= meta.getColumnCount()) {
+                    boolean exists = false;
+                    newStatement().execute("SELECT * FROM "+table+" WHERE id='"+object.get(0)+"'");
+                    String query = "";
+                    if(stm.getResultSet().next()) {
+                        exists = true;
+                        query = "UPDATE "+table+" SET ";
+                    }
+                    else {
+                        query = "INSERT INTO "+table+" VALUES (";
+                    }
+                    for(int i = 0; i < meta.getColumnCount(); i++) {
+                        String name = meta.getColumnName(i + 1);
+                        String value = object.get(i);
+                        if(exists) {
+                            if(i != 0) query += ", ";
+                            query += name+"='"+value+"'";
+                        }
+                        else {
+                            if(i != 0) query += ", ";
+                            query += "'"+value+"'";
+                        }
+                    }
+                    if(exists) {
+                        query += " WHERE id='"+object.get(0)+"'";
+                    }
+                    else query += ")";
+                    newStatement().execute(query);
+                    CarRental.getInstance().appendLog("Saved entry #"+object.get(0)+" to table "+table+" in database");
+                }
+                else CarRental.getInstance().appendLog("Object given is larger than table size in database");
+            }
+            else CarRental.getInstance().appendLog("Failed to get collumn names from database");
+        }
+        catch (SQLException e) {
+            CarRental.getInstance().appendLog("Failed to save an object to database",e);
+        }
+    }
+    
+    /**
+     * Saves multiple objects to the database. Uses saveArray.
+     * @param table the table to save to
+     * @param objects array of objects to save, given as string arrays
+     */
+    public void saveArrays(String table, ArrayList<ArrayList<String>> objects) {
+        for(ArrayList<String> o : objects) saveArray(table, o);
     }
     
     /**
