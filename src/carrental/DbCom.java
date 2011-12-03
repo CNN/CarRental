@@ -133,6 +133,19 @@ public class DbCom {
         for(ArrayList<String> o : objects) saveArray(table, o);
     }
     
+    public int getHighestId(String table) {
+        try {
+            if(newStatement().execute("SELECT * FROM "+table+" ORDER BY id DESC LIMIT 1")) {
+                if(stm.getResultSet().next()) return stm.getResultSet().getInt(1);
+                else CarRental.getInstance().appendLog("Tried to get highest id from "+table+", but it has no entries");
+            }
+        }
+        catch (SQLException e) {
+            CarRental.getInstance().appendLog("Failed to get highest id from table "+table,e);
+        }
+        return 0;
+    }
+    
     /**
      * Creates a new statement, leaving the previous behind.
      * @return 
