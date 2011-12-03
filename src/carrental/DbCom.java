@@ -97,58 +97,7 @@ public class DbCom {
         return stm;
     }
     
-    /*public ArrayList<Vehicle> getInformation(){
-        ArrayList<Vehicle> info = new ArrayList<Vehicle>();
-        String query = "SELECT id, type, description, licensplate, odo, additional FROM Vehicle";
-        try {
-            boolean ok = newStatement().execute(query);
-            if (ok) {
-                ResultSet res = stm.getResultSet();
-                while (res.next()) { 
-                    Vehicle v = new Vehicle(
-                            res.getInt("id"), 
-                            res.getInt("type"), 
-                            res.getString("description"), 
-                            res.getString("licensplate"), 
-                            res.getInt("odo"), 
-                            res.getString("additional")
-                            );
-                    //param: int ID, int vehicleType, String description, String licensplate, int odo, String additional
-                    info.add(v);
-                }
-            }
-        } catch (SQLException exn) {
-            System.out.println("Can not read from database: " + exn);   
-        }
-        return info; //ArrayList with information
-    }*/
-    
-/*    private void doStuff2(){
-        ArrayList<Vehicle> test = getInformation();
-        for(Vehicle ve : test){
-            System.out.println("" + ve.getDescription());
-        }
-    }*/
-    
-/*    private void doStuff(){
-        try {
-            dbStatement = conn.createStatement();
-        } catch (SQLException ex) {
-            Logger.getLogger(DbCom.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        String query = "SELECT name FROM  vehicletype;";
-        try {
-            boolean ok = dbStatement.execute(query);
-            if (ok) {
-                ResultSet res = dbStatement.getResultSet();
-                while (res.next()) { 
-                    System.out.println(""+ res.getString("name"));
-                }
-            }
-        } catch (SQLException exn) {
-            System.out.println("Kan ikke lÊse fra database: " + exn);   
-        }
-    }*/
+   
     
     /**
      * Connect to the database.
