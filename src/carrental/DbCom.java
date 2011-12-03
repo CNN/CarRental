@@ -125,15 +125,6 @@ public class DbCom {
     }
     
     /**
-     * Saves multiple objects to the database. Uses saveArray.
-     * @param table the table to save to
-     * @param objects array of objects to save, given as string arrays
-     */
-    public void saveArrays(String table, ArrayList<ArrayList<String>> objects) {
-        for(ArrayList<String> o : objects) saveArray(table, o);
-    }
-    
-    /**
      * Gets the highest id from a given table. Useful when wanting to add a new
      * object.
      * @param table the table to find the highest id in
