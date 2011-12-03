@@ -133,6 +133,12 @@ public class DbCom {
         for(ArrayList<String> o : objects) saveArray(table, o);
     }
     
+    /**
+     * Gets the highest id from a given table. Useful when wanting to add a new
+     * object.
+     * @param table the table to find the highest id in
+     * @return the highest id in table
+     */
     public int getHighestId(String table) {
         try {
             if(newStatement().execute("SELECT * FROM "+table+" ORDER BY id DESC LIMIT 1")) {
