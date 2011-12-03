@@ -69,7 +69,7 @@ public class Model {
     
     /**
      * Get a vehicle type by it's name
-     * @param id
+     * @param name
      * @return VehicleType
      */
     public VehicleType getVehicleType(String name) {
@@ -78,11 +78,11 @@ public class Model {
     }
     
     /**
-     * Get an array of all vehicle types in the database
+     * Get an array of all vehicle types in the database ordered by name
      * @return Array of vehicletypes
      */
     public ArrayList<VehicleType> getVehicleTypes() {
-        ArrayList<ArrayList<String>> vts = database.getMatches("SELECT * FROM vehicletype ORDER BY id DESC");
+        ArrayList<ArrayList<String>> vts = database.getMatches("SELECT * FROM vehicletype ORDER BY name ASC");
         ArrayList<VehicleType> results = new ArrayList<>();
         for(ArrayList<String> vt : vts) {
             results.add(new VehicleType(Integer.parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt(vt.get(3))));
@@ -100,6 +100,55 @@ public class Model {
         save_data.add(vt.getName());
         save_data.add(vt.getDescription());
         save_data.add(Integer.toString(vt.getPricePerDay()));
+        database.saveArray("vehicle", save_data);
+    }
+    
+    //CUSTOMER
+    
+    /**
+     * Get a customer by it's id
+     * @param id
+     * @return Customer
+     */
+    public Customer getCustomer(int id) {
+        ArrayList<String> c = database.getFirstMatch("SELECT * FROM customer WHERE id = '"+id+"'");
+        return new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4));
+    }
+    
+    /**
+     * Get a customer by it's phonenumber
+     * @param phonenumber phone number of customer
+     * @return Customer
+     */
+    public Customer getCustomerByPhone(int phonenumber) {
+        ArrayList<String> c = database.getFirstMatch("SELECT * FROM customer WHERE telephone = '"+phonenumber+"'");
+        return new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4));
+    }
+    
+    /**
+     * Get an array of all customers in the database ordered by phone number and name
+     * @return Array of customers
+     */
+    public ArrayList<Customer> getCustomers() {
+        ArrayList<ArrayList<String>> cs = database.getMatches("SELECT * FROM customer ORDER BY telephone,name DESC");
+        ArrayList<Customer> results = new ArrayList<>();
+        for(ArrayList<String> c : cs) {
+            results.add(new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4)));
+        }
+        return results;
+    }
+    
+    /**
+     * Save a customer to the database
+     * @param c the customer to save
+     */
+    public void saveCustomer(Customer c) {
+        ArrayList<String> save_data = new ArrayList<>();
+        save_data.add(Integer.toString(c.getID()));
+        save_data.add(Integer.toString(c.getTelephone()));
+        save_data.add(c.getName());
+        save_data.add(c.getAdress());
+        save_data.add(c.getEMail());
         database.saveArray("vehicle", save_data);
     }
 }
