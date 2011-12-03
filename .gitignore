@@ -9,3 +9,5 @@ dist/
 /dist/javadoc/
 dist/javadoc/
 /src/carrental/Icons/Thumbs.db
+/build/classes/carrental/View.class
+build/classes/carrental/View.class
