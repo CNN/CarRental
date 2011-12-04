@@ -29,7 +29,7 @@ public class Model {
      */
     public Vehicle getVehicle(int id) {
         ArrayList<String> v = database.getFirstMatch("SELECT * FROM vehicle WHERE id = '"+id+"'");
-        return new Vehicle(Integer.parseInt(v.get(0)),Integer.parseInt(v.get(1)),v.get(2),v.get(3),Integer.parseInt(v.get(4)),v.get(5));
+        return new Vehicle(Integer.parseInt(v.get(0)),Integer.parseInt(v.get(1)),v.get(3),v.get(4),v.get(2),Integer.parseInt(v.get(5)),v.get(6));
     }
     
     /**
@@ -40,7 +40,7 @@ public class Model {
         ArrayList<ArrayList<String>> vs = database.getMatches("SELECT * FROM vehicle ORDER BY type,id DESC");
         ArrayList<Vehicle> results = new ArrayList<>();
         for(ArrayList<String> v : vs) {
-            results.add(new Vehicle(Integer.parseInt(v.get(0)),Integer.parseInt(v.get(1)),v.get(2),v.get(3),Integer.parseInt(v.get(4)),v.get(5)));
+            results.add(new Vehicle(Integer.parseInt(v.get(0)),Integer.parseInt(v.get(1)),v.get(3),v.get(4),v.get(2),Integer.parseInt(v.get(5)),v.get(6)));
         }
         return results;
     }
@@ -53,6 +53,7 @@ public class Model {
         ArrayList<String> save_data = new ArrayList<>();
         save_data.add(Integer.toString(v.getID()));
         save_data.add(Integer.toString(v.getVehicleType()));
+        save_data.add(v.getVIN());
         save_data.add(v.getDescription());
         save_data.add(v.getLicensplate());
         save_data.add(Integer.toString(v.getOdo()));
