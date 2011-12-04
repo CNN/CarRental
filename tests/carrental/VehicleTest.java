@@ -12,7 +12,7 @@ public class VehicleTest {
     private static Vehicle vehicle;
 
     public VehicleTest() {
-        vehicle = new Vehicle(1, 2, "This is a description", "This is the licenseplate", 20000, "Additional comment");
+        vehicle = new Vehicle(1, 2, "This is a description", "This is the licenseplate", "YV1740", 20000, "Additional comment");
     }
     
     /**
@@ -21,7 +21,7 @@ public class VehicleTest {
     @Test
     public void testUpdateObject() {
         assertEquals(2, vehicle.getVehicleType());
-        vehicle.updateObject(3, "This is a NEW description", "This is the NEW licenseplate", 10000, "NEW Additional comment");
+        vehicle.updateObject(3, "This is a NEW description", "This is the NEW licenseplate", "YV1740", 10000, "NEW Additional comment");
         //test that the vehicle's fields equals the new values.
         assertEquals(3, vehicle.getVehicleType());
         assertEquals("This is a NEW description", vehicle.getDescription());
@@ -36,7 +36,7 @@ public class VehicleTest {
     @Test
     public void testGetID() {
         assertEquals(1, vehicle.getID());
-        vehicle = new Vehicle(4, 2, "This is a description", "This is the licenseplate", 42, "Additional comment");
+        vehicle = new Vehicle(4, 2, "This is a description", "This is the licenseplate", "YV1740", 42, "Additional comment");
         assertEquals(4, vehicle.getID());
     }
 }
