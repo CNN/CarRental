@@ -2,9 +2,9 @@ package carrental;
 import java.awt.*;
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 import java.util.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat; //To be used
 
 /**
  * @(#)GraphicAlternate.java
