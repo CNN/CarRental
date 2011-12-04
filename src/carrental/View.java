@@ -285,6 +285,7 @@ public class View {
         contentPane.add(cpLeft, BorderLayout.WEST);
         
         frame.pack();
+        frame.setSize(800, 600);
         frame.setVisible(true);
     }
     
