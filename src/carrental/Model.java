@@ -276,6 +276,69 @@ public class Model {
         String is_service = "0";
         if(m.getIs_service()) is_service = "1";
         save_data.add(is_service);
-        database.saveArray("customer", save_data);
+        database.saveArray("maintenance_type", save_data);
+    }
+    
+    //MAINTENANCE
+    
+    /**
+     * Get a maintenance by it's id
+     * @param id
+     * @return Maintenance
+     */
+    public Maintenance getMaintenance(int id) {
+        ArrayList<String> m = database.getFirstMatch("SELECT * FROM maintenance WHERE id = '"+id+"'");
+        try {
+            Date date_start_parsed = dateFormat.parse(m.get(2));
+            Date date_end_parsed = dateFormat.parse(m.get(3));
+            return new Maintenance(Integer.parseInt(m.get(0)),
+                    Integer.parseInt(m.get(1)),
+                    new Timestamp(date_start_parsed.getTime()),
+                    new Timestamp(date_end_parsed.getTime()),
+                    Integer.parseInt(m.get(4)));
+        }
+        catch (ParseException e) {
+            CarRental.getInstance().appendLog("Failed to get maintenance from database, parse error when parsing dates.",e);
+            return null;
+        }
+    }
+    
+    /**
+     * Get an array of all maintenances in the database ordered by start date
+     * @return Array of maintenances
+     */
+    public ArrayList<Maintenance> getMaintenances() {
+        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * FROM maintenance ORDER BY date_start,date_end DESC");
+        ArrayList<Maintenance> results = new ArrayList<>();
+        for(ArrayList<String> m : ms) {
+            try {
+                Date date_start_parsed = dateFormat.parse(m.get(2));
+                Date date_end_parsed = dateFormat.parse(m.get(3));
+                results.add(new Maintenance(Integer.parseInt(m.get(0)),
+                        Integer.parseInt(m.get(1)),
+                        new Timestamp(date_start_parsed.getTime()),
+                        new Timestamp(date_end_parsed.getTime()),
+                        Integer.parseInt(m.get(4))));
+            }
+            catch (ParseException e) {
+                CarRental.getInstance().appendLog("Failed to get maintenances from database, parse error when parsing dates.",e);
+                return null;
+            }
+        }
+        return results;
+    }
+    
+    /**
+     * Save a maintenance to the database
+     * @param m the maintenance to save
+     */
+    public void saveMaintenance(Maintenance m) {
+        ArrayList<String> save_data = new ArrayList<>();
+        save_data.add(Integer.toString(m.getID()));
+        save_data.add(Integer.toString(m.getVehicleID()));
+        save_data.add(m.getTStart().toString());
+        save_data.add(m.getTEnd().toString());
+        save_data.add(Integer.toString(m.getTypeID()));
+        database.saveArray("maintenance", save_data);
     }
 }
