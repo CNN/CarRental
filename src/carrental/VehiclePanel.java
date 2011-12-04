@@ -420,8 +420,8 @@ public class VehiclePanel extends SuperPanel {
 
         //Testing Table setup
         Object[] ColumnNames = {"Customer", "Phone number", "From", "To"};
-        ArrayList<ArrayList<String>> reservationData = new ArrayList<ArrayList<String>>();
-        ArrayList<String> rowData = new ArrayList<String>();
+        ArrayList<ArrayList<String>> reservationData = new ArrayList<>();
+        ArrayList<String> rowData = new ArrayList<>();
         //getting the data in the arrayList - this might be unnecessary in final implementation depending on how this class receives the simple type objects.
         Customer testCustomer = new Customer(130, 75834920, "Jens Jensen", "Johnsgade 30 \n 2630 \n Taastrup", "poul@gmail.com");
         Reservation testReservation = new Reservation(100, 3, Timestamp.valueOf("1991-12-24 13:37:00"), Timestamp.valueOf("1991-12-31 13:37:00"), 2);
