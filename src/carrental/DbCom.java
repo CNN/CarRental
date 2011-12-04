@@ -4,8 +4,6 @@
  */
 package carrental;
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.ArrayList;
 
 /**
@@ -80,10 +78,69 @@ public class DbCom {
      * Save the object to the database. If the object exists (id found) the
      * entry is updated, if not it is inserted.
      * @param table the table to save to
-     * @param columns the collumns to save, ordered as the collumns in the table
+     * @param object the collumns to save, ordered as the collumns in the table
      */
-    public void saveArray(String table, ArrayList<String> columns) {
-        //null
+    public void saveArray(String table, ArrayList<String> object) {
+        //find types
+        try {
+            if(newStatement().execute("SELECT * FROM "+table+" LIMIT 1")) {
+                ResultSetMetaData meta = stm.getResultSet().getMetaData();
+                if(object.size() <= meta.getColumnCount()) {
+                    boolean exists = false;
+                    newStatement().execute("SELECT * FROM "+table+" WHERE id='"+object.get(0)+"'");
+                    String query = "";
+                    if(stm.getResultSet().next()) {
+                        exists = true;
+                        query = "UPDATE "+table+" SET ";
+                    }
+                    else {
+                        query = "INSERT INTO "+table+" VALUES (";
+                    }
+                    for(int i = 0; i < meta.getColumnCount(); i++) {
+                        String name = meta.getColumnName(i + 1);
+                        String value = object.get(i);
+                        if(exists) {
+                            if(i != 0) query += ", ";
+                            query += name+"='"+value+"'";
+                        }
+                        else {
+                            if(i != 0) query += ", ";
+                            query += "'"+value+"'";
+                        }
+                    }
+                    if(exists) {
+                        query += " WHERE id='"+object.get(0)+"'";
+                    }
+                    else query += ")";
+                    newStatement().execute(query);
+                    CarRental.getInstance().appendLog("Saved entry #"+object.get(0)+" to table "+table+" in database");
+                }
+                else CarRental.getInstance().appendLog("Object given is larger than table size in database");
+            }
+            else CarRental.getInstance().appendLog("Failed to get collumn names from database");
+        }
+        catch (SQLException e) {
+            CarRental.getInstance().appendLog("Failed to save an object to database",e);
+        }
+    }
+    
+    /**
+     * Gets the highest id from a given table. Useful when wanting to add a new
+     * object.
+     * @param table the table to find the highest id in
+     * @return the highest id in table
+     */
+    public int getHighestId(String table) {
+        try {
+            if(newStatement().execute("SELECT * FROM "+table+" ORDER BY id DESC LIMIT 1")) {
+                if(stm.getResultSet().next()) return stm.getResultSet().getInt(1);
+                else CarRental.getInstance().appendLog("Tried to get highest id from "+table+", but it has no entries");
+            }
+        }
+        catch (SQLException e) {
+            CarRental.getInstance().appendLog("Failed to get highest id from table "+table,e);
+        }
+        return 0;
     }
     
     /**
@@ -99,58 +156,7 @@ public class DbCom {
         return stm;
     }
     
-    /*public ArrayList<Vehicle> getInformation(){
-        ArrayList<Vehicle> info = new ArrayList<Vehicle>();
-        String query = "SELECT id, type, description, licensplate, odo, additional FROM Vehicle";
-        try {
-            boolean ok = newStatement().execute(query);
-            if (ok) {
-                ResultSet res = stm.getResultSet();
-                while (res.next()) { 
-                    Vehicle v = new Vehicle(
-                            res.getInt("id"), 
-                            res.getInt("type"), 
-                            res.getString("description"), 
-                            res.getString("licensplate"), 
-                            res.getInt("odo"), 
-                            res.getString("additional")
-                            );
-                    //param: int ID, int vehicleType, String description, String licensplate, int odo, String additional
-                    info.add(v);
-                }
-            }
-        } catch (SQLException exn) {
-            System.out.println("Can not read from database: " + exn);   
-        }
-        return info; //ArrayList with information
-    }*/
-    
-/*    private void doStuff2(){
-        ArrayList<Vehicle> test = getInformation();
-        for(Vehicle ve : test){
-            System.out.println("" + ve.getDescription());
-        }
-    }*/
-    
-/*    private void doStuff(){
-        try {
-            dbStatement = conn.createStatement();
-        } catch (SQLException ex) {
-            Logger.getLogger(DbCom.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        String query = "SELECT name FROM  vehicletype;";
-        try {
-            boolean ok = dbStatement.execute(query);
-            if (ok) {
-                ResultSet res = dbStatement.getResultSet();
-                while (res.next()) { 
-                    System.out.println(""+ res.getString("name"));
-                }
-            }
-        } catch (SQLException exn) {
-            System.out.println("Kan ikke lÊse fra database: " + exn);   
-        }
-    }*/
+   
     
     /**
      * Connect to the database.
@@ -159,7 +165,7 @@ public class DbCom {
         try {
             // Fra mysql-connector-java-5.1.5-bin.jar, lagt i /program files/java/jdk1.7.0_01/jre/lib/ext/
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/carrental", "root", "N1ller1993");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/carrental", "root", "pw");
             CarRental.getInstance().appendLog("Connected to database.");
         }
         catch (SQLException e) {

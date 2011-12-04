@@ -8,4 +8,14 @@ nbproject/private/
 dist/
 /dist/javadoc/
 dist/javadoc/
+<<<<<<< HEAD
+
+/nbproject/private/private.properties
+
 /src/carrental/Icons/Thumbs.db
+
+=======
+/src/carrental/Icons/Thumbs.db
+/build/classes/carrental/View.class
+build/classes/carrental/View.class
+>>>>>>> 1b5bbdc533e3fd46d6b319b7f2feca2a9f4960b5

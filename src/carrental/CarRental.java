@@ -52,8 +52,7 @@ public final class CarRental {
     
     
     public static void main(String[] args) {
-        //CarRental controller = new CarRental();
-        new DbCom();
+        CarRental controller = new CarRental();
     }
     
 }
