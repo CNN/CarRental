@@ -39,13 +39,15 @@ public class GraphicAlternate extends JComponent{
     }
 
     public static void main(String[] args){
-    	Booking b1 = new Reservation(1, 2, new Timestamp(20000000), new Timestamp(2000000000), 123);
         ArrayList bs = new ArrayList();
-        bs.add(b1);
+        for(int x = 0; x < 10; x++){
+            bs.add(new Reservation(x, x+1, new Timestamp(x*5), new Timestamp(x*10), x+2));
+        }
 
-        Timestamp t1 = new Timestamp(200000000);
         ArrayList ts = new ArrayList();
-        ts.add(t1);
+        for(int x = 0; x < 12; x++){
+            ts.add(new Timestamp(x*10));
+        }
 
         JFrame frame = new JFrame();
         frame.add(new GraphicAlternate(bs, ts));
@@ -76,9 +78,9 @@ public class GraphicAlternate extends JComponent{
 
     public void paint(Graphics g){
     	int x = 0;
-    	while(x < width){
+    	while(x < numberOfCollumns){
             int y = 0;
-            while(y < height){
+            while(y < numberOfRows){
                 if(bookings.get(y).isBooked(timestamps.get(x))){
                     if(bookings.get(y).isMaintenance()){
                         g.setColor(Color.yellow);
@@ -87,9 +89,9 @@ public class GraphicAlternate extends JComponent{
                     }
                     g.fillRect(x, y, collumnWidth, rowHeight);
                     }
-                    y += height/numberOfRows;
+                    y++;
     		}
-            x += width/numberOfCollumns;
+            x++;
     	}
     }
 }
