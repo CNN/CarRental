@@ -50,4 +50,8 @@ public class Maintenance implements Booking {
     public int getVehicleID() {
         return vehicle_id;
     }
+    
+    public int getTypeID() {
+        return type_id;
+    }
 }

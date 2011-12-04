@@ -16,6 +16,7 @@ public class Reservation implements Booking {
     private Timestamp tStart;
     private Timestamp tEnd;
     private int customerID;
+    private boolean isMaintenance;
     
     /**
      * Constructor for reservation class
@@ -31,6 +32,24 @@ public class Reservation implements Booking {
         this.tStart = tStart;
         this.tEnd = tEnd;
         this.customerID = customerID;
+        isMaintenance = false;
+    }
+    
+    //TODO Delete this:
+    /**
+     * Constructor for reservation class. This is a Maintenance test
+     * @param ID
+     * @param vehicleID
+     * @param tStart
+     * @param tEnd
+     */
+    public Reservation(int ID, int vehicleID, Timestamp tStart, Timestamp tEnd){
+        this.ID = ID;
+        this.vehicleID = vehicleID;
+        this.tStart = tStart;
+        this.tEnd = tEnd;
+        this.customerID = 0000;
+        isMaintenance = true;
     }
     
     /**
@@ -45,6 +64,14 @@ public class Reservation implements Booking {
         this.tStart = tStart;
         this.tEnd = tEnd;
         this.customerID = customerID;
+    }
+    
+    public boolean isBooked(Timestamp timestamp){
+        return (timestamp.after(tStart) && timestamp.before(tEnd));
+    }
+    
+    public boolean isMaintenance(){
+        return isMaintenance;
     }
     /**
      * 
