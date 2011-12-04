@@ -18,15 +18,16 @@ import java.sql.Timestamp;
 public class GraphicAlternate extends JComponent{
 	private int width, height, collumnWidth, rowHeight, numberOfCollumns, numberOfRows;
     private Canvas canvas;
-    private ArrayList bookings, timestamps;
+    private ArrayList<Booking> bookings;
+    private ArrayList<Timestamp> timestamps;
 
-    public GraphicAlternate(ArrayList<Booking> bookings, ArraysList<Timestamp> timestampes) {
+    public GraphicAlternate(ArrayList<Booking> bookings, ArrayList<Timestamp> timestamps) {
     	canvas = new Canvas();
     	this.bookings = bookings;
     	this.timestamps = timestamps;
 
-    	int width = 800;
-    	int height = 600;
+    	width = 800;
+    	height = 600;
 
     	setNumberOfCollumns();
     	setNumberOfRows();
@@ -34,6 +35,21 @@ public class GraphicAlternate extends JComponent{
     	setRowHeight();
 
     	canvas.repaint();
+    }
+
+    public static void main(String[] args){
+    	Booking b1 = new Reservation(1, 2, new Timestamp(20000000), new Timestamp(200000000), 123);
+        ArrayList bs = new ArrayList();
+        bs.add(b1);
+
+        Timestamp t1 = new Timestamp(20000000);
+        ArrayList ts = new ArrayList();
+        ts.add(t1);
+
+        JFrame frame = new JFrame();
+        frame.add(new GraphicAlternate(bs, ts));
+        frame.pack();
+        frame.setVisible(true);
     }
 
     private Date toDate(Timestamp timestamp) {
@@ -62,7 +78,7 @@ public class GraphicAlternate extends JComponent{
     	while(x < width){
     		int y = 0;
     		while(y < height){
-    			if(bookings.get(y).isBooked(timestamps.get(x)){
+    			if(bookings.get(y).isBooked(timestamps.get(x))){
     				if(bookings.get(y).isMaintenance()){
     					g.setColor(Color.yellow);
     				} else{

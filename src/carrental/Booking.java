@@ -15,4 +15,5 @@ public interface Booking {
     public Timestamp getTStart();
     public Timestamp getTEnd();
     public boolean isMaintenance();
+    public boolean isBooked(Timestamp timestamp);
 }

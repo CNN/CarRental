@@ -66,6 +66,10 @@ public class Reservation implements Booking {
         this.customerID = customerID;
     }
     
+    public boolean isBooked(Timestamp timestamp){
+        return (timestamp.after(tStart) && timestamp.before(tEnd));
+    }
+    
     public boolean isMaintenance(){
         return isMaintenance;
     }
