@@ -94,7 +94,6 @@ public abstract class SuperPanel extends JPanel {
     public abstract void makeViewEntityPanel();
     public abstract void makeAddTypePanel();
     public abstract void makeListPanel();
-    
 
     public JPanel getMainScreenPanel() {
         return panels.get(mainScreen);
