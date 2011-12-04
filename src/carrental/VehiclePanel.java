@@ -550,22 +550,22 @@ public class VehiclePanel extends SuperPanel {
         listPanel.setBackground(new Color(216, 216, 208));
 
         //Testing Table setup
-        Object[] ColumnNames = {"Type", "Name", "LicensePlate", "VIN", "Distance driven", "Distance to service"};
+        Object[] ColumnNames = {"Type", "Name", "LicensePlate", "VIN", "Distance driven"}; //, "Distance to service"
         ArrayList<ArrayList<String>> vehicleData = new ArrayList<ArrayList<String>>();
-        ArrayList<String> rowData = new ArrayList<String>();
+        ArrayList<String> rowData = new ArrayList<>();
         //getting the data in the arrayList - this might be unnecessary in final implementation depending on how this class receives the simple type objects.
-        Vehicle testVehicle = new Vehicle(100, 3, "Citröen Berlingo", "HJX-47362", 40, "This is additional");
+        Vehicle testVehicle = new Vehicle(100, 3, "Citröen Berlingo", "HJX-47362", "943843hfjhdf", 40, "This is additional");
         for (int i = 0; i < 30; i++) {
             rowData.add("" + testVehicle.getVehicleType());
             rowData.add(testVehicle.getDescription());
             rowData.add(testVehicle.getLicensplate());
+            rowData.add("" + testVehicle.getVIN());
             rowData.add("" + testVehicle.getOdo());
-            rowData.add("3.493");
-            rowData.add("7.290");
+            // distance to service rowData.add("7.290");
             vehicleData.add(rowData);
             //reservation.get(i).size() should be equal to columnNames.length here.
         }
-        ArrayList<String> test1 = new ArrayList<String>();
+        ArrayList<String> test1 = new ArrayList<>();
         //Converting to Object[][] for the JTable
         Object[][] tableData = new Object[vehicleData.size()][ColumnNames.length];
         for (int i = 0; i < vehicleData.size(); i++) { //  'i' represents a row
