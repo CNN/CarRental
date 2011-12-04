@@ -3,7 +3,7 @@ package carrental;
 /**
  * MaintenanceType holds information on each maintenance type
  * @author CNN
- * @version 30. november 2011
+ * @version 2011-12-04
  */
 public class MaintenanceType {
 
@@ -48,5 +48,9 @@ public class MaintenanceType {
      */
     public String getName() {
         return name;
+    }
+    
+    public int getID() {
+        return ID;
     }
 }

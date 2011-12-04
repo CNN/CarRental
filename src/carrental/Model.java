@@ -207,8 +207,8 @@ public class Model {
     }
     
     /**
-     * Save a customer to the database
-     * @param c the customer to save
+     * Save a reservation to the database
+     * @param r the reservation to save
      */
     public void saveReservation(Reservation r) {
         ArrayList<String> save_data = new ArrayList<>();
@@ -218,5 +218,64 @@ public class Model {
         save_data.add(r.getTEnd().toString());
         save_data.add(Integer.toString(r.getCustomerID()));
         database.saveArray("reservation", save_data);
+    }
+    
+    //MAINTENANCE TYPE
+    
+    /**
+     * Get a maintenance type by it's id
+     * @param id
+     * @return Maintenance Type
+     */
+    public MaintenanceType getMaintenanceType(int id) {
+        ArrayList<String> m = database.getFirstMatch("SELECT * FROM maintenance_type WHERE id = '"+id+"'");
+        boolean is_service = false;
+        if(Integer.parseInt(m.get(2)) == 1) is_service = true;
+        return new MaintenanceType(Integer.parseInt(m.get(0)),m.get(1),is_service);
+    }
+    
+    /**
+     * Get an array of all maintenance types in the database ordered alphabetically by name
+     * @return Array of maintenance types
+     */
+    public ArrayList<MaintenanceType> getMaintenanceTypes() {
+        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * FROM maintenance_type ORDER BY name ASC");
+        ArrayList<MaintenanceType> results = new ArrayList<>();
+        for(ArrayList<String> m : ms) {
+            boolean is_service = false;
+            if(Integer.parseInt(m.get(2)) == 1) is_service = true;
+            results.add(new MaintenanceType(Integer.parseInt(m.get(0)),m.get(1),is_service));
+        }
+        return results;
+    }
+    
+    /**
+     * Get an array of all maintenance types in the database, that are considered
+     * service checks, ordered alphabetically by name
+     * @return Array of maintenance types
+     */
+    public ArrayList<MaintenanceType> getMaintenanceTypesService() {
+        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * FROM maintenance_type WHERE is_service = 1 ORDER BY name ASC");
+        ArrayList<MaintenanceType> results = new ArrayList<>();
+        for(ArrayList<String> m : ms) {
+            boolean is_service = false;
+            if(Integer.parseInt(m.get(2)) == 1) is_service = true;
+            results.add(new MaintenanceType(Integer.parseInt(m.get(0)),m.get(1),is_service));
+        }
+        return results;
+    }
+    
+    /**
+     * Save a maintenance type to the database
+     * @param m the maintenancetype to save
+     */
+    public void saveMaintenanceType(MaintenanceType m) {
+        ArrayList<String> save_data = new ArrayList<>();
+        save_data.add(Integer.toString(m.getID()));
+        save_data.add(m.getName());
+        String is_service = "0";
+        if(m.getIs_service()) is_service = "1";
+        save_data.add(is_service);
+        database.saveArray("customer", save_data);
     }
 }
