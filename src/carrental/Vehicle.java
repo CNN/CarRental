@@ -11,8 +11,8 @@ package carrental;
  */
 public class Vehicle{
     private final int ID;
-    private int vehicleType, odo, vin;
-    private String description, licensplate, additional;
+    private int vehicleType, odo;
+    private String description, licensplate, additional, vin;
 
     /**
      * Constructor for Vehicle
@@ -23,7 +23,7 @@ public class Vehicle{
      * @param odo
      * @param additional 
      */
-    public Vehicle(int ID, int vehicleType, String description, String licensplate, int vin, int odo, String additional){
+    public Vehicle(int ID, int vehicleType, String description, String licensplate, String vin, int odo, String additional){
         this.ID = ID;
         this.vehicleType = vehicleType;
         this.description = description;
@@ -41,7 +41,7 @@ public class Vehicle{
      * @param odo
      * @param additional 
      */
-    public void updateObject(int vehicleType, String description, String licensplate, int vin, int odo, String additional){
+    public void updateObject(int vehicleType, String description, String licensplate, String vin, int odo, String additional){
         this.vehicleType = vehicleType;
         this.description = description;
         this.licensplate = licensplate;
@@ -53,7 +53,7 @@ public class Vehicle{
     /**
      * @return Vehicle VIN number
      */
-    public int getVIN(){
+    public String getVIN(){
         return vin;
     }
     
