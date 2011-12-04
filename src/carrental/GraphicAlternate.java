@@ -33,16 +33,17 @@ public class GraphicAlternate extends JComponent{
     	setNumberOfRows();
     	setCollumnWidth();
     	setRowHeight();
-
+        
+        canvas.setPreferredSize(new Dimension(width, height));
     	canvas.repaint();
     }
 
     public static void main(String[] args){
-    	Booking b1 = new Reservation(1, 2, new Timestamp(20000000), new Timestamp(200000000), 123);
+    	Booking b1 = new Reservation(1, 2, new Timestamp(20000000), new Timestamp(2000000000), 123);
         ArrayList bs = new ArrayList();
         bs.add(b1);
 
-        Timestamp t1 = new Timestamp(20000000);
+        Timestamp t1 = new Timestamp(200000000);
         ArrayList ts = new ArrayList();
         ts.add(t1);
 
@@ -52,7 +53,7 @@ public class GraphicAlternate extends JComponent{
         frame.setVisible(true);
     }
 
-    private Date toDate(Timestamp timestamp) {
+    private Date toDate(Timestamp timestamp) { //I know it isn't used yet
         long milliseconds = timestamp.getTime() + (timestamp.getNanos() / 1000000);
         return new Date(milliseconds);
     }
@@ -61,34 +62,34 @@ public class GraphicAlternate extends JComponent{
     	numberOfCollumns = timestamps.size();
     }
 
-	private void setNumberOfRows(){
-		numberOfRows = bookings.size();
-	}
+    private void setNumberOfRows(){
+	numberOfRows = bookings.size();
+    }
 
-	private void setCollumnWidth(){
-		collumnWidth = width/numberOfCollumns;
-	}
+    private void setCollumnWidth(){
+	collumnWidth = width/numberOfCollumns;
+    }
 
-	private void setRowHeight(){
-		rowHeight = height/numberOfRows;
-	}
+    private void setRowHeight(){
+    	rowHeight = height/numberOfRows;
+    }
 
     public void paint(Graphics g){
     	int x = 0;
     	while(x < width){
-    		int y = 0;
-    		while(y < height){
-    			if(bookings.get(y).isBooked(timestamps.get(x))){
-    				if(bookings.get(y).isMaintenance()){
-    					g.setColor(Color.yellow);
-    				} else{
-    					g.setColor(Color.blue);
-    				}
-    				g.fillRect(x, y, collumnWidth, rowHeight);
-    			}
-    			y += height/numberOfRows;
+            int y = 0;
+            while(y < height){
+                if(bookings.get(y).isBooked(timestamps.get(x))){
+                    if(bookings.get(y).isMaintenance()){
+                        g.setColor(Color.yellow);
+                    } else{
+                        g.setColor(Color.blue);
+                    }
+                    g.fillRect(x, y, collumnWidth, rowHeight);
+                    }
+                    y += height/numberOfRows;
     		}
-    		x += width/numberOfCollumns;
+            x += width/numberOfCollumns;
     	}
     }
 }
