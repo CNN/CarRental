@@ -42,7 +42,6 @@ public class VehiclePanel extends SuperPanel {
         contentPane.add(new VehiclePanel());
         frame.pack();
         frame.setVisible(true);
-
     }
 
     @Override

@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat; //To be used
 
 
 public class GraphicAlternate extends JComponent{
-	private int width, height, collumnWidth, rowHeight, numberOfCollumns, numberOfRows;
+    private int width, height, collumnWidth, rowHeight, numberOfCollumns, numberOfRows;
     private Canvas canvas;
     private ArrayList<Booking> bookings;
     private ArrayList<Timestamp> timestamps;
@@ -50,6 +50,7 @@ public class GraphicAlternate extends JComponent{
         }
 
         JFrame frame = new JFrame();
+        frame.setPreferredSize(new Dimension(800, 600));
         frame.add(new GraphicAlternate(bs, ts));
         frame.pack();
         frame.setVisible(true);
