@@ -5,6 +5,7 @@
 package carrental;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Communicator object for controller and database
@@ -17,6 +18,7 @@ public class DbCom {
     
     public DbCom(){
     	openConnection();
+        System.out.println(Arrays.toString(getFirstMatch("SELECT * FROM reservation").toArray()));
     }
     
     /**

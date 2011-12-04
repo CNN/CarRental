@@ -1,6 +1,10 @@
 package carrental;
 
 import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * The model keeps track of the logic of CarRental
@@ -9,6 +13,7 @@ import java.util.ArrayList;
  */
 public class Model {
     private DbCom database;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.0");
     
     public Model() {
         CarRental.getInstance().appendLog("Creating model...");
@@ -100,7 +105,7 @@ public class Model {
         save_data.add(vt.getName());
         save_data.add(vt.getDescription());
         save_data.add(Integer.toString(vt.getPricePerDay()));
-        database.saveArray("vehicle", save_data);
+        database.saveArray("vehicletype", save_data);
     }
     
     //CUSTOMER
@@ -116,12 +121,12 @@ public class Model {
     }
     
     /**
-     * Get a customer by it's phonenumber
+     * Get a customer by it's phonenumber, only gets the first customer matching the number.
      * @param phonenumber phone number of customer
      * @return Customer
      */
     public Customer getCustomerByPhone(int phonenumber) {
-        ArrayList<String> c = database.getFirstMatch("SELECT * FROM customer WHERE telephone = '"+phonenumber+"'");
+        ArrayList<String> c = database.getFirstMatch("SELECT * FROM customer WHERE telephone = '"+phonenumber+"' LIMIT 1");
         return new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4));
     }
     
@@ -149,6 +154,69 @@ public class Model {
         save_data.add(c.getName());
         save_data.add(c.getAdress());
         save_data.add(c.getEMail());
-        database.saveArray("vehicle", save_data);
+        database.saveArray("customer", save_data);
+    }
+    
+    //RESERVATION
+    
+    /**
+     * Get a reservation by it's id
+     * @param id
+     * @return Reservation
+     */
+    public Reservation getReservation(int id) {
+        ArrayList<String> r = database.getFirstMatch("SELECT * FROM reservation WHERE id = '"+id+"'");
+        try {
+            Date date_start_parsed = dateFormat.parse(r.get(2));
+            Date date_end_parsed = dateFormat.parse(r.get(3));
+            return new Reservation(Integer.parseInt(r.get(0)),
+                    Integer.parseInt(r.get(1)),
+                    new Timestamp(date_start_parsed.getTime()),
+                    new Timestamp(date_end_parsed.getTime()),
+                    Integer.parseInt(r.get(4)));
+        }
+        catch (ParseException e) {
+            CarRental.getInstance().appendLog("Failed to get reservation, parse exception when parsing dates.",e);
+            return null;
+        }
+    }
+    
+    /**
+     * Get an array of all reservations in the database ordered by start date
+     * @return Array of reservations
+     */
+    public ArrayList<Reservation> getReservations() {
+        ArrayList<ArrayList<String>> rs = database.getMatches("SELECT * FROM customer ORDER BY start,end DESC");
+        ArrayList<Reservation> results = new ArrayList<>();
+        for(ArrayList<String> r : rs) {
+            try {
+                Date date_start_parsed = dateFormat.parse(r.get(2));
+                Date date_end_parsed = dateFormat.parse(r.get(3));
+                results.add(new Reservation(Integer.parseInt(r.get(0)),
+                        Integer.parseInt(r.get(1)),
+                        new Timestamp(date_start_parsed.getTime()),
+                        new Timestamp(date_end_parsed.getTime()),
+                        Integer.parseInt(r.get(4))));
+            }
+            catch (ParseException e) {
+                CarRental.getInstance().appendLog("Failed to get reservation, parse exception when parsing dates.",e);
+                return null;
+            }
+        }
+        return results;
+    }
+    
+    /**
+     * Save a customer to the database
+     * @param c the customer to save
+     */
+    public void saveReservation(Reservation r) {
+        ArrayList<String> save_data = new ArrayList<>();
+        save_data.add(Integer.toString(r.getID()));
+        save_data.add(Integer.toString(r.getVehicleID()));
+        save_data.add(r.getTStart().toString());
+        save_data.add(r.getTEnd().toString());
+        save_data.add(Integer.toString(r.getCustomerID()));
+        database.saveArray("reservation", save_data);
     }
 }
