@@ -19,7 +19,7 @@ public final class CarRental {
         if(instance == null) instance = this;
         appendLog("Initializing...");
         model = new Model();
-        view = new View(this);
+        view = View.getInstance(this);
     }
     
     public static CarRental getInstance() {

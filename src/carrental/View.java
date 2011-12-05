@@ -12,6 +12,8 @@ import java.util.ArrayList;
  * @version 1. Dec. 2011
  */
 public class View {
+    private static View view;
+    private CarRental controller;
     private JFrame frame;
     private final String title = "CarRental DeLuxe";
     private JPanel main;
@@ -28,7 +30,8 @@ public class View {
     private ArrayList<Reservation> current_reservations;
     private Reservation current_reservation;
     
-    public View(CarRental controller) {
+    private View(CarRental c) {
+        controller = c;
         controller.appendLog("Creating View...");
         
         frame = new JFrame(title);
@@ -71,6 +74,15 @@ public class View {
         controller.appendLog("View created.");
     }
     
+    public static View getInstance(CarRental controller) {
+        if(view == null) view = new View(controller);
+        return view;
+    }
+    
+    public static View getInstance() {
+        return view;
+    }
+    
     public void setCurrentVehicles(ArrayList<Vehicle> vs) {
         current_vehicles = vs;
     }
@@ -106,6 +118,15 @@ public class View {
     }
     public void setCurrentReservation(Reservation r) {
         current_reservation = r;
+    }
+    
+    public void vehiclePanelVehicle(int id) {
+        controller.requestVehicle(id);
+        main.updateVehiclePanel();
+    }
+    public void vehiclePanelVehicleType(int id) {
+        controller.requestVehicleType(id);
+        main.updateVehiclePanel();
     }
     
     class MainPanel extends JPanel {
@@ -283,6 +304,13 @@ public class View {
             center.add(customerPanel);
             center_north.add(northCustomer);
             frame.pack();
+        }
+        
+        public void updateVehiclePanel() {
+            vehiclePanel.setVehicleList(current_vehicles);
+            vehiclePanel.setVehicleTypes(current_vehicle_types);
+            vehiclePanel.setVehicleToView(current_vehicle);
+            vehiclePanel.setVehicleTypeToView(current_vehicle_type);
         }
     }
 }
