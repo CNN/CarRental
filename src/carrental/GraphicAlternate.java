@@ -1,6 +1,7 @@
 package carrental;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -26,6 +27,14 @@ public class GraphicAlternate extends JComponent {
         this.bookings = bookings;
         this.timestamps = timestamps;
         updateDatesArray();
+        
+        canvas.addMouseListener(new MouseAdapter() {
+	  public void mouseClicked(MouseEvent e) {
+	    int x = e.getX();
+            int y = e.getY();
+	    mouseClicked(x, y);
+	  }
+    });
 
         width = 800;
         height = 600;
@@ -62,6 +71,15 @@ public class GraphicAlternate extends JComponent {
     private Date toDate(Timestamp timestamp) { //I know it isn't used yet
         long milliseconds = timestamp.getTime() + (timestamp.getNanos() / 1000000);
         return new Date(milliseconds);
+    }
+    
+    /**
+     * Method is ran when mouse is clicked on canvas
+     * @param x 
+     * @param y 
+     */
+    private void mouseClicked(int x, int y){
+        
     }
     
     private void updateDatesArray(){
@@ -135,7 +153,7 @@ public class GraphicAlternate extends JComponent {
             g.setColor(Color.black);
             g.drawString(dates.get(x).toString(), pointerX, textpointer);
             movePointerX();
-            if(textpointer == height-textHeight){
+            if(textpointer == height-textHeight){ //TODO Fix so this doesn't expand height
                 textpointer -= textHeight;
             }else{
                 textpointer += textHeight;
