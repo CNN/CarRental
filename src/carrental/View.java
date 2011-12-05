@@ -16,7 +16,7 @@ public class View {
     private CarRental controller;
     private JFrame frame;
     private final String title = "CarRental DeLuxe";
-    private JPanel main;
+    private MainPanel main;
     private ArrayList<Vehicle> current_vehicles;
     private Vehicle current_vehicle;
     private ArrayList<VehicleType> current_vehicle_types;
