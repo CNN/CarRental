@@ -3,9 +3,9 @@ package carrental;
 import java.awt.*;
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 import java.util.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat; //To be used
 
 /**
  * @(#)GraphicAlternate.java
@@ -14,8 +14,8 @@ import java.sql.Timestamp;
  * @author
  * @version 1.00 2011/12/4
  */
-public class GraphicAlternate extends JComponent {
 
+public class GraphicAlternate extends JComponent{
     private int width, height, collumnWidth, rowHeight, numberOfCollumns, numberOfRows;
     private Canvas canvas;
     private ArrayList<Booking> bookings;
@@ -50,6 +50,7 @@ public class GraphicAlternate extends JComponent {
         }
 
         JFrame frame = new JFrame();
+        frame.setPreferredSize(new Dimension(800, 600));
         frame.add(new GraphicAlternate(bs, ts));
         frame.pack();
         frame.setVisible(true);

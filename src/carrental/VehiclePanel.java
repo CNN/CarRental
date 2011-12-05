@@ -28,8 +28,6 @@ public class VehiclePanel extends SuperPanel {
 
         //Removes the default gaps between components
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-
-        setBackground(Color.BLACK);
         showMainScreenPanel();
     }
 
@@ -42,7 +40,6 @@ public class VehiclePanel extends SuperPanel {
         contentPane.add(new VehiclePanel());
         frame.pack();
         frame.setVisible(true);
-
     }
 
     @Override
