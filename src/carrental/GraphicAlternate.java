@@ -15,7 +15,7 @@ import java.sql.Timestamp;
  * @version 1.00 2011/12/4
  */
 public class GraphicAlternate extends JComponent {
-    private int width, height, collumnWidth, rowHeight, numberOfCollumns, numberOfRows;
+    private int width, height, collumnWidth, rowHeight, numberOfCollumns, numberOfRows, pointerX, pointerY, textSpace, textHeight;
     private Canvas canvas;
     private ArrayList<Booking> bookings;
     private ArrayList<Timestamp> timestamps;
@@ -27,6 +27,9 @@ public class GraphicAlternate extends JComponent {
 
         width = 800;
         height = 600;
+        pointerX = 0;
+        pointerY = 0;
+        textSpace = 50;
 
         setNumberOfCollumns();
         setNumberOfRows();
@@ -39,8 +42,8 @@ public class GraphicAlternate extends JComponent {
 
     public static void main(String[] args) {
         ArrayList bs = new ArrayList();
-        for (int x = 0; x < 10; x++) {
-            bs.add(new Reservation(x, x + 1, new Timestamp(x * 5), new Timestamp(x * 10), x + 2));
+        for (int x = 0; x < 20; x++) {
+            bs.add(new Reservation(x, x*1000 + 1, new Timestamp(x * 2+1), new Timestamp(x * 5-10), x + 2));
         }
 
         ArrayList ts = new ArrayList();
@@ -50,8 +53,8 @@ public class GraphicAlternate extends JComponent {
 
         JFrame frame = new JFrame();
         frame.add(new GraphicAlternate(bs, ts));
-        frame.pack();
         frame.setVisible(true);
+        frame.setSize(800, 600);
     }
 
     private Date toDate(Timestamp timestamp) { //I know it isn't used yet
@@ -74,23 +77,70 @@ public class GraphicAlternate extends JComponent {
     private void setRowHeight() {
         rowHeight = height / numberOfRows;
     }
+    
+    private void movePointerY(){
+        if(pointerY >= (height-textHeight)){
+            pointerY = 0;
+        }else{
+            pointerY += rowHeight;
+        }
+    }
+    
+    private void movePointerX(){
+        if(pointerX >= (width-collumnWidth)){
+            pointerX = textSpace;
+        }else{
+            pointerX += collumnWidth;
+        }
+    }
+    
+    private void setTextSpace(){
+        //for(Booking booking : bookings){
+            //if(textSpace < "".length()) 
+        textSpace = "Volvo 740 ".length(); //TODO fix
+        //}
+    }
+    
+    private void setTextHeight(){
+        textHeight = 10; //TODO Fix this too
+    }
 
     public void paint(Graphics g) {
-        int x = 0;
-        while (x < numberOfCollumns) {
-            int y = 0;
-            while (y < numberOfRows) {
+        int run = 0;
+        for(int y = 0; y < numberOfRows; y++){
+            g.setColor(Color.black);
+            g.drawString("Vehicle ", 0, pointerY);
+            movePointerY();
+        }
+        
+        setTextSpace();
+        setTextHeight();
+        pointerX = textSpace;
+        
+        for(int x = 0; x < numberOfCollumns; x++){
+            g.setColor(Color.black);
+            g.drawString(timestamps.get(x).toString(), pointerX, height-textHeight);
+            movePointerX();
+        }
+        
+        for(int y = 0; y < numberOfRows; y++){
+            for(int x = 0; x < numberOfCollumns; x++){
                 if (bookings.get(y).isBooked(timestamps.get(x))) {
-                    if (bookings.get(y).isMaintenance()) {
+                    if (bookings.get(y).isMaintenance()) {  
                         g.setColor(Color.yellow);
                     } else {
                         g.setColor(Color.blue);
                     }
-                    g.fillRect(x, y, collumnWidth, rowHeight);
+                    g.fillRect(pointerX, pointerY, collumnWidth, rowHeight);
+                    movePointerX();
+                    movePointerY();
                 }
-                y++;
+                run++;
             }
-            x++;
+            run++;
         }
+        pointerX = 0;
+        pointerY = 0;
+        System.out.println(""+run);
     }
 }
