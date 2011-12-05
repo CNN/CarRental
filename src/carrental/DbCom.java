@@ -18,7 +18,6 @@ public class DbCom {
     
     public DbCom(){
     	openConnection();
-        System.out.println(Arrays.toString(getFirstMatch("SELECT * FROM reservation").toArray()));
     }
     
     /**

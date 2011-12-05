@@ -7,7 +7,7 @@ package carrental;
 /**
  * Customer holds holds information on each customer
  * @author CNN
- * @version 30. Nov. 2011
+ * @version 2011-12-04
  */
 public class Customer{
     private final int ID;
@@ -73,6 +73,19 @@ public class Customer{
     public String getAdress(){
         return adress;
     }
+    
+    public int getPostalCode() {
+        String[] address = adress.split("\n");
+        if(address.length == 3) {
+            address = address[2].split(" ");
+        }
+        else if(address.length == 2) {
+            address = address[1].split(" ");
+        }
+        else address[0] = "0000";
+        return Integer.parseInt(address[0]);
+    }
+    
     /**
      * 
      * @return E-Mail

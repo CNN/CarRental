@@ -16,20 +16,18 @@ import javax.swing.border.*;
 public class VehiclePanel extends SuperPanel {
 
     private JPanel mainScreenPanel, createPanel, viewVehiclePanel, addTypePanel, listPanel;
-    private JScrollPane centerScrollPane_Create, centerScrollPane_View;
+    private JScrollPane centerScrollPane_View;
     VehicleTypePanel vehicleTypeInstance;
 
     public VehiclePanel() {
-        vehicleTypeInstance = new VehicleTypePanel();
+        vehicleTypeInstance = new VehicleTypePanel(); //Used to get the addType-panel from the VehicleTypeClass - to avoid some code duplication
         RemakeAll();
         //Sets the different subpanels (defined as inner classes below). Also adds them to this object with JPanel.add().
         AssignAndAddSubPanels(mainScreenPanel, createPanel, viewVehiclePanel, addTypePanel, listPanel);
-
+        this.setPreferredSize(new Dimension(800,600));
 
         //Removes the default gaps between components
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-
-        setBackground(Color.BLACK);
         showMainScreenPanel();
     }
 
@@ -208,15 +206,15 @@ public class VehiclePanel extends SuperPanel {
         centerPanel.add(drivenPanel);
 
         //Distance untill next servicecheck. 
-        serviceDistanceLabel = new JLabel("Distance to service");
-        serviceDistanceField = new JTextField(defaultJTextFieldColumns);
-        serviceDistancePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
-        serviceDistancePanel.add(Box.createHorizontalStrut(5));
-        serviceDistancePanel.add(serviceDistanceLabel);
-        serviceDistancePanel.add(Box.createHorizontalStrut(11 + strutDistance));
-        serviceDistancePanel.add(serviceDistanceField);
-        centerPanel.add(serviceDistancePanel);
+//        serviceDistanceLabel = new JLabel("Distance to service");
+//        serviceDistanceField = new JTextField(defaultJTextFieldColumns);
+//        serviceDistancePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+//
+//        serviceDistancePanel.add(Box.createHorizontalStrut(5));
+//        serviceDistancePanel.add(serviceDistanceLabel);
+//        serviceDistancePanel.add(Box.createHorizontalStrut(11 + strutDistance));
+//        serviceDistancePanel.add(serviceDistanceField);
+//        centerPanel.add(serviceDistancePanel);
 
         //Additional Comment
         additionalLabel = new JLabel("Additional comments");
@@ -265,11 +263,11 @@ public class VehiclePanel extends SuperPanel {
     @Override
     public void makeViewEntityPanel() {
         viewVehiclePanel = new JPanel();
-        JPanel centerPanel, reservationPanel, reservationTablePanel, buttonPanel, vehicleTypePanel, namePanel, licensePlatePanel, vinPanel, drivenPanel, serviceDistancePanel, additionalPanel;
+        JPanel centerPanel, reservationPanel, buttonPanel, vehicleTypePanel, namePanel, licensePlatePanel, vinPanel, drivenPanel, serviceDistancePanel, additionalPanel;
         JLabel vehicleTypeLabel, nameLabel, licensePlateLabel, vinLabel, drivenLabel, serviceDistanceLabel, additionalLabel;
         JTextField vehicleTypeField, nameField, licensePlateField, vinField, drivenField, serviceDistanceField;
         JTextArea additionalArea;
-        JButton createButton, cancelButton;
+        JButton backButton;
         final int defaultJTextFieldColumns = 20, strutDistance = 0;
         //some temporary strings for testing the GUI
         String vehicleTypeString, nameString, licensePlateString, vinString, drivenString, serviceDistanceString, additionalString;
@@ -363,18 +361,18 @@ public class VehiclePanel extends SuperPanel {
         centerPanel.add(drivenPanel);
 
         //Distance untill next servicecheck. 
-        serviceDistanceLabel = new JLabel("Distance to service");
-        serviceDistanceString = "5.500 miles";
-        serviceDistanceField = new JTextField(serviceDistanceString, defaultJTextFieldColumns);
-        serviceDistanceField.setEditable(false);
-        serviceDistanceField.setBackground(Color.WHITE);
-        serviceDistancePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
-        serviceDistancePanel.add(Box.createHorizontalStrut(5));
-        serviceDistancePanel.add(serviceDistanceLabel);
-        serviceDistancePanel.add(Box.createHorizontalStrut(11 + strutDistance));
-        serviceDistancePanel.add(serviceDistanceField);
-        centerPanel.add(serviceDistancePanel);
+//        serviceDistanceLabel = new JLabel("Distance to service");
+//        serviceDistanceString = "5.500 miles";
+//        serviceDistanceField = new JTextField(serviceDistanceString, defaultJTextFieldColumns);
+//        serviceDistanceField.setEditable(false);
+//        serviceDistanceField.setBackground(Color.WHITE);
+//        serviceDistancePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+//
+//        serviceDistancePanel.add(Box.createHorizontalStrut(5));
+//        serviceDistancePanel.add(serviceDistanceLabel);
+//        serviceDistancePanel.add(Box.createHorizontalStrut(11 + strutDistance));
+//        serviceDistancePanel.add(serviceDistanceField);
+//        centerPanel.add(serviceDistancePanel);
 
         //Additional Comment
         additionalLabel = new JLabel("Additional comments");
@@ -457,8 +455,8 @@ public class VehiclePanel extends SuperPanel {
         buttonPanel.add(Box.createHorizontalGlue());
 
         //cancel-Button
-        cancelButton = new JButton("Back");
-        cancelButton.addActionListener(new ActionListener() {
+        backButton = new JButton("Back");
+        backButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -466,7 +464,7 @@ public class VehiclePanel extends SuperPanel {
                 showMainScreenPanel();
             }
         });
-        buttonPanel.add(cancelButton);
+        buttonPanel.add(backButton);
 
     }
 
@@ -528,7 +526,7 @@ public class VehiclePanel extends SuperPanel {
         JPanel centerPanel, vehicleListPanel, filterPanel, topFilterPanel, middleFilterPanel, bottomFilterPanel, buttonPanel;
         JScrollPane scrollPane;
         JTable vehicleTable;
-        JLabel vehicleTypeLabel, nameLabel, licensePlateLabel, vinLabel, drivenLabel, serviceDistanceLabel, additionalLabel;
+        JLabel vehicleTypeLabel, nameLabel, licensePlateLabel, vinLabel, drivenLabel, serviceDistanceLabel; // make "additional" search filter too?
         JComboBox vehicleTypeCombo;
         JTextField nameField, licensePlateField, vinField, drivenField, serviceDistanceField;
         JButton cancelButton, filterButton;
@@ -645,13 +643,13 @@ public class VehiclePanel extends SuperPanel {
         bottomFilterPanel.add(drivenField);
 
         //Distance untill next servicecheck. 
-        serviceDistanceLabel = new JLabel("Distance to service");
-        serviceDistanceField = new JTextField(defaultJTextFieldColumns);
-
-        bottomFilterPanel.add(Box.createHorizontalStrut(5));
-        bottomFilterPanel.add(serviceDistanceLabel);
-        bottomFilterPanel.add(Box.createHorizontalStrut(strutDistance));
-        bottomFilterPanel.add(serviceDistanceField);
+//        serviceDistanceLabel = new JLabel("Distance to service");
+//        serviceDistanceField = new JTextField(defaultJTextFieldColumns);
+//
+//        bottomFilterPanel.add(Box.createHorizontalStrut(5));
+//        bottomFilterPanel.add(serviceDistanceLabel);
+//        bottomFilterPanel.add(Box.createHorizontalStrut(strutDistance));
+//        bottomFilterPanel.add(serviceDistanceField);
 
         //ButtonPanels
         buttonPanel = new JPanel();
