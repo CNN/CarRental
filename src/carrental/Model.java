@@ -24,6 +24,14 @@ public class Model {
     //VEHICLE
     
     /**
+     * Get an empty vehicle
+     * @return Vehicle
+     */
+    public Vehicle getVehicle() {
+        return new Vehicle(0,0,null,null,null,0,null);
+    }
+    
+    /**
      * Get a vehicle matching an id
      * @param id
      * @return Vehicle
@@ -63,6 +71,14 @@ public class Model {
     }
     
     //VEHICLE TYPE
+    
+    /**
+     * Get an empty vehicle type
+     * @return Vehicle
+     */
+    public VehicleType getVehicleType() {
+        return new VehicleType(0,null,null,0);
+    }
     
     /**
      * Get a vehicle type by it's id
@@ -113,6 +129,14 @@ public class Model {
     //CUSTOMER
     
     /**
+     * Get an empty customer.
+     * @return Customer
+     */
+    public Customer getCustomer() {
+        return new Customer(0,0,null,null,null);
+    }
+    
+    /**
      * Get a customer by it's id
      * @param id
      * @return Customer
@@ -160,6 +184,14 @@ public class Model {
     }
     
     //RESERVATION
+    
+    /**
+     * Get an empty reservation
+     * @return Reservation
+     */
+    public Reservation getReservation() {
+        return new Reservation(0,0,null,null,0);
+    }
     
     /**
      * Get a reservation by it's id
@@ -226,6 +258,14 @@ public class Model {
     //MAINTENANCE TYPE
     
     /**
+     * Get an empty MaintenanceType
+     * @return MaintenanceType
+     */
+    public MaintenanceType getMaintenanceType() {
+        return new MaintenanceType(0,null,false);
+    }
+    
+    /**
      * Get a maintenance type by it's id
      * @param id
      * @return Maintenance Type
@@ -283,6 +323,14 @@ public class Model {
     }
     
     //MAINTENANCE
+    
+    /**
+     * Get an empry maintenance
+     * @return Maintenance
+     */
+    public Maintenance getMaintenance() {
+        return new Maintenance(0,0,null,null,0);
+    }
     
     /**
      * Get a maintenance by it's id

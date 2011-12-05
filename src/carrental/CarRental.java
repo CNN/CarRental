@@ -32,7 +32,7 @@ public final class CarRental {
         view.setCurrentVehicles(model.getVehicles());
     }
     public void requestVehicle() {
-        view.setCurrentVehicle(model.getVehicle(0));
+        view.setCurrentVehicle(model.getVehicle());
     }
     public void requestVehicle(int id) {
         view.setCurrentVehicle(model.getVehicle(id));
@@ -42,7 +42,7 @@ public final class CarRental {
         view.setCurrentVehicleTypes(model.getVehicleTypes());
     }
     public void requestVehicleType() {
-        view.setCurrentVehicleType(model.getVehicleType(0));
+        view.setCurrentVehicleType(model.getVehicleType());
     }
     public void requestVehicleType(int id) {
         view.setCurrentVehicleType(model.getVehicleType(id));
@@ -55,7 +55,7 @@ public final class CarRental {
         view.setCurrentMaintenances(model.getMaintenances());
     }
     public void requestMaintenance() {
-        view.setCurrentMaintenance(model.getMaintenance(0));
+        view.setCurrentMaintenance(model.getMaintenance());
     }
     public void requestMaintenance(int id) {
         view.setCurrentMaintenance(model.getMaintenance(id));
@@ -65,7 +65,7 @@ public final class CarRental {
         view.setCurrentMaintenanceTypes(model.getMaintenanceTypes());
     }
     public void requestMaintenanceType() {
-        view.setCurrentMaintenanceType(model.getMaintenanceType(0));
+        view.setCurrentMaintenanceType(model.getMaintenanceType());
     }
     public void requestMaintenanceType(int id) {
         view.setCurrentMaintenanceType(model.getMaintenanceType(id));
@@ -75,7 +75,7 @@ public final class CarRental {
         view.setCurrentCustomers(model.getCustomers());
     }
     public void requestCustomer() {
-        view.setCurrentCustomer(model.getCustomer(0));
+        view.setCurrentCustomer(model.getCustomer());
     }
     public void requestCustomer(int id) {
         view.setCurrentCustomer(model.getCustomer(id));
@@ -88,7 +88,7 @@ public final class CarRental {
         view.setCurrentReservations(model.getReservations());
     }
     public void requestReservation() {
-        view.setCurrentReservation(model.getReservation(0));
+        view.setCurrentReservation(model.getReservation());
     }
     public void requestReservation(int id) {
         view.setCurrentReservation(model.getReservation(id));
