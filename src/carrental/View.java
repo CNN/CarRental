@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.Font.*;
+import java.util.ArrayList;
 
 /**
  * GUI for CarRental project
@@ -14,11 +15,51 @@ public class View {
     private JFrame frame;
     private final String title = "CarRental DeLuxe";
     private JPanel main;
+    private ArrayList<Vehicle> current_vehicles;
+    private Vehicle current_vehicle;
+    private ArrayList<VehicleType> current_vehicle_types;
+    private VehicleType current_vehicle_type;
+    private ArrayList<Maintenance> current_maintenances;
+    private Maintenance current_maintenance;
+    private ArrayList<MaintenanceType> current_maintenance_types;
+    private MaintenanceType current_maintenance_type;
+    private ArrayList<Customer> current_customers;
+    private Customer current_customer;
+    private ArrayList<Reservation> current_reservations;
+    private Reservation current_reservation;
     
     public View(CarRental controller) {
         controller.appendLog("Creating View...");
         
         frame = new JFrame(title);
+        
+        controller.requestVehicles();
+        assert current_vehicles != null: "View->Controller Request Vehicles Failed";
+        controller.requestVehicle();
+        assert current_vehicle != null: "View->Controller Request Vehicle Failed";
+        controller.requestVehicleTypes();
+        assert current_vehicle_types != null: "View->Controller Request Vehicle Types Failed";
+        controller.requestVehicleType();
+        assert current_vehicle_type != null: "View->Controller Request Vehicle Type Failed";
+        controller.requestMaintenances();
+        assert current_maintenances != null: "View->Controller Request Maintenances Failed";
+        controller.requestMaintenance();
+        assert current_maintenance != null: "View->Controller Request Maintenance Failed";
+        controller.requestMaintenanceTypes();
+        assert current_maintenance_types != null: "View->Controller Request Maintenance Types Failed";
+        controller.requestMaintenanceType();
+        assert current_maintenance_type != null: "View->Controller Request Maintenance Type Failed";
+        controller.requestCustomers();
+        assert current_customers != null: "View->Controller Request Customers Failed";
+        controller.requestCustomer();
+        assert current_customer != null: "View->Controller Request Customer Failed";
+        controller.requestReservations();
+        assert current_reservations != null: "View->Controller Request Reservations Failed";
+        controller.requestReservation();
+        assert current_reservation != null: "View->Controller Request Reservation Failed";
+        //controller.requestBookings();
+        //assert current_bookings != null: "View->Controller Request Bookings Failed";
+        //TODO: Make bookings requestable
         
         main = new MainPanel();
         frame.add(main);
@@ -28,6 +69,43 @@ public class View {
         frame.setVisible(true);
         
         controller.appendLog("View created.");
+    }
+    
+    public void setCurrentVehicles(ArrayList<Vehicle> vs) {
+        current_vehicles = vs;
+    }
+    public void setCurrentVehicle(Vehicle v) {
+        current_vehicle = v;
+    }
+    public void setCurrentVehicleTypes(ArrayList<VehicleType> vts) {
+        current_vehicle_types = vts;
+    }
+    public void setCurrentVehicleType(VehicleType vt) {
+        current_vehicle_type = vt;
+    }
+    public void setCurrentMaintenances(ArrayList<Maintenance> ms) {
+        current_maintenances = ms;
+    }
+    public void setCurrentMaintenance(Maintenance m) {
+        current_maintenance = m;
+    }
+    public void setCurrentMaintenanceTypes(ArrayList<MaintenanceType> mts) {
+        current_maintenance_types = mts;
+    }
+    public void setCurrentMaintenanceType(MaintenanceType mt) {
+        current_maintenance_type = mt;
+    }
+    public void setCurrentCustomers(ArrayList<Customer> cs) {
+        current_customers = cs;
+    }
+    public void setCurrentCustomer(Customer c) {
+        current_customer = c;
+    }
+    public void setCurrentReservations(ArrayList<Reservation> rs) {
+        current_reservations = rs;
+    }
+    public void setCurrentReservation(Reservation r) {
+        current_reservation = r;
     }
     
     class MainPanel extends JPanel {
