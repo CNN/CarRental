@@ -40,6 +40,7 @@ public class View {
                 northVehicle = new JPanel(),
                 northMaintenance = new JPanel(),
                 vehiclePanel = new VehiclePanel();
+        //TODO: not yet added: reservationpanel, maintenancepanel, customerpanel
         
         public MainPanel() {
             this.setLayout(new BorderLayout());
@@ -62,8 +63,15 @@ public class View {
             west_inner.add(maintenanceButton);
             
             //build northReservation
+            JButton reservationCreate = new JButton("Create");
+            JButton reservationList = new JButton("List");
             
             //build northCustomer
+            JButton customerCreate = new JButton("Create");
+            JButton customerList = new JButton("List");
+            northCustomer.setLayout(new FlowLayout(FlowLayout.LEFT));
+            northCustomer.add(customerCreate);
+            northCustomer.add(customerList);
             
             //build northVehicle
             JButton vehicleCreate = new JButton("Create");
