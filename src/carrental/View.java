@@ -34,12 +34,16 @@ public class View {
         private JPanel west = new JPanel(),
                 west_inner = new JPanel(),
                 center_super = new JPanel(),
+                center_north = new JPanel(),
                 center = new JPanel(),
                 northReservation = new JPanel(),
                 northCustomer = new JPanel(),
                 northVehicle = new JPanel(),
                 northMaintenance = new JPanel(),
-                vehiclePanel = new VehiclePanel();
+                vehiclePanel = new VehiclePanel(),
+                maintenancePanel = new JPanel(),
+                reservationPanel = new JPanel(),
+                customerPanel = new JPanel();
         //TODO: not yet added: reservationpanel, maintenancepanel, customerpanel
         
         public MainPanel() {
@@ -47,16 +51,45 @@ public class View {
             
             //build west
             west.setLayout(new FlowLayout());
+            west.setBorder(BorderFactory.createMatteBorder(0,0,0,2,Color.LIGHT_GRAY));
             west.add(west_inner);
             west_inner.setLayout(new GridLayout(0,1));
+            
             JButton reservationButton = new JButton("Reservation");
             reservationButton.setFont(new Font("Arial",Font.BOLD,16));
+            reservationButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    selectReservation();
+                }
+            });
+            
             JButton customerButton = new JButton("Customer");
             customerButton.setFont(new Font("Arial",Font.BOLD,16));
+            customerButton.addActionListener(new ActionListener() {
+                @Override    
+                public void actionPerformed(ActionEvent e) {
+                    selectCustomer();
+                }
+            });
+            
             JButton vehicleButton = new JButton("Vehicle");
             vehicleButton.setFont(new Font("Arial",Font.BOLD,16));
+            vehicleButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    selectVehicle();
+                }
+            });
+            
             JButton maintenanceButton = new JButton("Maintenance");
             maintenanceButton.setFont(new Font("Arial",Font.BOLD,16));
+            maintenanceButton.addActionListener(new ActionListener() {
+                @Override public void actionPerformed(ActionEvent e) {
+                    selectMaintenance();
+                }
+            });
+            
             west_inner.add(reservationButton);
             west_inner.add(customerButton);
             west_inner.add(vehicleButton);
@@ -65,6 +98,9 @@ public class View {
             //build northReservation
             JButton reservationCreate = new JButton("Create");
             JButton reservationList = new JButton("List");
+            northReservation.setLayout(new FlowLayout(FlowLayout.LEFT));
+            northReservation.add(reservationCreate);
+            northReservation.add(reservationList);
             
             //build northCustomer
             JButton customerCreate = new JButton("Create");
@@ -95,13 +131,53 @@ public class View {
                     
             //build center
             center.setLayout(new FlowLayout());
+            center.setPreferredSize(new Dimension(800,600));
             center.add(vehiclePanel);
             
+            center_north.setLayout(new FlowLayout(FlowLayout.LEFT));
+            center_north.add(northVehicle);
+            center_north.setBorder(BorderFactory.createMatteBorder(0,0,2,0, Color.LIGHT_GRAY));
             center_super.setLayout(new BorderLayout());
             center_super.add(center, BorderLayout.CENTER);
-            center_super.add(northVehicle, BorderLayout.NORTH);
+            center_super.add(center_north, BorderLayout.NORTH);
             this.add(west, BorderLayout.WEST);
             this.add(center_super, BorderLayout.CENTER);
+        }
+        
+        public void selectVehicle() {
+            center.removeAll();
+            center_north.removeAll();
+            frame.pack();
+            center.add(vehiclePanel);
+            center_north.add(northVehicle);
+            frame.pack();
+        }
+        
+        public void selectMaintenance() {
+            center.removeAll();
+            center_north.removeAll();
+            frame.pack();
+            center.add(maintenancePanel);
+            center_north.add(northMaintenance);
+            frame.pack();
+        }
+        
+        public void selectReservation() {
+            center.removeAll();
+            center_north.removeAll();
+            frame.pack();
+            center.add(reservationPanel);
+            center_north.add(northReservation);
+            frame.pack();
+        }
+        
+        public void selectCustomer() {
+            center.removeAll();
+            center_north.removeAll();
+            frame.pack();
+            center.add(customerPanel);
+            center_north.add(northCustomer);
+            frame.pack();
         }
     }
 }
