@@ -3,6 +3,7 @@ package carrental;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.awt.Font.*;
 
 /**
  * GUI for CarRental project
@@ -32,6 +33,7 @@ public class View {
     class MainPanel extends JPanel {
         private JPanel west = new JPanel(),
                 west_inner = new JPanel(),
+                center_super = new JPanel(),
                 center = new JPanel(),
                 northReservation = new JPanel(),
                 northCustomer = new JPanel(),
@@ -47,9 +49,13 @@ public class View {
             west.add(west_inner);
             west_inner.setLayout(new GridLayout(0,1));
             JButton reservationButton = new JButton("Reservation");
+            reservationButton.setFont(new Font("Arial",Font.BOLD,16));
             JButton customerButton = new JButton("Customer");
+            customerButton.setFont(new Font("Arial",Font.BOLD,16));
             JButton vehicleButton = new JButton("Vehicle");
+            vehicleButton.setFont(new Font("Arial",Font.BOLD,16));
             JButton maintenanceButton = new JButton("Maintenance");
+            maintenanceButton.setFont(new Font("Arial",Font.BOLD,16));
             west_inner.add(reservationButton);
             west_inner.add(customerButton);
             west_inner.add(vehicleButton);
@@ -60,12 +66,21 @@ public class View {
             //build northCustomer
             
             //build northVehicle
+            JButton vehicleCreate = new JButton("Create");
+            JButton vehicleTypeCreate = new JButton("Create Vehicle Type");
+            JButton vehicleList = new JButton("List");
+            JButton vehicleOverview = new JButton("Overview");
+            northVehicle.setLayout(new FlowLayout(FlowLayout.LEFT));
+            northVehicle.add(vehicleCreate);
+            northVehicle.add(vehicleTypeCreate);
+            northVehicle.add(vehicleList);
+            northVehicle.add(vehicleOverview);
             
             //build northMaintenance
             JButton maintenanceCreate = new JButton("Create");
             JButton maintenanceTypeCreate = new JButton("Create Maintenance Type");
             JButton maintenanceList = new JButton("List");
-            northMaintenance.setLayout(new FlowLayout());
+            northMaintenance.setLayout(new FlowLayout(FlowLayout.LEFT));
             northMaintenance.add(maintenanceCreate);
             northMaintenance.add(maintenanceTypeCreate);
             northMaintenance.add(maintenanceList);
@@ -74,9 +89,11 @@ public class View {
             center.setLayout(new FlowLayout());
             center.add(vehiclePanel);
             
+            center_super.setLayout(new BorderLayout());
+            center_super.add(center, BorderLayout.CENTER);
+            center_super.add(northVehicle, BorderLayout.NORTH);
             this.add(west, BorderLayout.WEST);
-            this.add(center, BorderLayout.CENTER);
-            this.add(northVehicle, BorderLayout.NORTH);
+            this.add(center_super, BorderLayout.CENTER);
         }
     }
 }
