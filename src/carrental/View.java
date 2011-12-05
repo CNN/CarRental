@@ -219,6 +219,7 @@ public class View {
             vehicleCreate.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    vehiclePanel.setVehicleToView(current_vehicle);
                     vehiclePanel.showCreatePanel();
                 }
             });
@@ -235,6 +236,7 @@ public class View {
             vehicleList.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    vehiclePanel.setVehicleList(current_vehicles);
                     vehiclePanel.showListPanel();
                 }
             });
