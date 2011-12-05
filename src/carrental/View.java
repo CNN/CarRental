@@ -40,10 +40,10 @@ public class View {
                 northCustomer = new JPanel(),
                 northVehicle = new JPanel(),
                 northMaintenance = new JPanel(),
-                vehiclePanel = new VehiclePanel(),
                 maintenancePanel = new JPanel(),
                 reservationPanel = new JPanel(),
                 customerPanel = new JPanel();
+        private VehiclePanel vehiclePanel = new VehiclePanel();
         //TODO: not yet added: reservationpanel, maintenancepanel, customerpanel
         
         public MainPanel() {
@@ -111,9 +111,36 @@ public class View {
             
             //build northVehicle
             JButton vehicleCreate = new JButton("Create");
+            vehicleCreate.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    vehiclePanel.showCreatePanel();
+                }
+            });
+            
             JButton vehicleTypeCreate = new JButton("Create Vehicle Type");
+            vehicleTypeCreate.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    vehiclePanel.showAddTypePanel();
+                }
+            });
+            
             JButton vehicleList = new JButton("List");
+            vehicleList.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    vehiclePanel.showListPanel();
+                }
+            });
             JButton vehicleOverview = new JButton("Overview");
+            vehicleOverview.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    vehiclePanel.showMainScreenPanel();
+                }
+            });
+            
             northVehicle.setLayout(new FlowLayout(FlowLayout.LEFT));
             northVehicle.add(vehicleCreate);
             northVehicle.add(vehicleTypeCreate);
