@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 
 
 public class GraphicAlternate extends JComponent{
-	private int width, height, collumnWidth, rowHeight, numberOfCollumns, numberOfRows;
+    private int width, height, collumnWidth, rowHeight, numberOfCollumns, numberOfRows;
     private Canvas canvas;
     private ArrayList<Booking> bookings;
     private ArrayList<Timestamp> timestamps;
