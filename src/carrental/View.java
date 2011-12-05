@@ -3,7 +3,8 @@ package carrental;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.EtchedBorder;
+import java.awt.Font.*;
+import java.util.ArrayList;
 
 /**
  * GUI for CarRental project
@@ -11,337 +12,308 @@ import javax.swing.border.EtchedBorder;
  * @version 1. Dec. 2011
  */
 public class View {
+    private static View view;
+    private CarRental controller;
     private JFrame frame;
     private final String title = "CarRental DeLuxe";
-    private Font headline;
-    private JPanel contentPane, 
-            headlinePanel, 
-            overview_panel, 
-            vehicle_panel, 
-            vehicle_type_panel,
-            customer_panel,
-            reservation_panel, 
-            maintenance_panel,
-            maintenance_type_panel;
+    private MainPanel main;
+    private ArrayList<Vehicle> current_vehicles;
+    private Vehicle current_vehicle;
+    private ArrayList<VehicleType> current_vehicle_types;
+    private VehicleType current_vehicle_type;
+    private ArrayList<Maintenance> current_maintenances;
+    private Maintenance current_maintenance;
+    private ArrayList<MaintenanceType> current_maintenance_types;
+    private MaintenanceType current_maintenance_type;
+    private ArrayList<Customer> current_customers;
+    private Customer current_customer;
+    private ArrayList<Reservation> current_reservations;
+    private Reservation current_reservation;
     
-    //contentPane
-    private JButton homeBtn, reservationBtn, vehicleBtn, customerBtn;
-    private JPanel cpTop, cpBottom, cpLeft;
-    private JLabel cpStatusLabel;
-    private JList menuList;
-    
-    //headlinePanel
-    private JLabel headlineLabel;
-    
-    // customer_panel
-    private JPanel customer_panel_left, customer_panel_center, customer_panel_right;
-    private JLabel customerIDLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel, customerSearchLabel;
-    private JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField;
-    private JList customerResultList;
-    private JButton customerLoadBtn, customerSaveBtn;
-    
-    //overview_panel
-    private JLabel opCenterLabel;
-    
-    public View(CarRental controller) {
+    private View(CarRental c) {
+        controller = c;
         controller.appendLog("Creating View...");
-        controller.appendLog("View created.");
-        System.out.println(controller);
         
-        buildGUI();
-    }
-    
-    //quit
-    private void quit(){
-        //TODO quit model and controller
-        System.exit(0);
-    }
-    
-    //Action performed when Save Customer button is pressed
-    private void saveCustomerBtn(){
-        
-    }
-    
-    //Action performed when Soad Costumer button is pressed
-    private void loadCustomerBtn(){
-        
-    }
-    
-    //Action performed when Home button is pressed
-    private void homeBtn(){
-        allInvisible();
-        overview_panel.setVisible(true);
-        frame.pack();
-    }
-    //Action performed when Reservation button is pressed
-    private void reservationBtn(){
-        allInvisible();
-        setHeadline("Create/Edit Reservation");
-        reservation_panel.setVisible(true);
-        frame.pack();
-    }
-    
-    //Action performed when Vehicle button is pressed
-    private void vehicleBtn(){
-        allInvisible();
-        vehicle_panel.setVisible(true);
-        frame.pack();
-    }
-    
-    //Action performed when Customer button is pressed
-    private void customerBtn(){
-        allInvisible();
-        setHeadline("Create/Edit Customer");
-        headlinePanel.setVisible(true);
-        customer_panel.setVisible(true);
-        frame.pack();
-    }
-    
-    private void allInvisible(){
-        overview_panel.setVisible(false);
-        headlinePanel.setVisible(false);
-        customer_panel.setVisible(false);
-//        vehicle_panel.setVisible(false);
-//        vehicle_type_panel.setVisible(false);
-//        reservation_panel.setVisible(false);
-//        maintenance_panel.setVisible(false);
-//        maintenance_type_panel.setVisible(false);
-    }
-    
-    private void setHeadline(String headline){
-        headlineLabel.setText(headline);
-    }
-    
-    //creates user interface
-    private void buildGUI(){
         frame = new JFrame(title);
+        
+        controller.requestVehicles();
+        assert current_vehicles != null: "View->Controller Request Vehicles Failed";
+        controller.requestVehicle();
+        assert current_vehicle != null: "View->Controller Request Vehicle Failed";
+        controller.requestVehicleTypes();
+        assert current_vehicle_types != null: "View->Controller Request Vehicle Types Failed";
+        controller.requestVehicleType();
+        assert current_vehicle_type != null: "View->Controller Request Vehicle Type Failed";
+        controller.requestMaintenances();
+        assert current_maintenances != null: "View->Controller Request Maintenances Failed";
+        controller.requestMaintenance();
+        assert current_maintenance != null: "View->Controller Request Maintenance Failed";
+        controller.requestMaintenanceTypes();
+        assert current_maintenance_types != null: "View->Controller Request Maintenance Types Failed";
+        controller.requestMaintenanceType();
+        assert current_maintenance_type != null: "View->Controller Request Maintenance Type Failed";
+        controller.requestCustomers();
+        assert current_customers != null: "View->Controller Request Customers Failed";
+        controller.requestCustomer();
+        assert current_customer != null: "View->Controller Request Customer Failed";
+        controller.requestReservations();
+        assert current_reservations != null: "View->Controller Request Reservations Failed";
+        controller.requestReservation();
+        assert current_reservation != null: "View->Controller Request Reservation Failed";
+        //controller.requestBookings();
+        //assert current_bookings != null: "View->Controller Request Bookings Failed";
+        //TODO: Make bookings requestable
+        
+        main = new MainPanel();
+        frame.add(main);
+        
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        makeMenuBar(frame);
-        
-        //fonts
-        headline = new Font("Arial", Font.PLAIN, 24);
-        
-        //contentPane
-        contentPane = (JPanel)frame.getContentPane();
-        contentPane.setLayout(new BorderLayout());
-        
-        //headlinePanel
-        headlinePanel = new JPanel();
-        headlinePanel.setLayout(new BorderLayout());
-        headlinePanel.setBorder(new EtchedBorder());
-        //TODO Find proper color
-        headlinePanel.setBackground(Color.cyan);
-        
-        headlineLabel = new JLabel("Headline");
-        headlineLabel.setFont(headline);
-        headlineLabel.setHorizontalAlignment(JLabel.CENTER);
-        
-        headlinePanel.add(headlineLabel, BorderLayout.NORTH);
-        
-        //reservation panel
-        
-        
-        //customer panel
-        customer_panel = new JPanel();
-        customer_panel.setLayout(new GridLayout(0, 3));
-        customer_panel.setBorder(new EtchedBorder());
-        customer_panel_left = new JPanel();
-        customer_panel_left.setLayout(new GridLayout(0, 1));
-        customer_panel_center = new JPanel();
-        customer_panel_center.setLayout(new GridLayout(0, 1));
-        customer_panel_right = new JPanel();
-        customer_panel_right.setLayout(new GridLayout(0, 1));
-        
-        //TODO create proper String[] resultList
-        String[] resultList = new String[] {    "Search results"    };
-        customerResultList = new JList(resultList);
-        
-        customerLoadBtn = new JButton("Load Customer");
-        customerSaveBtn = new JButton("Save Customer");
-        
-        customerLoadBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                loadCustomerBtn();
-            }
-        });
-        customerSaveBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                saveCustomerBtn();
-            }
-        });
-        
-        customerIDLabel = new JLabel("Customer ID: ");
-        customerIDLabel.setHorizontalAlignment(JLabel.RIGHT);
-        customerNameLabel = new JLabel("Name");
-        customerNameLabel.setHorizontalAlignment(JLabel.RIGHT);
-        customerPhoneLabel = new JLabel("Phone");
-        customerPhoneLabel.setHorizontalAlignment(JLabel.RIGHT);
-        customerAdressLabel = new JLabel("Adress");
-        customerAdressLabel.setHorizontalAlignment(JLabel.RIGHT);
-        customerSearchLabel = new JLabel("0 Results");
-        customerSearchLabel.setHorizontalAlignment(JLabel.RIGHT);
-        
-        customerIDTextField = new JTextField("0000");
-        customerIDTextField.setEditable(false);
-        customerIDTextField.setHorizontalAlignment(JTextField.RIGHT);
-        customerNameTextField = new JTextField();
-        customerPhoneTextField = new JTextField();
-        customerAdressTextField = new JTextField();
-        
-        customer_panel_left.add(customerIDLabel);
-        customer_panel_left.add(customerNameLabel);
-        customer_panel_left.add(customerPhoneLabel);
-        customer_panel_left.add(customerAdressLabel);
-        customer_panel_left.add(customerLoadBtn);
-        
-        customer_panel_center.add(customerIDTextField);
-        customer_panel_center.add(customerNameTextField);
-        customer_panel_center.add(customerPhoneTextField);
-        customer_panel_center.add(customerAdressTextField);
-        customer_panel_center.add(customerSaveBtn);
-        
-        customer_panel_right.add(customerResultList);
-        customer_panel_right.add(customerSearchLabel);
-        
-        customer_panel.add(customer_panel_left);
-        customer_panel.add(customer_panel_center);
-        customer_panel.add(customer_panel_right);
-        
-        //contentPane left panel
-        cpLeft = new JPanel();
-        cpLeft.setLayout(new FlowLayout());
-        cpLeft.setBorder(new EtchedBorder());
-        
-        //TODO create proper String[] menuItems
-        String[] menuItems = new String[]{  "Menu", "This is some sort of a menu"   };
-        menuList = new JList(menuItems);
-        
-        cpLeft.add(menuList);
-        
-        //contentPane top panel
-        cpTop = new JPanel();
-        cpTop.setLayout(new FlowLayout());
-        cpTop.setBorder(new EtchedBorder());
-        
-        homeBtn = new JButton("Home");
-        homeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/carrental/Icons/Home1.PNG")));
-        reservationBtn = new JButton("Reservations");
-        reservationBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/carrental/Icons/Reservation1.PNG")));
-        vehicleBtn = new JButton("Vehicles");
-        vehicleBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/carrental/Icons/Car1.PNG")));
-        customerBtn = new JButton("Customers");
-        customerBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/carrental/Icons/Person1.PNG")));
-        
-        homeBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                homeBtn();
-            }
-        });
-        reservationBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                reservationBtn();
-            }
-        });
-        vehicleBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                vehicleBtn();
-            }
-        });
-        customerBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                customerBtn();
-            }
-        });
-        
-        cpTop.add(homeBtn);
-        cpTop.add(reservationBtn);
-        cpTop.add(vehicleBtn);
-        cpTop.add(customerBtn);
-        
-        //contentPane bottom panel
-        cpBottom = new JPanel();
-        cpBottom.setLayout(new FlowLayout());
-        
-        cpStatusLabel = new JLabel("Status: Ok");
-        
-        cpBottom.add(cpStatusLabel);
-        
-        //overview_panel
-        overview_panel = new JPanel();
-        overview_panel.setBorder(new EtchedBorder());
-        opCenterLabel = new JLabel();
-        
-        opCenterLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/carrental/Capture.PNG")));
-        
-        overview_panel.add(opCenterLabel);
-        
-        //final setups
-//        headlinePanel.add(customer_panel, BorderLayout.CENTER);
-//        contentPane.add(headlinePanel, BorderLayout.CENTER);
-//        headlinePanel.setVisible(true);
-        contentPane.add(overview_panel, BorderLayout.CENTER);
-        contentPane.add(cpTop, BorderLayout.NORTH);
-        contentPane.add(cpBottom, BorderLayout.SOUTH);
-        contentPane.add(cpLeft, BorderLayout.WEST);
-        
         frame.pack();
-        frame.setSize(1200, 700);
         frame.setVisible(true);
+        
+        controller.appendLog("View created.");
     }
     
-    private void makeMenuBar(JFrame frame){
-        JMenuBar menubar = new JMenuBar();
-        JMenu menu, newMenu;
-        JMenuItem item;
+    public static View getInstance(CarRental controller) {
+        if(view == null) view = new View(controller);
+        return view;
+    }
+    
+    public static View getInstance() {
+        return view;
+    }
+    
+    public void setCurrentVehicles(ArrayList<Vehicle> vs) {
+        current_vehicles = vs;
+    }
+    public void setCurrentVehicle(Vehicle v) {
+        current_vehicle = v;
+    }
+    public void setCurrentVehicleTypes(ArrayList<VehicleType> vts) {
+        current_vehicle_types = vts;
+    }
+    public void setCurrentVehicleType(VehicleType vt) {
+        current_vehicle_type = vt;
+    }
+    public void setCurrentMaintenances(ArrayList<Maintenance> ms) {
+        current_maintenances = ms;
+    }
+    public void setCurrentMaintenance(Maintenance m) {
+        current_maintenance = m;
+    }
+    public void setCurrentMaintenanceTypes(ArrayList<MaintenanceType> mts) {
+        current_maintenance_types = mts;
+    }
+    public void setCurrentMaintenanceType(MaintenanceType mt) {
+        current_maintenance_type = mt;
+    }
+    public void setCurrentCustomers(ArrayList<Customer> cs) {
+        current_customers = cs;
+    }
+    public void setCurrentCustomer(Customer c) {
+        current_customer = c;
+    }
+    public void setCurrentReservations(ArrayList<Reservation> rs) {
+        current_reservations = rs;
+    }
+    public void setCurrentReservation(Reservation r) {
+        current_reservation = r;
+    }
+    
+    public void vehiclePanelVehicle(int id) {
+        controller.requestVehicle(id);
+        main.updateVehiclePanel();
+    }
+    public void vehiclePanelVehicleType(int id) {
+        controller.requestVehicleType(id);
+        main.updateVehiclePanel();
+    }
+    public void saveVehicle(Vehicle v) {
+
+    }
+    
+    class MainPanel extends JPanel {
+        private JPanel west = new JPanel(),
+                west_inner = new JPanel(),
+                center_super = new JPanel(),
+                center_north = new JPanel(),
+                center = new JPanel(),
+                northReservation = new JPanel(),
+                northCustomer = new JPanel(),
+                northVehicle = new JPanel(),
+                northMaintenance = new JPanel(),
+                maintenancePanel = new JPanel(),
+                reservationPanel = new JPanel(),
+                customerPanel = new JPanel();
+        private VehiclePanel vehiclePanel = new VehiclePanel();
+        //TODO: not yet added: reservationpanel, maintenancepanel, customerpanel
         
-        frame.setJMenuBar(menubar);
+        public MainPanel() {
+            this.setLayout(new BorderLayout());
+            
+            //build west
+            west.setLayout(new FlowLayout());
+            west.setBorder(BorderFactory.createMatteBorder(0,0,0,2,Color.LIGHT_GRAY));
+            west.add(west_inner);
+            west_inner.setLayout(new GridLayout(0,1));
+            
+            JButton reservationButton = new JButton("Reservation");
+            reservationButton.setFont(new Font("Arial",Font.BOLD,16));
+            reservationButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    selectReservation();
+                }
+            });
+            
+            JButton customerButton = new JButton("Customer");
+            customerButton.setFont(new Font("Arial",Font.BOLD,16));
+            customerButton.addActionListener(new ActionListener() {
+                @Override    
+                public void actionPerformed(ActionEvent e) {
+                    selectCustomer();
+                }
+            });
+            
+            JButton vehicleButton = new JButton("Vehicle");
+            vehicleButton.setFont(new Font("Arial",Font.BOLD,16));
+            vehicleButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    selectVehicle();
+                }
+            });
+            
+            JButton maintenanceButton = new JButton("Maintenance");
+            maintenanceButton.setFont(new Font("Arial",Font.BOLD,16));
+            maintenanceButton.addActionListener(new ActionListener() {
+                @Override public void actionPerformed(ActionEvent e) {
+                    selectMaintenance();
+                }
+            });
+            
+            west_inner.add(reservationButton);
+            west_inner.add(customerButton);
+            west_inner.add(vehicleButton);
+            west_inner.add(maintenanceButton);
+            
+            //build northReservation
+            JButton reservationCreate = new JButton("Create");
+            JButton reservationList = new JButton("List");
+            northReservation.setLayout(new FlowLayout(FlowLayout.LEFT));
+            northReservation.add(reservationCreate);
+            northReservation.add(reservationList);
+            
+            //build northCustomer
+            JButton customerCreate = new JButton("Create");
+            JButton customerList = new JButton("List");
+            northCustomer.setLayout(new FlowLayout(FlowLayout.LEFT));
+            northCustomer.add(customerCreate);
+            northCustomer.add(customerList);
+            
+            //build northVehicle
+            JButton vehicleCreate = new JButton("Create");
+            vehicleCreate.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    vehiclePanel.showCreatePanel();
+                }
+            });
+            
+            JButton vehicleTypeCreate = new JButton("Create Vehicle Type");
+            vehicleTypeCreate.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    vehiclePanel.showAddTypePanel();
+                }
+            });
+            
+            JButton vehicleList = new JButton("List");
+            vehicleList.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    vehiclePanel.showListPanel();
+                }
+            });
+            JButton vehicleOverview = new JButton("Overview");
+            vehicleOverview.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    vehiclePanel.showMainScreenPanel();
+                }
+            });
+            
+            northVehicle.setLayout(new FlowLayout(FlowLayout.LEFT));
+            northVehicle.add(vehicleCreate);
+            northVehicle.add(vehicleTypeCreate);
+            northVehicle.add(vehicleList);
+            northVehicle.add(vehicleOverview);
+            
+            //build northMaintenance
+            JButton maintenanceCreate = new JButton("Create");
+            JButton maintenanceTypeCreate = new JButton("Create Maintenance Type");
+            JButton maintenanceList = new JButton("List");
+            northMaintenance.setLayout(new FlowLayout(FlowLayout.LEFT));
+            northMaintenance.add(maintenanceCreate);
+            northMaintenance.add(maintenanceTypeCreate);
+            northMaintenance.add(maintenanceList);
+                    
+            //build center
+            center.setLayout(new FlowLayout());
+            center.setPreferredSize(new Dimension(800,600));
+            center.add(vehiclePanel);
+            
+            center_north.setLayout(new FlowLayout(FlowLayout.LEFT));
+            center_north.add(northVehicle);
+            center_north.setBorder(BorderFactory.createMatteBorder(0,0,2,0, Color.LIGHT_GRAY));
+            center_super.setLayout(new BorderLayout());
+            center_super.add(center, BorderLayout.CENTER);
+            center_super.add(center_north, BorderLayout.NORTH);
+            this.add(west, BorderLayout.WEST);
+            this.add(center_super, BorderLayout.CENTER);
+        }
         
-        //File menu
-        menu = new JMenu("File");
-        menubar.add(menu);
+        public void selectVehicle() {
+            center.removeAll();
+            center_north.removeAll();
+            frame.pack();
+            center.add(vehiclePanel);
+            center_north.add(northVehicle);
+            frame.pack();
+        }
         
-        newMenu = new JMenu("New");
-        menu.add(newMenu);
+        public void selectMaintenance() {
+            center.removeAll();
+            center_north.removeAll();
+            frame.pack();
+            center.add(maintenancePanel);
+            center_north.add(northMaintenance);
+            frame.pack();
+        }
         
-        item = new JMenuItem("Reservation");
-        item.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {    reservationBtn();   }
-            }
-        );
-        newMenu.add(item);
+        public void selectReservation() {
+            center.removeAll();
+            center_north.removeAll();
+            frame.pack();
+            center.add(reservationPanel);
+            center_north.add(northReservation);
+            frame.pack();
+        }
         
-        item = new JMenuItem("Customer");
-        item.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {    customerBtn();   }
-            }
-        );
-        newMenu.add(item);
+        public void selectCustomer() {
+            center.removeAll();
+            center_north.removeAll();
+            frame.pack();
+            center.add(customerPanel);
+            center_north.add(northCustomer);
+            frame.pack();
+        }
         
-        item = new JMenuItem("Vehicle");
-        item.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {    vehicleBtn();   }
-            }
-        );
-        newMenu.add(item);
-        
-        menu.addSeparator();
-        
-        item = new JMenuItem("Quit");
-        item.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {    quit();   }
-            }
-        );
-        menu.add(item);
-        
-        //Help menu
-        menu = new JMenu("Help");
-        menubar.add(menu);
-        
-        item = new JMenuItem("About");
-        item.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {       }
-            }
-        );
-        menu.add(item);
+        public void updateVehiclePanel() {
+            vehiclePanel.setVehicleList(current_vehicles);
+            vehiclePanel.setVehicleTypes(current_vehicle_types);
+            vehiclePanel.setVehicleToView(current_vehicle);
+            vehiclePanel.setVehicleTypeToView(current_vehicle_type);
+        }
     }
 }
