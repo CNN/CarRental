@@ -49,8 +49,7 @@ public final class CarRental {
     private void printLog() {
         System.out.println(log);
     }
-    
-    
+     
     public static void main(String[] args) {
         CarRental controller = new CarRental();
     }

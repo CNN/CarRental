@@ -10,7 +10,7 @@ import javax.swing.border.EtchedBorder;
  * @author CNN
  * @version 1. Dec. 2011
  */
-public class View {
+public class ViewOld {
     private JFrame frame;
     private final String title = "CarRental DeLuxe";
     private Font headline;
@@ -43,7 +43,7 @@ public class View {
     //overview_panel
     private JLabel opCenterLabel;
     
-    public View(CarRental controller) {
+    public ViewOld(CarRental controller) {
         controller.appendLog("Creating View...");
         controller.appendLog("View created.");
         
