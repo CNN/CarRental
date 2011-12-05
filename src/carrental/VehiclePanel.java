@@ -17,8 +17,11 @@ public class VehiclePanel extends SuperPanel {
 
     private JPanel mainScreenPanel, createPanel, viewVehiclePanel, addTypePanel, listPanel;
     private JScrollPane centerScrollPane_View;
-    VehicleTypePanel vehicleTypeInstance;
-
+    private VehicleTypePanel vehicleTypeInstance;
+    private Vehicle vehicleToView; //specific vehicle, used to view details
+    private VehicleType vehicleTypeToView; //specific vehicle, used to view details
+    private ArrayList<Vehicle> vehicleList;
+    private ArrayList<VehicleType> vehicleTypes;
     public VehiclePanel() {
         vehicleTypeInstance = new VehicleTypePanel(); //Used to get the addType-panel from the VehicleTypeClass - to avoid some code duplication
         RemakeAll();
@@ -41,6 +44,20 @@ public class VehiclePanel extends SuperPanel {
         frame.pack();
         frame.setVisible(true);
     }
+    
+    public void setVehicleToView (Vehicle vehicle){
+        vehicleToView = vehicle;
+    }
+    public void setVehicleTypeToView (Vehicle vehicle){
+        vehicleToView = vehicle;
+    }
+    public void setVehicleList(ArrayList<Vehicle> array){
+        vehicleList = array;
+    }
+    public void setVehicleTypes(ArrayList<VehicleType> array){
+        vehicleTypes = array;
+    }
+      
 
     @Override
     public void makeMainScreenPanel() {
@@ -115,7 +132,6 @@ public class VehiclePanel extends SuperPanel {
             }
         });
         buttonGridPanel.add(listButton);
-
     }
 
     @Override
@@ -416,30 +432,31 @@ public class VehiclePanel extends SuperPanel {
 //        reservationArrayList.add(testReservation2);
 
         //Testing Table setup
-        Object[] ColumnNames = {"Customer", "Phone number", "From", "To"};
+        Object[] columnNames = {"Customer", "Phone number", "From", "To"};
         ArrayList<ArrayList<String>> reservationData = new ArrayList<>();
-        ArrayList<String> rowData = new ArrayList<>();
+        ArrayList<String> rowData;
         //getting the data in the arrayList - this might be unnecessary in final implementation depending on how this class receives the simple type objects.
         Customer testCustomer = new Customer(130, 75834920, "Jens Jensen", "Johnsgade 30 \n 2630 \n Taastrup", "poul@gmail.com");
         Reservation testReservation = new Reservation(100, 3, Timestamp.valueOf("1991-12-24 13:37:00"), Timestamp.valueOf("1991-12-31 13:37:00"), 2);
         for (int i = 0; i < 10; i++) {
+            rowData = new ArrayList<String>();
             rowData.add(testCustomer.getName());
             rowData.add("" + testCustomer.getTelephone());
             rowData.add("" + testReservation.getTStart());
             rowData.add("" + testReservation.getTEnd());
             reservationData.add(rowData);
-            //reservation.get(i).size() should be equal to columnNames.length here.
+            assert reservationData.get(i).size()==columnNames.length;
         }
 
         //Converting to Object[][] for the JTable
-        Object[][] tableData = new Object[reservationData.size()][ColumnNames.length];
+        Object[][] tableData = new Object[reservationData.size()][columnNames.length];
         for (int i = 0; i < reservationData.size(); i++) { //  'i' represents a row
-            for (int j = 0; j < ColumnNames.length; j++) { //'j' represents a certain cell on row 'i'
+            for (int j = 0; j < columnNames.length; j++) { //'j' represents a certain cell on row 'i'
                 tableData[i][j] = reservationData.get(i).get(j); //out of bounds cannot happen because of the conditions in the for loops.
             }
         }
         //Creating the table
-        JTable reservationTable = new JTable(tableData, ColumnNames);
+        JTable reservationTable = new JTable(tableData, columnNames);
         //adding it to it's own scrollpane
         JScrollPane scrollPane = new JScrollPane(reservationTable);
         //Setting the default size for the scrollpane
