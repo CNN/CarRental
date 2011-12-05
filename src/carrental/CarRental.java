@@ -97,6 +97,25 @@ public final class CarRental {
 //        view.setCurrentBookings(model.getBookings());
 //    }
     
+    public void saveVehicle(Vehicle v) {
+        model.saveVehicle(v);
+    }
+    public void saveVehicleType(VehicleType vt) {
+        model.saveVehicleType(vt);
+    }
+    public void saveMaintenance(Maintenance m) {
+        model.saveMaintenance(m);
+    }
+    public void saveMaintenanceType(MaintenanceType mt) {
+        model.saveMaintenanceType(mt);
+    }
+    public void saveCustomer(Customer c) {
+        model.saveCustomer(c);
+    }
+    public void saveReservation(Reservation r) {
+        model.saveReservation(r);
+    }
+    
     public void appendLog(String string) {
         if(CarRental.DEBUG) System.out.println(string);
         log = log+"\n"+string;

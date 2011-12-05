@@ -128,6 +128,12 @@ public class View {
         controller.requestVehicleType(id);
         main.updateVehiclePanel();
     }
+    public void saveVehicle(Vehicle v) {
+        
+    }
+    public void saveVehicleType(VehicleType vt) {
+        
+    }
     
     class MainPanel extends JPanel {
         private JPanel west = new JPanel(),
