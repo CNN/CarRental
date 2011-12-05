@@ -48,8 +48,8 @@ public class VehiclePanel extends SuperPanel {
     public void setVehicleToView (Vehicle vehicle){
         vehicleToView = vehicle;
     }
-    public void setVehicleTypeToView (Vehicle vehicle){
-        vehicleToView = vehicle;
+    public void setVehicleTypeToView (VehicleType vehicle){
+        vehicleTypeToView = vehicle;
     }
     public void setVehicleList(ArrayList<Vehicle> array){
         vehicleList = array;
