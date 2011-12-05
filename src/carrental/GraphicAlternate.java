@@ -19,11 +19,13 @@ public class GraphicAlternate extends JComponent {
     private Canvas canvas;
     private ArrayList<Booking> bookings;
     private ArrayList<Timestamp> timestamps;
+    private ArrayList<Date> dates;
 
     public GraphicAlternate(ArrayList<Booking> bookings, ArrayList<Timestamp> timestamps) {
         canvas = new Canvas();
         this.bookings = bookings;
         this.timestamps = timestamps;
+        updateDatesArray();
 
         width = 800;
         height = 600;
@@ -60,6 +62,14 @@ public class GraphicAlternate extends JComponent {
     private Date toDate(Timestamp timestamp) { //I know it isn't used yet
         long milliseconds = timestamp.getTime() + (timestamp.getNanos() / 1000000);
         return new Date(milliseconds);
+    }
+    
+    private void updateDatesArray(){
+        dates = null;
+        dates = new ArrayList();
+        for(Timestamp timestamp : timestamps){
+            dates.add(toDate(timestamp));
+        }
     }
 
     private void setNumberOfCollumns() {
@@ -106,7 +116,9 @@ public class GraphicAlternate extends JComponent {
     }
 
     public void paint(Graphics g) {
-        int run = 0;
+        int run = 0; //for testing
+        
+        //print y-axis text
         for(int y = 0; y < numberOfRows; y++){
             g.setColor(Color.black);
             g.drawString("Vehicle ", 0, pointerY);
@@ -116,13 +128,21 @@ public class GraphicAlternate extends JComponent {
         setTextSpace();
         setTextHeight();
         pointerX = textSpace;
+        int textpointer = height-textHeight;
         
+        //print x-axis text
         for(int x = 0; x < numberOfCollumns; x++){
             g.setColor(Color.black);
-            g.drawString(timestamps.get(x).toString(), pointerX, height-textHeight);
+            g.drawString(dates.get(x).toString(), pointerX, textpointer);
             movePointerX();
+            if(textpointer == height-textHeight){
+                textpointer -= textHeight;
+            }else{
+                textpointer += textHeight;
+            }
         }
         
+        //print reservation blocks
         for(int y = 0; y < numberOfRows; y++){
             for(int x = 0; x < numberOfCollumns; x++){
                 if (bookings.get(y).isBooked(timestamps.get(x))) {
@@ -135,12 +155,12 @@ public class GraphicAlternate extends JComponent {
                     movePointerX();
                     movePointerY();
                 }
-                run++;
+                run++; //for testing
             }
-            run++;
+            run++; //for testing
         }
         pointerX = 0;
         pointerY = 0;
-        System.out.println(""+run);
+        System.out.println(""+run); //for testing
     }
 }
