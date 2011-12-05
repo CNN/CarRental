@@ -19,6 +19,7 @@ public final class CarRental {
         if(instance == null) instance = this;
         appendLog("Initializing...");
         model = new Model();
+        model.getBookings();
         view = View.getInstance(this);
     }
     

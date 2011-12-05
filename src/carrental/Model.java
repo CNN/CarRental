@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.sql.Timestamp;
-import java.util.Calendar;
 
 /**
  * The model keeps track of the logic of CarRental
@@ -391,5 +390,40 @@ public class Model {
         save_data.add(m.getTEnd().toString());
         save_data.add(Integer.toString(m.getTypeID()));
         database.saveArray("maintenance", save_data);
+    }
+    
+    /**
+     * Get bookings (maintenances and reservations)
+     * @return Bookings
+     */
+    public ArrayList<Booking> getBookings() {
+        ArrayList<ArrayList<String>> rms = database.getMatches("SELECT * FROM maintenance AS m, reservation AS r ORDER BY m.date_start,r.start");
+        ArrayList<Booking> results = new ArrayList<>();
+        for(ArrayList<String> rm : rms) {
+            if(rm.size() > 0) {
+                String[] is_time = rm.get(2).split(":");
+                if(is_time.length > 1) {
+                    try {
+                        Date date_start = dateFormat.parse(rm.get(2));
+                        Date date_end = dateFormat.parse(rm.get(3));
+                        results.add(new Reservation(Integer.parseInt(rm.get(0)),Integer.parseInt(rm.get(1)), new Timestamp(date_start.getTime()), new Timestamp(date_end.getTime()),Integer.parseInt(rm.get(4))));
+                    }
+                    catch (ParseException e) {
+                        CarRental.getInstance().appendLog("Exception while parsing date when getting bookings.",e);
+                    }
+                }
+                else {
+                    try {
+                        Date date_start = dateFormat.parse(rm.get(3));
+                        Date date_end = dateFormat.parse(rm.get(4));
+                        results.add(new Maintenance(Integer.parseInt(rm.get(0)),Integer.parseInt(rm.get(1)),new Timestamp(date_start.getTime()),new Timestamp(date_end.getTime()),Integer.parseInt(rm.get(2))));
+                    }
+                    catch (ParseException e) {
+                        
+                    }
+                }
+            }
+        }
+        return results;
     }
 }
