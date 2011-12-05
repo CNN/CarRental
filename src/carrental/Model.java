@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.Date;
 import java.sql.Timestamp;
+import java.util.Calendar;
 
 /**
  * The model keeps track of the logic of CarRental
@@ -170,6 +171,7 @@ public class Model {
         try {
             Date date_start_parsed = dateFormat.parse(r.get(2));
             Date date_end_parsed = dateFormat.parse(r.get(3));
+            Timestamp t = new Timestamp(date_start_parsed.getTime());
             return new Reservation(Integer.parseInt(r.get(0)),
                     Integer.parseInt(r.get(1)),
                     new Timestamp(date_start_parsed.getTime()),

@@ -9,8 +9,7 @@ public class MaintenanceType {
 
     private final int ID;
     private String name;
-    private boolean is_service;//TODO What is this boolean for?
-    // Answer in a comment and I'll fix the documentation
+    private boolean is_service;
 
     /**
      * Constructor for MaintenanceType
