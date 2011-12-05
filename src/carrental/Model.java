@@ -221,7 +221,7 @@ public class Model {
      * @return Array of reservations
      */
     public ArrayList<Reservation> getReservations() {
-        ArrayList<ArrayList<String>> rs = database.getMatches("SELECT * FROM customer ORDER BY start,end DESC");
+        ArrayList<ArrayList<String>> rs = database.getMatches("SELECT * FROM reservation ORDER BY start,end DESC");
         ArrayList<Reservation> results = new ArrayList<>();
         for(ArrayList<String> r : rs) {
             try {
@@ -363,13 +363,13 @@ public class Model {
         ArrayList<Maintenance> results = new ArrayList<>();
         for(ArrayList<String> m : ms) {
             try {
-                Date date_start_parsed = dateFormat.parse(m.get(2));
-                Date date_end_parsed = dateFormat.parse(m.get(3));
+                Date date_start_parsed = dateFormat.parse(m.get(3));
+                Date date_end_parsed = dateFormat.parse(m.get(4));
                 results.add(new Maintenance(Integer.parseInt(m.get(0)),
                         Integer.parseInt(m.get(1)),
                         new Timestamp(date_start_parsed.getTime()),
                         new Timestamp(date_end_parsed.getTime()),
-                        Integer.parseInt(m.get(4))));
+                        Integer.parseInt(m.get(2))));
             }
             catch (ParseException e) {
                 CarRental.getInstance().appendLog("Failed to get maintenances from database, parse error when parsing dates.",e);

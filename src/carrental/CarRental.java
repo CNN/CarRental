@@ -28,70 +28,70 @@ public final class CarRental {
         return instance;
     }
     
-    public void requestVehicles() {
-        view.setCurrentVehicles(model.getVehicles());
+    public ArrayList<Vehicle> requestVehicles() {
+        return model.getVehicles();
     }
-    public void requestVehicle() {
-        view.setCurrentVehicle(model.getVehicle());
+    public Vehicle requestVehicle() {
+        return model.getVehicle();
     }
-    public void requestVehicle(int id) {
-        view.setCurrentVehicle(model.getVehicle(id));
-    }
-    
-    public void requestVehicleTypes() {
-        view.setCurrentVehicleTypes(model.getVehicleTypes());
-    }
-    public void requestVehicleType() {
-        view.setCurrentVehicleType(model.getVehicleType());
-    }
-    public void requestVehicleType(int id) {
-        view.setCurrentVehicleType(model.getVehicleType(id));
-    }
-    public void requestVehicleType(String name) {
-        view.setCurrentVehicleType(model.getVehicleType(name));
+    public Vehicle requestVehicle(int id) {
+        return model.getVehicle(id);
     }
     
-    public void requestMaintenances() {
-        view.setCurrentMaintenances(model.getMaintenances());
+    public ArrayList<VehicleType> requestVehicleTypes() {
+        return model.getVehicleTypes();
     }
-    public void requestMaintenance() {
-        view.setCurrentMaintenance(model.getMaintenance());
+    public VehicleType requestVehicleType() {
+        return model.getVehicleType();
     }
-    public void requestMaintenance(int id) {
-        view.setCurrentMaintenance(model.getMaintenance(id));
+    public VehicleType requestVehicleType(int id) {
+        return model.getVehicleType(id);
     }
-    
-    public void requestMaintenanceTypes() {
-        view.setCurrentMaintenanceTypes(model.getMaintenanceTypes());
-    }
-    public void requestMaintenanceType() {
-        view.setCurrentMaintenanceType(model.getMaintenanceType());
-    }
-    public void requestMaintenanceType(int id) {
-        view.setCurrentMaintenanceType(model.getMaintenanceType(id));
+    public VehicleType requestVehicleType(String name) {
+        return model.getVehicleType(name);
     }
     
-    public void requestCustomers() {
-        view.setCurrentCustomers(model.getCustomers());
+    public ArrayList<Maintenance> requestMaintenances() {
+        return model.getMaintenances();
     }
-    public void requestCustomer() {
-        view.setCurrentCustomer(model.getCustomer());
+    public Maintenance requestMaintenance() {
+        return model.getMaintenance();
     }
-    public void requestCustomer(int id) {
-        view.setCurrentCustomer(model.getCustomer(id));
-    }
-    public void requestCustomerByPhone(int phone) {
-        view.setCurrentCustomer(model.getCustomerByPhone(phone));
+    public Maintenance requestMaintenance(int id) {
+        return model.getMaintenance(id);
     }
     
-    public void requestReservations() {
-        view.setCurrentReservations(model.getReservations());
+    public ArrayList<MaintenanceType> requestMaintenanceTypes() {
+        return model.getMaintenanceTypes();
     }
-    public void requestReservation() {
-        view.setCurrentReservation(model.getReservation());
+    public MaintenanceType requestMaintenanceType() {
+        return model.getMaintenanceType();
     }
-    public void requestReservation(int id) {
-        view.setCurrentReservation(model.getReservation(id));
+    public MaintenanceType requestMaintenanceType(int id) {
+        return model.getMaintenanceType(id);
+    }
+    
+    public ArrayList<Customer> requestCustomers() {
+        return model.getCustomers();
+    }
+    public Customer requestCustomer() {
+        return model.getCustomer();
+    }
+    public Customer requestCustomer(int id) {
+        return model.getCustomer(id);
+    }
+    public Customer requestCustomerByPhone(int phone) {
+        return model.getCustomerByPhone(phone);
+    }
+    
+    public ArrayList<Reservation> requestReservations() {
+        return model.getReservations();
+    }
+    public Reservation requestReservation() {
+        return model.getReservation();
+    }
+    public Reservation requestReservation(int id) {
+        return model.getReservation(id);
     }
 //    public void requestBookings() {
 //        view.setCurrentBookings(model.getBookings());
