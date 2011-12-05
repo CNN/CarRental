@@ -276,16 +276,16 @@ public class View {
         overview_panel.add(opCenterLabel);
         
         //final setups
-        headlinePanel.add(customer_panel, BorderLayout.CENTER);
-        contentPane.add(headlinePanel, BorderLayout.CENTER);
-        headlinePanel.setVisible(true);
-        contentPane.add(headlinePanel, BorderLayout.CENTER);
+//        headlinePanel.add(customer_panel, BorderLayout.CENTER);
+//        contentPane.add(headlinePanel, BorderLayout.CENTER);
+//        headlinePanel.setVisible(true);
+        contentPane.add(overview_panel, BorderLayout.CENTER);
         contentPane.add(cpTop, BorderLayout.NORTH);
         contentPane.add(cpBottom, BorderLayout.SOUTH);
         contentPane.add(cpLeft, BorderLayout.WEST);
         
         frame.pack();
-        frame.setSize(800, 600);
+        frame.setSize(1200, 700);
         frame.setVisible(true);
     }
     
