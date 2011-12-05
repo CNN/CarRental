@@ -5,7 +5,6 @@
 package carrental;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Communicator object for controller and database
