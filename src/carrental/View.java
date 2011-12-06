@@ -29,6 +29,7 @@ public class View {
     private Customer current_customer;
     private ArrayList<Reservation> current_reservations;
     private Reservation current_reservation;
+    private ArrayList<Booking> current_bookings;
     
     private View(CarRental c) {
         controller = c;
@@ -60,9 +61,8 @@ public class View {
         assert current_reservations != null: "View->Controller Request Reservations Failed";
         setCurrentReservation(controller.requestReservation());
         assert current_reservation != null: "View->Controller Request Reservation Failed";
-        //controller.requestBookings();
-        //assert current_bookings != null: "View->Controller Request Bookings Failed";
-        //TODO: Make bookings requestable
+        controller.requestBookings();
+        assert current_bookings != null: "View->Controller Request Bookings Failed";
         
         main = new MainPanel();
         frame.add(main);
@@ -118,6 +118,9 @@ public class View {
     }
     public final void setCurrentReservation(Reservation r) {
         current_reservation = r;
+    }
+    public final void setCurrentBookings(ArrayList<Booking> bs) {
+        current_bookings = bs;
     }
     
     /**

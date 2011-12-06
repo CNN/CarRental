@@ -94,9 +94,9 @@ public final class CarRental {
     public Reservation requestReservation(int id) {
         return model.getReservation(id);
     }
-//    public void requestBookings() {
-//        view.setCurrentBookings(model.getBookings());
-//    }
+    public void requestBookings() {
+        view.setCurrentBookings(model.getBookings());
+    }
     
     public void saveVehicle(Vehicle v) {
         model.saveVehicle(v);
