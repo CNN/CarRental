@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.text.SimpleDateFormat; //To be used
 
 /**
@@ -19,18 +20,21 @@ import java.text.SimpleDateFormat; //To be used
 public class GraphicAlternate extends JComponent {
 
     private int width, height, collumnWidth, rowHeight, numberOfCollumns, numberOfRows, pointerX, pointerY, textSpace, textHeight;
-    private Canvas canvas;
     private ArrayList<Booking> bookings;
     private ArrayList<Timestamp> timestamps;
     private ArrayList<Date> dates;
+    public GraphicAlternate() {
+        timestamps = new ArrayList<>();
+        bookings = new ArrayList<>();
 
-    public GraphicAlternate(ArrayList<Booking> bookings, ArrayList<Timestamp> timestamps) {
-        canvas = new Canvas();
-        this.bookings = bookings;
-        this.timestamps = timestamps;
+        Calendar calendar = Calendar.getInstance();
+        for(int i = 0; i < 10; i++) {
+            timestamps.add(new Timestamp(calendar.getTimeInMillis() + (i * 3600)));
+        }
+        
         updateDatesArray();
 
-        canvas.addMouseListener(new MouseAdapter() { //TODO This does not work:
+        addMouseListener(new MouseAdapter() { //TODO This does not work:
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX();
                 int y = e.getY();
@@ -49,8 +53,12 @@ public class GraphicAlternate extends JComponent {
         setCollumnWidth();
         setRowHeight();
 
-        canvas.setPreferredSize(new Dimension(width, height));
-        canvas.repaint();
+        repaint();
+    }
+    
+    public void setBookings(ArrayList<Booking> b) {
+        bookings = b;
+        repaint();
     }
 
     public static void main(String[] args) {
@@ -66,7 +74,7 @@ public class GraphicAlternate extends JComponent {
 
         JFrame frame = new JFrame();
         frame.setPreferredSize(new Dimension(800, 600));
-        frame.add(new GraphicAlternate(bs, ts));
+        frame.add(new GraphicAlternate());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setSize(800, 600);
@@ -79,7 +87,7 @@ public class GraphicAlternate extends JComponent {
     }
 
     /**
-     * Method is ran when mouse is clicked on canvas
+     * Method is ran when mouse is clicked on component
      * @param x 
      * @param y 
      */
@@ -100,7 +108,8 @@ public class GraphicAlternate extends JComponent {
     }
 
     private void setNumberOfRows() {
-        numberOfRows = bookings.size();
+        if(bookings.isEmpty()) numberOfRows = 0;
+        else numberOfRows = bookings.size();
     }
 
     private void setCollumnWidth() {
@@ -108,7 +117,8 @@ public class GraphicAlternate extends JComponent {
     }
 
     private void setRowHeight() {
-        rowHeight = height / numberOfRows;
+        if(numberOfRows > 0) rowHeight = height / numberOfRows;
+        else rowHeight = height;
     }
 
     private void movePointerY() {
