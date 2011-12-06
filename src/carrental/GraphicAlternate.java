@@ -26,6 +26,8 @@ public class GraphicAlternate extends JComponent {
     private ArrayList<Date> dates;
 
     public GraphicAlternate() {
+        timestamps = new ArrayList<>();
+        bookings = new ArrayList<>();
 
         Calendar calendar = Calendar.getInstance();
         for(int i = 0; i < 10; i++) {
@@ -110,7 +112,8 @@ public class GraphicAlternate extends JComponent {
     }
 
     private void setNumberOfRows() {
-        numberOfRows = bookings.size();
+        if(bookings.isEmpty()) numberOfRows = 0;
+        else numberOfRows = bookings.size();
     }
 
     private void setCollumnWidth() {
@@ -118,7 +121,8 @@ public class GraphicAlternate extends JComponent {
     }
 
     private void setRowHeight() {
-        rowHeight = height / numberOfRows;
+        if(numberOfRows > 0) rowHeight = height / numberOfRows;
+        else rowHeight = height;
     }
 
     private void movePointerY() {

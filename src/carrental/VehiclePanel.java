@@ -24,6 +24,7 @@ public class VehiclePanel extends SuperPanel {
     private ArrayList<Vehicle> vehicleList;
     private ArrayList<VehicleType> vehicleTypes;
     private ArrayList<Booking> bookings;
+    private GraphicAlternate graph;
     public VehiclePanel() {
         vehicleTypeInstance = new VehicleTypePanel(); //Used to get the addType-panel from the VehicleTypeClass - to avoid some code duplication
         remakeAll(); //Now called from View
@@ -61,6 +62,7 @@ public class VehiclePanel extends SuperPanel {
     }
     public void setBookings(ArrayList<Booking> array) {
         bookings = array;
+        graph.setBookings(array);
     }
       
 
@@ -68,7 +70,7 @@ public class VehiclePanel extends SuperPanel {
     public void makeMainScreenPanel() { //TODO Claus skriv her.. Du kan teste ved at klikke shift+f6 :)
         mainScreenPanel = new JPanel();
         
-        JComponent graph = new GraphicAlternate();
+        graph = new GraphicAlternate();
         graph.setPreferredSize(new Dimension(800,600));
         mainScreenPanel.add(graph);
         
