@@ -69,6 +69,7 @@ public class View {
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
+        frame.setResizable(false);
         frame.setVisible(true);
         
         controller.appendLog("View created.");
