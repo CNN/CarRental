@@ -120,12 +120,16 @@ public class View {
         current_reservation = r;
     }
     
+    /**
+     * Vehicle Panel Com. methods
+     */
+    
     public final void vehiclePanelVehicle(int id) {
-        controller.requestVehicle(id);
+        setCurrentVehicle(controller.requestVehicle(id));
         main.updateVehiclePanel();
     }
     public final void vehiclePanelVehicleType(int id) {
-        controller.requestVehicleType(id);
+        setCurrentVehicleType(controller.requestVehicleType(id));
         main.updateVehiclePanel();
     }
     public final void saveVehicle(Vehicle v) {
