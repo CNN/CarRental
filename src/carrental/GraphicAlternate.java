@@ -24,9 +24,12 @@ public class GraphicAlternate extends JComponent {
     private ArrayList<Booking> bookings = new ArrayList<>();
     private ArrayList<Timestamp> timestamps = new ArrayList<>();
     private ArrayList<String> dateString;
+    private Calendar calendar;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
     
     public GraphicAlternate() {
+        calendar = Calendar.getInstance();
+        
         addMouseListener(new MouseAdapter() { //TODO This does not work:
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX();
@@ -40,8 +43,7 @@ public class GraphicAlternate extends JComponent {
     public final void setTimestamps(ArrayList<Timestamp> t) {
         //generate timestamps that are at a certain point EACH day.
         if(t.isEmpty()) {
-            Calendar calendar = Calendar.getInstance();
-            for(int i = 0; i < 10; i++) {
+            for(int i = 0; i < 7; i++) {
                 t.add(new Timestamp(calendar.getTimeInMillis() - (calendar.getTimeInMillis() % 86400000) + (i * 86400000)));
             }
             timestamps = t;
@@ -62,11 +64,30 @@ public class GraphicAlternate extends JComponent {
         repaint();
     }
     
-    public final void setBookings(ArrayList<Booking> b) {
-        bookings = b;
+    public final void setBookings(ArrayList<Booking> bs) {
+        bookings = bs;
+        calendar = Calendar.getInstance();
         if(bookings.isEmpty()) numberOfRows = 0;
         else numberOfRows = bookings.size();
         repaint();
+        
+        //generate timestamps
+        if(!bookings.isEmpty()) {
+            Timestamp first_date = bookings.get(0).getTStart();
+            for(Booking b : bs) {
+                if(b.getTStart().before(first_date)) {
+                    first_date = b.getTStart();
+                }
+            }
+            if(first_date.before(new Timestamp(calendar.getTimeInMillis()))) {
+                first_date = new Timestamp(calendar.getTimeInMillis());
+            }
+            ArrayList<Timestamp> t = new ArrayList<>();
+            for(int i = 0; i < 7; i++) {
+                t.add(new Timestamp(first_date.getTime() - (first_date.getTime() % 86400000) + (i * 86400000)));
+            }
+            setTimestamps(t);
+        }
     }
 
     /**
@@ -101,29 +122,38 @@ public class GraphicAlternate extends JComponent {
         pointerY = 0;
         
         //print reservation blocks
-        for (int y = 0; y < numberOfRows; y++) {
-            for (int x = 0; x < numberOfCollumns; x++) {
-                if (bookings.get(y).isBooked(timestamps.get(x))) {
-                    if (bookings.get(y).isMaintenance()) {
-                        g.setColor(Color.yellow);
-                    } else {
-                        g.setColor(Color.blue);
+        for(int y = 0; y < numberOfRows; y++) {
+            for(int x = 0; x < numberOfCollumns; x++) {
+                if(bookings.size() > x && bookings.get(y).isBooked(timestamps.get(x))) {
+                    if(bookings.get(y).isMaintenance()) {
+                        g.setColor(Color.YELLOW);
                     }
-                    g.fillRect(pointerX, pointerY + 5, collumnWidth, rowHeight);
-                    movePointerX();
-                    movePointerY();
+                    else {
+                        g.setColor(Color.BLUE);
+                    }
+                    g.fillRect(x * collumnWidth + textSpace, y * rowHeight + 5, collumnWidth, rowHeight);
                 }
-                run++; //for testing
+                g.setColor(Color.BLACK);
+                boolean bz = false;
+                if(bookings.size() > x) bz = bookings.get(y).isBooked(timestamps.get(x));
+                g.drawString(x+"::"+bz, x * collumnWidth + textSpace + 5, y * rowHeight + rowHeight);
+                movePointerX();
             }
-            run++; //for testing
+            movePointerY();
+            pointerX = 0;
         }
         pointerY = 0;
-        pointerX = 0;
         
         //print y-axis text
         for (int y = 0; y < numberOfRows; y++) {
             g.setColor(Color.black);
-            g.drawString("Vehicle ", 0, pointerY);
+            String str = "";
+            Vehicle v = CarRental.getInstance().requestVehicle(bookings.get(y).getID());
+            if(v.getID() > -1 && !v.getDescription().isEmpty()) {
+                str = v.getID()+": "+v.getDescription().substring(0,15);
+            }
+            else str = "Unknown Vehicle";
+            g.drawString(str, 0, pointerY);
             movePointerY();
         }
         
@@ -137,7 +167,7 @@ public class GraphicAlternate extends JComponent {
             g.setColor(Color.LIGHT_GRAY);
             g.drawLine(pointerX, 0, pointerX, height - 3*textHeight);
             g.setColor(Color.black);
-            g.drawString(dateString.get(x).toString(), pointerX + 7, textpointer);
+            g.drawString(dateString.get(x), pointerX + 20, textpointer);
             movePointerX();
             if (textpointer == height - textHeight) { //TODO Fix so this doesn't expand height
                 textpointer -= textHeight;
