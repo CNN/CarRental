@@ -20,7 +20,7 @@ public class GraphicAlternate extends JComponent {
             collumnWidth, rowHeight = 20,
             numberOfCollumns, numberOfRows,
             pointerX = 0, pointerY = 0,
-            textSpace = 50, textHeight = 15;
+            textSpace = 100, textHeight = 15;
     private ArrayList<Booking> bookings = new ArrayList<>();
     private ArrayList<Timestamp> timestamps = new ArrayList<>();
     private ArrayList<String> dateString;
@@ -34,15 +34,20 @@ public class GraphicAlternate extends JComponent {
                 mouseClicked(x, y);
             }
         });
-        
         setTimestamps(timestamps);
     }
     
     public final void setTimestamps(ArrayList<Timestamp> t) {
         //generate timestamps that are at a certain point EACH day.
-        Calendar calendar = Calendar.getInstance();
-        for(int i = 0; i < 10; i++) {
-            timestamps.add(new Timestamp(calendar.getTimeInMillis() - (calendar.getTimeInMillis() % 86400000) + (i * 86400000)));
+        if(t.isEmpty()) {
+            Calendar calendar = Calendar.getInstance();
+            for(int i = 0; i < 10; i++) {
+                t.add(new Timestamp(calendar.getTimeInMillis() - (calendar.getTimeInMillis() % 86400000) + (i * 86400000)));
+            }
+            timestamps = t;
+        }
+        else {
+            timestamps = t;
         }
         //convert timestamps to specific date format
         dateString = new ArrayList<>();
@@ -92,6 +97,29 @@ public class GraphicAlternate extends JComponent {
     public void paint(Graphics g) {
         int run = 0; //for testing
 
+        pointerX = textSpace;
+        pointerY = 0;
+        
+        //print reservation blocks
+        for (int y = 0; y < numberOfRows; y++) {
+            for (int x = 0; x < numberOfCollumns; x++) {
+                if (bookings.get(y).isBooked(timestamps.get(x))) {
+                    if (bookings.get(y).isMaintenance()) {
+                        g.setColor(Color.yellow);
+                    } else {
+                        g.setColor(Color.blue);
+                    }
+                    g.fillRect(pointerX, pointerY + 5, collumnWidth, rowHeight);
+                    movePointerX();
+                    movePointerY();
+                }
+                run++; //for testing
+            }
+            run++; //for testing
+        }
+        pointerY = 0;
+        pointerX = 0;
+        
         //print y-axis text
         for (int y = 0; y < numberOfRows; y++) {
             g.setColor(Color.black);
@@ -117,25 +145,5 @@ public class GraphicAlternate extends JComponent {
                 textpointer += textHeight;
             }
         }
-
-        //print reservation blocks
-        for (int y = 0; y < numberOfRows; y++) {
-            for (int x = 0; x < numberOfCollumns; x++) {
-                if (bookings.get(y).isBooked(timestamps.get(x))) {
-                    if (bookings.get(y).isMaintenance()) {
-                        g.setColor(Color.yellow);
-                    } else {
-                        g.setColor(Color.blue);
-                    }
-                    g.fillRect(pointerX, pointerY, collumnWidth, rowHeight);
-                    movePointerX();
-                    movePointerY();
-                }
-                run++; //for testing
-            }
-            run++; //for testing
-        }
-        pointerX = 0;
-        pointerY = 0;
     }
 }
