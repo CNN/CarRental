@@ -19,7 +19,6 @@ public final class CarRental {
         if(instance == null) instance = this;
         appendLog("Initializing...");
         model = new Model();
-        model.getBookings();
         view = View.getInstance(this);
     }
     
@@ -94,8 +93,8 @@ public final class CarRental {
     public Reservation requestReservation(int id) {
         return model.getReservation(id);
     }
-    public void requestBookings() {
-        view.setCurrentBookings(model.getBookings());
+    public ArrayList<Booking> requestBookings() {
+        return model.getBookings();
     }
     
     public void saveVehicle(Vehicle v) {

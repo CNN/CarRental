@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.*;
+import java.util.Calendar;
 
 /**
  * This is the main panel regarding vehicles.
@@ -22,9 +23,10 @@ public class VehiclePanel extends SuperPanel {
     private VehicleType vehicleTypeToView; //specific vehicle, used to view details
     private ArrayList<Vehicle> vehicleList;
     private ArrayList<VehicleType> vehicleTypes;
+    private ArrayList<Booking> bookings;
     public VehiclePanel() {
         vehicleTypeInstance = new VehicleTypePanel(); //Used to get the addType-panel from the VehicleTypeClass - to avoid some code duplication
-        RemakeAll();
+        //remakeAll(); //Now called from View
         //Sets the different subpanels (defined as inner classes below). Also adds them to this object with JPanel.add().
         AssignAndAddSubPanels(mainScreenPanel, createPanel, viewVehiclePanel, addTypePanel, listPanel);
         this.setPreferredSize(new Dimension(800,600));
@@ -57,11 +59,26 @@ public class VehiclePanel extends SuperPanel {
     public void setVehicleTypes(ArrayList<VehicleType> array){
         vehicleTypes = array;
     }
+    public void setBookings(ArrayList<Booking> array) {
+        bookings = array;
+    }
       
 
     @Override
     public void makeMainScreenPanel() { //TODO Claus skriv her.. Du kan teste ved at klikke shift+f6 :)
+        mainScreenPanel = new JPanel();
         
+        //find idags dato og generer timestamps:
+        ArrayList<Timestamp> times = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        for(int i = 0; i < 10; i++) {
+            times.add(new Timestamp(calendar.getTimeInMillis() + (i * 3600)));
+        }
+        
+        JComponent graph = new GraphicAlternate(bookings,times);
+        graph.setPreferredSize(new Dimension(800,600));
+        mainScreenPanel.add(graph);
+        System.out.println(graph.toString());
         
         
         
@@ -74,8 +91,6 @@ public class VehiclePanel extends SuperPanel {
                 
                 
                 
-        
-        
 //        mainScreenPanel = new JPanel();
 //        JButton createButton, addTypeButton, listButton, viewVehicleButton;
 //        JPanel centerPanel, buttonFlowPanel, buttonGridPanel;

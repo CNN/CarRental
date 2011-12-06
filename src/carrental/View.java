@@ -61,7 +61,7 @@ public class View {
         assert current_reservations != null: "View->Controller Request Reservations Failed";
         setCurrentReservation(controller.requestReservation());
         assert current_reservation != null: "View->Controller Request Reservation Failed";
-        controller.requestBookings();
+        setCurrentBookings(controller.requestBookings());
         assert current_bookings != null: "View->Controller Request Bookings Failed";
         
         main = new MainPanel();
@@ -283,6 +283,9 @@ public class View {
             center_super.add(center_north, BorderLayout.NORTH);
             this.add(west, BorderLayout.WEST);
             this.add(center_super, BorderLayout.CENTER);
+            updateVehiclePanel();
+            vehiclePanel.remakeAll();
+            
         }
         
         public void selectVehicle() {
@@ -321,11 +324,12 @@ public class View {
             frame.pack();
         }
         
-        public void updateVehiclePanel() {
+        public final void updateVehiclePanel() {
             vehiclePanel.setVehicleList(current_vehicles);
             vehiclePanel.setVehicleTypes(current_vehicle_types);
             vehiclePanel.setVehicleToView(current_vehicle);
             vehiclePanel.setVehicleTypeToView(current_vehicle_type);
+            vehiclePanel.setBookings(current_bookings);
         }
     }
 }

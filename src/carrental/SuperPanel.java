@@ -81,7 +81,7 @@ public abstract class SuperPanel extends JPanel {
         onlyVisible(panels.get(list));
     }
     
-    public void RemakeAll(){
+    public void remakeAll(){
         makeMainScreenPanel();
         makeCreatePanel();
         makeViewEntityPanel();
