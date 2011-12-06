@@ -5,7 +5,6 @@ import java.awt.event.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.border.*;
 import java.util.Calendar;
 
 /**
@@ -24,7 +23,10 @@ public class VehiclePanel extends SuperPanel {
     private ArrayList<Vehicle> vehicleList;
     private ArrayList<VehicleType> vehicleTypes;
     private ArrayList<Booking> bookings;
+    private View view;
+    
     public VehiclePanel() {
+        view = View.getInstance();
         vehicleTypeInstance = new VehicleTypePanel(); //Used to get the addType-panel from the VehicleTypeClass - to avoid some code duplication
         //remakeAll(); //Now called from View
         //Sets the different subpanels (defined as inner classes below). Also adds them to this object with JPanel.add().
@@ -49,6 +51,7 @@ public class VehiclePanel extends SuperPanel {
     
     public void setVehicleToView (Vehicle vehicle){
         vehicleToView = vehicle;
+        //Remake the relevant modules.
     }
     public void setVehicleTypeToView (VehicleType vehicle){
         vehicleTypeToView = vehicle;
@@ -79,17 +82,7 @@ public class VehiclePanel extends SuperPanel {
         graph.setPreferredSize(new Dimension(800,600));
         mainScreenPanel.add(graph);
         System.out.println(graph.toString());
-        
-        
-        
-        
-        
-        
-                
-                
-                
-                
-                
+
                 
 //        mainScreenPanel = new JPanel();
 //        JButton createButton, addTypeButton, listButton, viewVehicleButton;
