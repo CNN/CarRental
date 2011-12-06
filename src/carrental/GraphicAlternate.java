@@ -16,18 +16,24 @@ import java.text.SimpleDateFormat; //To be used
  * @version 2011-12-06
  */
 public class GraphicAlternate extends JComponent {
-
-    private int width, height, collumnWidth, rowHeight, numberOfCollumns, numberOfRows, pointerX, pointerY, textSpace, textHeight;
+    private int width = 800, height = 600,
+            collumnWidth, rowHeight = 20,
+            numberOfCollumns, numberOfRows,
+            pointerX, pointerY,
+            textSpace = 50, textHeight = 15;
     private ArrayList<Booking> bookings;
     private ArrayList<Timestamp> timestamps;
-    private ArrayList<Date> dates;
+    private ArrayList<String> dateString;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    
     public GraphicAlternate() {
         timestamps = new ArrayList<>();
         bookings = new ArrayList<>();
 
+        //generate timestamps that are at a certain point EACH day.
         Calendar calendar = Calendar.getInstance();
         for(int i = 0; i < 10; i++) {
-            timestamps.add(new Timestamp(calendar.getTimeInMillis() + (i * 3600)));
+            timestamps.add(new Timestamp(calendar.getTimeInMillis() - (calendar.getTimeInMillis() % 86400000) + (i * 86400000)));
         }
         
         updateDatesArray();
@@ -49,7 +55,6 @@ public class GraphicAlternate extends JComponent {
         setNumberOfCollumns();
         setNumberOfRows();
         setCollumnWidth();
-        setRowHeight();
 
         repaint();
     }
@@ -57,31 +62,6 @@ public class GraphicAlternate extends JComponent {
     public void setBookings(ArrayList<Booking> b) {
         bookings = b;
         repaint();
-    }
-
-    public static void main(String[] args) {
-        ArrayList bs = new ArrayList();
-        for (int x = 0; x < 20; x++) {
-            bs.add(new Reservation(x, x * 1000 + 1, new Timestamp(x * 2 + 1), new Timestamp(x * 5 - 10), x + 2));
-        }
-
-        ArrayList ts = new ArrayList();
-        for (int x = 0; x < 12; x++) {
-            ts.add(new Timestamp(x * 10));
-        }
-
-        JFrame frame = new JFrame();
-        frame.setPreferredSize(new Dimension(800, 600));
-        frame.add(new GraphicAlternate());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.setSize(800, 600);
-    }
-
-    //Type converter
-    private Date toDate(Timestamp timestamp) { //I know it isn't used yet
-        long milliseconds = timestamp.getTime();
-        return new Date(milliseconds);
     }
 
     /**
@@ -94,10 +74,9 @@ public class GraphicAlternate extends JComponent {
     }
 
     private void updateDatesArray() {
-        dates = null;
-        dates = new ArrayList();
+        dateString = new ArrayList<>();
         for (Timestamp timestamp : timestamps) {
-            dates.add(toDate(timestamp));
+            dateString.add(dateFormat.format(timestamp));
         }
     }
 
@@ -112,11 +91,6 @@ public class GraphicAlternate extends JComponent {
 
     private void setCollumnWidth() {
         collumnWidth = width / numberOfCollumns;
-    }
-
-    private void setRowHeight() {
-        if(numberOfRows > 0) rowHeight = height / numberOfRows;
-        else rowHeight = height;
     }
 
     private void movePointerY() {
@@ -135,17 +109,6 @@ public class GraphicAlternate extends JComponent {
         }
     }
 
-    private void setTextSpace() {
-        //for(Booking booking : bookings){
-        //if(textSpace < "".length()) 
-        textSpace = "Volvo 740 ".length(); //TODO fix
-        //}
-    }
-
-    private void setTextHeight() {
-        textHeight = 10; //TODO Fix this too
-    }
-
     public void paint(Graphics g) {
         int run = 0; //for testing
 
@@ -155,16 +118,14 @@ public class GraphicAlternate extends JComponent {
             g.drawString("Vehicle ", 0, pointerY);
             movePointerY();
         }
-
-        setTextSpace();
-        setTextHeight();
+        
         pointerX = textSpace;
         int textpointer = height - textHeight;
 
         //print x-axis text
         for (int x = 0; x < numberOfCollumns; x++) {
             g.setColor(Color.black);
-            g.drawString(dates.get(x).toString(), pointerX, textpointer);
+            g.drawString(dateString.get(x).toString(), pointerX, textpointer);
             movePointerX();
             if (textpointer == height - textHeight) { //TODO Fix so this doesn't expand height
                 textpointer -= textHeight;
