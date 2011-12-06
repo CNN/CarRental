@@ -51,15 +51,22 @@ public class DbCom {
      */
     public ArrayList<ArrayList<String>> getMatches(String query) {
         ArrayList<ArrayList<String>> results = new ArrayList<>();
+        ArrayList<String> record;
         try {
             if(newStatement().execute(query)) {
                ResultSet rs = stm.getResultSet();
                int columns = rs.getMetaData().getColumnCount();
+               String table = rs.getMetaData().getTableName(1);
                
                while(rs.next()) {
-                   ArrayList<String> record = new ArrayList<>();
+                   record = new ArrayList<>();
                    
                    for(int i = 0; i < columns; i++) {
+                       if(!table.equals(rs.getMetaData().getTableName(i + 1))) {
+                           table = rs.getMetaData().getTableName(i + 1);
+                           results.add(record);
+                           record = new ArrayList<>();
+                       }
                        record.add(rs.getString(i + 1));
                    }
                    results.add(record);

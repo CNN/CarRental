@@ -16,15 +16,19 @@ public class Maintenance implements Booking {
     private boolean isMaintenance;
     
     public Maintenance(int id, int vehicle_id, Timestamp date_start, Timestamp date_end, int type_id) {
-        if(date_end.after(date_start)) {
+        if(date_end != null && date_start != null && date_end.after(date_start)) {
             this.date_start = date_start;
             this.date_end = date_end;
-            this.type_id = type_id;
-            this.id = id;
-            this.vehicle_id = vehicle_id;
-            isMaintenance = true;
         }
-        else CarRental.getInstance().appendLog("Dates supplied for Maintenance #"+id+" in constuctor not valid. End date must be AFTER start date.");
+        else {
+            CarRental.getInstance().appendLog("Dates supplied for Maintenance #"+id+" in constuctor not valid. End date must be AFTER start date.");
+            date_start = new Timestamp(0);
+            date_end = new Timestamp(0);
+        }
+        this.type_id = type_id;
+        this.id = id;
+        this.vehicle_id = vehicle_id;
+        isMaintenance = true;
     }
     
     public boolean isBooked(Timestamp timestamp){

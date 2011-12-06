@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.*;
+import java.util.Calendar;
 
 /**
  * This is the main panel regarding vehicles.
@@ -22,9 +23,10 @@ public class VehiclePanel extends SuperPanel {
     private VehicleType vehicleTypeToView; //specific vehicle, used to view details
     private ArrayList<Vehicle> vehicleList;
     private ArrayList<VehicleType> vehicleTypes;
+    private ArrayList<Booking> bookings;
     public VehiclePanel() {
         vehicleTypeInstance = new VehicleTypePanel(); //Used to get the addType-panel from the VehicleTypeClass - to avoid some code duplication
-        RemakeAll();
+        //remakeAll(); //Now called from View
         //Sets the different subpanels (defined as inner classes below). Also adds them to this object with JPanel.add().
         AssignAndAddSubPanels(mainScreenPanel, createPanel, viewVehiclePanel, addTypePanel, listPanel);
         this.setPreferredSize(new Dimension(800,600));
@@ -57,81 +59,109 @@ public class VehiclePanel extends SuperPanel {
     public void setVehicleTypes(ArrayList<VehicleType> array){
         vehicleTypes = array;
     }
+    public void setBookings(ArrayList<Booking> array) {
+        bookings = array;
+    }
       
 
     @Override
-    public void makeMainScreenPanel() {
+    public void makeMainScreenPanel() { //TODO Claus skriv her.. Du kan teste ved at klikke shift+f6 :)
         mainScreenPanel = new JPanel();
-        JButton createButton, addTypeButton, listButton, viewVehicleButton;
-        JPanel centerPanel, buttonFlowPanel, buttonGridPanel;
-        TitledBorder titleBorder;
-        //Panel settings
-        mainScreenPanel.setLayout(new BorderLayout());
-        titleBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Vehicles (Overview)");
-        mainScreenPanel.setBorder(titleBorder);
-
-        centerPanel = new JPanel();
-        mainScreenPanel.add(centerPanel, BorderLayout.CENTER);
-        //Button panel with a gridlayout for vertical alignment.
-        buttonGridPanel = new JPanel();
-        buttonGridPanel.setLayout(new BoxLayout(buttonGridPanel, BoxLayout.PAGE_AXIS));
-        //extra buttonpanel with a default flowlayout, to shrink the button to minimum size,
-        buttonFlowPanel = new JPanel();
-        buttonFlowPanel.add(buttonGridPanel);
-        centerPanel.add(buttonFlowPanel);
-        //Colors
-        mainScreenPanel.setBackground(new Color(216, 216, 208));
-        centerPanel.setBackground(new Color(239, 240, 236));
-        //Create-button
-        createButton = new JButton("Create a new vehicle");
-        createButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showCreatePanel();
-            }
-        });
-
-        buttonGridPanel.add(createButton);
-        //Create some blank space between the buttons:
-        buttonGridPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        //addType-Button
-        addTypeButton = new JButton("Add a new vehicle type");
-        addTypeButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showAddTypePanel();
-            }
-        });
-        buttonGridPanel.add(addTypeButton);
-        //Create some blank space between the buttons:
-        buttonGridPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        //View vehicle-Button
-        viewVehicleButton = new JButton("View a vehicle");
-        viewVehicleButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showViewEntityPanel();
-            }
-        });
-        buttonGridPanel.add(viewVehicleButton);
-        //Create some blank space between the buttons:
-        buttonGridPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        //Show list-Button
-        listButton = new JButton("Show a list of vehicles");
-        listButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showListPanel();
-            }
-        });
-        buttonGridPanel.add(listButton);
+        
+        //find idags dato og generer timestamps:
+        ArrayList<Timestamp> times = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        for(int i = 0; i < 10; i++) {
+            times.add(new Timestamp(calendar.getTimeInMillis() + (i * 3600)));
+        }
+        
+        JComponent graph = new GraphicAlternate(bookings,times);
+        graph.setPreferredSize(new Dimension(800,600));
+        mainScreenPanel.add(graph);
+        System.out.println(graph.toString());
+        
+        
+        
+        
+        
+        
+                
+                
+                
+                
+                
+                
+//        mainScreenPanel = new JPanel();
+//        JButton createButton, addTypeButton, listButton, viewVehicleButton;
+//        JPanel centerPanel, buttonFlowPanel, buttonGridPanel;
+//        TitledBorder titleBorder;
+//        //Panel settings
+//        mainScreenPanel.setLayout(new BorderLayout());
+//        titleBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Vehicles (Overview)");
+//        mainScreenPanel.setBorder(titleBorder);
+//
+//        centerPanel = new JPanel();
+//        mainScreenPanel.add(centerPanel, BorderLayout.CENTER);
+//        //Button panel with a gridlayout for vertical alignment.
+//        buttonGridPanel = new JPanel();
+//        buttonGridPanel.setLayout(new BoxLayout(buttonGridPanel, BoxLayout.PAGE_AXIS));
+//        //extra buttonpanel with a default flowlayout, to shrink the button to minimum size,
+//        buttonFlowPanel = new JPanel();
+//        buttonFlowPanel.add(buttonGridPanel);
+//        centerPanel.add(buttonFlowPanel);
+//        //Colors
+//        mainScreenPanel.setBackground(new Color(216, 216, 208));
+//        centerPanel.setBackground(new Color(239, 240, 236));
+//        //Create-button
+//        createButton = new JButton("Create a new vehicle");
+//        createButton.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                showCreatePanel();
+//            }
+//        });
+//
+//        buttonGridPanel.add(createButton);
+//        //Create some blank space between the buttons:
+//        buttonGridPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+//
+//        //addType-Button
+//        addTypeButton = new JButton("Add a new vehicle type");
+//        addTypeButton.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                showAddTypePanel();
+//            }
+//        });
+//        buttonGridPanel.add(addTypeButton);
+//        //Create some blank space between the buttons:
+//        buttonGridPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+//
+//        //View vehicle-Button
+//        viewVehicleButton = new JButton("View a vehicle");
+//        viewVehicleButton.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                showViewEntityPanel();
+//            }
+//        });
+//        buttonGridPanel.add(viewVehicleButton);
+//        //Create some blank space between the buttons:
+//        buttonGridPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+//
+//        //Show list-Button
+//        listButton = new JButton("Show a list of vehicles");
+//        listButton.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                showListPanel();
+//            }
+//        });
+//        buttonGridPanel.add(listButton);
     }
 
     @Override
@@ -564,12 +594,13 @@ public class VehiclePanel extends SuperPanel {
         listPanel.setBackground(new Color(216, 216, 208));
 
         //Testing Table setup
-        Object[] ColumnNames = {"Type", "Name", "LicensePlate", "VIN", "Distance driven"}; //, "Distance to service"
+        Object[] columnNames = {"Type", "Name", "LicensePlate", "VIN", "Distance driven"}; //, "Distance to service"
         ArrayList<ArrayList<String>> vehicleData = new ArrayList<ArrayList<String>>();
-        ArrayList<String> rowData = new ArrayList<>();
+        ArrayList<String> rowData;
         //getting the data in the arrayList - this might be unnecessary in final implementation depending on how this class receives the simple type objects.
         Vehicle testVehicle = new Vehicle(100, 3, "Citröen Berlingo", "HJX-47362", "943843hfjhdf", 40, "This is additional");
         for (int i = 0; i < 30; i++) {
+            rowData = new ArrayList<String>();
             rowData.add("" + testVehicle.getVehicleType());
             rowData.add(testVehicle.getDescription());
             rowData.add(testVehicle.getLicensplate());
@@ -577,18 +608,18 @@ public class VehiclePanel extends SuperPanel {
             rowData.add("" + testVehicle.getOdo());
             // distance to service rowData.add("7.290");
             vehicleData.add(rowData);
-            //reservation.get(i).size() should be equal to columnNames.length here.
+            assert vehicleData.get(i).size()== columnNames.length;
         }
         ArrayList<String> test1 = new ArrayList<>();
         //Converting to Object[][] for the JTable
-        Object[][] tableData = new Object[vehicleData.size()][ColumnNames.length];
+        Object[][] tableData = new Object[vehicleData.size()][columnNames.length];
         for (int i = 0; i < vehicleData.size(); i++) { //  'i' represents a row
-            for (int j = 0; j < ColumnNames.length; j++) { //'j' represents a certain cell on row 'i'
+            for (int j = 0; j < columnNames.length; j++) { //'j' represents a certain cell on row 'i'
                 tableData[i][j] = vehicleData.get(i).get(j); //out of bounds cannot happen because of the conditions in the for loops.
             }
         }
         //Creating the table
-        vehicleTable = new JTable(tableData, ColumnNames);
+        vehicleTable = new JTable(tableData, columnNames);
         //adding it to it's own scrollpane
         scrollPane = new JScrollPane(vehicleTable);
         //Setting the default size for the scrollpane
