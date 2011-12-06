@@ -24,6 +24,7 @@ public class Model {
     
     /**
      * Get an empty vehicle
+     * This method is being used to create an empty vehicle for the initial VehiclePanel view
      * @return Vehicle
      */
     public Vehicle getVehicle() {
@@ -73,6 +74,7 @@ public class Model {
     
     /**
      * Get an empty vehicle type
+     * This method is being used to create an empty vehicle for the initial VehicleTypePanel view
      * @return Vehicle
      */
     public VehicleType getVehicleType() {
@@ -129,6 +131,7 @@ public class Model {
     
     /**
      * Get an empty customer.
+     * This method is being used to create an empty vehicle for the initial CustomerPanel view
      * @return Customer
      */
     public Customer getCustomer() {
@@ -186,6 +189,7 @@ public class Model {
     
     /**
      * Get an empty reservation
+     * This method is being used to create an empty vehicle for the initial ReservationPanel view
      * @return Reservation
      */
     public Reservation getReservation() {
@@ -258,6 +262,7 @@ public class Model {
     
     /**
      * Get an empty MaintenanceType
+     * This method is being used to create an empty vehicle for the initial ReservationTypePanel view
      * @return MaintenanceType
      */
     public MaintenanceType getMaintenanceType() {
@@ -325,6 +330,7 @@ public class Model {
     
     /**
      * Get an empry maintenance
+     * This method is being used to create an empty vehicle for the initial MaintenancePanel view
      * @return Maintenance
      */
     public Maintenance getMaintenance() {

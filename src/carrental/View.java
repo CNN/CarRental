@@ -15,7 +15,7 @@ public class View {
     private static View view;
     private CarRental controller;
     private JFrame frame;
-    private final String title = "CarRental DeLuxe";
+    private final String title = "CarRental Project";
     private MainPanel main;
     private ArrayList<Vehicle> current_vehicles;
     private Vehicle current_vehicle;
@@ -69,6 +69,7 @@ public class View {
         
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
+        frame.setResizable(false);
         frame.setVisible(true);
         
         controller.appendLog("View created.");

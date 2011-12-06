@@ -41,6 +41,7 @@ public class VehiclePanel extends SuperPanel {
     }
 
     //Temporary Main
+    //TODO: Remove
     public static void main(String[] args) {
         JFrame frame = new JFrame("VehicleFrame");
         frame.setPreferredSize(new Dimension(800, 600));
