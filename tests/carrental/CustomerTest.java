@@ -4,42 +4,19 @@
  */
 package carrental;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author Niclas
+ *                                      NIELS :) !! Kan du lige fixe sådan at postalcode tingen virker :) Ved ikke om man opretter customer med \n eller hvad?
+ * @author CNN
  */
 public class CustomerTest {
-    
+
+    private Customer customer; //Should these be static? maybe it doesn't matter??
+
     public CustomerTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    /**
-     * Test of updateObject method, of class Customer.
-     */
-    @Test
-    public void testUpdateObject() {
-        System.out.println("updateObject");
-        int telephone = 0;
-        String name = "";
-        String adress = "";
-        String eMail = "";
-        Customer instance = null;
-        instance.updateObject(telephone, name, adress, eMail);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        customer = new Customer(1, 24736456, "Poul Poulsen", "Enghavevej 13, 7420 Viborg", "p.poulsen@gmail.com");
     }
 
     /**
@@ -47,13 +24,10 @@ public class CustomerTest {
      */
     @Test
     public void testGetID() {
-        System.out.println("getID");
-        Customer instance = null;
-        int expResult = 0;
-        int result = instance.getID();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(1, customer.getID());
+        //also testing updating of this, to ensure it's not just 1 always. The other getters are tested this way through testUpdateObject()
+        customer = new Customer(4, 24736456, "Poul Poulsen", "Enghavevej 13"+"\n"+"7420 Viborg", "p.poulsen@gmail.com");
+        assertEquals(4, customer.getID());
     }
 
     /**
@@ -61,13 +35,7 @@ public class CustomerTest {
      */
     @Test
     public void testGetTelephone() {
-        System.out.println("getTelephone");
-        Customer instance = null;
-        int expResult = 0;
-        int result = instance.getTelephone();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(24736456, customer.getTelephone());
     }
 
     /**
@@ -75,13 +43,7 @@ public class CustomerTest {
      */
     @Test
     public void testGetName() {
-        System.out.println("getName");
-        Customer instance = null;
-        String expResult = "";
-        String result = instance.getName();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals("Poul Poulsen", customer.getName());
     }
 
     /**
@@ -89,27 +51,15 @@ public class CustomerTest {
      */
     @Test
     public void testGetAdress() {
-        System.out.println("getAdress");
-        Customer instance = null;
-        String expResult = "";
-        String result = instance.getAdress();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals("Enghavevej 13, 7420 Viborg", customer.getAdress());
     }
-
+    
     /**
      * Test of getPostalCode method, of class Customer.
      */
     @Test
     public void testGetPostalCode() {
-        System.out.println("getPostalCode");
-        Customer instance = null;
-        int expResult = 0;
-        int result = instance.getPostalCode();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(7420, customer.getPostalCode());
     }
 
     /**
@@ -117,12 +67,20 @@ public class CustomerTest {
      */
     @Test
     public void testGetEMail() {
-        System.out.println("getEMail");
-        Customer instance = null;
-        String expResult = "";
-        String result = instance.getEMail();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals("p.poulsen@gmail.com", customer.getEMail());
+    }
+    
+    /**
+     * Test of updateObject method, of class Customer.
+     */
+    @Test
+    public void testUpdateObject() {
+        customer.updateObject(24736400, "Poul Erik Poulsen", "Enghavevej 15 \n 7500 Viborg", "p.e.poulsen@gmail.com");
+        //test that the customer's fields equals the new values.
+        assertEquals(24736400, customer.getTelephone());
+        assertEquals("Poul Erik Poulsen", customer.getName());
+        assertEquals("Enghavevej 15 7420 Viborg", customer.getAdress());
+        assertEquals(7500, customer.getPostalCode());
+        assertEquals("p.e.poulsen@gmail.com", customer.getEMail());
     }
 }
