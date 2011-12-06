@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.text.SimpleDateFormat; //To be used
 
 /**
@@ -24,10 +25,14 @@ public class GraphicAlternate extends JComponent {
     private ArrayList<Timestamp> timestamps;
     private ArrayList<Date> dates;
 
-    public GraphicAlternate(ArrayList<Booking> bookings, ArrayList<Timestamp> timestamps) {
+    public GraphicAlternate() {
+
+        Calendar calendar = Calendar.getInstance();
+        for(int i = 0; i < 10; i++) {
+            timestamps.add(new Timestamp(calendar.getTimeInMillis() + (i * 3600)));
+        }
+        
         canvas = new Canvas();
-        this.bookings = bookings;
-        this.timestamps = timestamps;
         updateDatesArray();
 
         canvas.addMouseListener(new MouseAdapter() { //TODO This does not work:
@@ -52,6 +57,11 @@ public class GraphicAlternate extends JComponent {
         canvas.setPreferredSize(new Dimension(width, height));
         canvas.repaint();
     }
+    
+    public void setBookings(ArrayList<Booking> b) {
+        bookings = b;
+        repaint();
+    }
 
     public static void main(String[] args) {
         ArrayList bs = new ArrayList();
@@ -66,7 +76,7 @@ public class GraphicAlternate extends JComponent {
 
         JFrame frame = new JFrame();
         frame.setPreferredSize(new Dimension(800, 600));
-        frame.add(new GraphicAlternate(bs, ts));
+        frame.add(new GraphicAlternate());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setSize(800, 600);
