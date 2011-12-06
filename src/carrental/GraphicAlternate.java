@@ -19,18 +19,16 @@ import java.text.SimpleDateFormat; //To be used
 public class GraphicAlternate extends JComponent {
 
     private int width, height, collumnWidth, rowHeight, numberOfCollumns, numberOfRows, pointerX, pointerY, textSpace, textHeight;
-    private Canvas canvas;
     private ArrayList<Booking> bookings;
     private ArrayList<Timestamp> timestamps;
     private ArrayList<Date> dates;
 
     public GraphicAlternate(ArrayList<Booking> bookings, ArrayList<Timestamp> timestamps) {
-        canvas = new Canvas();
         this.bookings = bookings;
         this.timestamps = timestamps;
         updateDatesArray();
 
-        canvas.addMouseListener(new MouseAdapter() { //TODO This does not work:
+        addMouseListener(new MouseAdapter() { //TODO This does not work:
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX();
                 int y = e.getY();
@@ -49,8 +47,7 @@ public class GraphicAlternate extends JComponent {
         setCollumnWidth();
         setRowHeight();
 
-        canvas.setPreferredSize(new Dimension(width, height));
-        canvas.repaint();
+        repaint();
     }
 
     public static void main(String[] args) {
@@ -79,7 +76,7 @@ public class GraphicAlternate extends JComponent {
     }
 
     /**
-     * Method is ran when mouse is clicked on canvas
+     * Method is ran when mouse is clicked on component
      * @param x 
      * @param y 
      */
