@@ -5,100 +5,17 @@
 package carrental;
 
 import java.sql.Timestamp;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author Niclas
+ * @author CNN                                Include test for if the start date is after the end date?
  */
 public class MaintenanceTest {
-    
+    private Maintenance maintenance;
     public MaintenanceTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    /**
-     * Test of isBooked method, of class Maintenance.
-     */
-    @Test
-    public void testIsBooked() {
-        System.out.println("isBooked");
-        Timestamp timestamp = null;
-        Maintenance instance = null;
-        boolean expResult = false;
-        boolean result = instance.isBooked(timestamp);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of isMaintenance method, of class Maintenance.
-     */
-    @Test
-    public void testIsMaintenance() {
-        System.out.println("isMaintenance");
-        Maintenance instance = null;
-        boolean expResult = false;
-        boolean result = instance.isMaintenance();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of updateObject method, of class Maintenance.
-     */
-    @Test
-    public void testUpdateObject() {
-        System.out.println("updateObject");
-        int id = 0;
-        int vehicle_id = 0;
-        Timestamp date_start = null;
-        Timestamp date_end = null;
-        int type_id = 0;
-        Maintenance instance = null;
-        instance.updateObject(id, vehicle_id, date_start, date_end, type_id);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getTEnd method, of class Maintenance.
-     */
-    @Test
-    public void testGetTEnd() {
-        System.out.println("getTEnd");
-        Maintenance instance = null;
-        Timestamp expResult = null;
-        Timestamp result = instance.getTEnd();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getTStart method, of class Maintenance.
-     */
-    @Test
-    public void testGetTStart() {
-        System.out.println("getTStart");
-        Maintenance instance = null;
-        Timestamp expResult = null;
-        Timestamp result = instance.getTStart();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+      maintenance = new Maintenance(1, 2, new Timestamp(22), new Timestamp(23), 3);
     }
 
     /**
@@ -106,27 +23,34 @@ public class MaintenanceTest {
      */
     @Test
     public void testGetID() {
-        System.out.println("getID");
-        Maintenance instance = null;
-        int expResult = 0;
-        int result = instance.getID();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(1, maintenance.getID());
+        //also testing updating of this, to ensure it's not just 1 always. The other getters are tested this way through testUpdateObject()
+        maintenance = new Maintenance(4, 2, new Timestamp(22), new Timestamp(23), 3);
+        assertEquals(4, maintenance.getID());
     }
-
+    
     /**
      * Test of getVehicleID method, of class Maintenance.
      */
     @Test
     public void testGetVehicleID() {
-        System.out.println("getVehicleID");
-        Maintenance instance = null;
-        int expResult = 0;
-        int result = instance.getVehicleID();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(2, maintenance.getVehicleID());
+    }
+    
+    /**
+     * Test of getTStart method, of class Maintenance.
+     */
+    @Test
+    public void testGetTStart() {
+        assertEquals(22, maintenance.getTStart().getTime());
+    }
+
+    /**
+     * Test of getTEnd method, of class Maintenance.
+     */
+    @Test
+    public void testGetTEnd() {
+        assertEquals(23, maintenance.getTEnd().getTime());
     }
 
     /**
@@ -134,12 +58,19 @@ public class MaintenanceTest {
      */
     @Test
     public void testGetTypeID() {
-        System.out.println("getTypeID");
-        Maintenance instance = null;
-        int expResult = 0;
-        int result = instance.getTypeID();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(3, maintenance.getTypeID());
+    }
+
+    /**
+     * Test of updateObject method, of class Maintenance.
+     */
+    @Test
+    public void testUpdateObject() {
+        maintenance.updateObject(3, new Timestamp(32), new Timestamp(33), 4);
+        //test that the maintenance's fields equals the new values.
+        assertEquals(3, maintenance.getVehicleID());
+        assertEquals(32, maintenance.getTStart().getTime());
+        assertEquals(33, maintenance.getTEnd().getTime());
+        assertEquals(4, maintenance.getTypeID());
     }
 }
