@@ -10,13 +10,11 @@ import java.util.Calendar;
 import java.text.SimpleDateFormat; //To be used
 
 /**
- * @(#)GraphicAlternate.java
- *
- *
- * @author
- * @version 1.00 2011/12/4
+ * GraphicAlternate displays an overview of vehicles and their respective
+ * reservations and maintenances.
+ * @author CNN
+ * @version 2011-12-06
  */
-
 public class GraphicAlternate extends JComponent {
 
     private int width, height, collumnWidth, rowHeight, numberOfCollumns, numberOfRows, pointerX, pointerY, textSpace, textHeight;
