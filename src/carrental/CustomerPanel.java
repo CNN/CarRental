@@ -360,14 +360,13 @@ public class CustomerPanel extends SuperPanel {
     }
 
     public class ListPanel extends JPanel {
+        JTextField filterAdressTextField, filterPhoneTextField, filterNameTextField, filterIDTextField;
 
         public ListPanel() {
             //Fields
             JPanel centerPanel, customerListPanel, filterPanel, topFilterPanel, bottomFilterPanel, buttonPanel;
             JScrollPane scrollPane;
             JTable customerTable;
-            JLabel customerIDLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel;
-            JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField;
             JButton cancelButton, filterButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
@@ -424,7 +423,6 @@ public class CustomerPanel extends SuperPanel {
 
             //FilterPanel
             JLabel filterAdressLabel, filterPhoneLabel, filterNameLabel, filterIDLabel;
-            JTextField filterAdressTextField, filterPhoneTextField, filterNameTextField, filterIDTextField;
 
             filterPanel = new JPanel();
             filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.PAGE_AXIS));
@@ -504,6 +502,18 @@ public class CustomerPanel extends SuperPanel {
                 }
             });
             buttonPanel.add(filterButton);
+        }
+        
+        public void updateListPanel(){
+            setFilterTextFields();
+            //TODO Somehow update list
+        }
+        
+        public void setFilterTextFields(){
+            filterAdressTextField.setText("");
+            filterPhoneTextField.setText("");
+            filterNameTextField.setText("");
+            filterIDTextField.setText("");
         }
     }
 }
