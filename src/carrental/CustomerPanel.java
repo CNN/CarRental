@@ -62,6 +62,22 @@ public class CustomerPanel extends SuperPanel {
         this.customers = customers;
     }
 
+    /**
+     * Updates entire panel
+     */
+    public void updateCustomerPanel() {
+        customers = CarRental.getInstance().requestCustomers();
+        if (customers.get(0) != null) {
+            customerToView = customers.get(0);
+        } else {
+            customerToView = CarRental.getInstance().requestCustomer();
+        }
+
+        CreatePanel.updateCreatePanel();
+        ViewEntityPanel.updateViewEntityPanel();
+        ListPanel.updateListPanel();
+    }
+
     public class MainScreenPanel extends JPanel {
 
         public MainScreenPanel() {
@@ -198,20 +214,6 @@ public class CustomerPanel extends SuperPanel {
             buttonPanel.add(createButton);
         }
 
-        /**
-         * Updates entire panel
-         */
-        public void updateCustomerPanel() {
-            customers = CarRental.getInstance().requestCustomers();
-            if (customers.get(0) != null) {
-                customerToView = customers.get(0);
-            } else {
-                customerToView = CarRental.getInstance().requestCustomer();
-            }
-            
-            updateCreatePanel();
-        }
-
         public void updateCreatePanel() {
             customerIDTextField.setText(" Automaticly generated");
             customerPhoneTextField.setText("");
@@ -224,12 +226,12 @@ public class CustomerPanel extends SuperPanel {
     public class ViewEntityPanel extends JPanel {
 
         String customerID, customerName, customerPhone, customerAdress, customerEMail;
+        JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
 
         public ViewEntityPanel() {
             //Fields
             JPanel centerPanel, idPanel, namePanel, phonePanel, adressPanel, eMailPanel, buttonPanel;
             JLabel customerIDLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel, customerEMailLabel;
-            JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
             JButton cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
@@ -250,7 +252,7 @@ public class CustomerPanel extends SuperPanel {
 
             //ID
             customerIDLabel = new JLabel("Customer ID");
-            customerIDTextField = new JTextField(" " + customerID, defaultJTextFieldColumns);
+            customerIDTextField = new JTextField(defaultJTextFieldColumns);
             customerIDTextField.setEditable(false);
             customerIDTextField.setBackground(Color.WHITE);
             idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -262,7 +264,7 @@ public class CustomerPanel extends SuperPanel {
 
             //Name
             customerNameLabel = new JLabel("Name");
-            customerNameTextField = new JTextField(" " + customerName, defaultJTextFieldColumns);
+            customerNameTextField = new JTextField(defaultJTextFieldColumns);
             customerNameTextField.setEditable(false);
             customerNameTextField.setBackground(Color.WHITE);
             namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -275,7 +277,7 @@ public class CustomerPanel extends SuperPanel {
 
             //Phone
             customerPhoneLabel = new JLabel("Phone number");
-            customerPhoneTextField = new JTextField(" " + customerPhone, defaultJTextFieldColumns);
+            customerPhoneTextField = new JTextField(defaultJTextFieldColumns);
             customerPhoneTextField.setEditable(false);
             customerPhoneTextField.setBackground(Color.WHITE);
             phonePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -289,7 +291,7 @@ public class CustomerPanel extends SuperPanel {
             //TODO Split adress
             //Adress
             customerAdressLabel = new JLabel("Adress");
-            customerAdressTextField = new JTextField(" " + customerAdress, defaultJTextFieldColumns);
+            customerAdressTextField = new JTextField(defaultJTextFieldColumns);
             customerAdressTextField.setEditable(false);
             customerAdressTextField.setBackground(Color.WHITE);
             adressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -302,7 +304,7 @@ public class CustomerPanel extends SuperPanel {
 
             //EMail
             customerEMailLabel = new JLabel("EMail");
-            customerEMailTextField = new JTextField(" " + customerEMail, defaultJTextFieldColumns);
+            customerEMailTextField = new JTextField(defaultJTextFieldColumns);
             customerEMailTextField.setEditable(false);
             customerEMailTextField.setBackground(Color.WHITE);
             eMailPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -328,7 +330,7 @@ public class CustomerPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //TODO NICLASONLY Set text() for all fields aka blank
+                    updateViewEntityPanel();
                     showMainScreenPanel();
                 }
             });
@@ -342,6 +344,15 @@ public class CustomerPanel extends SuperPanel {
             customerPhone = "" + customer.getTelephone();
             customerAdress = customer.getAdress();
             customerEMail = customer.getEMail();
+        }
+
+        public void updateViewEntityPanel() {
+            setCustomerTextFields(customerToView);
+            customerIDTextField.setText(" " + customerID);
+            customerNameTextField.setText(" " + customerName);
+            customerPhoneTextField.setText(" " + customerPhone);
+            customerAdressTextField.setText(" " + customerAdress);
+            customerEMailTextField.setText(" " + customerEMail);
         }
     }
 
