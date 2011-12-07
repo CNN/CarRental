@@ -30,9 +30,12 @@ public class CustomerPanel extends SuperPanel {
 
         //Removes the default gaps between components
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        mainScreenPanel.add(viewEntityPanel, BorderLayout.CENTER);
-        mainScreenPanel.add(listPanel, BorderLayout.CENTER);
-        showMainScreenPanel();
+        
+        //For testing: Choose your panel
+        //showCreatePanel();
+        //showMainScreenPanel();
+        //showViewEntityPanel();
+        showListPanel();
     }
 
     //Temporary Main
@@ -65,10 +68,6 @@ public class CustomerPanel extends SuperPanel {
         mainScreenPanel.setLayout(new BorderLayout());
         titleBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Customers");
         mainScreenPanel.setBorder(titleBorder);
-        
-        //test
-        mainScreenPanel.add(viewEntityPanel, BorderLayout.CENTER);
-        mainScreenPanel.add(listPanel, BorderLayout.CENTER);
     }
 
     @Override
@@ -417,7 +416,5 @@ public class CustomerPanel extends SuperPanel {
             }
         });
         buttonPanel.add(filterButton);
-
-
     }
 }
