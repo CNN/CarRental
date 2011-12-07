@@ -30,6 +30,8 @@ public class CustomerPanel extends SuperPanel {
 
         //Removes the default gaps between components
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        mainScreenPanel.add(viewEntityPanel, BorderLayout.CENTER);
+        mainScreenPanel.add(listPanel, BorderLayout.CENTER);
         showMainScreenPanel();
     }
 
@@ -64,6 +66,7 @@ public class CustomerPanel extends SuperPanel {
         titleBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Customers");
         mainScreenPanel.setBorder(titleBorder);
         
+        //test
         mainScreenPanel.add(viewEntityPanel, BorderLayout.CENTER);
         mainScreenPanel.add(listPanel, BorderLayout.CENTER);
     }
@@ -311,7 +314,7 @@ public class CustomerPanel extends SuperPanel {
             rowData.add("" + testCustomer.getTelephone());
             rowData.add(testCustomer.getName());
             rowData.add(testCustomer.getAdress());
-            rowData.add(testCustomer.getEMail());
+            //rowData.add(testCustomer.getEMail()); //makes assert error on build
             customerData.add(rowData);
             assert customerData.get(i).size()== columnNames.length;
         }
