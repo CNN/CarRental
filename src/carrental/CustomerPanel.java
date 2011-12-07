@@ -272,66 +272,71 @@ public class CustomerPanel extends SuperPanel {
 
     @Override
     public void makeListPanel() {
-        listPanel = new JPanel();
-        JPanel centerPanel, vehicleListPanel, filterPanel, topFilterPanel, middleFilterPanel, bottomFilterPanel, buttonPanel;
+        //Fields
+        JPanel centerPanel, customerListPanel, filterPanel, topFilterPanel, bottomFilterPanel, buttonPanel;
         JScrollPane scrollPane;
-        JTable vehicleTable;
-        JLabel vehicleTypeLabel, nameLabel, licensePlateLabel, vinLabel, drivenLabel, serviceDistanceLabel; // make "additional" search filter too?
-        JComboBox vehicleTypeCombo;
-        JTextField nameField, licensePlateField, vinField, drivenField, serviceDistanceField;
+        JTable customerTable;
+        JLabel customerIDLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel;
+        JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField;
         JButton cancelButton, filterButton;
         final int defaultJTextFieldColumns = 20, strutDistance = 0;
-        final String[] temporaryTypes = {"Station Car", "Truck", "Optimus Prime"};
 
-
-        //Panel settings
+        //listPanel
+        listPanel = new JPanel();
         listPanel.setLayout(new BorderLayout());
-        listPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "List of vehicles"));
-        //CenterPanel
+        listPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "List of customers"));
+        
+        //centerPanel
         centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
         centerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 40));
         listPanel.add(centerPanel, BorderLayout.CENTER);
-        //VehicleListPanel.
-        vehicleListPanel = new JPanel();
+        
+        //customerListPanel.
+        customerListPanel = new JPanel();
+        
         //Colors
         listPanel.setBackground(new Color(216, 216, 208));
 
         //Testing Table setup
-        Object[] columnNames = {"Type", "Name", "LicensePlate", "VIN", "Distance driven"}; //, "Distance to service"
-        ArrayList<ArrayList<String>> vehicleData = new ArrayList<ArrayList<String>>();
+        Object[] columnNames = {"ID", "Name", "Phone", "Adress"};
+        ArrayList<ArrayList<String>> customerData = new ArrayList<>();
         ArrayList<String> rowData;
+        //TODO Add adress needs splitting
         //getting the data in the arrayList - this might be unnecessary in final implementation depending on how this class receives the simple type objects.
-        Vehicle testVehicle = new Vehicle(100, 3, "Citröen Berlingo", "HJX-47362", "943843hfjhdf", 40, "This is additional");
+        Customer testCustomer = new Customer(100, 123456789, "Hans Hansen", "Jylland", "email");
         for (int i = 0; i < 30; i++) {
-            rowData = new ArrayList<String>();
-            rowData.add("" + testVehicle.getVehicleType());
-            rowData.add(testVehicle.getDescription());
-            rowData.add(testVehicle.getLicensePlate());
-            rowData.add("" + testVehicle.getVin());
-            rowData.add("" + testVehicle.getOdo());
-            // distance to service rowData.add("7.290");
-            vehicleData.add(rowData);
-            assert vehicleData.get(i).size()== columnNames.length;
+            rowData = new ArrayList<>();
+            rowData.add("" + testCustomer.getID());
+            rowData.add("" + testCustomer.getTelephone());
+            rowData.add(testCustomer.getName());
+            rowData.add(testCustomer.getAdress());
+            rowData.add(testCustomer.getEMail());
+            customerData.add(rowData);
+            assert customerData.get(i).size()== columnNames.length;
         }
-        ArrayList<String> test1 = new ArrayList<>();
+        
         //Converting to Object[][] for the JTable
-        Object[][] tableData = new Object[vehicleData.size()][columnNames.length];
-        for (int i = 0; i < vehicleData.size(); i++) { //  'i' represents a row
+        Object[][] tableData = new Object[customerData.size()][columnNames.length];
+        for (int i = 0; i < customerData.size(); i++) { //  'i' represents a row
             for (int j = 0; j < columnNames.length; j++) { //'j' represents a certain cell on row 'i'
-                tableData[i][j] = vehicleData.get(i).get(j); //out of bounds cannot happen because of the conditions in the for loops.
+                tableData[i][j] = customerData.get(i).get(j); //out of bounds cannot happen because of the conditions in the for loops.
             }
         }
+        
         //Creating the table
-        vehicleTable = new JTable(tableData, columnNames);
+        customerTable = new JTable(tableData, columnNames);
         //adding it to it's own scrollpane
-        scrollPane = new JScrollPane(vehicleTable);
+        scrollPane = new JScrollPane(customerTable);
         //Setting the default size for the scrollpane
-        vehicleTable.setPreferredScrollableViewportSize(new Dimension(680, 200));
-        vehicleListPanel.add(scrollPane);
-        centerPanel.add(vehicleListPanel);
+        customerTable.setPreferredScrollableViewportSize(new Dimension(680, 200));
+        customerListPanel.add(scrollPane);
+        centerPanel.add(customerListPanel);
 
         //FilterPanel
+        JLabel filterAdressLabel, filterPhoneLabel, filterNameLabel, filterIDLabel;
+        JTextField filterAdressTextField, filterPhoneTextField, filterNameTextField, filterIDTextField;
+        
         filterPanel = new JPanel();
         filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.PAGE_AXIS));
         filterPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2), "Filters"));
@@ -341,66 +346,43 @@ public class CustomerPanel extends SuperPanel {
         topFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         filterPanel.add(topFilterPanel);
 
-        //Vehicle Type
-        vehicleTypeLabel = new JLabel("Vehicle Type");
-        vehicleTypeCombo = new JComboBox(temporaryTypes);
-
-        topFilterPanel.add(vehicleTypeLabel);
-        topFilterPanel.add(Box.createHorizontalStrut(16 + strutDistance));
-        topFilterPanel.add(vehicleTypeCombo);
-        topFilterPanel.add(Box.createHorizontalStrut(105));
-
-        //Name
-        nameLabel = new JLabel("Name");
-        nameField = new JTextField(defaultJTextFieldColumns);
+        //ID
+        filterIDLabel = new JLabel("ID");
+        filterIDTextField = new JTextField(defaultJTextFieldColumns);
 
         topFilterPanel.add(Box.createHorizontalStrut(5));
-        topFilterPanel.add(nameLabel);
+        topFilterPanel.add(filterIDLabel);
         topFilterPanel.add(Box.createHorizontalStrut(77 + strutDistance));
-        topFilterPanel.add(nameField);
+        topFilterPanel.add(filterIDTextField);
+        
+        //Name
+        filterNameLabel = new JLabel("Name");
+        filterNameTextField = new JTextField(defaultJTextFieldColumns);
 
-        //Middle Filter panel
-        middleFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        filterPanel.add(middleFilterPanel);
-
-        //LicensePlate
-        licensePlateLabel = new JLabel("License Plate");
-        licensePlateField = new JTextField(defaultJTextFieldColumns);
-
-        middleFilterPanel.add(licensePlateLabel);
-        middleFilterPanel.add(Box.createHorizontalStrut(11 + strutDistance));
-        middleFilterPanel.add(licensePlateField);
-
-
-        //VIN
-        vinLabel = new JLabel("VIN");
-        vinField = new JTextField(defaultJTextFieldColumns);
-
-        middleFilterPanel.add(Box.createHorizontalStrut(5));
-        middleFilterPanel.add(vinLabel);
-        middleFilterPanel.add(Box.createHorizontalStrut(90 + strutDistance));
-        middleFilterPanel.add(vinField);
+        topFilterPanel.add(Box.createHorizontalStrut(5));
+        topFilterPanel.add(filterNameLabel);
+        topFilterPanel.add(Box.createHorizontalStrut(77 + strutDistance));
+        topFilterPanel.add(filterNameTextField);
 
         //Bottom Filter panel
         bottomFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         filterPanel.add(bottomFilterPanel);
 
-        //Driven
-        drivenLabel = new JLabel("Distance driven");
-        drivenField = new JTextField(defaultJTextFieldColumns);
+        //Phone
+        filterPhoneLabel = new JLabel("Phone number");
+        filterPhoneTextField = new JTextField(defaultJTextFieldColumns);
 
-        bottomFilterPanel.add(drivenLabel);
+        bottomFilterPanel.add(filterPhoneLabel);
         bottomFilterPanel.add(Box.createHorizontalStrut(strutDistance));
-        bottomFilterPanel.add(drivenField);
+        bottomFilterPanel.add(filterPhoneTextField);
+        
+        //Adress
+        filterAdressLabel = new JLabel("Adress");
+        filterAdressTextField = new JTextField(defaultJTextFieldColumns);
 
-        //Distance untill next servicecheck. 
-//        serviceDistanceLabel = new JLabel("Distance to service");
-//        serviceDistanceField = new JTextField(defaultJTextFieldColumns);
-//
-//        bottomFilterPanel.add(Box.createHorizontalStrut(5));
-//        bottomFilterPanel.add(serviceDistanceLabel);
-//        bottomFilterPanel.add(Box.createHorizontalStrut(strutDistance));
-//        bottomFilterPanel.add(serviceDistanceField);
+        bottomFilterPanel.add(filterAdressLabel);
+        bottomFilterPanel.add(Box.createHorizontalStrut(strutDistance));
+        bottomFilterPanel.add(filterAdressTextField);
 
         //ButtonPanels
         buttonPanel = new JPanel();
