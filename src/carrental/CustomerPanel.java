@@ -71,16 +71,18 @@ public class CustomerPanel extends SuperPanel {
             setLayout(new BorderLayout());
             titleBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Customers");
             setBorder(titleBorder);
+            add(new ViewEntityPanel());
+            add(new ListPanel());
         }
     }
 
     public class CreatePanel extends JPanel {
+        JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
 
         public CreatePanel() {
             //Fields
             JPanel centerPanel, idPanel, namePanel, phonePanel, adressPanel, eMailPanel, buttonPanel;
             JLabel customerIDLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel, customerEMailLabel;
-            JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
             JButton createButton, cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
@@ -181,7 +183,13 @@ public class CustomerPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //TODO Save customer to db and set customerIDLabel
+                    CarRental.getInstance().saveCustomer(new Customer(
+                            customers.size() + 1,
+                            Integer.parseInt(customerPhoneTextField.getText()),
+                            customerNameTextField.getText(),
+                            customerAdressTextField.getText(),
+                            customerEMailTextField.getText()
+                            ));
                 }
             });
             buttonPanel.add(createButton);
