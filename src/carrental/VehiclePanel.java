@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.swing.*;
 import java.util.Calendar;
+import javax.swing.border.TitledBorder;
 
 /**
  * This is the main panel regarding vehicles.
@@ -17,23 +18,23 @@ public class VehiclePanel extends SuperPanel {
 
     private JPanel mainScreenPanel, createPanel, viewVehiclePanel, addTypePanel, listPanel;
     private JScrollPane centerScrollPane_View;
-    private VehicleTypePanel vehicleTypeInstance;
     private Vehicle vehicleToView; //specific vehicle, used to view details
     private VehicleType vehicleTypeToView; //specific vehicle, used to view details
     private ArrayList<Vehicle> vehicleList;
     private ArrayList<VehicleType> vehicleTypes;
     private ArrayList<Booking> bookings;
-
-    private View view;
+    private VehicleTypePanel vehicleTypeInstance; //Used to get the addType-panel from the createPanel of the VehicleTypePanel class - to avoid some code duplication
     private GraphicAlternate graph;
-    
+
     public VehiclePanel() {
-        view = View.getInstance();
-        vehicleTypeInstance = new VehicleTypePanel(); //Used to get the addType-panel from the VehicleTypeClass - to avoid some code duplication
+        vehicleList = CarRental.getInstance().requestVehicles();
+        vehicleTypes = CarRental.getInstance().requestVehicleTypes();
+        bookings = CarRental.getInstance().requestBookings();
+        vehicleTypeInstance = new VehicleTypePanel();
         remakeAll(); //Now called from View
-        //Sets the different subpanels (defined as inner classes below). Also adds them to this object with JPanel.add().
+        //Sets the different subpanels. Also adds them to this object with JPanel.add().
         AssignAndAddSubPanels(mainScreenPanel, createPanel, viewVehiclePanel, addTypePanel, listPanel);
-        this.setPreferredSize(new Dimension(800,600));
+        this.setPreferredSize(new Dimension(800, 600));
 
         //Removes the default gaps between components
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
@@ -51,36 +52,39 @@ public class VehiclePanel extends SuperPanel {
         frame.pack();
         frame.setVisible(true);
     }
-    
-    public void setVehicleToView (Vehicle vehicle){
+
+    public void setVehicleToView(Vehicle vehicle) {
         vehicleToView = vehicle;
         //Remake the relevant modules.
     }
-    public void setVehicleTypeToView (VehicleType vehicle){
+
+    public void setVehicleTypeToView(VehicleType vehicle) {
         vehicleTypeToView = vehicle;
     }
-    public void setVehicleList(ArrayList<Vehicle> array){
+
+    public void setVehicleList(ArrayList<Vehicle> array) {
         vehicleList = array;
     }
-    public void setVehicleTypes(ArrayList<VehicleType> array){
+
+    public void setVehicleTypes(ArrayList<VehicleType> array) {
         vehicleTypes = array;
     }
+
     public void setBookings(ArrayList<Booking> array) {
         bookings = array;
         graph.setBookings(array);
     }
-      
 
     @Override
     public void makeMainScreenPanel() { //TODO Claus skriv her.. Du kan teste ved at klikke shift+f6 :)
         mainScreenPanel = new JPanel();
-        
+
         graph = new GraphicAlternate();
-        graph.setPreferredSize(new Dimension(800,600));
+        graph.setPreferredSize(new Dimension(800, 600));
         mainScreenPanel.add(graph);
         System.out.println(graph.toString());
 
-                
+
 //        mainScreenPanel = new JPanel();
 //        JButton createButton, addTypeButton, listButton, viewVehicleButton;
 //        JPanel centerPanel, buttonFlowPanel, buttonGridPanel;
@@ -157,15 +161,15 @@ public class VehiclePanel extends SuperPanel {
     @Override
     public void makeCreatePanel() {
         createPanel = new JPanel();
-        JPanel centerPanel, buttonPanel, vehicleTypePanel, namePanel, licensePlatePanel, vinPanel, drivenPanel, serviceDistancePanel, additionalPanel;
-        JLabel vehicleTypeLabel, nameLabel, licensePlateLabel, vinLabel, drivenLabel, serviceDistanceLabel, additionalLabel;
-        JComboBox vehicleTypeCombo;
-        JTextField nameField, licensePlateField, vinField, drivenField, serviceDistanceField;
-        JTextArea additionalArea;
+        JPanel centerPanel, buttonPanel, vehicleTypePanel, descriptionPanel, licensePlatePanel, vinPanel, drivenPanel, serviceDistancePanel, additionalPanel;
+        JLabel vehicleTypeLabel, descriptionLabel, licensePlateLabel, vinLabel, drivenLabel, serviceDistanceLabel, additionalLabel;
+        final JComboBox vehicleTypeCombo;
+        final JTextField descriptionField, licensePlateField, vinField, drivenField, serviceDistanceField;
+        final JTextArea additionalArea;
         JScrollPane centerScrollPane;
         JButton createButton, cancelButton;
-        final String[] temporaryTypes = {"Station Car", "Truck", "Optimus Prime"};
         final int defaultJTextFieldColumns = 20, strutDistance = 0;
+        String[] vehicleTypeArray;
 
         //Panel settings
         createPanel.setLayout(new BorderLayout());
@@ -186,7 +190,13 @@ public class VehiclePanel extends SuperPanel {
 
         //Vehicle Type
         vehicleTypeLabel = new JLabel("Vehicle Type");
-        vehicleTypeCombo = new JComboBox(temporaryTypes);
+        //Putting the description of vehicle types in an array to use in the JComboBox constructor
+        vehicleTypeArray = new String[vehicleTypes.size()];
+        for (int i = 0; i < vehicleTypes.size(); i++) {
+            vehicleTypeArray[i] = vehicleTypes.get(i).getName();
+        }
+        vehicleTypeCombo = new JComboBox(vehicleTypeArray);
+
         vehicleTypePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         vehicleTypePanel.add(Box.createHorizontalStrut(5));
@@ -196,15 +206,15 @@ public class VehiclePanel extends SuperPanel {
         centerPanel.add(vehicleTypePanel);
 
         //Name
-        nameLabel = new JLabel("Name");
-        nameField = new JTextField(defaultJTextFieldColumns);
-        namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        descriptionLabel = new JLabel("Description");
+        descriptionField = new JTextField(defaultJTextFieldColumns);
+        descriptionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        namePanel.add(Box.createHorizontalStrut(5));
-        namePanel.add(nameLabel);
-        namePanel.add(Box.createHorizontalStrut(87 + strutDistance));
-        namePanel.add(nameField);
-        centerPanel.add(namePanel);
+        descriptionPanel.add(Box.createHorizontalStrut(5));
+        descriptionPanel.add(descriptionLabel);
+        descriptionPanel.add(Box.createHorizontalStrut(55 + strutDistance));
+        descriptionPanel.add(descriptionField);
+        centerPanel.add(descriptionPanel);
 
 
         //LicensePlate
@@ -276,7 +286,12 @@ public class VehiclePanel extends SuperPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO NICLASONLY Set text() for all fields aka blank
+                //Sets all text fields blank
+                descriptionField.setText(null);
+                licensePlateField.setText(null);
+                vinField.setText(null);
+                drivenField.setText(null);
+                additionalArea.setText(null);
                 showMainScreenPanel();
             }
         });
@@ -289,7 +304,18 @@ public class VehiclePanel extends SuperPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO NICLASONLY make the database update here
+                if (descriptionField.getText().trim().length() > 0
+                        && licensePlateField.getText().trim().length() > 0
+                        && vinField.getText().trim().length() > 0
+                        && drivenField.getText().trim().length() > 0) {
+                    //Currently does not check if VIN number is in use already etc.
+                    Vehicle newVehicle = new Vehicle(vehicleList.size() + 1, vehicleTypes.get(vehicleTypeCombo.getSelectedIndex()).getID(),
+                            descriptionField.getText().trim(), licensePlateField.getText().trim(),
+                            vinField.getText().trim(), Integer.parseInt(drivenField.getText().trim()), additionalArea.getText().trim());
+                    CarRental.getInstance().saveVehicle(newVehicle);
+                    CarRental.getInstance().appendLog("Vehicle \"" + descriptionField.getText() + "\" added to the database");
+                    vehicleList.add(newVehicle);
+                }
             }
         });
         buttonPanel.add(createButton);
@@ -298,14 +324,14 @@ public class VehiclePanel extends SuperPanel {
     @Override
     public void makeViewEntityPanel() {
         viewVehiclePanel = new JPanel();
-        JPanel centerPanel, reservationPanel, buttonPanel, vehicleTypePanel, namePanel, licensePlatePanel, vinPanel, drivenPanel, serviceDistancePanel, additionalPanel;
-        JLabel vehicleTypeLabel, nameLabel, licensePlateLabel, vinLabel, drivenLabel, serviceDistanceLabel, additionalLabel;
-        JTextField vehicleTypeField, nameField, licensePlateField, vinField, drivenField, serviceDistanceField;
+        JPanel centerPanel, reservationPanel, buttonPanel, vehicleTypePanel, descriptionPanel, licensePlatePanel, vinPanel, drivenPanel, additionalPanel;
+        JLabel vehicleTypeLabel, descriptionLabel, licensePlateLabel, vinLabel, drivenLabel, additionalLabel;
+        JTextField vehicleTypeField, descriptionField, licensePlateField, vinField, drivenField;
         JTextArea additionalArea;
         JButton backButton;
         final int defaultJTextFieldColumns = 20, strutDistance = 0;
         //some temporary strings for testing the GUI
-        String vehicleTypeString, nameString, licensePlateString, vinString, drivenString, serviceDistanceString, additionalString;
+        String vehicleTypeString, descriptionString, licensePlateString, vinString, drivenString, additionalString;
 
 
         //Panel settings
@@ -339,18 +365,18 @@ public class VehiclePanel extends SuperPanel {
         centerPanel.add(vehicleTypePanel);
 
         //Name
-        nameLabel = new JLabel("Name");
-        nameString = "Citröen C5";
-        nameField = new JTextField(nameString, defaultJTextFieldColumns);
-        nameField.setEditable(false);
-        nameField.setBackground(Color.WHITE);
-        namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        descriptionLabel = new JLabel("Description");
+        descriptionString = "Citröen C5";
+        descriptionField = new JTextField(descriptionString, defaultJTextFieldColumns);
+        descriptionField.setEditable(false);
+        descriptionField.setBackground(Color.WHITE);
+        descriptionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        namePanel.add(Box.createHorizontalStrut(5));
-        namePanel.add(nameLabel);
-        namePanel.add(Box.createHorizontalStrut(87 + strutDistance));
-        namePanel.add(nameField);
-        centerPanel.add(namePanel);
+        descriptionPanel.add(Box.createHorizontalStrut(5));
+        descriptionPanel.add(descriptionLabel);
+        descriptionPanel.add(Box.createHorizontalStrut(55 + strutDistance));
+        descriptionPanel.add(descriptionField);
+        centerPanel.add(descriptionPanel);
 
 
         //LicensePlate
@@ -394,20 +420,6 @@ public class VehiclePanel extends SuperPanel {
         drivenPanel.add(Box.createHorizontalStrut(32 + strutDistance));
         drivenPanel.add(drivenField);
         centerPanel.add(drivenPanel);
-
-        //Distance untill next servicecheck. 
-//        serviceDistanceLabel = new JLabel("Distance to service");
-//        serviceDistanceString = "5.500 miles";
-//        serviceDistanceField = new JTextField(serviceDistanceString, defaultJTextFieldColumns);
-//        serviceDistanceField.setEditable(false);
-//        serviceDistanceField.setBackground(Color.WHITE);
-//        serviceDistancePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-//
-//        serviceDistancePanel.add(Box.createHorizontalStrut(5));
-//        serviceDistancePanel.add(serviceDistanceLabel);
-//        serviceDistancePanel.add(Box.createHorizontalStrut(11 + strutDistance));
-//        serviceDistancePanel.add(serviceDistanceField);
-//        centerPanel.add(serviceDistancePanel);
 
         //Additional Comment
         additionalLabel = new JLabel("Additional comments");
@@ -459,13 +471,13 @@ public class VehiclePanel extends SuperPanel {
         Customer testCustomer = new Customer(130, 75834920, "Jens Jensen", "Johnsgade 30 \n 2630 \n Taastrup", "poul@gmail.com");
         Reservation testReservation = new Reservation(100, 3, Timestamp.valueOf("1991-12-24 13:37:00"), Timestamp.valueOf("1991-12-31 13:37:00"), 2);
         for (int i = 0; i < 10; i++) {
-            rowData = new ArrayList<String>();
+            rowData = new ArrayList<>();
             rowData.add(testCustomer.getName());
             rowData.add("" + testCustomer.getTelephone());
             rowData.add("" + testReservation.getTStart());
             rowData.add("" + testReservation.getTEnd());
             reservationData.add(rowData);
-            assert reservationData.get(i).size()==columnNames.length;
+            assert reservationData.get(i).size() == columnNames.length;
         }
 
         //Converting to Object[][] for the JTable
@@ -508,7 +520,7 @@ public class VehiclePanel extends SuperPanel {
     public void makeAddTypePanel() { //TODO Try to fix code duplication
         //The functionality here is pretty much implemented in VehicleType's createPanel()-method. I'm using the centerpanel from there, but I'm writing the 
         //buttons + border etc. again, as I can't figure out how to reuse it all (Cancel has a new function here) 
-        JPanel buttonPanel, centralpanel;
+        JPanel buttonPanel, vehicleTypePanel;
         JScrollPane scrollPane;
         JButton cancelButton, createButton;
         addTypePanel = new JPanel();
@@ -518,10 +530,10 @@ public class VehiclePanel extends SuperPanel {
         //Colors
         addTypePanel.setBackground(new Color(216, 216, 208));
         //Get the centerPanel used to create a VehicleType from VehicleTypePanel.
-        centralpanel = vehicleTypeInstance.getCenterJPanel_create();
-        centralpanel.setVisible(true);
-        scrollPane = new JScrollPane(centralpanel);
-        addTypePanel.add(scrollPane);
+        vehicleTypePanel = vehicleTypeInstance.getCenterJPanel_create();
+        vehicleTypePanel.setVisible(true);
+        scrollPane = new JScrollPane(vehicleTypePanel);
+        addTypePanel.add(scrollPane, BorderLayout.CENTER);
 
 
         //ButtonPanels
@@ -562,12 +574,12 @@ public class VehiclePanel extends SuperPanel {
         JPanel centerPanel, vehicleListPanel, filterPanel, topFilterPanel, middleFilterPanel, bottomFilterPanel, buttonPanel;
         JScrollPane scrollPane;
         JTable vehicleTable;
-        JLabel vehicleTypeLabel, nameLabel, licensePlateLabel, vinLabel, drivenLabel, serviceDistanceLabel; // make "additional" search filter too?
+        JLabel vehicleTypeLabel, descriptionLabel, licensePlateLabel, vinLabel, drivenLabel, serviceDistanceLabel; // make "additional" search filter too?
         JComboBox vehicleTypeCombo;
-        JTextField nameField, licensePlateField, vinField, drivenField, serviceDistanceField;
+        JTextField descriptionField, licensePlateField, vinField, drivenField, serviceDistanceField;
         JButton cancelButton, filterButton;
         final int defaultJTextFieldColumns = 20, strutDistance = 0;
-        final String[] temporaryTypes = {"Station Car", "Truck", "Optimus Prime"};
+        final String[] vehicleTypeArray;
 
 
         //Panel settings
@@ -584,7 +596,7 @@ public class VehiclePanel extends SuperPanel {
         listPanel.setBackground(new Color(216, 216, 208));
 
         //Testing Table setup
-        Object[] columnNames = {"Type", "Name", "LicensePlate", "VIN", "Distance driven"}; //, "Distance to service"
+        Object[] columnNames = {"Type", "Description", "LicensePlate", "VIN", "Distance driven"}; //, "Distance to service"
         ArrayList<ArrayList<String>> vehicleData = new ArrayList<ArrayList<String>>();
         ArrayList<String> rowData;
         //getting the data in the arrayList - this might be unnecessary in final implementation depending on how this class receives the simple type objects.
@@ -598,7 +610,7 @@ public class VehiclePanel extends SuperPanel {
             rowData.add("" + testVehicle.getOdo());
             // distance to service rowData.add("7.290");
             vehicleData.add(rowData);
-            assert vehicleData.get(i).size()== columnNames.length;
+            assert vehicleData.get(i).size() == columnNames.length;
         }
         ArrayList<String> test1 = new ArrayList<>();
         //Converting to Object[][] for the JTable
@@ -629,21 +641,27 @@ public class VehiclePanel extends SuperPanel {
 
         //Vehicle Type
         vehicleTypeLabel = new JLabel("Vehicle Type");
-        vehicleTypeCombo = new JComboBox(temporaryTypes);
+        //Putting the description of vehicle types in an array to use in the JComboBox constructor
+        vehicleTypeArray = new String[vehicleTypes.size()];
+
+        for (int i = 0; i < vehicleTypes.size(); i++) {
+            vehicleTypeArray[i] = vehicleTypes.get(i).getName();
+        }
+        vehicleTypeCombo = new JComboBox(vehicleTypeArray);
 
         topFilterPanel.add(vehicleTypeLabel);
         topFilterPanel.add(Box.createHorizontalStrut(16 + strutDistance));
         topFilterPanel.add(vehicleTypeCombo);
-        topFilterPanel.add(Box.createHorizontalStrut(105));
+        topFilterPanel.add(Box.createHorizontalStrut(91));
 
         //Name
-        nameLabel = new JLabel("Name");
-        nameField = new JTextField(defaultJTextFieldColumns);
+        descriptionLabel = new JLabel("Description");
+        descriptionField = new JTextField(defaultJTextFieldColumns);
 
         topFilterPanel.add(Box.createHorizontalStrut(5));
-        topFilterPanel.add(nameLabel);
-        topFilterPanel.add(Box.createHorizontalStrut(77 + strutDistance));
-        topFilterPanel.add(nameField);
+        topFilterPanel.add(descriptionLabel);
+        topFilterPanel.add(Box.createHorizontalStrut(45 + strutDistance));
+        topFilterPanel.add(descriptionField);
 
         //Middle Filter panel
         middleFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));

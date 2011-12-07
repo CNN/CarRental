@@ -16,7 +16,7 @@ public class VehicleTypePanel extends SuperPanel {
     private JPanel mainScreenPanel, createPanel, viewPanel, centerPanel_create;
 
     public VehicleTypePanel() {
-        //Sets the different subpanels (defined as inner classes below). Also adds them to this object with JPanel.add().
+        //Sets the different subpanels. Also adds them to this object with JPanel.add().
         remakeAll();
         AssignAndAddSubPanels(mainScreenPanel, createPanel, viewPanel, null, null);
         //Removes the default gaps between components
