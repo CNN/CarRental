@@ -15,7 +15,7 @@ import java.util.Calendar;
  */
 public class VehiclePanel_1 extends SuperPanel {
 
-    private JPanel mainScreenPanel, createPanel, viewVehiclePanel, addTypePanel, listPanel;
+    private JPanel mainScreenPanel, createPanel, viewVehiclePanel_1, addTypePanel, listPanel;
     private JScrollPane centerScrollPane_View;
     private VehicleTypePanel vehicleTypeInstance;
     private Vehicle vehicleToView; //specific vehicle, used to view details
@@ -32,7 +32,7 @@ public class VehiclePanel_1 extends SuperPanel {
         vehicleTypeInstance = new VehicleTypePanel(); //Used to get the addType-panel from the VehicleTypeClass - to avoid some code duplication
         remakeAll(); //Now called from View
         //Sets the different subpanels (defined as inner classes below). Also adds them to this object with JPanel.add().
-        AssignAndAddSubPanels(mainScreenPanel, createPanel, viewVehiclePanel, addTypePanel, listPanel);
+        AssignAndAddSubPanels(mainScreenPanel, createPanel, viewVehiclePanel_1, addTypePanel, listPanel);
         this.setPreferredSize(new Dimension(800,600));
 
         //Removes the default gaps between components
@@ -47,7 +47,7 @@ public class VehiclePanel_1 extends SuperPanel {
         frame.setPreferredSize(new Dimension(800, 600));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container contentPane = frame.getContentPane();
-        contentPane.add(new VehiclePanel());
+        contentPane.add(new VehiclePanel_1());
         frame.pack();
         frame.setVisible(true);
     }
@@ -297,7 +297,7 @@ public class VehiclePanel_1 extends SuperPanel {
 
     @Override
     public void makeViewEntityPanel() {
-        viewVehiclePanel = new JPanel();
+        viewVehiclePanel_1 = new JPanel();
         JPanel centerPanel, reservationPanel, buttonPanel, vehicleTypePanel, namePanel, licensePlatePanel, vinPanel, drivenPanel, serviceDistancePanel, additionalPanel;
         JLabel vehicleTypeLabel, nameLabel, licensePlateLabel, vinLabel, drivenLabel, serviceDistanceLabel, additionalLabel;
         JTextField vehicleTypeField, nameField, licensePlateField, vinField, drivenField, serviceDistanceField;
@@ -309,8 +309,8 @@ public class VehiclePanel_1 extends SuperPanel {
 
 
         //Panel settings
-        viewVehiclePanel.setLayout(new BorderLayout());
-        viewVehiclePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Viewing Vehicle"));
+        viewVehiclePanel_1.setLayout(new BorderLayout());
+        viewVehiclePanel_1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Viewing Vehicle"));
         //Center Panel
         centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
@@ -318,10 +318,10 @@ public class VehiclePanel_1 extends SuperPanel {
 
         //Center ScrollPane
         centerScrollPane_View = new JScrollPane(centerPanel);
-        viewVehiclePanel.add(centerScrollPane_View, BorderLayout.CENTER);
+        viewVehiclePanel_1.add(centerScrollPane_View, BorderLayout.CENTER);
 
         //Colors
-        viewVehiclePanel.setBackground(new Color(216, 216, 208));
+        viewVehiclePanel_1.setBackground(new Color(216, 216, 208));
         centerPanel.setBackground(new Color(239, 240, 236));
 
         //Vehicle Type
@@ -485,7 +485,7 @@ public class VehiclePanel_1 extends SuperPanel {
 
         //ButtonPanels
         buttonPanel = new JPanel();
-        viewVehiclePanel.add(buttonPanel, BorderLayout.SOUTH);
+        viewVehiclePanel_1.add(buttonPanel, BorderLayout.SOUTH);
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
         buttonPanel.add(Box.createHorizontalGlue());

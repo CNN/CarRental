@@ -15,15 +15,16 @@ import java.util.Calendar;
  */
 public class CustomerPanel extends SuperPanel {
 
-    private JPanel mainPanel, customerPanel, cusomterListPanel; //main panels used in this class
+    private JPanel mainScreenPanel, createPanel, viewEntityPanel, listPanel; //main panels used in this class
+    private JPanel emptyPanel = null;
     private Customer customerToView; //specific customer, used to view details
     private ArrayList<Customer> customers; //array of costumers
     private View view = View.getInstance(); //
     
     public CustomerPanel() {
-        remakeAll(); //Now called from View
-        //Sets the different subpanels (defined as inner classes below). Also adds them to this object with JPanel.add().
-        AssignAndAddSubPanels(mainScreenPanel, createPanel, viewVehiclePanel, addTypePanel, listPanel);
+        remakeAll(); //Method also called from View
+        //Sets the different subpanels. Also adds them to this object with JPanel.add().
+        AssignAndAddSubPanels(mainScreenPanel, createPanel, viewEntityPanel, emptyPanel, listPanel);
         this.setPreferredSize(new Dimension(800,600));
 
         //Removes the default gaps between components
@@ -32,46 +33,29 @@ public class CustomerPanel extends SuperPanel {
     }
 
     //Temporary Main
-    //TODO: Remove
+    //TODO: Remove this:
     public static void main(String[] args) {
-        JFrame frame = new JFrame("VehicleFrame");
+        JFrame frame = new JFrame("CustomerPanel");
         frame.setPreferredSize(new Dimension(800, 600));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container contentPane = frame.getContentPane();
-        contentPane.add(new VehiclePanel());
+        contentPane.add(new CustomerPanel());
         frame.pack();
         frame.setVisible(true);
     }
     
-    public void setVehicleToView (Vehicle vehicle){
-        vehicleToView = vehicle;
-        //Remake the relevant modules.
+    public void setVehicleToView (Customer customer){
+        customerToView = customer;
     }
-    public void setVehicleTypeToView (VehicleType vehicle){
-        vehicleTypeToView = vehicle;
-    }
-    public void setVehicleList(ArrayList<Vehicle> array){
-        vehicleList = array;
-    }
-    public void setVehicleTypes(ArrayList<VehicleType> array){
-        vehicleTypes = array;
-    }
-    public void setBookings(ArrayList<Booking> array) {
-        bookings = array;
-        graph.setBookings(array);
-    }
-      
+    
+    public void setCustomerArray(ArrayList<Customer> customers){
+        this.customers = customers;
+    } 
 
     @Override
-    public void makeMainScreenPanel() { //TODO Claus skriv her.. Du kan teste ved at klikke shift+f6 :)
+    public void makeMainScreenPanel() { //TODO laves
         mainScreenPanel = new JPanel();
         
-        graph = new GraphicAlternate();
-        graph.setPreferredSize(new Dimension(800,600));
-        mainScreenPanel.add(graph);
-        System.out.println(graph.toString());
-
-                
 //        mainScreenPanel = new JPanel();
 //        JButton createButton, addTypeButton, listButton, viewVehicleButton;
 //        JPanel centerPanel, buttonFlowPanel, buttonGridPanel;
