@@ -154,8 +154,8 @@ public class View {
                 northVehicle = new JPanel(),
                 northMaintenance = new JPanel(),
                 maintenancePanel = new JPanel(),
-                reservationPanel = new JPanel(),
-                customerPanel = new JPanel();
+                reservationPanel = new JPanel();
+        private CustomerPanel customerPanel = new CustomerPanel();
         private VehiclePanel vehiclePanel = new VehiclePanel();
         //TODO: not yet added: reservationpanel, maintenancepanel, customerpanel
         
@@ -217,7 +217,23 @@ public class View {
             
             //build northCustomer
             JButton customerCreate = new JButton("Create");
+            customerCreate.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    customerPanel.setCustomerToView(current_customer);
+                    customerPanel.showCreatePanel();
+                }
+            });
+            
             JButton customerList = new JButton("List");
+            customerList.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    customerPanel.setCustomerList(current_customers);
+                    customerPanel.showListPanel();
+                }
+            });
+            
             northCustomer.setLayout(new FlowLayout(FlowLayout.LEFT));
             northCustomer.add(customerCreate);
             northCustomer.add(customerList);
@@ -319,6 +335,8 @@ public class View {
             center.removeAll();
             center_north.removeAll();
             frame.pack();
+            customerPanel.setCustomerList(current_customers);
+            customerPanel.showListPanel();
             center.add(customerPanel);
             center_north.add(northCustomer);
             frame.pack();
