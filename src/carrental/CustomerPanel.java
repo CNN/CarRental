@@ -100,9 +100,9 @@ public class CustomerPanel extends SuperPanel {
         customerIDTextField.setEditable(false);
         customerIDTextField.setBackground(Color.WHITE);
         idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        idPanel.add(Box.createHorizontalStrut(5));
+        idPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         idPanel.add(customerIDLabel);
-        idPanel.add(Box.createHorizontalStrut(50 + strutDistance));
+        idPanel.add(Box.createRigidArea(new Dimension(50 + strutDistance, 0)));
         idPanel.add(customerIDTextField);
         centerPanel.add(idPanel);
         
@@ -111,9 +111,9 @@ public class CustomerPanel extends SuperPanel {
         customerNameTextField = new JTextField(defaultJTextFieldColumns);
         namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        namePanel.add(Box.createHorizontalStrut(5));
+        namePanel.add(Box.createRigidArea(new Dimension(5, 0)));
         namePanel.add(customerNameLabel);
-        namePanel.add(Box.createHorizontalStrut(87 + strutDistance));
+        namePanel.add(Box.createRigidArea(new Dimension(87 + strutDistance, 0)));
         namePanel.add(customerNameTextField);
         centerPanel.add(namePanel);
 
@@ -122,9 +122,9 @@ public class CustomerPanel extends SuperPanel {
         customerPhoneTextField = new JTextField(defaultJTextFieldColumns);
         phonePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        phonePanel.add(Box.createHorizontalStrut(5));
+        phonePanel.add(Box.createRigidArea(new Dimension(5, 0)));
         phonePanel.add(customerPhoneLabel);
-        phonePanel.add(Box.createHorizontalStrut(37 + strutDistance));
+        phonePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
         phonePanel.add(customerPhoneTextField);
         centerPanel.add(phonePanel);
 
@@ -134,9 +134,9 @@ public class CustomerPanel extends SuperPanel {
         customerAdressTextField = new JTextField(defaultJTextFieldColumns);
         adressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        adressPanel.add(Box.createHorizontalStrut(5));
+        adressPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         adressPanel.add(customerAdressLabel);
-        adressPanel.add(Box.createHorizontalStrut(79 + strutDistance));
+        adressPanel.add(Box.createRigidArea(new Dimension(79 + strutDistance, 0)));
         adressPanel.add(customerAdressTextField);
         centerPanel.add(adressPanel);
 
@@ -158,7 +158,7 @@ public class CustomerPanel extends SuperPanel {
             }
         });
         buttonPanel.add(cancelButton);
-        buttonPanel.add(Box.createHorizontalStrut(5));
+        buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 
         //create-button
         createButton = new JButton("Create");
@@ -204,9 +204,9 @@ public class CustomerPanel extends SuperPanel {
         customerIDTextField.setEditable(false);
         customerIDTextField.setBackground(Color.WHITE);
         idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        idPanel.add(Box.createHorizontalStrut(5));
+        idPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         idPanel.add(customerIDLabel);
-        idPanel.add(Box.createHorizontalStrut(50 + strutDistance));
+        idPanel.add(Box.createRigidArea(new Dimension(50 + strutDistance, 0)));
         idPanel.add(customerIDTextField);
         centerPanel.add(idPanel);
         
@@ -218,9 +218,9 @@ public class CustomerPanel extends SuperPanel {
         customerNameTextField.setBackground(Color.WHITE);
         namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        namePanel.add(Box.createHorizontalStrut(5));
+        namePanel.add(Box.createRigidArea(new Dimension(5, 0)));
         namePanel.add(customerNameLabel);
-        namePanel.add(Box.createHorizontalStrut(87 + strutDistance));
+        namePanel.add(Box.createRigidArea(new Dimension(87 + strutDistance, 0)));
         namePanel.add(customerNameTextField);
         centerPanel.add(namePanel);
 
@@ -232,9 +232,9 @@ public class CustomerPanel extends SuperPanel {
         customerPhoneTextField.setBackground(Color.WHITE);
         phonePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        phonePanel.add(Box.createHorizontalStrut(5));
+        phonePanel.add(Box.createRigidArea(new Dimension(5, 0)));
         phonePanel.add(customerPhoneLabel);
-        phonePanel.add(Box.createHorizontalStrut(38 + strutDistance));
+        phonePanel.add(Box.createRigidArea(new Dimension(38 + strutDistance, 0)));
         phonePanel.add(customerPhoneTextField);
         centerPanel.add(phonePanel);
 
@@ -247,9 +247,9 @@ public class CustomerPanel extends SuperPanel {
         customerAdressTextField.setBackground(Color.WHITE);
         adressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        adressPanel.add(Box.createHorizontalStrut(5));
+        adressPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         adressPanel.add(customerAdressLabel);
-        adressPanel.add(Box.createHorizontalStrut(80 + strutDistance));
+        adressPanel.add(Box.createRigidArea(new Dimension(80 + strutDistance, 0)));
         adressPanel.add(customerAdressTextField);
         centerPanel.add(adressPanel);
         
@@ -273,7 +273,7 @@ public class CustomerPanel extends SuperPanel {
             }
         });
         buttonPanel.add(cancelButton);
-        buttonPanel.add(Box.createHorizontalStrut(5));
+        buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
     }
 
     @Override
@@ -361,18 +361,18 @@ public class CustomerPanel extends SuperPanel {
         filterIDLabel = new JLabel("ID");
         filterIDTextField = new JTextField(defaultJTextFieldColumns);
 
-        topFilterPanel.add(Box.createHorizontalStrut(0));
+        topFilterPanel.add(Box.createRigidArea(new Dimension(0, 0)));
         topFilterPanel.add(filterIDLabel);
-        topFilterPanel.add(Box.createHorizontalStrut(68 + strutDistance));
+        topFilterPanel.add(Box.createRigidArea(new Dimension(68 + strutDistance, 0)));
         topFilterPanel.add(filterIDTextField);
         
         //Name
         filterNameLabel = new JLabel("Name");
         filterNameTextField = new JTextField(defaultJTextFieldColumns);
 
-        topFilterPanel.add(Box.createHorizontalStrut(5));
+        topFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         topFilterPanel.add(filterNameLabel);
-        topFilterPanel.add(Box.createHorizontalStrut(12 + strutDistance));
+        topFilterPanel.add(Box.createRigidArea(new Dimension(12 + strutDistance, 0)));
         topFilterPanel.add(filterNameTextField);
 
         //Bottom Filter panel
@@ -384,16 +384,16 @@ public class CustomerPanel extends SuperPanel {
         filterPhoneTextField = new JTextField(defaultJTextFieldColumns);
 
         bottomFilterPanel.add(filterPhoneLabel);
-        bottomFilterPanel.add(Box.createHorizontalStrut(strutDistance));
+        bottomFilterPanel.add(Box.createRigidArea(new Dimension(strutDistance, 0)));
         bottomFilterPanel.add(filterPhoneTextField);
         
         //Adress
         filterAdressLabel = new JLabel("Adress");
         filterAdressTextField = new JTextField(defaultJTextFieldColumns);
 
-        bottomFilterPanel.add(Box.createHorizontalStrut(5));
+        bottomFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         bottomFilterPanel.add(filterAdressLabel);
-        bottomFilterPanel.add(Box.createHorizontalStrut(5 + strutDistance));
+        bottomFilterPanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
         bottomFilterPanel.add(filterAdressTextField);
 
         //ButtonPanels
@@ -414,7 +414,7 @@ public class CustomerPanel extends SuperPanel {
             }
         });
         buttonPanel.add(cancelButton);
-        buttonPanel.add(Box.createHorizontalStrut(5));
+        buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 
         //filter-button
         filterButton = new JButton("Filter");
