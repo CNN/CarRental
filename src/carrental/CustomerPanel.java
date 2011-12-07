@@ -73,9 +73,9 @@ public class CustomerPanel extends SuperPanel {
             customerToView = CarRental.getInstance().requestCustomer();
         }
 
-        CreatePanel.updateCreatePanel();
-        ViewEntityPanel.updateViewEntityPanel();
-        ListPanel.updateListPanel();
+//        CreatePanel.updateCreatePanel();
+//        ViewEntityPanel.updateViewEntityPanel();
+//        ListPanel.updateListPanel();
     }
 
     public class MainScreenPanel extends JPanel {
