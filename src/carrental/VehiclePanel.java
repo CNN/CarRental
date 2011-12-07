@@ -161,25 +161,23 @@ public class VehiclePanel extends SuperPanel {
 
     public class CreatePanel extends JPanel {
 
-        public CreatePanel() {
-            JPanel centerPanel, buttonPanel, vehicleTypePanel, descriptionPanel, licensePlatePanel, vinPanel, drivenPanel, additionalPanel;
-            JLabel vehicleTypeLabel, descriptionLabel, licensePlateLabel, vinLabel, drivenLabel, additionalLabel;
-            final JComboBox vehicleTypeCombo;
-            final JTextField descriptionField, licensePlateField, vinField, drivenField;
-            final JTextArea additionalArea;
-            JScrollPane centerScrollPane;
-            JButton createButton, cancelButton;
-            final int defaultJTextFieldColumns = 20, strutDistance = 0;
-            String[] vehicleTypeArray;
+        private JPanel centerPanel, buttonPanel, vehicleTypePanel, descriptionPanel, licensePlatePanel, vinPanel, drivenPanel, additionalPanel;
+        private JLabel vehicleTypeLabel, descriptionLabel, licensePlateLabel, vinLabel, drivenLabel, additionalLabel;
+        DefaultComboBoxModel vehicleTypeComboModel;
+        private JComboBox vehicleTypeCombo;
+        private JTextField descriptionField, licensePlateField, vinField, drivenField;
+        private JTextArea additionalArea;
+        private JScrollPane centerScrollPane;
+        private JButton createButton, cancelButton;
+        private final int defaultJTextFieldColumns = 20, strutDistance = 0;
+        private String[] vehicleTypeArray;
 
+        public CreatePanel() {
             //Panel settings
-            setLayout(
-                    new BorderLayout());
+            setLayout(new BorderLayout());
             setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Create a vehicle"));
             //Center Panel
-
             centerPanel = new JPanel();
-
             centerPanel.setLayout(
                     new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
             centerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 40));
@@ -197,15 +195,11 @@ public class VehiclePanel extends SuperPanel {
 
             //Vehicle Type
             vehicleTypeLabel = new JLabel("Vehicle Type");
-            //Putting the description of vehicle types in an array to use in the JComboBox constructor
-            vehicleTypeArray = new String[vehicleTypes.size()];
-
-            for (int i = 0;
-                    i < vehicleTypes.size();
-                    i++) {
-                vehicleTypeArray[i] = vehicleTypes.get(i).getName();
+            vehicleTypeComboModel = new DefaultComboBoxModel();
+            vehicleTypeCombo = new JComboBox(vehicleTypeComboModel);
+            for (VehicleType vehicleType : vehicleTypes){
+                vehicleTypeComboModel.addElement(vehicleType.getName());
             }
-            vehicleTypeCombo = new JComboBox(vehicleTypeArray);
             vehicleTypePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
             vehicleTypePanel.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -295,13 +289,7 @@ public class VehiclePanel extends SuperPanel {
 
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            //Sets all text fields blank
-                            vehicleTypeCombo.setSelectedIndex(0);
-                            descriptionField.setText(null);
-                            licensePlateField.setText(null);
-                            vinField.setText(null);
-                            drivenField.setText(null);
-                            additionalArea.setText(null);
+                            update();
                             showMainScreenPanel();
                         }
                     });
@@ -332,6 +320,21 @@ public class VehiclePanel extends SuperPanel {
                         }
                     });
             buttonPanel.add(createButton);
+        }
+
+        public void update() {
+            //Check for an added type for the JComboBox
+            vehicleTypeComboModel.removeAllElements();
+            for (VehicleType vehicleType : vehicleTypes){
+                vehicleTypeComboModel.addElement(vehicleType.getName());
+            }
+            //Sets all text fields blank
+                            vehicleTypeCombo.setSelectedIndex(0);
+                            descriptionField.setText(null);
+                            licensePlateField.setText(null);
+                            vinField.setText(null);
+                            drivenField.setText(null);
+                            additionalArea.setText(null);
         }
     }
 
@@ -511,6 +514,21 @@ public class VehiclePanel extends SuperPanel {
             buttonPanel.add(backButton);
 
         }
+        
+//        public void update() {
+//            //Check for an added type for the JComboBox
+//            vehicleTypeComboModel.removeAllElements();
+//            for (VehicleType vehicleType : vehicleTypes){
+//                vehicleTypeComboModel.addElement(vehicleType.getName());
+//            }
+//            //Sets all text fields blank
+//                            vehicleTypeCombo.setSelectedIndex(0);
+//                            descriptionField.setText(null);
+//                            licensePlateField.setText(null);
+//                            vinField.setText(null);
+//                            drivenField.setText(null);
+//                            additionalArea.setText(null);
+//        }
     }
 
     public class AddTypePanel extends JPanel { //TODO Try to fix code duplication
@@ -729,8 +747,20 @@ public class VehiclePanel extends SuperPanel {
                 }
             });
             buttonPanel.add(viewButton);
-
-
         }
+//        public void update() {
+//            //Check for an added type for the JComboBox
+//            vehicleTypeComboModel.removeAllElements();
+//            for (VehicleType vehicleType : vehicleTypes){
+//                vehicleTypeComboModel.addElement(vehicleType.getName());
+//            }
+//            //Sets all text fields blank
+//                            vehicleTypeCombo.setSelectedIndex(0);
+//                            descriptionField.setText(null);
+//                            licensePlateField.setText(null);
+//                            vinField.setText(null);
+//                            drivenField.setText(null);
+//                            additionalArea.setText(null);
+//        }
     }
 }
