@@ -23,9 +23,8 @@ public class CustomerPanel extends SuperPanel {
     private View view = View.getInstance(); //
     
     public CustomerPanel() {
-        remakeAll(); //Method also called from View
         //Sets the different subpanels. Also adds them to this object with JPanel.add().
-        AssignAndAddSubPanels(mainScreenPanel, createPanel, viewEntityPanel, emptyPanel, listPanel);
+        AssignAndAddSubPanels(new MainScreenPanel(), new CreatePanel(), new ViewEntityPanel(), emptyPanel, new ListPanel());
         this.setPreferredSize(new Dimension(800,600));
 
         //Removes the default gaps between components
@@ -58,8 +57,8 @@ public class CustomerPanel extends SuperPanel {
         this.customers = customers;
     } 
 
-    @Override
-    public void makeMainScreenPanel() {
+    public class MainScreenPanel extends JPanel {
+        public MainScreenPanel(){
         //Fields
         TitledBorder titleBorder;
         
@@ -69,9 +68,10 @@ public class CustomerPanel extends SuperPanel {
         titleBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Customers");
         mainScreenPanel.setBorder(titleBorder);
     }
+    }
 
-    @Override
-    public void makeCreatePanel() {
+    public class CreatePanel extends JPanel {
+        public CreatePanel(){
         //Fields
         JPanel centerPanel, idPanel, namePanel, phonePanel, adressPanel, buttonPanel;
         JLabel customerIDLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel;
@@ -171,9 +171,11 @@ public class CustomerPanel extends SuperPanel {
         });
         buttonPanel.add(createButton);
     }
+    }
 
-    @Override
-    public void makeViewEntityPanel() {
+    
+    public class ViewEntityPanel extends JPanel {
+        public ViewEntityPanel(){
         //Fields
         JPanel centerPanel, idPanel, namePanel, phonePanel, adressPanel, buttonPanel;
         JLabel customerIDLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel;
@@ -275,14 +277,16 @@ public class CustomerPanel extends SuperPanel {
         buttonPanel.add(cancelButton);
         buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
     }
+    }
 
-    @Override
+    
     public void makeAddTypePanel(){ //not used
         
     }       
 
-    @Override
-    public void makeListPanel() {
+    
+    public class ListPanel extends JPanel {
+        public ListPanel(){
         //Fields
         JPanel centerPanel, customerListPanel, filterPanel, topFilterPanel, bottomFilterPanel, buttonPanel;
         JScrollPane scrollPane;
@@ -426,5 +430,6 @@ public class CustomerPanel extends SuperPanel {
             }
         });
         buttonPanel.add(filterButton);
+    }
     }
 }
