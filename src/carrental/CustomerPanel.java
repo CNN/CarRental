@@ -16,7 +16,6 @@ import javax.swing.border.TitledBorder;
  */
 public class CustomerPanel extends SuperPanel {
 
-    private JPanel mainScreenPanel, createPanel, viewEntityPanel, listPanel; //main panels used in this class
     private JPanel emptyPanel = null;
     private Customer customerToView; //specific customer, used to view details
     private ArrayList<Customer> customers; //array of costumers
@@ -61,12 +60,10 @@ public class CustomerPanel extends SuperPanel {
         public MainScreenPanel(){
         //Fields
         TitledBorder titleBorder;
-        
-        //mainScreenPanel
-        mainScreenPanel = new JPanel();
-        mainScreenPanel.setLayout(new BorderLayout());
+                
+        setLayout(new BorderLayout());
         titleBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Customers");
-        mainScreenPanel.setBorder(titleBorder);
+        setBorder(titleBorder);
     }
     }
 
@@ -80,18 +77,17 @@ public class CustomerPanel extends SuperPanel {
         final int defaultJTextFieldColumns = 20, strutDistance = 0;
         
         //createPanel
-        createPanel = new JPanel();
-        createPanel.setLayout(new BorderLayout());
-        createPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Create a vehicle"));
+        setLayout(new BorderLayout());
+        setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Create a vehicle"));
         
         //Center Panel
         centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
         centerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 40));
-        createPanel.add(centerPanel, BorderLayout.CENTER);
+        add(centerPanel, BorderLayout.CENTER);
         
         //Colors
-        createPanel.setBackground(new Color(216, 216, 208));
+        setBackground(new Color(216, 216, 208));
         centerPanel.setBackground(new Color(239, 240, 236));
         
         //ID
@@ -142,7 +138,7 @@ public class CustomerPanel extends SuperPanel {
 
         //ButtonPanel
         buttonPanel = new JPanel();
-        createPanel.add(buttonPanel, BorderLayout.SOUTH);
+        add(buttonPanel, BorderLayout.SOUTH);
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
         buttonPanel.add(Box.createHorizontalGlue());
@@ -184,19 +180,17 @@ public class CustomerPanel extends SuperPanel {
         JButton cancelButton;
         final int defaultJTextFieldColumns = 20, strutDistance = 0;
         
-        //createPanel
-        viewEntityPanel = new JPanel();
-        viewEntityPanel.setLayout(new BorderLayout());
-        viewEntityPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "View vehicles"));
+        setLayout(new BorderLayout());
+        setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "View vehicles"));
         
         //Center Panel
         centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
         centerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 40));
-        viewEntityPanel.add(centerPanel, BorderLayout.CENTER);
+        add(centerPanel, BorderLayout.CENTER);
         
         //Colors
-        viewEntityPanel.setBackground(new Color(216, 216, 208));
+        setBackground(new Color(216, 216, 208));
         centerPanel.setBackground(new Color(239, 240, 236));
         
         //ID
@@ -259,7 +253,7 @@ public class CustomerPanel extends SuperPanel {
 
         //ButtonPanel
         buttonPanel = new JPanel();
-        viewEntityPanel.add(buttonPanel, BorderLayout.SOUTH);
+        add(buttonPanel, BorderLayout.SOUTH);
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
         buttonPanel.add(Box.createHorizontalGlue());
@@ -297,21 +291,20 @@ public class CustomerPanel extends SuperPanel {
         final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
         //listPanel
-        listPanel = new JPanel();
-        listPanel.setLayout(new BorderLayout());
-        listPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "List of customers"));
+        setLayout(new BorderLayout());
+        setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "List of customers"));
         
         //centerPanel
         centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
         centerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 40));
-        listPanel.add(centerPanel, BorderLayout.CENTER);
+        add(centerPanel, BorderLayout.CENTER);
         
         //customerListPanel.
         customerListPanel = new JPanel();
         
         //Colors
-        listPanel.setBackground(new Color(216, 216, 208));
+        setBackground(new Color(216, 216, 208));
 
         //Testing Table setup
         Object[] columnNames = {"ID", "Name", "Phone", "Adress"};
@@ -402,7 +395,7 @@ public class CustomerPanel extends SuperPanel {
 
         //ButtonPanels
         buttonPanel = new JPanel();
-        listPanel.add(buttonPanel, BorderLayout.SOUTH);
+        add(buttonPanel, BorderLayout.SOUTH);
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
         buttonPanel.add(Box.createHorizontalGlue());
