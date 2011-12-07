@@ -542,7 +542,7 @@ public class VehiclePanel extends SuperPanel {
     }
 
     @Override
-    public void makeListPanel() {
+    public void makeListPanel() { 
         listPanel = new JPanel();
         JPanel centerPanel, vehicleListPanel, filterPanel, topFilterPanel, middleFilterPanel, bottomFilterPanel, buttonPanel;
         JScrollPane scrollPane;
