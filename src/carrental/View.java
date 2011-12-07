@@ -285,7 +285,6 @@ public class View {
             this.add(west, BorderLayout.WEST);
             this.add(center_super, BorderLayout.CENTER);
             updateVehiclePanel();
-            vehiclePanel.remakeAll();
             
         }
         
