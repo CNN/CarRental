@@ -81,19 +81,19 @@ public abstract class SuperPanel extends JPanel {
         onlyVisible(panels.get(list));
     }
     
-    public void remakeAll(){
-        makeMainScreenPanel();
-        makeCreatePanel();
-        makeViewEntityPanel();
-        makeAddTypePanel();
-        makeListPanel();
-    } 
+//    public void remakeAll(){
+//        makeMainScreenPanel();
+//        makeCreatePanel();
+//        makeViewEntityPanel();
+//        makeAddTypePanel();
+//        makeListPanel();
+//    } 
     
-    public abstract void makeMainScreenPanel();
-    public abstract void makeCreatePanel();
-    public abstract void makeViewEntityPanel();
-    public abstract void makeAddTypePanel();
-    public abstract void makeListPanel();
+//    public abstract void makeMainScreenPanel();
+//    public abstract void makeCreatePanel();
+//    public abstract void makeViewEntityPanel();
+//    public abstract void makeAddTypePanel();
+//    public abstract void makeListPanel();
 
     public JPanel getMainScreenPanel() {
         return panels.get(mainScreen);
