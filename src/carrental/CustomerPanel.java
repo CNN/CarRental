@@ -77,6 +77,7 @@ public class CustomerPanel extends SuperPanel {
     }
 
     public class CreatePanel extends JPanel {
+
         JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
 
         public CreatePanel() {
@@ -156,7 +157,7 @@ public class CustomerPanel extends SuperPanel {
             eMailPanel.add(Box.createRigidArea(new Dimension(85 + strutDistance, 0)));
             eMailPanel.add(customerEMailTextField);
             centerPanel.add(eMailPanel);
-            
+
             //ButtonPanel
             buttonPanel = new JPanel();
             add(buttonPanel, BorderLayout.SOUTH);
@@ -170,7 +171,7 @@ public class CustomerPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //TODO NICLASONLY Set text() for all fields aka blank
+                    updateCreatePanel();
                     showMainScreenPanel();
                 }
             });
@@ -183,30 +184,55 @@ public class CustomerPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    customerIDTextField.setText(" " + customers.size() + 1);
                     CarRental.getInstance().saveCustomer(new Customer(
                             customers.size() + 1,
                             Integer.parseInt(customerPhoneTextField.getText()),
                             customerNameTextField.getText(),
                             customerAdressTextField.getText(),
-                            customerEMailTextField.getText()
-                            ));
+                            customerEMailTextField.getText()));
+                    customers = CarRental.getInstance().requestCustomers();
+                    updateCreatePanel();
                 }
             });
             buttonPanel.add(createButton);
         }
+
+        /**
+         * Updates entire panel
+         */
+        public void updateCustomerPanel() {
+            customers = CarRental.getInstance().requestCustomers();
+            if (customers.get(0) != null) {
+                customerToView = customers.get(0);
+            } else {
+                customerToView = CarRental.getInstance().requestCustomer();
+            }
+            
+            updateCreatePanel();
+        }
+
+        public void updateCreatePanel() {
+            customerIDTextField.setText(" Automaticly generated");
+            customerPhoneTextField.setText("");
+            customerNameTextField.setText("");
+            customerAdressTextField.setText("");
+            customerEMailTextField.setText("");
+        }
     }
 
     public class ViewEntityPanel extends JPanel {
+
         String customerID, customerName, customerPhone, customerAdress, customerEMail;
 
         public ViewEntityPanel() {
             //Fields
             JPanel centerPanel, idPanel, namePanel, phonePanel, adressPanel, eMailPanel, buttonPanel;
             JLabel customerIDLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel, customerEMailLabel;
-            JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;            
+            JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
             JButton cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
-            
+
             setCustomerTextFields(customerToView);
 
             setLayout(new BorderLayout());
@@ -273,7 +299,7 @@ public class CustomerPanel extends SuperPanel {
             adressPanel.add(Box.createRigidArea(new Dimension(80 + strutDistance, 0)));
             adressPanel.add(customerAdressTextField);
             centerPanel.add(adressPanel);
-            
+
             //EMail
             customerEMailLabel = new JLabel("EMail");
             customerEMailTextField = new JTextField(" " + customerEMail, defaultJTextFieldColumns);
