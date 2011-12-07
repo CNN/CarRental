@@ -70,121 +70,70 @@ public class CustomerPanel extends SuperPanel {
 
     @Override
     public void makeCreatePanel() {
-        createPanel = new JPanel();
-        JPanel centerPanel, buttonPanel, vehicleTypePanel, namePanel, licensePlatePanel, vinPanel, drivenPanel, serviceDistancePanel, additionalPanel;
-        JLabel vehicleTypeLabel, nameLabel, licensePlateLabel, vinLabel, drivenLabel, serviceDistanceLabel, additionalLabel;
-        JComboBox vehicleTypeCombo;
-        JTextField nameField, licensePlateField, vinField, drivenField, serviceDistanceField;
-        JTextArea additionalArea;
-        JScrollPane centerScrollPane;
+        //Fields
+        JPanel centerPanel, namePanel, phonePanel, adressPanel, buttonPanel;
+        JLabel customerNameLabel, customerPhoneLabel, customerAdressLabel;
+        JTextField customerNameTextField, customerPhoneTextField, customerAdressTextField;
         JButton createButton, cancelButton;
-        final String[] temporaryTypes = {"Station Car", "Truck", "Optimus Prime"};
         final int defaultJTextFieldColumns = 20, strutDistance = 0;
-
-        //Panel settings
+        
+        //createPanel
+        createPanel = new JPanel();
         createPanel.setLayout(new BorderLayout());
         createPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Create a vehicle"));
+        
         //Center Panel
-
         centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
         centerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 40));
-
-        //Center ScrollPane
-        centerScrollPane = new JScrollPane(centerPanel);
-        createPanel.add(centerScrollPane, BorderLayout.CENTER);
-
+        createPanel.add(centerPanel, BorderLayout.CENTER);
+        
         //Colors
         createPanel.setBackground(new Color(216, 216, 208));
         centerPanel.setBackground(new Color(239, 240, 236));
 
-        //Vehicle Type
-        vehicleTypeLabel = new JLabel("Vehicle Type");
-        vehicleTypeCombo = new JComboBox(temporaryTypes);
-        vehicleTypePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
-        vehicleTypePanel.add(Box.createHorizontalStrut(5));
-        vehicleTypePanel.add(vehicleTypeLabel);
-        vehicleTypePanel.add(Box.createHorizontalStrut(48 + strutDistance));
-        vehicleTypePanel.add(vehicleTypeCombo);
-        centerPanel.add(vehicleTypePanel);
-
         //Name
-        nameLabel = new JLabel("Name");
-        nameField = new JTextField(defaultJTextFieldColumns);
+        customerNameLabel = new JLabel("Name");
+        customerNameTextField = new JTextField(defaultJTextFieldColumns);
         namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         namePanel.add(Box.createHorizontalStrut(5));
-        namePanel.add(nameLabel);
+        namePanel.add(customerNameLabel);
         namePanel.add(Box.createHorizontalStrut(87 + strutDistance));
-        namePanel.add(nameField);
+        namePanel.add(customerNameTextField);
         centerPanel.add(namePanel);
 
+        //Phone
+        customerPhoneLabel = new JLabel("Phone number");
+        customerPhoneTextField = new JTextField(defaultJTextFieldColumns);
+        phonePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        //LicensePlate
-        licensePlateLabel = new JLabel("License Plate");
-        licensePlateField = new JTextField(defaultJTextFieldColumns);
-        licensePlatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        phonePanel.add(Box.createHorizontalStrut(5));
+        phonePanel.add(customerPhoneLabel);
+        phonePanel.add(Box.createHorizontalStrut(43 + strutDistance));
+        phonePanel.add(customerPhoneTextField);
+        centerPanel.add(phonePanel);
 
-        licensePlatePanel.add(Box.createHorizontalStrut(5));
-        licensePlatePanel.add(licensePlateLabel);
-        licensePlatePanel.add(Box.createHorizontalStrut(43 + strutDistance));
-        licensePlatePanel.add(licensePlateField);
-        centerPanel.add(licensePlatePanel);
+        //TODO Split adress
+        //Adress
+        customerAdressLabel = new JLabel("Adress");
+        customerAdressTextField = new JTextField(defaultJTextFieldColumns);
+        adressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        //VIN
-        vinLabel = new JLabel("VIN");
-        vinField = new JTextField(defaultJTextFieldColumns);
-        vinPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        adressPanel.add(Box.createHorizontalStrut(5));
+        adressPanel.add(customerAdressLabel);
+        adressPanel.add(Box.createHorizontalStrut(101 + strutDistance));
+        adressPanel.add(customerAdressTextField);
+        centerPanel.add(adressPanel);
 
-        vinPanel.add(Box.createHorizontalStrut(5));
-        vinPanel.add(vinLabel);
-        vinPanel.add(Box.createHorizontalStrut(101 + strutDistance));
-        vinPanel.add(vinField);
-        centerPanel.add(vinPanel);
-
-        //Driven
-        drivenLabel = new JLabel("Distance driven");
-        drivenField = new JTextField(defaultJTextFieldColumns);
-        drivenPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
-        drivenPanel.add(Box.createHorizontalStrut(5));
-        drivenPanel.add(drivenLabel);
-        drivenPanel.add(Box.createHorizontalStrut(32 + strutDistance));
-        drivenPanel.add(drivenField);
-        centerPanel.add(drivenPanel);
-
-        //Distance untill next servicecheck. 
-//        serviceDistanceLabel = new JLabel("Distance to service");
-//        serviceDistanceField = new JTextField(defaultJTextFieldColumns);
-//        serviceDistancePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-//
-//        serviceDistancePanel.add(Box.createHorizontalStrut(5));
-//        serviceDistancePanel.add(serviceDistanceLabel);
-//        serviceDistancePanel.add(Box.createHorizontalStrut(11 + strutDistance));
-//        serviceDistancePanel.add(serviceDistanceField);
-//        centerPanel.add(serviceDistancePanel);
-
-        //Additional Comment
-        additionalLabel = new JLabel("Additional comments");
-        additionalArea = new JTextArea(3, 30);
-        additionalArea.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-        additionalPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
-        additionalPanel.add(Box.createHorizontalStrut(5));
-        additionalPanel.add(additionalLabel);
-        additionalPanel.add(Box.createHorizontalStrut(strutDistance));
-        additionalPanel.add(additionalArea);
-        centerPanel.add(additionalPanel);
-
-        //ButtonPanels
+        //ButtonPanel
         buttonPanel = new JPanel();
         createPanel.add(buttonPanel, BorderLayout.SOUTH);
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
         buttonPanel.add(Box.createHorizontalGlue());
 
-        //cancel-Button
+        //cancelButton
         cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(new ActionListener() {
 
@@ -203,7 +152,7 @@ public class CustomerPanel extends SuperPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO NICLASONLY make the database update here
+                //TODO Save customer to db
             }
         });
         buttonPanel.add(createButton);
