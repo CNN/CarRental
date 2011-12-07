@@ -10,30 +10,26 @@ import java.util.Calendar;
 import java.text.SimpleDateFormat; //To be used
 
 /**
- * @(#)GraphicAlternate.java
- *
- *
- * @author
- * @version 1.00 2011/12/4
+ * GraphicAlternate displays an overview of vehicles and their respective
+ * reservations and maintenances.
+ * @author CNN
+ * @version 2011-12-06
  */
-
 public class GraphicAlternate extends JComponent {
-
-    private int width, height, collumnWidth, rowHeight, numberOfCollumns, numberOfRows, pointerX, pointerY, textSpace, textHeight;
-    private ArrayList<Booking> bookings;
-    private ArrayList<Timestamp> timestamps;
-    private ArrayList<Date> dates;
+    private int width = 800, height = 600,
+            collumnWidth, rowHeight = 20,
+            numberOfCollumns, numberOfRows,
+            pointerX = 0, pointerY = 0,
+            textSpace = 100, textHeight = 15;
+    private ArrayList<Booking> bookings = new ArrayList<>();
+    private ArrayList<Timestamp> timestamps = new ArrayList<>();
+    private ArrayList<String> dateString;
+    private Calendar calendar;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    
     public GraphicAlternate() {
-        timestamps = new ArrayList<>();
-        bookings = new ArrayList<>();
-
-        Calendar calendar = Calendar.getInstance();
-        for(int i = 0; i < 10; i++) {
-            timestamps.add(new Timestamp(calendar.getTimeInMillis() + (i * 3600)));
-        }
+        calendar = Calendar.getInstance();
         
-        updateDatesArray();
-
         addMouseListener(new MouseAdapter() { //TODO This does not work:
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX();
@@ -41,49 +37,57 @@ public class GraphicAlternate extends JComponent {
                 mouseClicked(x, y);
             }
         });
-
-        width = 800;
-        height = 600;
-        pointerX = 0;
-        pointerY = 0;
-        textSpace = 50;
-
-        setNumberOfCollumns();
-        setNumberOfRows();
-        setCollumnWidth();
-        setRowHeight();
-
+        setTimestamps(timestamps);
+    }
+    
+    public final void setTimestamps(ArrayList<Timestamp> t) {
+        //generate timestamps that are at a certain point EACH day.
+        if(t.isEmpty()) {
+            for(int i = 0; i < 7; i++) {
+                t.add(new Timestamp(calendar.getTimeInMillis() - (calendar.getTimeInMillis() % 86400000) + (i * 86400000)));
+            }
+            timestamps = t;
+        }
+        else {
+            timestamps = t;
+        }
+        //convert timestamps to specific date format
+        dateString = new ArrayList<>();
+        for (Timestamp timestamp : timestamps) {
+            dateString.add(dateFormat.format(timestamp));
+        }
+        //calculate amount of collumsn from the number of timestamps.
+        if(timestamps.isEmpty()) numberOfCollumns = 0;
+        else numberOfCollumns = timestamps.size();
+        if(numberOfCollumns > 0) collumnWidth = (width - textSpace) / numberOfCollumns;
+        else collumnWidth = (width - textSpace);
         repaint();
     }
     
-    public void setBookings(ArrayList<Booking> b) {
-        bookings = b;
+    public final void setBookings(ArrayList<Booking> bs) {
+        bookings = bs;
+        calendar = Calendar.getInstance();
+        if(bookings.isEmpty()) numberOfRows = 0;
+        else numberOfRows = bookings.size();
         repaint();
-    }
-
-    public static void main(String[] args) {
-        ArrayList bs = new ArrayList();
-        for (int x = 0; x < 20; x++) {
-            bs.add(new Reservation(x, x * 1000 + 1, new Timestamp(x * 2 + 1), new Timestamp(x * 5 - 10), x + 2));
+        
+        //generate timestamps
+        if(!bookings.isEmpty()) {
+            Timestamp first_date = bookings.get(0).getTStart();
+            for(Booking b : bs) {
+                if(b.getTStart().before(first_date)) {
+                    first_date = b.getTStart();
+                }
+            }
+            if(first_date.before(new Timestamp(calendar.getTimeInMillis()))) {
+                first_date = new Timestamp(calendar.getTimeInMillis());
+            }
+            ArrayList<Timestamp> t = new ArrayList<>();
+            for(int i = 0; i < 7; i++) {
+                t.add(new Timestamp(first_date.getTime() - (first_date.getTime() % 86400000) + (i * 86400000)));
+            }
+            setTimestamps(t);
         }
-
-        ArrayList ts = new ArrayList();
-        for (int x = 0; x < 12; x++) {
-            ts.add(new Timestamp(x * 10));
-        }
-
-        JFrame frame = new JFrame();
-        frame.setPreferredSize(new Dimension(800, 600));
-        frame.add(new GraphicAlternate());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        frame.setSize(800, 600);
-    }
-
-    //Type converter
-    private Date toDate(Timestamp timestamp) { //I know it isn't used yet
-        long milliseconds = timestamp.getTime();
-        return new Date(milliseconds);
     }
 
     /**
@@ -93,32 +97,6 @@ public class GraphicAlternate extends JComponent {
      */
     private void mouseClicked(int x, int y) {
         System.out.println("You clicked" + x + " " + y);
-    }
-
-    private void updateDatesArray() {
-        dates = null;
-        dates = new ArrayList();
-        for (Timestamp timestamp : timestamps) {
-            dates.add(toDate(timestamp));
-        }
-    }
-
-    private void setNumberOfCollumns() {
-        numberOfCollumns = timestamps.size();
-    }
-
-    private void setNumberOfRows() {
-        if(bookings.isEmpty()) numberOfRows = 0;
-        else numberOfRows = bookings.size();
-    }
-
-    private void setCollumnWidth() {
-        collumnWidth = width / numberOfCollumns;
-    }
-
-    private void setRowHeight() {
-        if(numberOfRows > 0) rowHeight = height / numberOfRows;
-        else rowHeight = height;
     }
 
     private void movePointerY() {
@@ -137,36 +115,59 @@ public class GraphicAlternate extends JComponent {
         }
     }
 
-    private void setTextSpace() {
-        //for(Booking booking : bookings){
-        //if(textSpace < "".length()) 
-        textSpace = "Volvo 740 ".length(); //TODO fix
-        //}
-    }
-
-    private void setTextHeight() {
-        textHeight = 10; //TODO Fix this too
-    }
-
     public void paint(Graphics g) {
         int run = 0; //for testing
 
+        pointerX = textSpace;
+        pointerY = 0;
+        
+        //print reservation blocks
+        for(int y = 0; y < numberOfRows; y++) {
+            for(int x = 0; x < numberOfCollumns; x++) {
+                if(bookings.size() > x && bookings.get(y).isBooked(timestamps.get(x))) {
+                    if(bookings.get(y).isMaintenance()) {
+                        g.setColor(Color.YELLOW);
+                    }
+                    else {
+                        g.setColor(Color.BLUE);
+                    }
+                    g.fillRect(x * collumnWidth + textSpace, y * rowHeight + 5, collumnWidth, rowHeight);
+                }
+                g.setColor(Color.BLACK);
+                boolean bz = false;
+                if(bookings.size() > x) bz = bookings.get(y).isBooked(timestamps.get(x));
+                g.drawString(x+"::"+bz, x * collumnWidth + textSpace + 5, y * rowHeight + rowHeight);
+                movePointerX();
+            }
+            movePointerY();
+            pointerX = 0;
+        }
+        pointerY = 0;
+        
         //print y-axis text
         for (int y = 0; y < numberOfRows; y++) {
             g.setColor(Color.black);
-            g.drawString("Vehicle ", 0, pointerY);
+            String str = "";
+            Vehicle v = CarRental.getInstance().requestVehicle(bookings.get(y).getID());
+            if(v.getID() > -1 && !v.getDescription().isEmpty()) {
+                str = v.getID()+": "+v.getDescription().substring(0,15);
+            }
+            else str = "Unknown Vehicle";
+            g.drawString(str, 0, pointerY);
             movePointerY();
         }
-
-        setTextSpace();
-        setTextHeight();
+        
         pointerX = textSpace;
         int textpointer = height - textHeight;
 
+        g.setColor(Color.LIGHT_GRAY);
+        g.drawLine(0, height - 3*textHeight, width, height - 3*textHeight);
         //print x-axis text
         for (int x = 0; x < numberOfCollumns; x++) {
+            g.setColor(Color.LIGHT_GRAY);
+            g.drawLine(pointerX, 0, pointerX, height - 3*textHeight);
             g.setColor(Color.black);
-            g.drawString(dates.get(x).toString(), pointerX, textpointer);
+            g.drawString(dateString.get(x), pointerX + 20, textpointer);
             movePointerX();
             if (textpointer == height - textHeight) { //TODO Fix so this doesn't expand height
                 textpointer -= textHeight;
@@ -174,26 +175,5 @@ public class GraphicAlternate extends JComponent {
                 textpointer += textHeight;
             }
         }
-
-        //print reservation blocks
-        for (int y = 0; y < numberOfRows; y++) {
-            for (int x = 0; x < numberOfCollumns; x++) {
-                if (bookings.get(y).isBooked(timestamps.get(x))) {
-                    if (bookings.get(y).isMaintenance()) {
-                        g.setColor(Color.yellow);
-                    } else {
-                        g.setColor(Color.blue);
-                    }
-                    g.fillRect(pointerX, pointerY, collumnWidth, rowHeight);
-                    movePointerX();
-                    movePointerY();
-                }
-                run++; //for testing
-            }
-            run++; //for testing
-        }
-        pointerX = 0;
-        pointerY = 0;
-        System.out.println("" + run); //for testing
     }
 }
