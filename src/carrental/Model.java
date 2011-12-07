@@ -62,9 +62,9 @@ public class Model {
         ArrayList<String> save_data = new ArrayList<>();
         save_data.add(Integer.toString(v.getID()));
         save_data.add(Integer.toString(v.getVehicleType()));
-        save_data.add(v.getVIN());
+        save_data.add(v.getVin());
         save_data.add(v.getDescription());
-        save_data.add(v.getLicensplate());
+        save_data.add(v.getLicensePlate());
         save_data.add(Integer.toString(v.getOdo()));
         save_data.add(v.getAdditional());
         database.saveArray("vehicle", save_data);

@@ -1,102 +1,108 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package carrental;
 
 /**
- * Vehicle holds information on each vehicle
+ * Vehicle holds information about a vehicle
  * @author CNN
- * @version 30 Nov. 2011
+ * @version 2011-11-30
  */
-public class Vehicle{
+public class Vehicle {
+
     private final int ID;
     private int vehicleType, odo;
-    private String description, licensplate, additional, vin;
+    private String description, licensePlate, additional, vin;
 
     /**
-     * Constructor for Vehicle
-     * @param ID
-     * @param vehicleType
-     * @param description
-     * @param licensplate
-     * @param odo
-     * @param additional 
+     * This constructor is used to initialize the fields needed for an instance of Vehicle
+     * @param ID The ID number of this Vehicle
+     * @param vehicleType The vehicle type of this Vehicle
+     * @param description The description of this Vehicle
+     * @param licensePlate The license plate of this Vehicle
+     * @param vin The VIN number of this Vehicle
+     * @param odo The ODO number of this Vehicle
+     * @param additional The additional comment of this Vehicle
      */
-    public Vehicle(int ID, int vehicleType, String description, String licensplate, String vin, int odo, String additional){
+    public Vehicle(int ID, int vehicleType, String description, String licensePlate, String vin, int odo, String additional) {
         this.ID = ID;
         this.vehicleType = vehicleType;
         this.description = description;
         this.vin = vin;
-        this.licensplate = licensplate;
+        this.licensePlate = licensePlate;
         this.odo = odo;
         this.additional = additional;
     }
-    
+
     /**
-     * Update object information
-     * @param vehicleType
-     * @param description
-     * @param licensplate
-     * @param odo
-     * @param additional 
+     * This method updates this Vehicle object
+     * @param ID The updated ID number of this Vehicle
+     * @param vehicleType The updated vehicle type of this Vehicle
+     * @param description The updated description of this Vehicle
+     * @param licensePlate The updated license plate of this Vehicle
+     * @param vin The updated VIN number of this Vehicle
+     * @param odo The updated ODO number of this Vehicle
+     * @param additional The updated additional comment of this Vehicle
      */
-    public void updateObject(int vehicleType, String description, String licensplate, String vin, int odo, String additional){
+    public void updateObject(int vehicleType, String description, String licensePlate, String vin, int odo, String additional) {
         this.vehicleType = vehicleType;
         this.description = description;
-        this.licensplate = licensplate;
+        this.licensePlate = licensePlate;
         this.vin = vin;
         this.odo = odo;
         this.additional = additional;
     }
-    
+
     /**
-     * @return Vehicle VIN number
+     * This method returns the ID number of this Vehicle
+     * @return The ID number of this Vehicle
      */
-    public String getVIN(){
-        return vin;
-    }
-    
-    /**
-     * 
-     * @return Vehicle ID
-     */
-    public int getID(){
+    public int getID() {
         return ID;
     }
+
     /**
-     * 
-     * @return vehicle type
+     * This method returns the vehicle type of this Vehicle
+     * @return The vehicle type of this Vehicle
      */
-    public int getVehicleType(){
+    public int getVehicleType() {
         return vehicleType;
     }
+
     /**
-     * 
-     * @return vehicle description
+     * This method returns the description of this Vehicle
+     * @return The description of this Vehicle
      */
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
+
     /**
-     * 
-     * @return licensplate
+     * This method returns the license plate of this Vehicle
+     * @return The license plate of this Vehicle
      */
-    public String getLicensplate(){
-        return licensplate;
+    public String getLicensePlate() {
+        return licensePlate;
     }
+
     /**
-     * 
-     * @return odo
+     * This method returns The VIN number of this Vehicle
+     * @return The VIN number of this Vehicle
      */
-    public int getOdo(){
+    public String getVin() {
+        return vin;
+    }
+
+    /**
+     * This method returns the ODO number of this Vehicle
+     * @return The ODO number of this Vehicle
+     */
+    public int getOdo() {
         return odo;
     }
+
     /**
-     * 
-     * @return additional information string
+     * This method returns the additional comment of this Vehicle
+     * @return The additional comment of this Vehicle
      */
-    public String getAdditional(){
+    public String getAdditional() {
         return additional;
     }
 }

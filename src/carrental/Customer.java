@@ -1,96 +1,103 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package carrental;
 
 /**
- * Customer holds holds information on each customer
+ * Customer holds information about a customer.
  * @author CNN
  * @version 2011-12-04
  */
-public class Customer{
+public class Customer {
+
     private final int ID;
     private int telephone;
     private String name;
     private String adress;
     private String eMail;
-    
+
     /**
-     * Constructor for Customer
-     * @param ID
-     * @param telephone
-     * @param name
-     * @param adress
-     * @param eMail 
+     * This constructor is used to initialize the fields needed for an instance of Customer
+     * @param ID The ID number of this Customer.
+     * @param telephone The telephone number of this Customer.
+     * @param name The name of this Customer.
+     * @param adress The adress of this Customer.
+     * //TODO Clarification on how the adress string should be written. Do we write \n for line breaks etc.? Fix on the line above.
+     * @param eMail The e-mail adress of this Customer.
      */
-    public Customer(int ID, int telephone, String name, String adress, String eMail){
+    public Customer(int ID, int telephone, String name, String adress, String eMail) {
         this.ID = ID;
         this.telephone = telephone;
         this.name = name;
         this.adress = adress;
         this.eMail = eMail;
     }
-    
+
     /**
-     * Upgrade object information
-     * @param telephone
-     * @param name
-     * @param adress
-     * @param eMail 
+     * This method updates this Customer object
+     * @param telephone The updated telephone number of this Customer.
+     * @param name The updated name of this Customer.
+     * @param adress The updated adress of this Customer.
+     * //TODO Clarification on how the adress string should be written. Do we write \n for line breaks etc.? Fix on the line above.
+     * @param eMail The updated e-mail adress of this Customer.
      */
-    public void updateObject(int telephone, String name, String adress, String eMail){
+    public void updateObject(int telephone, String name, String adress, String eMail) {
         this.telephone = telephone;
         this.name = name;
         this.adress = adress;
         this.eMail = eMail;
     }
+
     /**
-     * 
-     * @return Customer ID
+     * This method returns the ID number of this Customer.
+     * @return The ID number of this Customer.
      */
-    public int getID(){
+    public int getID() {
         return ID;
     }
+
     /**
-     * 
-     * @return Telephone number
+     * This method returns the telephone number of this Customer.
+     * @return The telephone number of this Customer.
      */
-    public int getTelephone(){
+    public int getTelephone() {
         return telephone;
     }
+
     /**
-     * 
-     * @return Name
+     * This method returns the name of this Customer.
+     * @return The name of this Customer.
      */
-    public String getName(){
+    public String getName() {
         return name;
     }
+
     /**
-     * 
-     * @return Adress
+     * This method returns the adress of this Customer.
+     * @return The adress of this Customer.
      */
-    public String getAdress(){
+    public String getAdress() {
         return adress;
     }
     
+    /**
+     * This method returns the postal code of this Customer. The postal code is found from the provided adress.
+     * @return The postal code of this Customer.
+     */
     public int getPostalCode() {
         String[] address = adress.split("\n");
-        if(address.length == 3) {
+        if (address.length == 3) {
             address = address[2].split(" ");
-        }
-        else if(address.length == 2) {
+        } else if (address.length == 2) {
             address = address[1].split(" ");
+        } else {
+            address[0] = "0000";
         }
-        else address[0] = "0000";
         return Integer.parseInt(address[0]);
     }
-    
+
     /**
-     * 
-     * @return E-Mail
+     * This method returns the e-mail adress of this Customer.
+     * @return The e-mail adress of this Customer.
      */
-    public String getEMail(){
+    public String getEMail() {
         return eMail;
     }
 }
