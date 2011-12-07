@@ -593,8 +593,8 @@ public class VehiclePanel extends SuperPanel {
             rowData = new ArrayList<String>();
             rowData.add("" + testVehicle.getVehicleType());
             rowData.add(testVehicle.getDescription());
-            rowData.add(testVehicle.getLicensplate());
-            rowData.add("" + testVehicle.getVIN());
+            rowData.add(testVehicle.getLicensePlate());
+            rowData.add("" + testVehicle.getVin());
             rowData.add("" + testVehicle.getOdo());
             // distance to service rowData.add("7.290");
             vehicleData.add(rowData);

@@ -1,32 +1,30 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package carrental;
+
 import java.sql.Timestamp;
 
 /**
- * Reservation holds holds information on a reservation
+ * Reservation holds holds information about a reservation
  * @author CNN
- * @version 30 Nov. 2011
+ * @version 2011-11-30
  */
 public class Reservation implements Booking {
+
     private final int ID;
     private int vehicleID;
     private Timestamp tStart;
     private Timestamp tEnd;
     private int customerID;
     private boolean isMaintenance;
-    
+
     /**
-     * Constructor for reservation class
-     * @param ID
-     * @param vehicleID
-     * @param tStart
-     * @param tEnd
-     * @param customerID 
+     * This constructor is used to initialize the fields needed for an instance of Reservation
+     * @param ID The ID number of this Reservation
+     * @param vehicleID The vehicle ID number of this Reservation
+     * @param tStart The start time of this Reservation
+     * @param tEnd The end time of this Reservation
+     * @param customerID The customer ID number of this Reservation
      */
-    public Reservation(int ID, int vehicleID, Timestamp tStart, Timestamp tEnd, int customerID){
+    public Reservation(int ID, int vehicleID, Timestamp tStart, Timestamp tEnd, int customerID) {
         this.ID = ID;
         this.vehicleID = vehicleID;
         this.tStart = tStart;
@@ -34,78 +32,50 @@ public class Reservation implements Booking {
         this.customerID = customerID;
         isMaintenance = false;
     }
-    
-    //TODO Delete this:
+
     /**
-     * Constructor for reservation class. This is a Maintenance test
-     * @param ID
-     * @param vehicleID
-     * @param tStart
-     * @param tEnd
+     * This method updates the Reservation with the supplied parameters
+     * @param vehicleID The updated vehicle ID number of this Reservation
+     * @param tStart The updated start time of this Reservation
+     * @param tEnd The updated end time of this Reservation
+     * @param customerID The updated customer ID number of this Reservation
      */
-    public Reservation(int ID, int vehicleID, Timestamp tStart, Timestamp tEnd){
-        this.ID = ID;
-        this.vehicleID = vehicleID;
-        this.tStart = tStart;
-        this.tEnd = tEnd;
-        this.customerID = 0000;
-        isMaintenance = true;
-    }
-    
-    /**
-     * Update reservation object
-     * @param vehicleID
-     * @param tStart
-     * @param tEnd
-     * @param customerID 
-     */
-    public void updateObject(int vehicleID, Timestamp tStart, Timestamp tEnd, int customerID){
+    public void updateObject(int vehicleID, Timestamp tStart, Timestamp tEnd, int customerID) {
         this.vehicleID = vehicleID;
         this.tStart = tStart;
         this.tEnd = tEnd;
         this.customerID = customerID;
     }
-    
-    public boolean isBooked(Timestamp timestamp){
+
+    public boolean isBooked(Timestamp timestamp) {
         return (timestamp.after(tStart) && timestamp.before(tEnd));
     }
     
-    public boolean isMaintenance(){
+    public boolean isMaintenance() {
         return isMaintenance;
     }
-    /**
-     * 
-     * @return Reservation ID
-     */
-    public int getID(){
+
+    public int getID() {
         return ID;
     }
-    /**
-     * 
-     * @return Vehicle ID
-     */
-    public int getVehicleID(){
+
+    public int getVehicleID() {
         return vehicleID;
     }
-    /**
-     * 
-     * @return Time start
-     */
-    public Timestamp getTStart(){
+
+    public Timestamp getTStart() {
         return tStart;
     }
-    /**
-     * 
-     * @return Time end
-     */
-    public Timestamp getTEnd(){
+
+    public Timestamp getTEnd() {
         return tEnd;
     }
+
     /**
-     * 
-     * @return Customer ID
+     * This method returns the customer ID number of this Maintenance
+     * @return The customer ID number of this Maintenance
      */
-    public int getCustomerID(){
+    public int getCustomerID() {
         return customerID;
     }
 }
