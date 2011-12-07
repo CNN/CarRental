@@ -6,31 +6,21 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.swing.*;
 import java.util.Calendar;
-import javax.swing.border.TitledBorder;
 
 /**
  * This is the main panel regarding vehicles.
- * It contains JPanels for every relevant screen, when dealing with vehicles.
- * These are implemented as inner classes.
+ * It contains JPanels for every relevant screen, when dealing with customers.
  * @author CNN
+ * @version 2011-12-07
  */
-public class VehiclePanel extends SuperPanel {
+public class CustomerPanel extends SuperPanel {
 
-    private JPanel mainScreenPanel, createPanel, viewVehiclePanel, addTypePanel, listPanel;
-    private JScrollPane centerScrollPane_View;
-    private VehicleTypePanel vehicleTypeInstance;
-    private Vehicle vehicleToView; //specific vehicle, used to view details
-    private VehicleType vehicleTypeToView; //specific vehicle, used to view details
-    private ArrayList<Vehicle> vehicleList;
-    private ArrayList<VehicleType> vehicleTypes;
-    private ArrayList<Booking> bookings;
-
-    private View view;
-    private GraphicAlternate graph;
+    private JPanel mainPanel, customerPanel, cusomterListPanel; //main panels used in this class
+    private Customer customerToView; //specific customer, used to view details
+    private ArrayList<Customer> customers; //array of costumers
+    private View view = View.getInstance(); //
     
-    public VehiclePanel() {
-        view = View.getInstance();
-        vehicleTypeInstance = new VehicleTypePanel(); //Used to get the addType-panel from the VehicleTypeClass - to avoid some code duplication
+    public CustomerPanel() {
         remakeAll(); //Now called from View
         //Sets the different subpanels (defined as inner classes below). Also adds them to this object with JPanel.add().
         AssignAndAddSubPanels(mainScreenPanel, createPanel, viewVehiclePanel, addTypePanel, listPanel);
@@ -74,78 +64,85 @@ public class VehiclePanel extends SuperPanel {
 
     @Override
     public void makeMainScreenPanel() { //TODO Claus skriv her.. Du kan teste ved at klikke shift+f6 :)
-                
         mainScreenPanel = new JPanel();
-        JButton createButton, addTypeButton, listButton, viewVehicleButton;
-        JPanel centerPanel, buttonFlowPanel, buttonGridPanel;
-        TitledBorder titleBorder;
-        //Panel settings
-        mainScreenPanel.setLayout(new BorderLayout());
-        titleBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Vehicles (Overview)");
-        mainScreenPanel.setBorder(titleBorder);
+        
+        graph = new GraphicAlternate();
+        graph.setPreferredSize(new Dimension(800,600));
+        mainScreenPanel.add(graph);
+        System.out.println(graph.toString());
 
-        centerPanel = new JPanel();
-        mainScreenPanel.add(centerPanel, BorderLayout.CENTER);
-        //Button panel with a gridlayout for vertical alignment.
-        buttonGridPanel = new JPanel();
-        buttonGridPanel.setLayout(new BoxLayout(buttonGridPanel, BoxLayout.PAGE_AXIS));
-        //extra buttonpanel with a default flowlayout, to shrink the button to minimum size,
-        buttonFlowPanel = new JPanel();
-        buttonFlowPanel.add(buttonGridPanel);
-        centerPanel.add(buttonFlowPanel);
-        //Colors
-        mainScreenPanel.setBackground(new Color(216, 216, 208));
-        centerPanel.setBackground(new Color(239, 240, 236));
-        //Create-button
-        createButton = new JButton("Create a new vehicle");
-        createButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showCreatePanel();
-            }
-        });
-
-        buttonGridPanel.add(createButton);
-        //Create some blank space between the buttons:
-        buttonGridPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        //addType-Button
-        addTypeButton = new JButton("Add a new vehicle type");
-        addTypeButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showAddTypePanel();
-            }
-        });
-        buttonGridPanel.add(addTypeButton);
-        //Create some blank space between the buttons:
-        buttonGridPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        //View vehicle-Button
-        viewVehicleButton = new JButton("View a vehicle");
-        viewVehicleButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showViewEntityPanel();
-            }
-        });
-        buttonGridPanel.add(viewVehicleButton);
-        //Create some blank space between the buttons:
-        buttonGridPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-
-        //Show list-Button
-        listButton = new JButton("Show a list of vehicles");
-        listButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                showListPanel();
-            }
-        });
-        buttonGridPanel.add(listButton);
+                
+//        mainScreenPanel = new JPanel();
+//        JButton createButton, addTypeButton, listButton, viewVehicleButton;
+//        JPanel centerPanel, buttonFlowPanel, buttonGridPanel;
+//        TitledBorder titleBorder;
+//        //Panel settings
+//        mainScreenPanel.setLayout(new BorderLayout());
+//        titleBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Vehicles (Overview)");
+//        mainScreenPanel.setBorder(titleBorder);
+//
+//        centerPanel = new JPanel();
+//        mainScreenPanel.add(centerPanel, BorderLayout.CENTER);
+//        //Button panel with a gridlayout for vertical alignment.
+//        buttonGridPanel = new JPanel();
+//        buttonGridPanel.setLayout(new BoxLayout(buttonGridPanel, BoxLayout.PAGE_AXIS));
+//        //extra buttonpanel with a default flowlayout, to shrink the button to minimum size,
+//        buttonFlowPanel = new JPanel();
+//        buttonFlowPanel.add(buttonGridPanel);
+//        centerPanel.add(buttonFlowPanel);
+//        //Colors
+//        mainScreenPanel.setBackground(new Color(216, 216, 208));
+//        centerPanel.setBackground(new Color(239, 240, 236));
+//        //Create-button
+//        createButton = new JButton("Create a new vehicle");
+//        createButton.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                showCreatePanel();
+//            }
+//        });
+//
+//        buttonGridPanel.add(createButton);
+//        //Create some blank space between the buttons:
+//        buttonGridPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+//
+//        //addType-Button
+//        addTypeButton = new JButton("Add a new vehicle type");
+//        addTypeButton.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                showAddTypePanel();
+//            }
+//        });
+//        buttonGridPanel.add(addTypeButton);
+//        //Create some blank space between the buttons:
+//        buttonGridPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+//
+//        //View vehicle-Button
+//        viewVehicleButton = new JButton("View a vehicle");
+//        viewVehicleButton.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                showViewEntityPanel();
+//            }
+//        });
+//        buttonGridPanel.add(viewVehicleButton);
+//        //Create some blank space between the buttons:
+//        buttonGridPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+//
+//        //Show list-Button
+//        listButton = new JButton("Show a list of vehicles");
+//        listButton.addActionListener(new ActionListener() {
+//
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                showListPanel();
+//            }
+//        });
+//        buttonGridPanel.add(listButton);
     }
 
     @Override
