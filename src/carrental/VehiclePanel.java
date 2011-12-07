@@ -618,7 +618,7 @@ public class VehiclePanel extends SuperPanel {
             //creating the JTable
             vehicleTable = new JTable(vehicleTableModel);
             for (Vehicle vehicle : vehicleList) {
-                vehicleTableModel.addRow(new Object[]{vehicleTypes.get(vehicle.getVehicleType()).getName(),
+                vehicleTableModel.addRow(new Object[]{vehicleTypes.get(vehicle.getVehicleType()-1).getName(),
                             vehicle.getDescription(), vehicle.getLicensePlate(), vehicle.getVin(), vehicle.getOdo()});
             }
             assert (vehicleList.size() == vehicleTableModel.getRowCount());
