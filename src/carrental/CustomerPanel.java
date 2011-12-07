@@ -71,8 +71,8 @@ public class CustomerPanel extends SuperPanel {
     @Override
     public void makeCreatePanel() {
         //Fields
-        JPanel centerPanel, namePanel, phonePanel, adressPanel, buttonPanel;
-        JLabel customerNameLabel, customerPhoneLabel, customerAdressLabel;
+        JPanel centerPanel, idPanel, namePanel, phonePanel, adressPanel, buttonPanel;
+        JLabel customerIDLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel;
         JTextField customerNameTextField, customerPhoneTextField, customerAdressTextField;
         JButton createButton, cancelButton;
         final int defaultJTextFieldColumns = 20, strutDistance = 0;
@@ -91,7 +91,14 @@ public class CustomerPanel extends SuperPanel {
         //Colors
         createPanel.setBackground(new Color(216, 216, 208));
         centerPanel.setBackground(new Color(239, 240, 236));
-
+        
+        //ID
+        customerIDLabel = new JLabel("ID is automaticly generated"); 
+        idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        idPanel.add(Box.createHorizontalStrut(5));
+        idPanel.add(customerIDLabel);
+        centerPanel.add(idPanel);
+        
         //Name
         customerNameLabel = new JLabel("Name");
         customerNameTextField = new JTextField(defaultJTextFieldColumns);
@@ -152,7 +159,7 @@ public class CustomerPanel extends SuperPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO Save customer to db
+                //TODO Save customer to db and set customerIDLabel
             }
         });
         buttonPanel.add(createButton);
@@ -160,242 +167,92 @@ public class CustomerPanel extends SuperPanel {
 
     @Override
     public void makeViewEntityPanel() {
-        viewVehiclePanel = new JPanel();
-        JPanel centerPanel, reservationPanel, buttonPanel, vehicleTypePanel, namePanel, licensePlatePanel, vinPanel, drivenPanel, serviceDistancePanel, additionalPanel;
-        JLabel vehicleTypeLabel, nameLabel, licensePlateLabel, vinLabel, drivenLabel, serviceDistanceLabel, additionalLabel;
-        JTextField vehicleTypeField, nameField, licensePlateField, vinField, drivenField, serviceDistanceField;
-        JTextArea additionalArea;
-        JButton backButton;
+        //Fields
+        JPanel centerPanel, idPanel, namePanel, phonePanel, adressPanel, buttonPanel;
+        JLabel customerIDLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel;
+        JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField;
+        String customerID, customerName, customerPhone, customerAdress;
+        JButton cancelButton;
         final int defaultJTextFieldColumns = 20, strutDistance = 0;
-        //some temporary strings for testing the GUI
-        String vehicleTypeString, nameString, licensePlateString, vinString, drivenString, serviceDistanceString, additionalString;
-
-
-        //Panel settings
-        viewVehiclePanel.setLayout(new BorderLayout());
-        viewVehiclePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Viewing Vehicle"));
+        
+        //createPanel
+        viewEntityPanel = new JPanel();
+        viewEntityPanel.setLayout(new BorderLayout());
+        viewEntityPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "View vehicles"));
+        
         //Center Panel
         centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
         centerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 40));
-
-        //Center ScrollPane
-        centerScrollPane_View = new JScrollPane(centerPanel);
-        viewVehiclePanel.add(centerScrollPane_View, BorderLayout.CENTER);
-
+        viewEntityPanel.add(centerPanel, BorderLayout.CENTER);
+        
         //Colors
-        viewVehiclePanel.setBackground(new Color(216, 216, 208));
+        viewEntityPanel.setBackground(new Color(216, 216, 208));
         centerPanel.setBackground(new Color(239, 240, 236));
-
-        //Vehicle Type
-        vehicleTypeLabel = new JLabel("Vehicle Type");
-        vehicleTypeString = "Station Car";
-        vehicleTypeField = new JTextField(vehicleTypeString, defaultJTextFieldColumns);
-        vehicleTypeField.setEditable(false);
-        vehicleTypeField.setBackground(Color.WHITE);
-        vehicleTypePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
-        vehicleTypePanel.add(Box.createHorizontalStrut(5));
-        vehicleTypePanel.add(vehicleTypeLabel);
-        vehicleTypePanel.add(Box.createHorizontalStrut(48 + strutDistance));
-        vehicleTypePanel.add(vehicleTypeField);
-        centerPanel.add(vehicleTypePanel);
-
+        
+        //ID
+        customerIDLabel = new JLabel("Customer ID"); 
+        customerID = "0000";
+        customerIDTextField = new JTextField(customerID, defaultJTextFieldColumns);
+        customerIDTextField.setEditable(false);
+        idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        idPanel.add(Box.createHorizontalStrut(5));
+        idPanel.add(customerIDLabel);
+        idPanel.add(Box.createHorizontalStrut(87 + strutDistance));
+        idPanel.add(customerIDTextField);
+        centerPanel.add(idPanel);
+        
         //Name
-        nameLabel = new JLabel("Name");
-        nameString = "Citröen C5";
-        nameField = new JTextField(nameString, defaultJTextFieldColumns);
-        nameField.setEditable(false);
-        nameField.setBackground(Color.WHITE);
+        customerNameLabel = new JLabel("Name");
+        customerName = "Hans Hansen";
+        customerNameTextField = new JTextField(customerName, defaultJTextFieldColumns);
+        customerNameTextField.setEditable(false);
         namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         namePanel.add(Box.createHorizontalStrut(5));
-        namePanel.add(nameLabel);
+        namePanel.add(customerNameLabel);
         namePanel.add(Box.createHorizontalStrut(87 + strutDistance));
-        namePanel.add(nameField);
+        namePanel.add(customerNameTextField);
         centerPanel.add(namePanel);
 
+        //Phone
+        customerPhoneLabel = new JLabel("Phone number");
+        customerPhone = "12345678";
+        customerPhoneTextField = new JTextField(customerPhone, defaultJTextFieldColumns);
+        customerPhoneTextField.setEditable(false);
+        phonePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        //LicensePlate
-        licensePlateLabel = new JLabel("License Plate");
-        licensePlateString = "ZYX 547262";
-        licensePlateField = new JTextField(licensePlateString, defaultJTextFieldColumns);
-        licensePlateField.setEditable(false);
-        licensePlateField.setBackground(Color.WHITE);
-        licensePlatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        phonePanel.add(Box.createHorizontalStrut(5));
+        phonePanel.add(customerPhoneLabel);
+        phonePanel.add(Box.createHorizontalStrut(43 + strutDistance));
+        phonePanel.add(customerPhoneTextField);
+        centerPanel.add(phonePanel);
 
-        licensePlatePanel.add(Box.createHorizontalStrut(5));
-        licensePlatePanel.add(licensePlateLabel);
-        licensePlatePanel.add(Box.createHorizontalStrut(43 + strutDistance));
-        licensePlatePanel.add(licensePlateField);
-        centerPanel.add(licensePlatePanel);
+        //TODO Split adress
+        //Adress
+        customerAdressLabel = new JLabel("Adress");
+        customerAdress = "9800 Jylland";
+        customerAdressTextField = new JTextField(customerAdress, defaultJTextFieldColumns);
+        customerAdressTextField.setEditable(false);
+        adressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        //VIN
-        vinLabel = new JLabel("VIN");
-        vinString = "4241424421";
-        vinField = new JTextField(vinString, defaultJTextFieldColumns);
-        vinField.setEditable(false);
-        vinField.setBackground(Color.WHITE);
-        vinPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        adressPanel.add(Box.createHorizontalStrut(5));
+        adressPanel.add(customerAdressLabel);
+        adressPanel.add(Box.createHorizontalStrut(101 + strutDistance));
+        adressPanel.add(customerAdressTextField);
+        centerPanel.add(adressPanel);
+        
+        //TODO insert list
 
-        vinPanel.add(Box.createHorizontalStrut(5));
-        vinPanel.add(vinLabel);
-        vinPanel.add(Box.createHorizontalStrut(101 + strutDistance));
-        vinPanel.add(vinField);
-        centerPanel.add(vinPanel);
-
-        //Driven
-        drivenLabel = new JLabel("Distance driven");
-        drivenString = "3000 miles";
-        drivenField = new JTextField(drivenString, defaultJTextFieldColumns);
-        drivenField.setEditable(false);
-        drivenField.setBackground(Color.WHITE);
-        drivenPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
-        drivenPanel.add(Box.createHorizontalStrut(5));
-        drivenPanel.add(drivenLabel);
-        drivenPanel.add(Box.createHorizontalStrut(32 + strutDistance));
-        drivenPanel.add(drivenField);
-        centerPanel.add(drivenPanel);
-
-        //Distance untill next servicecheck. 
-//        serviceDistanceLabel = new JLabel("Distance to service");
-//        serviceDistanceString = "5.500 miles";
-//        serviceDistanceField = new JTextField(serviceDistanceString, defaultJTextFieldColumns);
-//        serviceDistanceField.setEditable(false);
-//        serviceDistanceField.setBackground(Color.WHITE);
-//        serviceDistancePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-//
-//        serviceDistancePanel.add(Box.createHorizontalStrut(5));
-//        serviceDistancePanel.add(serviceDistanceLabel);
-//        serviceDistancePanel.add(Box.createHorizontalStrut(11 + strutDistance));
-//        serviceDistancePanel.add(serviceDistanceField);
-//        centerPanel.add(serviceDistancePanel);
-
-        //Additional Comment
-        additionalLabel = new JLabel("Additional comments");
-        additionalString = "This is like the best car ever. \n Not joking. \n SO AWESOME!!!";
-        additionalArea = new JTextArea(additionalString, 3, 30);
-        additionalArea.setEditable(false);
-        additionalArea.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-        additionalPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
-        additionalPanel.add(Box.createHorizontalStrut(5));
-        additionalPanel.add(additionalLabel);
-        additionalPanel.add(Box.createHorizontalStrut(strutDistance));
-        additionalPanel.add(additionalArea);
-        centerPanel.add(additionalPanel);
-
-        //ReservationPanel
-        reservationPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        reservationPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2), "Reservations"));
-        centerPanel.add(reservationPanel);
-//        //ReservationTablePanel
-//        reservationTablePanel = new JPanel();
-//        reservationTablePanel.setBackground(Color.GREEN);
-//        reservationTablePanel.setBorder(BorderFactory.createEmptyBorder(5, 30, 5, 30));
-
-
-
-
-        //TEMP - simulating that it has an arraylist with customers - skipped
-//
-//        Customer testCustomer = new Customer(100, 88427362, "Poul Poulsen", "Bossengade 26 \n 2630 \n Taastrup", "poul@gmail.com");
-//        Customer testCustomer2 = new Customer(130, 75834920, "Jens Jensen", "Johnsgade 30 \n 2630 \n Taastrup", "poul@gmail.com");
-//        ArrayList<Customer> customerArrayList = new ArrayList<Customer>();
-//        customerArrayList.add(testCustomer);
-//        customerArrayList.add(testCustomer2);
-//
-//
-//        Reservation testReservation = new Reservation(100, 3, Timestamp.valueOf("1991-12-24 13:37:00"), Timestamp.valueOf("1991-12-31 13:37:00"), 2);
-//        Reservation testReservation2 = new Reservation(20, 2, Timestamp.valueOf("1913-06-13 13:37:00"), Timestamp.valueOf("2010-03-25 13:37:00"), 3);
-//        //Customer testCustomer2 = new Customer(130, 75834920, "Jens Jensen", "Johnsgade 30 \n 2630 \n Taastrup", "poul@gmail.com");
-//        ArrayList<Reservation> reservationArrayList = new ArrayList<Reservation>();
-//        reservationArrayList.add(testReservation);
-//        reservationArrayList.add(testReservation2);
-
-        //Testing Table setup
-        Object[] columnNames = {"Customer", "Phone number", "From", "To"};
-        ArrayList<ArrayList<String>> reservationData = new ArrayList<>();
-        ArrayList<String> rowData;
-        //getting the data in the arrayList - this might be unnecessary in final implementation depending on how this class receives the simple type objects.
-        Customer testCustomer = new Customer(130, 75834920, "Jens Jensen", "Johnsgade 30 \n 2630 \n Taastrup", "poul@gmail.com");
-        Reservation testReservation = new Reservation(100, 3, Timestamp.valueOf("1991-12-24 13:37:00"), Timestamp.valueOf("1991-12-31 13:37:00"), 2);
-        for (int i = 0; i < 10; i++) {
-            rowData = new ArrayList<String>();
-            rowData.add(testCustomer.getName());
-            rowData.add("" + testCustomer.getTelephone());
-            rowData.add("" + testReservation.getTStart());
-            rowData.add("" + testReservation.getTEnd());
-            reservationData.add(rowData);
-            assert reservationData.get(i).size()==columnNames.length;
-        }
-
-        //Converting to Object[][] for the JTable
-        Object[][] tableData = new Object[reservationData.size()][columnNames.length];
-        for (int i = 0; i < reservationData.size(); i++) { //  'i' represents a row
-            for (int j = 0; j < columnNames.length; j++) { //'j' represents a certain cell on row 'i'
-                tableData[i][j] = reservationData.get(i).get(j); //out of bounds cannot happen because of the conditions in the for loops.
-            }
-        }
-        //Creating the table
-        JTable reservationTable = new JTable(tableData, columnNames);
-        //adding it to it's own scrollpane
-        JScrollPane scrollPane = new JScrollPane(reservationTable);
-        //Setting the default size for the scrollpane
-        reservationTable.setPreferredScrollableViewportSize(new Dimension(500, 120));
-        reservationPanel.add(scrollPane);
-
-        //ButtonPanels
+        //ButtonPanel
         buttonPanel = new JPanel();
-        viewVehiclePanel.add(buttonPanel, BorderLayout.SOUTH);
+        viewEntityPanel.add(buttonPanel, BorderLayout.SOUTH);
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
         buttonPanel.add(Box.createHorizontalGlue());
 
-        //cancel-Button
-        backButton = new JButton("Back");
-        backButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //TODO NICLASONLY Set text() for all fields aka blank
-                showMainScreenPanel();
-            }
-        });
-        buttonPanel.add(backButton);
-
-    }
-
-    @Override
-    public void makeAddTypePanel() { //TODO Try to fix code duplication
-        //The functionality here is pretty much implemented in VehicleType's createPanel()-method. I'm using the centerpanel from there, but I'm writing the 
-        //buttons + border etc. again, as I can't figure out how to reuse it all (Cancel has a new function here) 
-        JPanel buttonPanel, centralpanel;
-        JScrollPane scrollPane;
-        JButton cancelButton, createButton;
-        addTypePanel = new JPanel();
-
-        addTypePanel.setLayout(new BorderLayout());
-        addTypePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Create a vehicle type"));
-        //Colors
-        addTypePanel.setBackground(new Color(216, 216, 208));
-        //Get the centerPanel used to create a VehicleType from VehicleTypePanel.
-        centralpanel = vehicleTypeInstance.getCenterJPanel_create();
-        centralpanel.setVisible(true);
-        scrollPane = new JScrollPane(centralpanel);
-        addTypePanel.add(scrollPane);
-
-
-        //ButtonPanels
-        buttonPanel = new JPanel();
-        //Add the scrollpane to the mainPanel of the Create-functionality
-        addTypePanel.add(buttonPanel, BorderLayout.SOUTH);
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
-        buttonPanel.add(Box.createHorizontalGlue());
-        //cancel-Button
-        cancelButton = new JButton("Cancel");
+        //cancelButton
+        cancelButton = new JButton("Back");
         cancelButton.addActionListener(new ActionListener() {
 
             @Override
@@ -406,18 +263,12 @@ public class CustomerPanel extends SuperPanel {
         });
         buttonPanel.add(cancelButton);
         buttonPanel.add(Box.createHorizontalStrut(5));
-
-        //create-button
-        createButton = new JButton("Create");
-        createButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //TODO NICLASONLY make the database update here
-            }
-        });
-        buttonPanel.add(createButton);
     }
+
+    @Override
+    public void makeAddTypePanel(){ //not used
+        
+    }       
 
     @Override
     public void makeListPanel() {
