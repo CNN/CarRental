@@ -346,7 +346,7 @@ public class VehiclePanel extends SuperPanel {
         }
 
         public void update() {
-            vehicleList = CarRental.getInstance().requestVehicles();
+            vehicleList = CarRental.getInstance().requestVehicles(); //If a car was edited from the view panel, this is needed as to have an updated list of VIN numbers
             vehicleTypes = CarRental.getInstance().requestVehicleTypes();
             //Check for an added type for the JComboBox
             vehicleTypeComboModel.removeAllElements();
@@ -407,7 +407,7 @@ public class VehiclePanel extends SuperPanel {
             vehicleTypePanel.add(vehicleTypeCombo);
 
             centerPanel.add(vehicleTypePanel);
-            //Name
+            //Description
             descriptionLabel = new JLabel("Description");
             descriptionField = new JTextField(defaultJTextFieldColumns);
             descriptionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -740,14 +740,13 @@ public class VehiclePanel extends SuperPanel {
             });
             buttonPanel.add(createButton);
         }
-        
+
         public void update() {
             //Sets all text fields blank
             vehicleTypeNameField.setText(null);
             priceField.setText(null);
             descriptionArea.setText(null);
         }
-        
     }
 
     public class ListPanel extends JPanel {
@@ -762,6 +761,7 @@ public class VehiclePanel extends SuperPanel {
         JTextField descriptionField, licensePlateField, vinField, drivenField;
         JButton filterButton, cancelButton, viewButton;
         final int defaultJTextFieldColumns = 20, strutDistance = 0;
+        int currentVehicleTypeIndex =-1; //this is for storing the currently selected choice from the combobox.
 
         public ListPanel() {
 
@@ -803,15 +803,38 @@ public class VehiclePanel extends SuperPanel {
             vehicleTypeLabel = new JLabel("Vehicle Type");
             vehicleTypeComboModel = new DefaultComboBoxModel();
             vehicleTypeCombo = new JComboBox(vehicleTypeComboModel);
+            vehicleTypeCombo.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (currentVehicleTypeIndex == -1 && vehicleTypeCombo.getSelectedIndex()>0){ //if the current selection hasn't been set and it was not just set to "All"
+                        filter();
+                        currentVehicleTypeIndex = vehicleTypeCombo.getSelectedIndex();
+                    }
+                    else if(currentVehicleTypeIndex>-1 && currentVehicleTypeIndex!=vehicleTypeCombo.getSelectedIndex() ) {
+                        filter();
+                        currentVehicleTypeIndex = vehicleTypeCombo.getSelectedIndex();                     
+                    } else {
+                        //do not filter() as the vehicle type was either the default "All" chosen as the first move,
+                        //or the same as the one already filtered after 
+                    }
+                }
+            });
 
             topFilterPanel.add(vehicleTypeLabel);
             topFilterPanel.add(Box.createRigidArea(new Dimension(16 + strutDistance, 0)));
             topFilterPanel.add(vehicleTypeCombo);
             topFilterPanel.add(Box.createRigidArea(new Dimension(91, 0)));
 
-            //Name
+            //Description
             descriptionLabel = new JLabel("Description");
             descriptionField = new JTextField(defaultJTextFieldColumns);
+            descriptionField.addKeyListener(new KeyAdapter() {
+
+                public void keyReleased(KeyEvent e) {
+                    filter();
+                }
+            });
 
             topFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             topFilterPanel.add(descriptionLabel);
@@ -825,6 +848,12 @@ public class VehiclePanel extends SuperPanel {
             //LicensePlate
             licensePlateLabel = new JLabel("License Plate");
             licensePlateField = new JTextField(defaultJTextFieldColumns);
+            licensePlateField.addKeyListener(new KeyAdapter() {
+
+                public void keyReleased(KeyEvent e) {
+                    filter();
+                }
+            });
 
             middleFilterPanel.add(licensePlateLabel);
             middleFilterPanel.add(Box.createRigidArea(new Dimension(11 + strutDistance, 0)));
@@ -834,6 +863,12 @@ public class VehiclePanel extends SuperPanel {
             //VIN
             vinLabel = new JLabel("VIN");
             vinField = new JTextField(defaultJTextFieldColumns);
+            vinField.addKeyListener(new KeyAdapter() {
+
+                public void keyReleased(KeyEvent e) {
+                    filter();
+                }
+            });
 
             middleFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             middleFilterPanel.add(vinLabel);
@@ -847,47 +882,16 @@ public class VehiclePanel extends SuperPanel {
             //Driven
             drivenLabel = new JLabel("Distance driven");
             drivenField = new JTextField(defaultJTextFieldColumns);
+            drivenField.addKeyListener(new KeyAdapter() {
+
+                public void keyReleased(KeyEvent e) {
+                    filter();
+                }
+            });
 
             bottomFilterPanel.add(drivenLabel);
             bottomFilterPanel.add(Box.createRigidArea(new Dimension(strutDistance, 0)));
             bottomFilterPanel.add(drivenField);
-
-            //filter-button
-            filterButton = new JButton("Filter");
-            filterButton.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    //Delete exisiting rows 
-                    vehicleTableModel.setRowCount(0);
-
-                    //Add the updated rows with reservations
-                    for (Vehicle vehicle : vehicleList) {
-                        //Filter
-                        //As long as - 
-                        if (((vehicleTypeCombo.getSelectedIndex() == -1 || vehicleTypeCombo.getSelectedIndex() == 0) || //vehicle type is not chosen or set to "All" OR
-                                vehicle.getVehicleType() == vehicleTypes.get(vehicleTypeCombo.getSelectedIndex() - 1).getID()) && //Vehicle's type is the vehicle type chosen AND
-                                (descriptionField.getText().trim().isEmpty() || //description field is empty OR
-                                vehicle.getDescription().toLowerCase(Locale.ENGLISH).contains(descriptionField.getText().trim().toLowerCase(Locale.ENGLISH))) && //vehicles descripton equals the description given AND 
-                                (licensePlateField.getText().trim().isEmpty() || //License plate field is empty OR
-                                vehicle.getLicensePlate().toLowerCase(Locale.ENGLISH).contains(licensePlateField.getText().trim().toLowerCase(Locale.ENGLISH))) && //vehicles license plate number equals the license plate number given AND
-                                (vinField.getText().trim().isEmpty() || //VIN field is empty OR
-                                vehicle.getVin().toLowerCase(Locale.ENGLISH).contains(vinField.getText().trim().toLowerCase(Locale.ENGLISH))) && //vehicles VIN equals the VIN given AND 
-                                (drivenField.getText().trim().isEmpty() || //driven field is empty OR
-                                Integer.toString(vehicle.getOdo()).toLowerCase(Locale.ENGLISH).contains(drivenField.getText().trim().toLowerCase(Locale.ENGLISH)))) { //vehicles ODO equals the "distance driven" given
-                            // - does the vehicle match the filter, and following row is added to the table
-                            vehicleTableModel.addRow(new String[]{vehicleTypes.get(vehicle.getVehicleType() - 1).getName(),
-                                        vehicle.getDescription(),
-                                        vehicle.getLicensePlate(),
-                                        vehicle.getVin(),
-                                        Integer.toString(vehicle.getOdo())});
-                        }
-                    }
-                }
-            });
-            bottomFilterPanel.add(Box.createRigidArea(new Dimension(285, 0)));
-            bottomFilterPanel.add(filterButton);
-
 
             //ButtonPanels
             buttonPanel = new JPanel();
@@ -926,7 +930,8 @@ public class VehiclePanel extends SuperPanel {
         }
 
         public void update() {
-
+            //reset the selected vehicle type
+            currentVehicleTypeIndex = -1;
             //Delete exisiting rows 
             vehicleTableModel.setRowCount(0);
 
@@ -951,6 +956,32 @@ public class VehiclePanel extends SuperPanel {
             licensePlateField.setText(null);
             vinField.setText(null);
             drivenField.setText(null);
+        }
+
+        public void filter() {
+            //Delete exisiting rows 
+            vehicleTableModel.setRowCount(0);
+            //Add the rows that match the filter
+            for (Vehicle vehicle : vehicleList) {
+                //As long as - 
+                if (((vehicleTypeCombo.getSelectedIndex() == -1 || vehicleTypeCombo.getSelectedIndex() == 0) || //vehicle type is not chosen or set to "All" OR
+                        vehicle.getVehicleType() == vehicleTypes.get(vehicleTypeCombo.getSelectedIndex() - 1).getID()) && //Vehicle's type is the vehicle type chosen AND
+                        (descriptionField.getText().trim().isEmpty() || //description field is empty OR
+                        vehicle.getDescription().toLowerCase(Locale.ENGLISH).contains(descriptionField.getText().trim().toLowerCase(Locale.ENGLISH))) && //vehicles descripton equals the description given AND 
+                        (licensePlateField.getText().trim().isEmpty() || //License plate field is empty OR
+                        vehicle.getLicensePlate().toLowerCase(Locale.ENGLISH).contains(licensePlateField.getText().trim().toLowerCase(Locale.ENGLISH))) && //vehicles license plate number equals the license plate number given AND
+                        (vinField.getText().trim().isEmpty() || //VIN field is empty OR
+                        vehicle.getVin().toLowerCase(Locale.ENGLISH).contains(vinField.getText().trim().toLowerCase(Locale.ENGLISH))) && //vehicles VIN equals the VIN given AND 
+                        (drivenField.getText().trim().isEmpty() || //driven field is empty OR
+                        Integer.toString(vehicle.getOdo()).toLowerCase(Locale.ENGLISH).contains(drivenField.getText().trim().toLowerCase(Locale.ENGLISH)))) { //vehicles ODO equals the "distance driven" given
+                    // - does the vehicle match the filter, and following row is added to the table
+                    vehicleTableModel.addRow(new String[]{vehicleTypes.get(vehicle.getVehicleType() - 1).getName(),
+                                vehicle.getDescription(),
+                                vehicle.getLicensePlate(),
+                                vehicle.getVin(),
+                                Integer.toString(vehicle.getOdo())});
+                }
+            }
         }
     }
 }
