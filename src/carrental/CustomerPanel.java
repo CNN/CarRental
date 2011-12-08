@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.util.Calendar;
 import javax.swing.border.TitledBorder;
 
+//TODO Move "Filter" button and add select method for JTable
+
 /**
  * This is the main panel regarding vehicles.
  * It contains JPanels for every relevant screen, when dealing with customers.
@@ -19,6 +21,9 @@ public class CustomerPanel extends SuperPanel {
     private JPanel emptyPanel = null;
     private Customer customerToView; //specific customer, used to view details
     private ArrayList<Customer> customers; //array of costumers
+    private final CreatePanel createPanel = new CreatePanel();
+    private final ViewEntityPanel viewEntityPanel = new ViewEntityPanel();
+    private final ListPanel listPanel = new ListPanel();
 
     public CustomerPanel() {
         this.customers = CarRental.getInstance().requestCustomers();
@@ -29,7 +34,7 @@ public class CustomerPanel extends SuperPanel {
         }
 
         //Sets the different subpanels. Also adds them to this object with JPanel.add().
-        AssignAndAddSubPanels(new MainScreenPanel(), new CreatePanel(), new ViewEntityPanel(), emptyPanel, new ListPanel());
+        AssignAndAddSubPanels(new MainScreenPanel(), createPanel, viewEntityPanel, emptyPanel, listPanel);
         this.setPreferredSize(new Dimension(800, 600));
 
         //Removes the default gaps between components
@@ -73,9 +78,9 @@ public class CustomerPanel extends SuperPanel {
             customerToView = CarRental.getInstance().requestCustomer();
         }
 
-//        CreatePanel.updateCreatePanel();
-//        ViewEntityPanel.updateViewEntityPanel();
-//        ListPanel.updateListPanel();
+        createPanel.updateCreatePanel();
+        viewEntityPanel.updateViewEntityPanel();
+        listPanel.updateListPanel();
     }
 
     public class MainScreenPanel extends JPanel {
@@ -315,8 +320,6 @@ public class CustomerPanel extends SuperPanel {
             eMailPanel.add(customerAdressTextField);
             centerPanel.add(eMailPanel);
 
-            //TODO insert list
-
             //ButtonPanel
             buttonPanel = new JPanel();
             add(buttonPanel, BorderLayout.SOUTH);
@@ -339,11 +342,25 @@ public class CustomerPanel extends SuperPanel {
         }
 
         public void setCustomerTextFields(Customer customer) {
+            if(customer == null) customer = CarRental.getInstance().requestCustomer();
+            
             customerID = "" + customer.getID();
-            customerName = customer.getName();
+            if(customer.getName() != null){
+                customerName = customer.getName();
+            }else{
+                customerName = "Unknown customer";
+            }
             customerPhone = "" + customer.getTelephone();
-            customerAdress = customer.getAdress();
-            customerEMail = customer.getEMail();
+            if(customer.getAdress() != null){
+                customerAdress = customer.getAdress();
+            }else{
+                customerAdress = "Unknown adress";
+            }
+            if(customer.getEMail() != null){
+                customerEMail = customer.getEMail();
+            }else{
+                customerEMail = "Unknown E-Mail";
+            }
         }
 
         public void updateViewEntityPanel() {
@@ -485,7 +502,7 @@ public class CustomerPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //TODO NICLASONLY Set text() for all fields aka blank
+                    setFilterTextFields();
                     showMainScreenPanel();
                 }
             });
@@ -503,6 +520,8 @@ public class CustomerPanel extends SuperPanel {
             });
             buttonPanel.add(filterButton);
         }
+        
+        //TODO checks på saveC
         
         public void updateListPanel(){
             setFilterTextFields();
