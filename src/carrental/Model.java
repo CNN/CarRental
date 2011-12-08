@@ -46,7 +46,7 @@ public class Model {
      * @return Array of vehicles
      */
     public ArrayList<Vehicle> getVehicles() {
-        ArrayList<ArrayList<String>> vs = database.getMatches("SELECT * FROM vehicle ORDER BY type,id DESC");
+        ArrayList<ArrayList<String>> vs = database.getMatches("SELECT * FROM vehicle ORDER BY description,id DESC");
         ArrayList<Vehicle> results = new ArrayList<>();
         for(ArrayList<String> v : vs) {
             results.add(new Vehicle(Integer.parseInt(v.get(0)),Integer.parseInt(v.get(1)),v.get(3),v.get(4),v.get(2),Integer.parseInt(v.get(5)),v.get(6)));
@@ -438,7 +438,7 @@ public class Model {
      * @return Bookings
      */
     public ArrayList<Booking> getBookingsByVehicleId(int vehicle_id) {
-        ArrayList<ArrayList<String>> rms = database.getMatches("SELECT * FROM maintenance AS m, reservation AS r WHERE m.vehicle_id = '"+vehicle_id+"' AND r.vehicleid = '"+vehicle_id+"' ORDER BY m.date_start,r.start");
+        ArrayList<ArrayList<String>> rms = database.getMatches("SELECT * FROM maintenance AS m, reservation AS r WHERE m.vehicle_id = '"+vehicle_id+"' OR r.vehicleid = '"+vehicle_id+"' ORDER BY m.date_start,r.start");
         ArrayList<Booking> results = new ArrayList<>();
         for(ArrayList<String> rm : rms) {
             if(rm.size() > 0) {
