@@ -22,7 +22,7 @@ public final class CarRental {
         if(instance == null) instance = this;
         appendLog("Initializing...");
         model = new Model();
-        view = View.getInstance(this);
+        view = new View();
     }
     
     /**

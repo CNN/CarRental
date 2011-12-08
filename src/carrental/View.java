@@ -11,14 +11,12 @@ import java.awt.Font.*;
  * @version 2011-12-08
  */
 public class View {
-    private CarRental controller;
     private JFrame frame;
     private final String title = "CarRental Project :: Renting Cars Made Easy";
     private MainPanel main;
     
-    public View(CarRental c) {
-        controller = c;
-        controller.appendLog("Creating View...");
+    public View() {
+        CarRental.getInstance().appendLog("Creating View...");
         
         frame = new JFrame(title);
         
@@ -30,9 +28,13 @@ public class View {
         frame.setResizable(false);
         frame.setVisible(true);
         
-        controller.appendLog("View created.");
+        CarRental.getInstance().appendLog("View created.");
     }
     
+    /**
+     * MainPanel is the primary panel of CarRental - it shows the static portion
+     * of the GUI and displays the different panels in its center space.
+     */
     class MainPanel extends JPanel {
         private JPanel west = new JPanel(),
                 west_inner = new JPanel(),
@@ -58,6 +60,7 @@ public class View {
             west.add(west_inner);
             west_inner.setLayout(new GridLayout(0,1));
             
+            //reservation button
             JButton reservationButton = new JButton("Reservation");
             reservationButton.setFont(new Font("Arial",Font.BOLD,16));
             reservationButton.addActionListener(new ActionListener() {
@@ -67,6 +70,7 @@ public class View {
                 }
             });
             
+            //customer button
             JButton customerButton = new JButton("Customer");
             customerButton.setFont(new Font("Arial",Font.BOLD,16));
             customerButton.addActionListener(new ActionListener() {
@@ -76,6 +80,7 @@ public class View {
                 }
             });
             
+            //vehicle button
             JButton vehicleButton = new JButton("Vehicle");
             vehicleButton.setFont(new Font("Arial",Font.BOLD,16));
             vehicleButton.addActionListener(new ActionListener() {
@@ -85,6 +90,7 @@ public class View {
                 }
             });
             
+            //maintenance button
             JButton maintenanceButton = new JButton("Maintenance");
             maintenanceButton.setFont(new Font("Arial",Font.BOLD,16));
             maintenanceButton.addActionListener(new ActionListener() {
@@ -93,19 +99,23 @@ public class View {
                 }
             });
             
+            //left side menu
             west_inner.add(reservationButton);
             west_inner.add(customerButton);
             west_inner.add(vehicleButton);
             west_inner.add(maintenanceButton);
             
-            //build northReservation
+            //build north menu for reservation
+            //reservation: create button
             JButton reservationCreate = new JButton("Create");
+            //reservation: list button
             JButton reservationList = new JButton("List");
             northReservation.setLayout(new FlowLayout(FlowLayout.LEFT));
             northReservation.add(reservationCreate);
             northReservation.add(reservationList);
             
-            //build northCustomer
+            //build north menu for customer
+            //customer: create button
             JButton customerCreate = new JButton("Create");
             customerCreate.addActionListener(new ActionListener() {
                 @Override
@@ -113,7 +123,7 @@ public class View {
                     customerPanel.showCreatePanel();
                 }
             });
-            
+            //customer: list button
             JButton customerList = new JButton("List");
             customerList.addActionListener(new ActionListener() {
                 @Override
@@ -121,12 +131,12 @@ public class View {
                     customerPanel.showListPanel();
                 }
             });
-            
             northCustomer.setLayout(new FlowLayout(FlowLayout.LEFT));
             northCustomer.add(customerCreate);
             northCustomer.add(customerList);
             
-            //build northVehicle
+            //build north menu for vehicle
+            //vehicle: create button
             JButton vehicleCreate = new JButton("Create");
             vehicleCreate.addActionListener(new ActionListener() {
                 @Override
@@ -134,7 +144,7 @@ public class View {
                     vehiclePanel.showCreatePanel();
                 }
             });
-            
+            //vehicle: create type button
             JButton vehicleTypeCreate = new JButton("Create Vehicle Type");
             vehicleTypeCreate.addActionListener(new ActionListener() {
                 @Override
@@ -142,7 +152,7 @@ public class View {
                     vehiclePanel.showAddTypePanel();
                 }
             });
-            
+            //vehicle: list button
             JButton vehicleList = new JButton("List");
             vehicleList.addActionListener(new ActionListener() {
                 @Override
@@ -150,6 +160,7 @@ public class View {
                     vehiclePanel.showListPanel();
                 }
             });
+            //vehicle: overview button
             JButton vehicleOverview = new JButton("Overview");
             vehicleOverview.addActionListener(new ActionListener() {
                 @Override
@@ -157,16 +168,18 @@ public class View {
                     vehiclePanel.showMainScreenPanel();
                 }
             });
-            
             northVehicle.setLayout(new FlowLayout(FlowLayout.LEFT));
             northVehicle.add(vehicleCreate);
             northVehicle.add(vehicleTypeCreate);
             northVehicle.add(vehicleList);
             northVehicle.add(vehicleOverview);
             
-            //build northMaintenance
+            //build north menu for maintenance
+            //maintenance: create button
             JButton maintenanceCreate = new JButton("Create");
+            //maintenance: create type button
             JButton maintenanceTypeCreate = new JButton("Create Maintenance Type");
+            //maintenance: list button
             JButton maintenanceList = new JButton("List");
             northMaintenance.setLayout(new FlowLayout(FlowLayout.LEFT));
             northMaintenance.add(maintenanceCreate);
@@ -181,6 +194,7 @@ public class View {
             center_north.setLayout(new FlowLayout(FlowLayout.LEFT));
             center_north.add(northVehicle);
             center_north.setBorder(BorderFactory.createMatteBorder(0,0,2,0, Color.LIGHT_GRAY));
+            
             center_super.setLayout(new BorderLayout());
             center_super.add(center, BorderLayout.CENTER);
             center_super.add(center_north, BorderLayout.NORTH);
@@ -189,6 +203,10 @@ public class View {
             
         }
         
+        /**
+         * Select the vehicle panel as the shown panel and change the north
+         * menu to the appropriate
+         */
         public void selectVehicle() {
             center.removeAll();
             center_north.removeAll();
@@ -198,6 +216,10 @@ public class View {
             frame.pack();
         }
         
+        /**
+         * Select the maintenance panel as the shown panel and change the north
+         * menu to the appropriate
+         */
         public void selectMaintenance() {
             center.removeAll();
             center_north.removeAll();
@@ -207,6 +229,10 @@ public class View {
             frame.pack();
         }
         
+        /**
+         * Select the reservation panel as the shown panel and change the north
+         * menu to the appropriate
+         */
         public void selectReservation() {
             center.removeAll();
             center_north.removeAll();
@@ -216,6 +242,10 @@ public class View {
             frame.pack();
         }
         
+        /**
+         * Select the customer panel as the shown panel and change the north
+         * menu to the appropriate
+         */
         public void selectCustomer() {
             center.removeAll();
             center_north.removeAll();
