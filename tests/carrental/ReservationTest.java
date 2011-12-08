@@ -9,8 +9,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author Niclas
+ * Test class for Reservation class
+ * @author CNN
+ * @version 2011-12-08
  */
 public class ReservationTest {
   private Reservation reservation;
@@ -59,6 +60,14 @@ public class ReservationTest {
     @Test
     public void testGetCustomerID() {
         assertEquals(3, reservation.getCustomerID());
+    }
+    
+    /**
+     * Test of isBooked method
+     */
+    @Test
+    public void testIsBooked(){
+        assertEquals(true, reservation.isBooked(new Timestamp(23)));
     }
 
     /**

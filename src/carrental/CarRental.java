@@ -22,7 +22,7 @@ public final class CarRental {
         if(instance == null) instance = this;
         appendLog("Initializing...");
         model = new Model();
-        view = View.getInstance(this);
+        view = new View();
     }
     
     /**
@@ -53,7 +53,7 @@ public final class CarRental {
     }
     
     /**
-     * Request vehicle matchign id from model
+     * Request vehicle matching id from model
      * @param id id of vehicle
      * @return vehicle
      */
@@ -211,6 +211,15 @@ public final class CarRental {
      */
     public ArrayList<Booking> requestBookings() {
         return model.getBookings();
+    }
+    
+    /**
+     * Request a list of bookings from the model related to the vehicle with the
+     * specified id. Bookings are either reservations or maintenances.
+     * @return list of bookings
+     */
+    public ArrayList<Booking> requestBookingsByVehicle(int v_id) {
+        return model.getBookingsByVehicleId(v_id);
     }
     
     /**
