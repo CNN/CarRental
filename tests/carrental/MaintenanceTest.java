@@ -81,7 +81,7 @@ public class MaintenanceTest {
     @Test
     public void testIncorrectTimestamps(){
         maintenance = new Maintenance(4, 2, new Timestamp(23), new Timestamp(22), 3);
-        assertEquals(new Timestamp(0), maintenance.getTStart().getTime());
+        assertEquals((long)0, maintenance.getTStart().getTime());
         assertEquals(new Timestamp(0), maintenance.getTEnd().getTime());
     }
 }
