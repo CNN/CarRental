@@ -80,7 +80,7 @@ public class CustomerTest {
         //test that the customer's fields equals the new values.
         assertEquals(24736400, customer.getTelephone());
         assertEquals("Poul Erik Poulsen", customer.getName());
-        assertEquals("Enghavevej 15 7420 Viborg", customer.getAdress());
+        assertEquals("Enghavevej 15 7500 Viborg", customer.getAdress());
         assertEquals(7500, customer.getPostalCode());
         assertEquals("p.e.poulsen@gmail.com", customer.getEMail());
     }
