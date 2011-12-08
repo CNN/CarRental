@@ -53,7 +53,7 @@ public final class CarRental {
     }
     
     /**
-     * Request vehicle matchign id from model
+     * Request vehicle matching id from model
      * @param id id of vehicle
      * @return vehicle
      */

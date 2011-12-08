@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * GUI for CarRental project
  * @author CNN
- * @version 1. Dec. 2011
+ * @version 2011-12-08
  */
 public class View {
     private static View view;
