@@ -17,7 +17,7 @@ public class CustomerTest {
     private Customer customer; //Should these be static? maybe it doesn't matter??
 
     public CustomerTest() {
-        customer = new Customer(1, 24736456, "Poul Poulsen", "Enghavevej 13, 7420 Viborg", "p.poulsen@gmail.com");
+        customer = new Customer(1, 24736456, "Poul Poulsen", "Enghavevej 13\n7420 Viborg", "p.poulsen@gmail.com");
     }
 
     /**
@@ -52,7 +52,7 @@ public class CustomerTest {
      */
     @Test
     public void testGetAdress() {
-        assertEquals("Enghavevej 13, 7420 Viborg", customer.getAdress());
+        assertEquals("Enghavevej 13\n7420 Viborg", customer.getAdress());
     }
     
     /**
@@ -76,11 +76,11 @@ public class CustomerTest {
      */
     @Test
     public void testUpdateObject() {
-        customer.updateObject(24736400, "Poul Erik Poulsen", "Enghavevej 15 \n 7500 Viborg", "p.e.poulsen@gmail.com");
+        customer.updateObject(24736400, "Poul Erik Poulsen", "Enghavevej 15\n7500 Viborg", "p.e.poulsen@gmail.com");
         //test that the customer's fields equals the new values.
         assertEquals(24736400, customer.getTelephone());
         assertEquals("Poul Erik Poulsen", customer.getName());
-        assertEquals("Enghavevej 15 7500 Viborg", customer.getAdress());
+        assertEquals("Enghavevej 15\n7500 Viborg", customer.getAdress());
         assertEquals(7500, customer.getPostalCode());
         assertEquals("p.e.poulsen@gmail.com", customer.getEMail());
     }
