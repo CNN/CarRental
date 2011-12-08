@@ -8,8 +8,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
+ * Test class for VehicleType class
  * @author CNN
+ * @version 2011-12-08
  */
 public class VehicleTypeTest {
 
