@@ -32,14 +32,17 @@ public class VehiclePanel extends SuperPanel {
     //VehicleTypePanel to get the addType-panel from the createPanel of the VehicleTypePanel class - to avoid some code duplication
     private VehicleTypePanel vehicleTypeInstance;
     private GraphicAlternate graph;
-    private final ViewVehiclePanel viewVehiclePanel = new ViewVehiclePanel();
+    private ViewVehiclePanel viewVehiclePanel;
+    private ListPanel listPanel;
 
     public VehiclePanel() {
         vehicleList = CarRental.getInstance().requestVehicles();
         vehicleTypes = CarRental.getInstance().requestVehicleTypes();
         vehicleTypeInstance = new VehicleTypePanel();
+        viewVehiclePanel = new ViewVehiclePanel();
+        listPanel = new ListPanel();
         //Sets the different subpanels. Also adds them to this object with JPanel.add().
-        AssignAndAddSubPanels(new MainScreenPanel(), new CreatePanel(), viewVehiclePanel, new AddTypePanel(), new ListPanel());
+        AssignAndAddSubPanels(new MainScreenPanel(), new CreatePanel(), viewVehiclePanel, new AddTypePanel(), listPanel);
         this.setPreferredSize(new Dimension(800, 600));
 
         //Removes the default gaps between components
@@ -51,6 +54,12 @@ public class VehiclePanel extends SuperPanel {
     public void showViewEntityPanel() {
         viewVehiclePanel.update();
         super.showViewEntityPanel();
+    }
+
+    @Override
+    public void showListPanel() {
+        listPanel.update();
+        super.showListPanel();
     }
 
     //Temporary Main
@@ -207,7 +216,7 @@ public class VehiclePanel extends SuperPanel {
             vehicleTypeLabel = new JLabel("Vehicle Type");
             vehicleTypeComboModel = new DefaultComboBoxModel();
             vehicleTypeCombo = new JComboBox(vehicleTypeComboModel);
-            
+
             for (VehicleType vehicleType : vehicleTypes) {
                 vehicleTypeComboModel.addElement(vehicleType.getName());
             }
@@ -328,7 +337,7 @@ public class VehiclePanel extends SuperPanel {
 
                                     CarRental.getInstance().saveVehicle(newVehicle);
                                     CarRental.getInstance().appendLog("Vehicle \"" + descriptionField.getText().trim() + "\" added to the database");
-                                    vehicleList.add(newVehicle);
+                                    vehicleList = CarRental.getInstance().requestVehicles();
                                 } catch (NumberFormatException ex) {
                                     System.out.println("Your \"Distance driven\" field does not consist of numbers only. The vehicle wasn't created");
                                 }
@@ -340,6 +349,8 @@ public class VehiclePanel extends SuperPanel {
         }
 
         public void update() {
+            vehicleList = CarRental.getInstance().requestVehicles();
+            vehicleTypes = CarRental.getInstance().requestVehicleTypes();
             //Check for an added type for the JComboBox
             vehicleTypeComboModel.removeAllElements();
             for (VehicleType vehicleType : vehicleTypes) {
@@ -364,8 +375,6 @@ public class VehiclePanel extends SuperPanel {
         private JTextArea additionalArea;
         private JButton backButton, editButton, viewTypeButton;
         private final int defaultJTextFieldColumns = 20, strutDistance = 0;
-        //some temporary strings for testing the GUI
-        private String vehicleTypeString, descriptionString, licensePlateString, vinString, drivenString, additionalString;
         private DefaultTableModel reservationTableModel, maintenanceTableModel;
         private JTable reservationTable, maintenanceTable;
         private JScrollPane reservationScrollPane, maintenanceScrollPane;
@@ -393,11 +402,8 @@ public class VehiclePanel extends SuperPanel {
             vehicleTypeLabel = new JLabel("Vehicle Type");
             vehicleTypeComboModel = new DefaultComboBoxModel();
             vehicleTypeCombo = new JComboBox(vehicleTypeComboModel);
-            
-            for(VehicleType vehicleType : vehicleTypes) {
-                vehicleTypeComboModel.addElement(vehicleType.getName());
-            }
-            
+            //this JComboBox selections are added in the update() method
+
             vehicleTypePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
             vehicleTypePanel.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -547,8 +553,9 @@ public class VehiclePanel extends SuperPanel {
                                     vinField.getText().trim(), Integer.parseInt(drivenField.getText().trim()), additionalArea.getText().trim());
 
                             CarRental.getInstance().saveVehicle(updatedVehicle);
+                            System.out.println(vehicleTypes.get(updatedVehicle.getVehicleType() - 1).getName());
                             CarRental.getInstance().appendLog("Vehicle \"" + descriptionField.getText().trim() + "\" changed in the database");
-                            vehicleList.add(updatedVehicle);
+                            vehicleList = CarRental.getInstance().requestVehicles();
                         } catch (NumberFormatException ex) {
                             System.out.println("Your \"Distance driven\" field does not consist of numbers only. The vehicle wasn't created");
                         }
@@ -561,19 +568,21 @@ public class VehiclePanel extends SuperPanel {
         }
 
         public void update() {
+            vehicleTypes = CarRental.getInstance().requestVehicleTypes();
+            vehicleList = CarRental.getInstance().requestVehicles();
             bookings = CarRental.getInstance().requestBookings();
             customers = CarRental.getInstance().requestCustomers();
             maintenanceTypes = CarRental.getInstance().requestMaintenanceTypes();
             reservations = new ArrayList<Reservation>();
             maintenances = new ArrayList<Maintenance>();
 
-            //empty refresh the vehicle types in the Combobox
+            //refresh the vehicle types in the Combobox
             vehicleTypeComboModel.removeAllElements();
             for (VehicleType vehicleType : vehicleTypes) {
                 vehicleTypeComboModel.addElement(vehicleType.getName());
             }
-            
-            vehicleTypeCombo.setSelectedIndex(vehicleToView.getVehicleType()-1);
+            //refresh the textfields
+            vehicleTypeCombo.setSelectedIndex(vehicleToView.getVehicleType() - 1);
             descriptionField.setText(vehicleToView.getDescription());
             licensePlateField.setText(vehicleToView.getLicensePlate());
             vinField.setText(vehicleToView.getVin());
@@ -602,7 +611,8 @@ public class VehiclePanel extends SuperPanel {
                     reservation.getTEnd().toString()};
                 reservationTableModel.addRow(tableRow);
             }
-            assert (reservations.size() == reservationTableModel.getRowCount()) : "size: " + reservations.size() + " row: " + reservationTableModel.getRowCount();
+            assert (reservations.size() == reservationTableModel.getRowCount()) : "size: " + reservations.size() + " rows: " + reservationTableModel.getRowCount();
+
             //Add the rows with maintenances
             for (Maintenance maintenance : maintenances) {
                 String serviceCheck;
@@ -611,17 +621,16 @@ public class VehiclePanel extends SuperPanel {
                 } else {
                     serviceCheck = "No";
                 }
-
                 tableRow = new String[]{maintenanceTypes.get(maintenance.getTypeID() - 1).getName(),
                     serviceCheck,
                     maintenance.getTStart().toString(),
                     maintenance.getTEnd().toString()};
                 maintenanceTableModel.addRow(tableRow);
             }
-            assert (maintenances.size() == maintenanceTableModel.getRowCount()) : "size: " + maintenances.size() + " row: " + maintenanceTableModel.getRowCount();
-            
-            
-            
+            assert (maintenances.size() == maintenanceTableModel.getRowCount()) : "size: " + maintenances.size() + " rows: " + maintenanceTableModel.getRowCount();
+
+
+
         }
     }
 
@@ -771,12 +780,7 @@ public class VehiclePanel extends SuperPanel {
             vehicleTableModel = new DefaultTableModel(new Object[]{"Type", "Description", "LicensePlate", "VIN", "Distance driven"}, 0);
             //creating the JTable
             vehicleTable = new JTable(vehicleTableModel);
-            for (Vehicle vehicle : vehicleList) {
-                vehicleTableModel.addRow(new Object[]{vehicleTypes.get(vehicle.getVehicleType() - 1).getName(),
-                            vehicle.getDescription(), vehicle.getLicensePlate(), vehicle.getVin(), vehicle.getOdo()});
-            }
-            assert (vehicleList.size() == vehicleTableModel.getRowCount());
-
+            
             scrollPane = new JScrollPane(vehicleTable);
             //Setting the default size for the table in this scrollpane
             vehicleTable.setPreferredScrollableViewportSize(new Dimension(700, 200));
@@ -899,6 +903,21 @@ public class VehiclePanel extends SuperPanel {
         }
 
         public void update() {
+            
+            //Delete exisiting rows 
+            vehicleTableModel.setRowCount(0);
+
+            //Add the updated rows with reservations
+            for (Vehicle vehicle : vehicleList) {
+                vehicleTableModel.addRow(new String[]{vehicleTypes.get(vehicle.getVehicleType() - 1).getName(),
+                            vehicle.getDescription(), 
+                            vehicle.getLicensePlate(), 
+                            vehicle.getVin(), 
+                            Integer.toString(vehicle.getOdo())}
+                        );
+            }
+            assert (vehicleList.size() == vehicleTableModel.getRowCount()): "size: " + vehicleList.size() + " rows: " + vehicleTableModel.getRowCount();
+
             //Check for an added type for the JComboBox
             vehicleTypeComboModel.removeAllElements();
             for (VehicleType vehicleType : vehicleTypes) {
