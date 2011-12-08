@@ -19,12 +19,10 @@ public class GraphicAlternate extends JComponent {
     public static final int
             VIEW_DAYS = 0,
             VIEW_WEEKS = 1,
-            VIEW_MONTHS = 2,
             VIEW_MONTH = 3;
     public static final int
             S_IN_DAY = 86400,
-            S_IN_WEEK = 604800,
-            S_IN_MONTH = 2592000;
+            S_IN_WEEK = 604800;
     private int unit;
     private int width = 800, height = 600,
             collumnWidth, rowHeight = 20,
@@ -48,7 +46,14 @@ public class GraphicAlternate extends JComponent {
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX();
                 int y = e.getY();
-                System.out.println("Clickety "+x+","+y);
+                if(x > 710 && y < 15) {
+                    display = VIEW_DAYS;
+                    refreshDataAndPaint();
+                }
+                else if(x > 710 && y < 30 && y > 15) {
+                    display = VIEW_MONTH;
+                    refreshDataAndPaint();
+                }
             }
         });
         refreshDataAndPaint();
@@ -67,7 +72,6 @@ public class GraphicAlternate extends JComponent {
             ArrayList<Booking> bs = CarRental.getInstance().requestBookingsByVehicle(v.getID());
             if(!bs.isEmpty()) {
                 for(Booking b : bs) {
-                    System.out.println("V"+v.getID()+":\t"+b.isMaintenance()+"\t"+b.getTStart()+" - "+b.getTEnd());
                     if(b.getTStart().before(first_date) && b.getTEnd().after(new Timestamp(calendar.getTimeInMillis())))
                         first_date = b.getTStart();
                 }
@@ -87,10 +91,6 @@ public class GraphicAlternate extends JComponent {
                 unit = S_IN_WEEK;
                 numberOfCollumns = 4;
                 break;
-            case(VIEW_MONTHS):
-                unit = S_IN_MONTH;
-                numberOfCollumns = 12;
-                break;
             case(VIEW_MONTH):
                 unit = S_IN_DAY;
                 Calendar cal = Calendar.getInstance();
@@ -104,7 +104,6 @@ public class GraphicAlternate extends JComponent {
                         Integer.parseInt(month.format(new Date(first_date.getTime()))) % 2 == 1 &&
                         Integer.parseInt(month.format(new Date(first_date.getTime()))) < 8) numberOfCollumns = 31;
                 else numberOfCollumns = 30;
-                numberOfCollumns = 10;
                 break;
             default:
                 unit = 0;
@@ -153,6 +152,7 @@ public class GraphicAlternate extends JComponent {
     }
 
     public void paint(Graphics g) {
+        
         pointerX = textSpace;
         pointerY = 0;
         
@@ -198,12 +198,25 @@ public class GraphicAlternate extends JComponent {
 
         g.setColor(Color.LIGHT_GRAY);
         g.drawLine(0, height - 3*textHeight, width, height - 3*textHeight);
+        
+        
         //draw x-axis text
         for (int x = 0; x < numberOfCollumns; x++) {
+            boolean draw_this = false, draw_line = false;
             g.setColor(Color.LIGHT_GRAY);
             g.drawLine(pointerX, 0, pointerX, height - 3*textHeight);
             g.setColor(Color.black);
-            g.drawString(dateString.get(x), pointerX + 20, textpointer);
+            //draw all if less than 10 cols
+            if(numberOfCollumns < 10) draw_this = true;
+            //draw every second if less than 20
+            if(numberOfCollumns < 20 && numberOfCollumns >= 10 && x % 2 == 0) draw_this = true;
+            //draw every fouth if less than 35
+            if(numberOfCollumns < 35 && numberOfCollumns >= 20 && x % 3 == 0) {
+                draw_this = true;
+                draw_line = true;
+            }
+            if(draw_this) g.drawString(dateString.get(x), (int)(pointerX + (0.5 * (collumnWidth - 60))), textpointer); //60, collumnWidth
+            if(draw_line) g.drawLine((int)(pointerX + (0.5 * (collumnWidth - 60)) + 30), textpointer - 12, (int)(pointerX + (0.5 * (collumnWidth - 60)) + 30), height - 3*textHeight);
             movePointerX();
             if (textpointer == height - textHeight) { //TODO Fix so this doesn't expand height
                 textpointer -= textHeight;
@@ -211,5 +224,12 @@ public class GraphicAlternate extends JComponent {
                 textpointer += textHeight;
             }
         }
+        
+        String str = "";
+        if(display == VIEW_DAYS) str = "> ";
+        g.drawString(str+"View week", 710, 15);
+        str = "";
+        if(display == VIEW_MONTH) str = "> ";
+        g.drawString(str+"View month", 710, 30);
     }
 }
