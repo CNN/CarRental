@@ -10,6 +10,7 @@ import static org.junit.Assert.*;
 /**
  *                                      NIELS :) !! Kan du lige fixe sådan at postalcode tingen virker :) Ved ikke om man opretter customer med \n eller hvad?
  * @author CNN
+ * @version 2011-12-08
  */
 public class CustomerTest {
 
