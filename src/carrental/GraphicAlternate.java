@@ -67,6 +67,7 @@ public class GraphicAlternate extends JComponent {
             ArrayList<Booking> bs = CarRental.getInstance().requestBookingsByVehicle(v.getID());
             if(!bs.isEmpty()) {
                 for(Booking b : bs) {
+                    System.out.println("V"+v.getID()+":\t"+b.isMaintenance()+"\t"+b.getTStart()+" - "+b.getTEnd());
                     if(b.getTStart().before(first_date) && b.getTEnd().after(new Timestamp(calendar.getTimeInMillis())))
                         first_date = b.getTStart();
                 }
@@ -155,29 +156,27 @@ public class GraphicAlternate extends JComponent {
         pointerX = textSpace;
         pointerY = 0;
         
-        g.setColor(Color.GREEN);
-        g.fillRect(textSpace, 5, collumnWidth, rowHeight);
-        
         //print reservation blocks
+        //for each row
         for(int y = 0; y < numberOfRows; y++) {
+            //for each cell
             for(int x = 0; x < numberOfCollumns; x++) {
                 boolean booked = false;
+                //for each booking, check
                 for(Booking b : vehicle_bookings.get(y)) {
-                    if(b.getTStart().before(timestamps.get(x))) {
+                    if(b.getTStart().before(timestamps.get(x)) && b.getTEnd().after(timestamps.get(x))) {
                         booked = true;
                         if(b.isMaintenance()) g.setColor(Color.RED);
                         else g.setColor(Color.BLUE);
                     }
                 }
                 if(booked) g.fillRect(x * collumnWidth + textSpace, y * rowHeight + 5, collumnWidth, rowHeight);
-
-                g.setColor(Color.BLACK);
                 movePointerX();
             }
             movePointerY();
             pointerX = 0;
         }
-        pointerY = 0;
+        pointerY = rowHeight;
         
         //print y-axis text
         for(Vehicle v : vehicles) {
@@ -199,7 +198,7 @@ public class GraphicAlternate extends JComponent {
 
         g.setColor(Color.LIGHT_GRAY);
         g.drawLine(0, height - 3*textHeight, width, height - 3*textHeight);
-        //print x-axis text
+        //draw x-axis text
         for (int x = 0; x < numberOfCollumns; x++) {
             g.setColor(Color.LIGHT_GRAY);
             g.drawLine(pointerX, 0, pointerX, height - 3*textHeight);
