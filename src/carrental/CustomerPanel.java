@@ -48,7 +48,7 @@ public class CustomerPanel extends SuperPanel {
     }
 
     //Temporary Main
-    //TODO: Remove this:
+    //TODO: Remove main:
     public static void main(String[] args) {
         JFrame frame = new JFrame("CustomerPanel");
         frame.setPreferredSize(new Dimension(800, 600));
