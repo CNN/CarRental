@@ -494,7 +494,7 @@ public class VehiclePanel extends SuperPanel {
             centerPanel.add(maintenancePanel);
 
             //Creating the maintenance table model
-            tableColumn = new String[]{"Maintenance Type", "Service check", "From", "To"};
+            tableColumn = new String[]{"Maintenance type", "Service check", "From", "To"};
             maintenanceTableModel = new DefaultTableModel(tableColumn, 0);
             //creating the JTable
             maintenanceTable = new JTable(maintenanceTableModel);
@@ -517,9 +517,9 @@ public class VehiclePanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //note that there´s no need to reset the fields, as update() is called every time this panel is shown,
+                    //note that there´s no need to reset the fields in this viewvehiclepanel, as update() is called every time this panel is shown,
                     //this is due to the overriden showEntityPanel()-method in VehiclePanel.
-                    showMainScreenPanel();
+                    showListPanel();
                 }
             });
             buttonPanel.add(backButton);
