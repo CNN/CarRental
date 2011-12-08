@@ -1,7 +1,7 @@
 /*
-* To change this template, choose Tools | Templates
-* and open the template in the editor.
-*/
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package carrental;
 
 import java.sql.Timestamp;
@@ -9,10 +9,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
-* Test class for Maintenance class
-* @author CNN
-* @version 2011-12-08
-*/
+ * Test class for Maintenance class
+ * @author CNN
+ * @version 2011-12-08
+ */
 public class MaintenanceTest {
     private Maintenance maintenance;
     public MaintenanceTest() {
@@ -20,8 +20,8 @@ public class MaintenanceTest {
     }
 
     /**
-* Test of getID method, of class Maintenance.
-*/
+     * Test of getID method, of class Maintenance.
+     */
     @Test
     public void testGetID() {
         assertEquals(1, maintenance.getID());
@@ -31,40 +31,40 @@ public class MaintenanceTest {
     }
     
     /**
-* Test of getVehicleID method, of class Maintenance.
-*/
+     * Test of getVehicleID method, of class Maintenance.
+     */
     @Test
     public void testGetVehicleID() {
         assertEquals(2, maintenance.getVehicleID());
     }
     
     /**
-* Test of getTStart method, of class Maintenance.
-*/
+     * Test of getTStart method, of class Maintenance.
+     */
     @Test
     public void testGetTStart() {
         assertEquals(22, maintenance.getTStart().getTime());
     }
 
     /**
-* Test of getTEnd method, of class Maintenance.
-*/
+     * Test of getTEnd method, of class Maintenance.
+     */
     @Test
     public void testGetTEnd() {
         assertEquals(23, maintenance.getTEnd().getTime());
     }
 
     /**
-* Test of getTypeID method, of class Maintenance.
-*/
+     * Test of getTypeID method, of class Maintenance.
+     */
     @Test
     public void testGetTypeID() {
         assertEquals(3, maintenance.getTypeID());
     }
 
     /**
-* Test of updateObject method, of class Maintenance.
-*/
+     * Test of updateObject method, of class Maintenance.
+     */
     @Test
     public void testUpdateObject() {
         maintenance.updateObject(3, new Timestamp(32), new Timestamp(33), 4);
@@ -76,8 +76,8 @@ public class MaintenanceTest {
     }
     
     /**
-* Test of end before start check
-*/
+     * Test of end before start check
+     */
     @Test
     public void testIncorrectTimestamps(){
         maintenance = new Maintenance(4, 2, new Timestamp(23), new Timestamp(22), 3);
