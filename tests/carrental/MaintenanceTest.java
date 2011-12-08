@@ -9,8 +9,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- *
- * @author CNN                                Include test for if the start date is after the end date?
+ * Test class for Maintenance class
+ * @author CNN
  * @version 2011-12-08
  */
 public class MaintenanceTest {
