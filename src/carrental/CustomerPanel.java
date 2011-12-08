@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.util.Calendar;
 import javax.swing.border.TitledBorder;
 
+//TODO Move "Filter" button and add select method for JTable
+
 /**
  * This is the main panel regarding vehicles.
  * It contains JPanels for every relevant screen, when dealing with customers.
@@ -32,7 +34,7 @@ public class CustomerPanel extends SuperPanel {
         }
 
         //Sets the different subpanels. Also adds them to this object with JPanel.add().
-        AssignAndAddSubPanels(new MainScreenPanel(), new CreatePanel(), new ViewEntityPanel(), emptyPanel, new ListPanel());
+        AssignAndAddSubPanels(new MainScreenPanel(), createPanel, viewEntityPanel, emptyPanel, listPanel);
         this.setPreferredSize(new Dimension(800, 600));
 
         //Removes the default gaps between components
@@ -340,6 +342,8 @@ public class CustomerPanel extends SuperPanel {
         }
 
         public void setCustomerTextFields(Customer customer) {
+            if(customer == null) customer = CarRental.getInstance().requestCustomer();
+            
             customerID = "" + customer.getID();
             if(customer.getName() != null){
                 customerName = customer.getName();

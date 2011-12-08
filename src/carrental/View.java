@@ -32,7 +32,6 @@ public class View {
     private ArrayList<Booking> current_bookings;
     
     private View(CarRental c) {
-        //JFrame.setDefaultLookAndFeelDecorated(true);
         controller = c;
         controller.appendLog("Creating View...");
         
