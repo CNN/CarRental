@@ -11,6 +11,7 @@ import static org.junit.Assert.*;
 /**
  *
  * @author CNN                                Include test for if the start date is after the end date?
+ * @version 2011-12-08
  */
 public class MaintenanceTest {
     private Maintenance maintenance;
@@ -72,5 +73,15 @@ public class MaintenanceTest {
         assertEquals(32, maintenance.getTStart().getTime());
         assertEquals(33, maintenance.getTEnd().getTime());
         assertEquals(4, maintenance.getTypeID());
+    }
+    
+    /**
+     * Test of end before start check
+     */
+    @Test
+    public void testIncorrectTimestamps(){
+        maintenance = new Maintenance(4, 2, new Timestamp(23), new Timestamp(22), 3);
+        assertEquals(0, maintenance.getTStart().getTime());
+        assertEquals(0, maintenance.getTEnd().getTime());
     }
 }
