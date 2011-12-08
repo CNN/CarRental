@@ -4,65 +4,23 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.Font.*;
-import java.util.ArrayList;
 
 /**
  * GUI for CarRental project
  * @author CNN
- * @version 1. Dec. 2011
+ * @version 2011-12-08
  */
 public class View {
-    private static View view;
     private CarRental controller;
     private JFrame frame;
-    private final String title = "CarRental Project";
+    private final String title = "CarRental Project :: Renting Cars Made Easy";
     private MainPanel main;
-    private ArrayList<Vehicle> current_vehicles;
-    private Vehicle current_vehicle;
-    private ArrayList<VehicleType> current_vehicle_types;
-    private VehicleType current_vehicle_type;
-    private ArrayList<Maintenance> current_maintenances;
-    private Maintenance current_maintenance;
-    private ArrayList<MaintenanceType> current_maintenance_types;
-    private MaintenanceType current_maintenance_type;
-    private ArrayList<Customer> current_customers;
-    private Customer current_customer;
-    private ArrayList<Reservation> current_reservations;
-    private Reservation current_reservation;
-    private ArrayList<Booking> current_bookings;
     
-    private View(CarRental c) {
+    public View(CarRental c) {
         controller = c;
         controller.appendLog("Creating View...");
         
         frame = new JFrame(title);
-        
-        setCurrentVehicles(controller.requestVehicles());
-        assert current_vehicles != null: "View->Controller Request Vehicles Failed";
-        setCurrentVehicle(controller.requestVehicle());
-        assert current_vehicle != null: "View->Controller Request Vehicle Failed";
-        setCurrentVehicleTypes(controller.requestVehicleTypes());
-        assert current_vehicle_types != null: "View->Controller Request Vehicle Types Failed";
-        setCurrentVehicleType(controller.requestVehicleType());
-        assert current_vehicle_type != null: "View->Controller Request Vehicle Type Failed";
-        setCurrentMaintenances(controller.requestMaintenances());
-        assert current_maintenances != null: "View->Controller Request Maintenances Failed";
-        setCurrentMaintenance(controller.requestMaintenance());
-        assert current_maintenance != null: "View->Controller Request Maintenance Failed";
-        setCurrentMaintenanceTypes(controller.requestMaintenanceTypes());
-        assert current_maintenance_types != null: "View->Controller Request Maintenance Types Failed";
-        setCurrentMaintenanceType(controller.requestMaintenanceType());
-        assert current_maintenance_type != null: "View->Controller Request Maintenance Type Failed";
-        setCurrentCustomers(controller.requestCustomers());
-        assert current_customers != null: "View->Controller Request Customers Failed";
-        setCurrentCustomer(controller.requestCustomer());
-        assert current_customer != null: "View->Controller Request Customer Failed";
-        setCurrentReservations(controller.requestReservations());
-        assert current_reservations != null: "View->Controller Request Reservations Failed";
-        setCurrentReservation(controller.requestReservation());
-        assert current_reservation != null: "View->Controller Request Reservation Failed";
-        setCurrentBookings(controller.requestBookings());
-        assert current_bookings != null: "View->Controller Request Bookings Failed";
         
         main = new MainPanel();
         frame.add(main);
@@ -73,74 +31,6 @@ public class View {
         frame.setVisible(true);
         
         controller.appendLog("View created.");
-    }
-    
-    public static View getInstance(CarRental controller) {
-        if(view == null) view = new View(controller);
-        return view;
-    }
-    
-    public static View getInstance() {
-        return view;
-    }
-    
-    public final void setCurrentVehicles(ArrayList<Vehicle> vs) {
-        current_vehicles = vs;
-    }
-    public final void setCurrentVehicle(Vehicle v) {
-        current_vehicle = v;
-    }
-    public final void setCurrentVehicleTypes(ArrayList<VehicleType> vts) {
-        current_vehicle_types = vts;
-    }
-    public final void setCurrentVehicleType(VehicleType vt) {
-        current_vehicle_type = vt;
-    }
-    public final void setCurrentMaintenances(ArrayList<Maintenance> ms) {
-        current_maintenances = ms;
-    }
-    public final void setCurrentMaintenance(Maintenance m) {
-        current_maintenance = m;
-    }
-    public final void setCurrentMaintenanceTypes(ArrayList<MaintenanceType> mts) {
-        current_maintenance_types = mts;
-    }
-    public final void setCurrentMaintenanceType(MaintenanceType mt) {
-        current_maintenance_type = mt;
-    }
-    public final void setCurrentCustomers(ArrayList<Customer> cs) {
-        current_customers = cs;
-    }
-    public final void setCurrentCustomer(Customer c) {
-        current_customer = c;
-    }
-    public final void setCurrentReservations(ArrayList<Reservation> rs) {
-        current_reservations = rs;
-    }
-    public final void setCurrentReservation(Reservation r) {
-        current_reservation = r;
-    }
-    public final void setCurrentBookings(ArrayList<Booking> bs) {
-        current_bookings = bs;
-    }
-    
-    /**
-     * Vehicle Panel Com. methods
-     */
-    
-    public final void vehiclePanelVehicle(int id) {
-        setCurrentVehicle(controller.requestVehicle(id));
-        main.updateVehiclePanel();
-    }
-    public final void vehiclePanelVehicleType(int id) {
-        setCurrentVehicleType(controller.requestVehicleType(id));
-        main.updateVehiclePanel();
-    }
-    public final void saveVehicle(Vehicle v) {
-        controller.saveVehicle(v);
-    }
-    public final void saveVehicleType(VehicleType vt) {
-        controller.saveVehicleType(vt);
     }
     
     class MainPanel extends JPanel {
@@ -220,7 +110,6 @@ public class View {
             customerCreate.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    customerPanel.setCustomerToView(current_customer);
                     customerPanel.showCreatePanel();
                 }
             });
@@ -229,7 +118,6 @@ public class View {
             customerList.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    customerPanel.setCustomerList(current_customers);
                     customerPanel.showListPanel();
                 }
             });
@@ -243,7 +131,6 @@ public class View {
             vehicleCreate.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    vehiclePanel.setVehicleToView(current_vehicle);
                     vehiclePanel.showCreatePanel();
                 }
             });
@@ -260,7 +147,6 @@ public class View {
             vehicleList.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    vehiclePanel.setVehicleList(current_vehicles);
                     vehiclePanel.showListPanel();
                 }
             });
@@ -300,7 +186,6 @@ public class View {
             center_super.add(center_north, BorderLayout.NORTH);
             this.add(west, BorderLayout.WEST);
             this.add(center_super, BorderLayout.CENTER);
-            updateVehiclePanel();
             
         }
         
@@ -335,19 +220,10 @@ public class View {
             center.removeAll();
             center_north.removeAll();
             frame.pack();
-            customerPanel.setCustomerList(current_customers);
             customerPanel.showListPanel();
             center.add(customerPanel);
             center_north.add(northCustomer);
             frame.pack();
-        }
-        
-        public final void updateVehiclePanel() {
-            vehiclePanel.setVehicleList(current_vehicles);
-            vehiclePanel.setVehicleTypes(current_vehicle_types);
-            vehiclePanel.setVehicleToView(current_vehicle);
-            vehiclePanel.setVehicleTypeToView(current_vehicle_type);
-            vehiclePanel.setBookings(current_bookings);
         }
     }
 }
