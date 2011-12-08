@@ -46,7 +46,7 @@ public class Model {
      * @return Array of vehicles
      */
     public ArrayList<Vehicle> getVehicles() {
-        ArrayList<ArrayList<String>> vs = database.getMatches("SELECT * FROM vehicle ORDER BY type,id DESC");
+        ArrayList<ArrayList<String>> vs = database.getMatches("SELECT * FROM vehicle ORDER BY description,id DESC");
         ArrayList<Vehicle> results = new ArrayList<>();
         for(ArrayList<String> v : vs) {
             results.add(new Vehicle(Integer.parseInt(v.get(0)),Integer.parseInt(v.get(1)),v.get(3),v.get(4),v.get(2),Integer.parseInt(v.get(5)),v.get(6)));
@@ -403,30 +403,65 @@ public class Model {
      * @return Bookings
      */
     public ArrayList<Booking> getBookings() {
-        ArrayList<ArrayList<String>> rms = database.getMatches("SELECT * FROM maintenance AS m, reservation AS r ORDER BY m.date_start,r.start");
+        ArrayList<ArrayList<String>> rs = database.getMatches("SELECT * FROM reservation ORDER BY start");
+        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * FROM maintenance ORDER BY date_start");
         ArrayList<Booking> results = new ArrayList<>();
-        for(ArrayList<String> rm : rms) {
+        for(ArrayList<String> rm : rs) {
             if(rm.size() > 0) {
-                String[] is_time = rm.get(2).split(":");
-                if(is_time.length > 1) {
-                    try {
-                        Date date_start = dateFormat.parse(rm.get(2));
-                        Date date_end = dateFormat.parse(rm.get(3));
-                        results.add(new Reservation(Integer.parseInt(rm.get(0)),Integer.parseInt(rm.get(1)), new Timestamp(date_start.getTime()), new Timestamp(date_end.getTime()),Integer.parseInt(rm.get(4))));
-                    }
-                    catch (ParseException e) {
-                        CarRental.getInstance().appendLog("Exception while parsing date when getting bookings.",e);
-                    }
+                try {
+                    Date date_start = dateFormat.parse(rm.get(2));
+                    Date date_end = dateFormat.parse(rm.get(3));
+                    results.add(new Reservation(Integer.parseInt(rm.get(0)),Integer.parseInt(rm.get(1)), new Timestamp(date_start.getTime()), new Timestamp(date_end.getTime()),Integer.parseInt(rm.get(4))));
                 }
-                else {
-                    try {
-                        Date date_start = dateFormat.parse(rm.get(3));
-                        Date date_end = dateFormat.parse(rm.get(4));
-                        results.add(new Maintenance(Integer.parseInt(rm.get(0)),Integer.parseInt(rm.get(1)),new Timestamp(date_start.getTime()),new Timestamp(date_end.getTime()),Integer.parseInt(rm.get(2))));
-                    }
-                    catch (ParseException e) {
-                        
-                    }
+                catch (ParseException e) {
+                    CarRental.getInstance().appendLog("Exception while parsing date when getting bookings.",e);
+                }
+            }
+        }
+        for(ArrayList<String> rm : ms) {
+            if(rm.size() > 0) {
+                try {
+                    Date date_start = dateFormat.parse(rm.get(3));
+                    Date date_end = dateFormat.parse(rm.get(4));
+                    results.add(new Maintenance(Integer.parseInt(rm.get(0)),Integer.parseInt(rm.get(1)),new Timestamp(date_start.getTime()),new Timestamp(date_end.getTime()),Integer.parseInt(rm.get(2))));
+                }
+                catch (ParseException e) {
+
+                }
+            }
+        }
+        return results;
+    }
+    
+    /**
+     * Get bookings (maintenances and reservations)
+     * @return Bookings
+     */
+    public ArrayList<Booking> getBookingsByVehicleId(int vehicle_id) {
+        ArrayList<ArrayList<String>> rs = database.getMatches("SELECT * FROM reservation WHERE vehicleid = '"+vehicle_id+"' ORDER BY start");
+        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * FROM maintenance WHERE vehicle_id = '"+vehicle_id+"' ORDER BY date_start");
+        ArrayList<Booking> results = new ArrayList<>();
+        for(ArrayList<String> rm : rs) {
+            if(rm.size() > 0) {
+                try {
+                    Date date_start = dateFormat.parse(rm.get(2));
+                    Date date_end = dateFormat.parse(rm.get(3));
+                    results.add(new Reservation(Integer.parseInt(rm.get(0)),Integer.parseInt(rm.get(1)), new Timestamp(date_start.getTime()), new Timestamp(date_end.getTime()),Integer.parseInt(rm.get(4))));
+                }
+                catch (ParseException e) {
+                    CarRental.getInstance().appendLog("Exception while parsing date when getting bookings.",e);
+                }
+            }
+        }
+        for(ArrayList<String> rm : ms) {
+            if(rm.size() > 0) {
+                try {
+                    Date date_start = dateFormat.parse(rm.get(3));
+                    Date date_end = dateFormat.parse(rm.get(4));
+                    results.add(new Maintenance(Integer.parseInt(rm.get(0)),Integer.parseInt(rm.get(1)),new Timestamp(date_start.getTime()),new Timestamp(date_end.getTime()),Integer.parseInt(rm.get(2))));
+                }
+                catch (ParseException e) {
+
                 }
             }
         }
