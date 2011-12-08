@@ -30,8 +30,8 @@ public class Maintenance implements Booking {
             this.date_end = date_end;
         } else {
             CarRental.getInstance().appendLog("Dates supplied for Maintenance #" + id + " in constuctor not valid. End date must be AFTER start date.");
-            date_start = new Timestamp(0);
-            date_end = new Timestamp(0);
+            this.date_start = new Timestamp(0);
+            this.date_end = new Timestamp(0);
         }
         this.type_id = type_id;
         this.id = id;
