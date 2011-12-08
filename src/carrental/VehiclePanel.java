@@ -32,7 +32,7 @@ public class VehiclePanel extends SuperPanel {
     //VehicleTypePanel to get the addType-panel from the createPanel of the VehicleTypePanel class - to avoid some code duplication
     private VehicleTypePanel vehicleTypeInstance;
     private GraphicAlternate graph;
-    final private ViewVehiclePanel viewVehiclePanel = new ViewVehiclePanel();
+    private final ViewVehiclePanel viewVehiclePanel = new ViewVehiclePanel();
 
     public VehiclePanel() {
         vehicleList = CarRental.getInstance().requestVehicles();
@@ -174,7 +174,7 @@ public class VehiclePanel extends SuperPanel {
 
         private JPanel centerPanel, buttonPanel, vehicleTypePanel, descriptionPanel, licensePlatePanel, vinPanel, drivenPanel, additionalPanel;
         private JLabel vehicleTypeLabel, descriptionLabel, licensePlateLabel, vinLabel, drivenLabel, additionalLabel;
-        DefaultComboBoxModel vehicleTypeComboModel;
+        private DefaultComboBoxModel vehicleTypeComboModel;
         private JComboBox vehicleTypeCombo;
         private JTextField descriptionField, licensePlateField, vinField, drivenField;
         private JTextArea additionalArea;
@@ -207,6 +207,7 @@ public class VehiclePanel extends SuperPanel {
             vehicleTypeLabel = new JLabel("Vehicle Type");
             vehicleTypeComboModel = new DefaultComboBoxModel();
             vehicleTypeCombo = new JComboBox(vehicleTypeComboModel);
+            
             for (VehicleType vehicleType : vehicleTypes) {
                 vehicleTypeComboModel.addElement(vehicleType.getName());
             }
@@ -355,19 +356,21 @@ public class VehiclePanel extends SuperPanel {
 
     public class ViewVehiclePanel extends JPanel {
 
-        JPanel centerPanel, reservationPanel, maintenancePanel, buttonPanel, vehicleTypePanel, descriptionPanel, licensePlatePanel, vinPanel, drivenPanel, additionalPanel;
-        JLabel vehicleTypeLabel, descriptionLabel, licensePlateLabel, vinLabel, drivenLabel, additionalLabel;
-        JTextField vehicleTypeField, descriptionField, licensePlateField, vinField, drivenField;
-        JTextArea additionalArea;
-        JButton backButton;
-        final int defaultJTextFieldColumns = 20, strutDistance = 0;
+        private JPanel centerPanel, reservationPanel, maintenancePanel, buttonPanel, vehicleTypePanel, descriptionPanel, licensePlatePanel, vinPanel, drivenPanel, additionalPanel;
+        private JLabel vehicleTypeLabel, descriptionLabel, licensePlateLabel, vinLabel, drivenLabel, additionalLabel;
+        private JTextField descriptionField, licensePlateField, vinField, drivenField;
+        private DefaultComboBoxModel vehicleTypeComboModel;
+        private JComboBox vehicleTypeCombo;
+        private JTextArea additionalArea;
+        private JButton backButton, editButton, viewTypeButton;
+        private final int defaultJTextFieldColumns = 20, strutDistance = 0;
         //some temporary strings for testing the GUI
-        String vehicleTypeString, descriptionString, licensePlateString, vinString, drivenString, additionalString;
-        DefaultTableModel reservationTableModel, maintenanceTableModel;
-        JTable reservationTable, maintenanceTable;
-        JScrollPane reservationScrollPane, maintenanceScrollPane;
-        String[] tableColumn;
-        String[] tableRow;
+        private String vehicleTypeString, descriptionString, licensePlateString, vinString, drivenString, additionalString;
+        private DefaultTableModel reservationTableModel, maintenanceTableModel;
+        private JTable reservationTable, maintenanceTable;
+        private JScrollPane reservationScrollPane, maintenanceScrollPane;
+        private String[] tableColumn;
+        private String[] tableRow;
 
         public ViewVehiclePanel() {
             //Panel settings
@@ -388,81 +391,83 @@ public class VehiclePanel extends SuperPanel {
 
             //Vehicle Type
             vehicleTypeLabel = new JLabel("Vehicle Type");
-            vehicleTypeField = new JTextField(defaultJTextFieldColumns);
-            vehicleTypeField.setEditable(false);
-            vehicleTypeField.setBackground(Color.WHITE);
+            vehicleTypeComboModel = new DefaultComboBoxModel();
+            vehicleTypeCombo = new JComboBox(vehicleTypeComboModel);
+            
+            for(VehicleType vehicleType : vehicleTypes) {
+                vehicleTypeComboModel.addElement(vehicleType.getName());
+            }
+            
             vehicleTypePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
             vehicleTypePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             vehicleTypePanel.add(vehicleTypeLabel);
-            vehicleTypePanel.add(Box.createRigidArea(new Dimension(48 + strutDistance, 0)));
-            vehicleTypePanel.add(vehicleTypeField);
-            centerPanel.add(vehicleTypePanel);
 
+            vehicleTypePanel.add(Box.createRigidArea(new Dimension(48 + strutDistance, 0)));
+            vehicleTypePanel.add(vehicleTypeCombo);
+
+            centerPanel.add(vehicleTypePanel);
             //Name
             descriptionLabel = new JLabel("Description");
             descriptionField = new JTextField(defaultJTextFieldColumns);
-            descriptionField.setEditable(false);
-            descriptionField.setBackground(Color.WHITE);
             descriptionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
             descriptionPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             descriptionPanel.add(descriptionLabel);
+
             descriptionPanel.add(Box.createRigidArea(new Dimension(55 + strutDistance, 0)));
             descriptionPanel.add(descriptionField);
+
             centerPanel.add(descriptionPanel);
-
-
             //LicensePlate
             licensePlateLabel = new JLabel("License Plate");
             licensePlateField = new JTextField(defaultJTextFieldColumns);
-            licensePlateField.setEditable(false);
-            licensePlateField.setBackground(Color.WHITE);
             licensePlatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
             licensePlatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             licensePlatePanel.add(licensePlateLabel);
+
             licensePlatePanel.add(Box.createRigidArea(new Dimension(43 + strutDistance, 0)));
             licensePlatePanel.add(licensePlateField);
-            centerPanel.add(licensePlatePanel);
 
+            centerPanel.add(licensePlatePanel);
             //VIN
             vinLabel = new JLabel("VIN");
             vinField = new JTextField(defaultJTextFieldColumns);
-            vinField.setEditable(false);
-            vinField.setBackground(Color.WHITE);
             vinPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
             vinPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             vinPanel.add(vinLabel);
+
             vinPanel.add(Box.createRigidArea(new Dimension(101 + strutDistance, 0)));
             vinPanel.add(vinField);
-            centerPanel.add(vinPanel);
 
+            centerPanel.add(vinPanel);
             //Driven
             drivenLabel = new JLabel("Distance driven");
             drivenField = new JTextField(defaultJTextFieldColumns);
-            drivenField.setEditable(false);
-            drivenField.setBackground(Color.WHITE);
             drivenPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
             drivenPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             drivenPanel.add(drivenLabel);
+
             drivenPanel.add(Box.createRigidArea(new Dimension(32 + strutDistance, 0)));
             drivenPanel.add(drivenField);
-            centerPanel.add(drivenPanel);
 
+            centerPanel.add(drivenPanel);
             //Additional Comment
             additionalLabel = new JLabel("Additional comments");
             additionalArea = new JTextArea(3, 30);
-            additionalArea.setEditable(false);
+
             additionalArea.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
             additionalPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
             additionalPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             additionalPanel.add(additionalLabel);
+
             additionalPanel.add(Box.createRigidArea(new Dimension(strutDistance, 0)));
             additionalPanel.add(additionalArea);
+
             centerPanel.add(additionalPanel);
 
             //Adding a small rigid area
@@ -523,6 +528,35 @@ public class VehiclePanel extends SuperPanel {
                 }
             });
             buttonPanel.add(backButton);
+            buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+
+            //create-button
+            editButton = new JButton("Edit");
+            editButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (descriptionField.getText().trim().length() > 0
+                            && licensePlateField.getText().trim().length() > 0
+                            && vinField.getText().trim().length() > 0
+                            && drivenField.getText().trim().length() > 0) {
+                        //Currently does not check if VIN number is in use already etc.
+                        try {
+                            Vehicle updatedVehicle = new Vehicle(vehicleToView.getID(), vehicleTypes.get(vehicleTypeCombo.getSelectedIndex()).getID(),
+                                    descriptionField.getText().trim(), licensePlateField.getText().trim(),
+                                    vinField.getText().trim(), Integer.parseInt(drivenField.getText().trim()), additionalArea.getText().trim());
+
+                            CarRental.getInstance().saveVehicle(updatedVehicle);
+                            CarRental.getInstance().appendLog("Vehicle \"" + descriptionField.getText().trim() + "\" changed in the database");
+                            vehicleList.add(updatedVehicle);
+                        } catch (NumberFormatException ex) {
+                            System.out.println("Your \"Distance driven\" field does not consist of numbers only. The vehicle wasn't created");
+                        }
+                    }
+                }
+            });
+            buttonPanel.add(editButton);
+
 
         }
 
@@ -533,7 +567,20 @@ public class VehiclePanel extends SuperPanel {
             reservations = new ArrayList<Reservation>();
             maintenances = new ArrayList<Maintenance>();
 
+            //empty refresh the vehicle types in the Combobox
+            vehicleTypeComboModel.removeAllElements();
+            for (VehicleType vehicleType : vehicleTypes) {
+                vehicleTypeComboModel.addElement(vehicleType.getName());
+            }
+            
+            vehicleTypeCombo.setSelectedIndex(vehicleToView.getVehicleType()-1);
+            descriptionField.setText(vehicleToView.getDescription());
+            licensePlateField.setText(vehicleToView.getLicensePlate());
+            vinField.setText(vehicleToView.getVin());
+            drivenField.setText(Integer.toString(vehicleToView.getOdo()));
+            additionalArea.setText(vehicleToView.getAdditional());
 
+            //Splits bookings into reservations and maintenances
             for (Booking booking : bookings) {
                 if (booking.getVehicleID() == vehicleToView.getID()) {
                     if (!booking.isMaintenance()) {
@@ -572,18 +619,9 @@ public class VehiclePanel extends SuperPanel {
                 maintenanceTableModel.addRow(tableRow);
             }
             assert (maintenances.size() == maintenanceTableModel.getRowCount()) : "size: " + maintenances.size() + " row: " + maintenanceTableModel.getRowCount();
-
-
-
-
-
-            //Sets all text fields blank
-            vehicleTypeField.setText(vehicleTypes.get(vehicleToView.getVehicleType() - 1).getName());
-            descriptionField.setText(vehicleToView.getDescription());
-            licensePlateField.setText(vehicleToView.getLicensePlate());
-            vinField.setText(vehicleToView.getVin());
-            drivenField.setText(Integer.toString(vehicleToView.getOdo()));
-            additionalArea.setText(vehicleToView.getAdditional());
+            
+            
+            
         }
     }
 
