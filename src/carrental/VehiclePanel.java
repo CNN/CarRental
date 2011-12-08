@@ -84,7 +84,6 @@ public class VehiclePanel extends SuperPanel {
 
     public void setBookings(ArrayList<Booking> array) {
         bookings = array;
-        graph.setBookings(array);
     }
 
     public class MainScreenPanel extends JPanel {

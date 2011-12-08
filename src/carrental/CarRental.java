@@ -214,6 +214,15 @@ public final class CarRental {
     }
     
     /**
+     * Request a list of bookings from the model related to the vehicle with the
+     * specified id. Bookings are either reservations or maintenances.
+     * @return list of bookings
+     */
+    public ArrayList<Booking> requestBookingsByVehicle(int v_id) {
+        return model.getBookingsByVehicleId(v_id);
+    }
+    
+    /**
      * Save a vehicle to the model
      * @param v Vehicle
      */
