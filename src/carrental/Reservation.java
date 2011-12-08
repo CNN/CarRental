@@ -48,7 +48,7 @@ public class Reservation implements Booking {
     }
 
     public boolean isBooked(Timestamp timestamp) {
-        return (timestamp.after(tStart) && timestamp.before(tEnd));
+        return (timestamp.equals(tStart) || timestamp.equals(tEnd) || timestamp.after(tStart) && timestamp.before(tEnd));
     }
     
     public boolean isMaintenance() {
