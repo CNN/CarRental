@@ -32,6 +32,7 @@ public class View {
     private ArrayList<Booking> current_bookings;
     
     private View(CarRental c) {
+        //JFrame.setDefaultLookAndFeelDecorated(true);
         controller = c;
         controller.appendLog("Creating View...");
         
@@ -157,7 +158,7 @@ public class View {
                 reservationPanel = new JPanel();
         private CustomerPanel customerPanel = new CustomerPanel();
         private VehiclePanel vehiclePanel = new VehiclePanel();
-        //TODO: not yet added: reservationpanel, maintenancepanel, customerpanel
+        //TODO: not yet added: reservationpanel, maintenancepanel
         
         public MainPanel() {
             this.setLayout(new BorderLayout());
