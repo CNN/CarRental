@@ -50,7 +50,7 @@ public class ReservationPanel extends SuperPanel {
     //Temporary Main
     //TODO: Remove main:
     public static void main(String[] args) {
-        JFrame frame = new JFrame("CustomerPanel");
+        JFrame frame = new JFrame("ReservationPanel");
         frame.setPreferredSize(new Dimension(800, 600));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         Container contentPane = frame.getContentPane();
@@ -59,28 +59,29 @@ public class ReservationPanel extends SuperPanel {
         frame.setVisible(true);
     }
     
-    public void setCustomerToView(Customer customer) {
-        customerToView = customer;
+    public void setReservationToView(Reservation reservation) {
+        reservationToView = reservation;
     }
     
-    public void setCustomerList(ArrayList<Customer> customers) {
-        this.customers = customers;
+    public void setReservationList(ArrayList<Reservation> reservations) {
+        this.reservations = reservations;
     }
 
     /**
      * Updates entire panel
      */
     public void updateCustomerPanel() {
-        customers = CarRental.getInstance().requestCustomers();
-        if (customers.get(0) != null) {
-            customerToView = customers.get(0);
+        reservations = CarRental.getInstance().requestReservations();
+        if (reservations.get(0) != null) {
+            reservationToView = reservations.get(0);
         } else {
-            customerToView = CarRental.getInstance().requestCustomer();
+            reservationToView = CarRental.getInstance().requestReservation();
         }
         
         createPanel.updateCreatePanel();
         viewEntityPanel.updateViewEntityPanel();
         listPanel.updateListPanel();
+        addTypePanel.updateAddTypePanel();
     }
     
     public class MainScreenPanel extends JPanel {
