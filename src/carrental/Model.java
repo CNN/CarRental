@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 /**
  * The model keeps track of the logic of CarRental
  * @author CNN
- * @version 2011-12-02
+ * @version 2011-12-08
  */
 public class Model {
     private DbCom database;
@@ -46,7 +46,7 @@ public class Model {
      * @return Array of vehicles
      */
     public ArrayList<Vehicle> getVehicles() {
-        ArrayList<ArrayList<String>> vs = database.getMatches("SELECT * FROM vehicle ORDER BY description,id DESC");
+        ArrayList<ArrayList<String>> vs = database.getMatches("SELECT * FROM vehicle ORDER BY id DESC");
         ArrayList<Vehicle> results = new ArrayList<>();
         for(ArrayList<String> v : vs) {
             results.add(new Vehicle(Integer.parseInt(v.get(0)),Integer.parseInt(v.get(1)),v.get(3),v.get(4),v.get(2),Integer.parseInt(v.get(5)),v.get(6)));
@@ -106,7 +106,7 @@ public class Model {
      * @return Array of vehicletypes
      */
     public ArrayList<VehicleType> getVehicleTypes() {
-        ArrayList<ArrayList<String>> vts = database.getMatches("SELECT * FROM vehicletype ORDER BY name ASC");
+        ArrayList<ArrayList<String>> vts = database.getMatches("SELECT * FROM vehicletype ORDER BY id DESC");
         ArrayList<VehicleType> results = new ArrayList<>();
         for(ArrayList<String> vt : vts) {
             results.add(new VehicleType(Integer.parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt(vt.get(3))));
