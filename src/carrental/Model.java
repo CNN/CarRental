@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 /**
  * The model keeps track of the logic of CarRental
  * @author CNN
- * @version 2011-12-02
+ * @version 2011-12-08
  */
 public class Model {
     private DbCom database;
@@ -87,7 +87,7 @@ public class Model {
      * @return VehicleType
      */
     public VehicleType getVehicleType(int id) {
-        ArrayList<String> vt = database.getFirstMatch("SELECT * FROM vehicletype WHERE id = '"+id+"'");
+        ArrayList<String> vt = database.getFirstMatch("SELECT * FROM vehicletype WHERE id = '"+id+"' ORDER BY id");
         return new VehicleType(Integer.parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt(vt.get(3)));
     }
     
