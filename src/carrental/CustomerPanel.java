@@ -10,7 +10,6 @@ import java.util.Locale;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-//TODO Move "Filter" button and add select method for JTable
 /**
  * This is the main panel regarding vehicles.
  * It contains JPanels for every relevant screen, when dealing with customers.
@@ -249,6 +248,8 @@ public class CustomerPanel extends SuperPanel {
     
     public class ViewEntityPanel extends JPanel {
         
+        //TODO Edit and Delete
+        
         String customerID, customerName, customerPhone, customerAdress, customerEMail;
         JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
         
@@ -256,7 +257,7 @@ public class CustomerPanel extends SuperPanel {
             //Fields
             JPanel centerPanel, idPanel, namePanel, phonePanel, adressPanel, eMailPanel, buttonPanel;
             JLabel customerIDLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel, customerEMailLabel;
-            JButton cancelButton;
+            JButton cancelButton, deleteButton, editButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
             
             setCustomerTextFields(customerToView);
@@ -345,6 +346,36 @@ public class CustomerPanel extends SuperPanel {
             buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
             buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
             buttonPanel.add(Box.createHorizontalGlue());
+            
+            //deleteButton
+            deleteButton = new JButton("Delete");
+            deleteButton.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String id = Integer.toString(customerToView.getID());
+                    if(delete(customerToView)){
+                        System.out.println("Succesfully deleted customer " + id);
+                        updateViewEntityPanel();
+                    }else{
+                        System.out.println("Failed to delete customer " + id + "\nCustomer might have a future reservation");
+                    }
+                }
+            });
+            buttonPanel.add(deleteButton);
+            buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            
+            //editButton
+            editButton = new JButton("Edit");
+            editButton.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    
+                }
+            });
+            buttonPanel.add(editButton);
+            buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 
             //cancelButton
             cancelButton = new JButton("Back");
@@ -358,6 +389,18 @@ public class CustomerPanel extends SuperPanel {
             });
             buttonPanel.add(cancelButton);
             buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+        }
+        
+        private boolean delete(Customer customer){
+            boolean succes;
+            ArrayList<Booking> bookings = CarRental.getInstance().requestBookingsByCustomer(customer.getID());
+            if(bookings == null || bookings.size() == 0){
+                CarRental.getInstance().deleteCustomer(customer.getID());
+                succes = true;
+            }else{
+                succes = false;
+            }
+            return succes;
         }
         
         public void setCustomerTextFields(Customer customer) {
