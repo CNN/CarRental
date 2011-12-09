@@ -30,7 +30,8 @@ public class GraphicAlternate extends JComponent {
             textSpace = 100, textHeight = 15,
             display = VIEW_DAYS;
     private ArrayList<Vehicle> vehicles = new ArrayList<>();
-    private ArrayList<ArrayList<Booking>> vehicle_bookings = new ArrayList<>();
+    private ArrayList<ArrayList<Booking>> vehicle_bookings = new ArrayList<>(),
+            reference = new ArrayList<>();
     private ArrayList<Timestamp> timestamps = new ArrayList<>();
     private ArrayList<String> dateString;
     private Calendar calendar;
@@ -52,6 +53,17 @@ public class GraphicAlternate extends JComponent {
                 else if(x > 710 && y < 30 && y > 15) {
                     display = VIEW_MONTH;
                     refreshDataAndPaint();
+                }
+                else {
+                    //check if maintenance or reservation
+                    x = ((x - textSpace) / collumnWidth);
+                    y = (y / rowHeight);
+                    if(reference.size() > y && reference.get(y) != null) {
+                        if(reference.get(y).size() > x && reference.get(y).get(x) != null) {
+                            System.out.println(reference.get(y).get(x).toString());
+                        }
+                    }
+                    System.out.println("Field: "+x+","+y);
                 }
             }
         });
@@ -154,18 +166,24 @@ public class GraphicAlternate extends JComponent {
         //print reservation blocks
         //for each row
         for(int y = 0; y < numberOfRows; y++) {
+            reference.add(new ArrayList<Booking>());
             //for each cell
             for(int x = 0; x < numberOfCollumns; x++) {
                 boolean booked = false;
+                Booking bkng = null;
                 //for each booking, check
                 for(Booking b : vehicle_bookings.get(y)) {
                     if(b.getTStart().before(timestamps.get(x)) && b.getTEnd().after(timestamps.get(x))) {
                         booked = true;
+                        bkng = b;
                         if(b.isMaintenance()) g.setColor(Color.RED);
                         else g.setColor(Color.BLUE);
                     }
                 }
-                if(booked) g.fillRect(x * collumnWidth + textSpace, y * rowHeight + 5, collumnWidth, rowHeight);
+                if(booked) {
+                    g.fillRect(x * collumnWidth + textSpace, y * rowHeight + 5, collumnWidth, rowHeight);
+                }
+                reference.get(y).add(bkng);
                 movePointerX();
             }
             movePointerY();
