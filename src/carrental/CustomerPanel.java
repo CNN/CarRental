@@ -247,9 +247,6 @@ public class CustomerPanel extends SuperPanel {
     }
     
     public class ViewEntityPanel extends JPanel {
-        
-        //TODO Edit and Delete
-        
         String customerID, customerName, customerPhone, customerAdress, customerEMail;
         JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
         
@@ -290,7 +287,6 @@ public class CustomerPanel extends SuperPanel {
             //Name
             customerNameLabel = new JLabel("Name");
             customerNameTextField = new JTextField(defaultJTextFieldColumns);
-            customerNameTextField.setEditable(false);
             customerNameTextField.setBackground(Color.WHITE);
             namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             
@@ -303,7 +299,6 @@ public class CustomerPanel extends SuperPanel {
             //Phone
             customerPhoneLabel = new JLabel("Phone number");
             customerPhoneTextField = new JTextField(defaultJTextFieldColumns);
-            customerPhoneTextField.setEditable(false);
             customerPhoneTextField.setBackground(Color.WHITE);
             phonePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             
@@ -317,7 +312,6 @@ public class CustomerPanel extends SuperPanel {
             //Adress
             customerAdressLabel = new JLabel("Adress");
             customerAdressTextField = new JTextField(defaultJTextFieldColumns);
-            customerAdressTextField.setEditable(false);
             customerAdressTextField.setBackground(Color.WHITE);
             adressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             
@@ -355,9 +349,11 @@ public class CustomerPanel extends SuperPanel {
                 public void actionPerformed(ActionEvent e) {
                     String id = Integer.toString(customerToView.getID());
                     if(delete(customerToView)){
+                        CarRental.getInstance().appendLog("Succesfully deleted customer " + id);
                         System.out.println("Succesfully deleted customer " + id);
                         updateViewEntityPanel();
                     }else{
+                        CarRental.getInstance().appendLog("Failed to delete customer " + id);
                         System.out.println("Failed to delete customer " + id + "\nCustomer might have a future reservation");
                     }
                 }
@@ -366,12 +362,33 @@ public class CustomerPanel extends SuperPanel {
             buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             
             //editButton
-            editButton = new JButton("Edit");
+            editButton = new JButton("Save edits");
             editButton.addActionListener(new ActionListener() {
                 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    
+                    if (customerPhoneTextField.getText().trim().length() > 0
+                            && customerNameTextField.getText().trim().length() > 0
+                            && customerAdressTextField.getText().trim().length() > 0
+                            && customerEMailTextField.getText().trim().length() > 0) {
+                        try{
+                        CarRental.getInstance().saveCustomer(new Customer(
+                                Integer.parseInt(customerIDTextField.getText()),
+                                Integer.parseInt(customerPhoneTextField.getText()),
+                                customerNameTextField.getText(),
+                                customerAdressTextField.getText(),
+                                customerEMailTextField.getText()));
+                        customers = CarRental.getInstance().requestCustomers();
+                        CarRental.getInstance().appendLog("Customer " + customerIDTextField.getText() + " edited");
+                        System.out.println("Customer " + customerIDTextField.getText() + " edited");
+                        updateViewEntityPanel();
+                        showViewEntityPanel();
+                        }catch (NumberFormatException ex){
+                            System.out.println("Phone number must be numbers only");
+                        }
+                    } else { //A TextFild is empty
+                        System.out.println("A text field is empty");
+                    }
                 }
             });
             buttonPanel.add(editButton);
