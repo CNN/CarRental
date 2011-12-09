@@ -66,7 +66,7 @@ public class View {
      * Sets the current error message to be displayed.
      * @param error_msg error message to be displayed.
      */
-    public void diplayError(String error_msg) {
+    public void displayError(String error_msg) {
         main.setErrorLabelMessage(error_msg);
     }
     
