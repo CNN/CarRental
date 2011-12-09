@@ -32,6 +32,34 @@ public class View {
     }
     
     /**
+     * Sets the viewed panel to the customer panel
+     */
+    public void viewCustomer() {
+        main.selectCustomer();
+    }
+    
+    /**
+     * Sets the viewed panel to the reservation panel
+     */
+    public void viewReservation() {
+        main.selectReservation();
+    }
+    
+    /**
+     * Sets the viewed panel to the maintenance panel
+     */
+    public void viewMaintenance() {
+        main.selectMaintenance();
+    }
+    
+    /**
+     * Sets the viewed panel to the vehicle panel
+     */
+    public void viewVehicle() {
+        main.selectVehicle();
+    }
+    
+    /**
      * MainPanel is the primary panel of CarRental - it shows the static portion
      * of the GUI and displays the different panels in its center space.
      */
