@@ -90,7 +90,7 @@ public class View {
         private CustomerPanel customerPanel = new CustomerPanel();
         private VehiclePanel vehiclePanel = new VehiclePanel();
         //TODO: not yet added: reservationpanel, maintenancepanel
-        private JLabel errorLabel = new JLabel("");
+        private JLabel errorLabel = new JLabel(" ");
         private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-YYYY hh:mm");
         
         public MainPanel() {
