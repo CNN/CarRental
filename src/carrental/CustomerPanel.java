@@ -6,10 +6,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.swing.*;
 import java.util.Calendar;
+import java.util.Locale;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-//TODO Move "Filter" button and add select method for JTable
 /**
  * This is the main panel regarding vehicles.
  * It contains JPanels for every relevant screen, when dealing with customers.
@@ -247,7 +247,6 @@ public class CustomerPanel extends SuperPanel {
     }
     
     public class ViewEntityPanel extends JPanel {
-        
         String customerID, customerName, customerPhone, customerAdress, customerEMail;
         JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
         
@@ -255,7 +254,7 @@ public class CustomerPanel extends SuperPanel {
             //Fields
             JPanel centerPanel, idPanel, namePanel, phonePanel, adressPanel, eMailPanel, buttonPanel;
             JLabel customerIDLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel, customerEMailLabel;
-            JButton cancelButton;
+            JButton cancelButton, deleteButton, editButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
             
             setCustomerTextFields(customerToView);
@@ -288,7 +287,6 @@ public class CustomerPanel extends SuperPanel {
             //Name
             customerNameLabel = new JLabel("Name");
             customerNameTextField = new JTextField(defaultJTextFieldColumns);
-            customerNameTextField.setEditable(false);
             customerNameTextField.setBackground(Color.WHITE);
             namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             
@@ -301,7 +299,6 @@ public class CustomerPanel extends SuperPanel {
             //Phone
             customerPhoneLabel = new JLabel("Phone number");
             customerPhoneTextField = new JTextField(defaultJTextFieldColumns);
-            customerPhoneTextField.setEditable(false);
             customerPhoneTextField.setBackground(Color.WHITE);
             phonePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             
@@ -315,7 +312,6 @@ public class CustomerPanel extends SuperPanel {
             //Adress
             customerAdressLabel = new JLabel("Adress");
             customerAdressTextField = new JTextField(defaultJTextFieldColumns);
-            customerAdressTextField.setEditable(false);
             customerAdressTextField.setBackground(Color.WHITE);
             adressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             
@@ -344,6 +340,59 @@ public class CustomerPanel extends SuperPanel {
             buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
             buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
             buttonPanel.add(Box.createHorizontalGlue());
+            
+            //deleteButton
+            deleteButton = new JButton("Delete");
+            deleteButton.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String id = Integer.toString(customerToView.getID());
+                    if(delete(customerToView)){
+                        CarRental.getInstance().appendLog("Succesfully deleted customer " + id);
+                        System.out.println("Succesfully deleted customer " + id);
+                        updateViewEntityPanel();
+                    }else{
+                        CarRental.getInstance().appendLog("Failed to delete customer " + id);
+                        System.out.println("Failed to delete customer " + id + "\nCustomer might have a future reservation");
+                    }
+                }
+            });
+            buttonPanel.add(deleteButton);
+            buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            
+            //editButton
+            editButton = new JButton("Save edits");
+            editButton.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (customerPhoneTextField.getText().trim().length() > 0
+                            && customerNameTextField.getText().trim().length() > 0
+                            && customerAdressTextField.getText().trim().length() > 0
+                            && customerEMailTextField.getText().trim().length() > 0) {
+                        try{
+                        CarRental.getInstance().saveCustomer(new Customer(
+                                Integer.parseInt(customerIDTextField.getText()),
+                                Integer.parseInt(customerPhoneTextField.getText()),
+                                customerNameTextField.getText(),
+                                customerAdressTextField.getText(),
+                                customerEMailTextField.getText()));
+                        customers = CarRental.getInstance().requestCustomers();
+                        CarRental.getInstance().appendLog("Customer " + customerIDTextField.getText() + " edited");
+                        System.out.println("Customer " + customerIDTextField.getText() + " edited");
+                        updateViewEntityPanel();
+                        showViewEntityPanel();
+                        }catch (NumberFormatException ex){
+                            System.out.println("Phone number must be numbers only");
+                        }
+                    } else { //A TextFild is empty
+                        System.out.println("A text field is empty");
+                    }
+                }
+            });
+            buttonPanel.add(editButton);
+            buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 
             //cancelButton
             cancelButton = new JButton("Back");
@@ -357,6 +406,18 @@ public class CustomerPanel extends SuperPanel {
             });
             buttonPanel.add(cancelButton);
             buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+        }
+        
+        private boolean delete(Customer customer){
+            boolean succes;
+            ArrayList<Booking> bookings = CarRental.getInstance().requestBookingsByCustomer(customer.getID());
+            if(bookings == null || bookings.size() == 0){
+                CarRental.getInstance().deleteCustomer(customer.getID());
+                succes = true;
+            }else{
+                succes = false;
+            }
+            return succes;
         }
         
         public void setCustomerTextFields(Customer customer) {
@@ -502,7 +563,7 @@ public class CustomerPanel extends SuperPanel {
                 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //TODO NICLASONLY make the database update here
+                    filter();
                 }
             });
             bottomFilterPanel.add(filterButton);
@@ -564,6 +625,31 @@ public class CustomerPanel extends SuperPanel {
             filterPhoneTextField.setText("");
             filterNameTextField.setText("");
             filterIDTextField.setText("");
+        }
+        
+        public void filter(){
+            //Delete exisiting rows
+            customerTableModel.setRowCount(0);
+            //Add the rows that match the filter
+            for(Customer customer : customers){
+                //parameters
+                if(filterIDTextField.getText().trim().isEmpty() || //Filter ID is empty OR
+                   Integer.toString(customer.getID()).trim().toLowerCase(Locale.ENGLISH).contains(filterIDTextField.getText().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
+                   filterNameTextField.getText().trim().isEmpty() || //Filter name is empty OR
+                   customer.getName().trim().toLowerCase(Locale.ENGLISH).contains(filterNameTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
+                   filterPhoneTextField.getText().trim().isEmpty() || //Filter Phone is empty OR
+                   Integer.toString(customer.getTelephone()).trim().toLowerCase(Locale.ENGLISH).contains(filterPhoneTextField.getText().trim().toLowerCase(Locale.ENGLISH)) &&//Customer matches criteria
+                   filterAdressTextField.getText().trim().isEmpty() || //Adress field is empty OR
+                   customer.getAdress().trim().toLowerCase(Locale.ENGLISH).contains(filterAdressTextField.getText().trim().toLowerCase(Locale.ENGLISH))) //Customer matches criteria
+                {
+                    customerTableModel.addRow(new Object[]{customer.getID(), //ID
+                            customer.getTelephone(), //Phone
+                            customer.getName(), //Name
+                            customer.getAdress(), //Adress
+                            customer.getEMail() //E-Mail
+                            });
+                }
+            }
         }
     }
 }
