@@ -70,6 +70,14 @@ public class Model {
         database.saveArray("vehicle", save_data);
     }
     
+    /**
+     * Delete a vehicle from the database
+     * @param v_id id of vehicle to delete
+     */
+    public void deleteVehicle(int v_id) {
+        database.deleteMatch("vehicle","id='"+v_id+"'");
+    }
+    
     //VEHICLE TYPE
     
     /**
@@ -125,6 +133,14 @@ public class Model {
         save_data.add(vt.getDescription());
         save_data.add(Integer.toString(vt.getPricePerDay()));
         database.saveArray("vehicletype", save_data);
+    }
+    
+    /**
+     * Delete a vehicle type matching the id from the database
+     * @param vt_id id of vehicle type
+     */
+    public void deleteVehicleType(int vt_id) {
+        database.deleteMatch("vehicletype", "id='"+vt_id+"'");
     }
     
     //CUSTOMER
@@ -183,6 +199,14 @@ public class Model {
         save_data.add(c.getAdress());
         save_data.add(c.getEMail());
         database.saveArray("customer", save_data);
+    }
+    
+    /**
+     * Delete a customer from the database matching the given id
+     * @param c_id id of customer
+     */
+    public void deleteCustomer(int c_id) {
+        database.deleteMatch("customer", "id='"+c_id+"'");
     }
     
     //RESERVATION
@@ -245,6 +269,32 @@ public class Model {
     }
     
     /**
+     * Get an array of all reservations matching the customer id provided,
+     * ordered by start date
+     * @return Array of reservations
+     */
+    public ArrayList<Reservation> getReservationsByCustomerId(int id) {
+        ArrayList<ArrayList<String>> rs = database.getMatches("SELECT * FROM reservation WHERE customerid = '"+id+"' ORDER BY start,end DESC");
+        ArrayList<Reservation> results = new ArrayList<>();
+        for(ArrayList<String> r : rs) {
+            try {
+                Date date_start_parsed = dateFormat.parse(r.get(2));
+                Date date_end_parsed = dateFormat.parse(r.get(3));
+                results.add(new Reservation(Integer.parseInt(r.get(0)),
+                        Integer.parseInt(r.get(1)),
+                        new Timestamp(date_start_parsed.getTime()),
+                        new Timestamp(date_end_parsed.getTime()),
+                        Integer.parseInt(r.get(4))));
+            }
+            catch (ParseException e) {
+                CarRental.getInstance().appendLog("Failed to get reservation, parse exception when parsing dates.",e);
+                return null;
+            }
+        }
+        return results;
+    }
+    
+    /**
      * Save a reservation to the database
      * @param r the reservation to save
      */
@@ -256,6 +306,14 @@ public class Model {
         save_data.add(r.getTEnd().toString());
         save_data.add(Integer.toString(r.getCustomerID()));
         database.saveArray("reservation", save_data);
+    }
+    
+    /**
+     * Delete a reservation from teh database matching the give id
+     * @param r_id id of reservation
+     */
+    public void deleteReservation(int r_id) {
+        database.deleteMatch("reservation", "id='"+r_id+"'");
     }
     
     //MAINTENANCE TYPE
@@ -324,6 +382,14 @@ public class Model {
         if(m.getIs_service()) is_service = "1";
         save_data.add(is_service);
         database.saveArray("maintenance_type", save_data);
+    }
+    
+    /**
+     * Delete a maintenance type matching an id from the database
+     * @param mt_id id of maintenance type
+     */
+    public void deleteMaintenanceType(int mt_id) {
+        database.deleteMatch("maintenance_type", "id='"+mt_id+"'");
     }
     
     //MAINTENANCE
@@ -396,6 +462,14 @@ public class Model {
         save_data.add(m.getTEnd().toString());
         save_data.add(Integer.toString(m.getTypeID()));
         database.saveArray("maintenance", save_data);
+    }
+    
+    /**
+     * Delete a maintenance from database matching the id
+     * @param m_id id of maintenance
+     */
+    public void deleteMaintenance(int m_id) {
+        database.deleteMatch("maintenance", "id='"+m_id+"'");
     }
     
     /**
