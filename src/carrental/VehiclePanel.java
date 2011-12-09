@@ -25,7 +25,7 @@ public class VehiclePanel extends SuperPanel {
     private ArrayList<Vehicle> vehicleList;
     private ArrayList<VehicleType> vehicleTypes;
     private ArrayList<Booking> bookings;               //Bookings are requested from the database -
-    private ArrayList<Reservation> reservations;      //The bookings are then sorted into reservations - 
+    private ArrayList<Reservation> reservations;      //The bookings are then sorted into reservations -
     private ArrayList<Maintenance> maintenances;     // and maintenances in the code - making 2 arraylists from one SQL query.
     private ArrayList<MaintenanceType> maintenanceTypes;
     private ArrayList<Customer> customers;
@@ -98,7 +98,7 @@ public class VehiclePanel extends SuperPanel {
 
     public class MainScreenPanel extends JPanel {
 
-        public MainScreenPanel() { //TODO Claus skriv her.. Du kan teste ved at klikke shift+f6 :)           
+        public MainScreenPanel() { //TODO Claus skriv her.. Du kan teste ved at klikke shift+f6 :)
             graph = new GraphicAlternate();
             graph.setPreferredSize(new Dimension(800, 600));
             add(graph);
@@ -550,8 +550,8 @@ public class VehiclePanel extends SuperPanel {
 //                            for (VehicleType vehicleType : vehicleTypes){
 //                                System.out.println(vehicleType.getID() + vehicleType.getName());
 //                            }
-//                            
-//                            
+//
+//
 //                            System.out.println("you chose" + vehicleTypes.get(updatedVehicle.getVehicleType() - 1).getName());
                             CarRental.getInstance().appendLog("Vehicle \"" + descriptionField.getText().trim() + "\" changed in the database");
                             vehicleList = CarRental.getInstance().requestVehicles();
@@ -645,8 +645,8 @@ public class VehiclePanel extends SuperPanel {
         final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
         public AddTypePanel() {
-            //The functionality here is pretty much implemented in VehicleType's createPanel()-method. I'm using the centerpanel from there, but I'm writing the 
-            //buttons + border etc. again, as I can't figure out how to reuse it all (Cancel has a new function here) 
+            //The functionality here is pretty much implemented in VehicleType's createPanel()-method. I'm using the centerpanel from there, but I'm writing the
+            //buttons + border etc. again, as I can't figure out how to reuse it all (Cancel has a new function here)
 
             setLayout(new BorderLayout());
             setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Create a vehicle type"));
@@ -813,10 +813,10 @@ public class VehiclePanel extends SuperPanel {
                     }
                     else if(currentVehicleTypeIndex>-1 && currentVehicleTypeIndex!=vehicleTypeCombo.getSelectedIndex() ) {
                         filter();
-                        currentVehicleTypeIndex = vehicleTypeCombo.getSelectedIndex();                     
+                        currentVehicleTypeIndex = vehicleTypeCombo.getSelectedIndex();
                     } else {
                         //do not filter() as the vehicle type was either the default "All" chosen as the first move,
-                        //or the same as the one already filtered after 
+                        //or the same as the one already filtered after
                     }
                 }
             });
@@ -932,7 +932,7 @@ public class VehiclePanel extends SuperPanel {
         public void update() {
             //reset the selected vehicle type
             currentVehicleTypeIndex = -1;
-            //Delete exisiting rows 
+            //Delete exisiting rows
             vehicleTableModel.setRowCount(0);
 
             //Add the updated rows with reservations
@@ -959,19 +959,19 @@ public class VehiclePanel extends SuperPanel {
         }
 
         public void filter() {
-            //Delete exisiting rows 
+            //Delete exisiting rows
             vehicleTableModel.setRowCount(0);
             //Add the rows that match the filter
             for (Vehicle vehicle : vehicleList) {
-                //As long as - 
+                //As long as -
                 if (((vehicleTypeCombo.getSelectedIndex() == -1 || vehicleTypeCombo.getSelectedIndex() == 0) || //vehicle type is not chosen or set to "All" OR
                         vehicle.getVehicleType() == vehicleTypes.get(vehicleTypeCombo.getSelectedIndex() - 1).getID()) && //Vehicle's type is the vehicle type chosen AND
                         (descriptionField.getText().trim().isEmpty() || //description field is empty OR
-                        vehicle.getDescription().toLowerCase(Locale.ENGLISH).contains(descriptionField.getText().trim().toLowerCase(Locale.ENGLISH))) && //vehicles descripton equals the description given AND 
+                        vehicle.getDescription().toLowerCase(Locale.ENGLISH).contains(descriptionField.getText().trim().toLowerCase(Locale.ENGLISH))) && //vehicles descripton equals the description given AND
                         (licensePlateField.getText().trim().isEmpty() || //License plate field is empty OR
                         vehicle.getLicensePlate().toLowerCase(Locale.ENGLISH).contains(licensePlateField.getText().trim().toLowerCase(Locale.ENGLISH))) && //vehicles license plate number equals the license plate number given AND
                         (vinField.getText().trim().isEmpty() || //VIN field is empty OR
-                        vehicle.getVin().toLowerCase(Locale.ENGLISH).contains(vinField.getText().trim().toLowerCase(Locale.ENGLISH))) && //vehicles VIN equals the VIN given AND 
+                        vehicle.getVin().toLowerCase(Locale.ENGLISH).contains(vinField.getText().trim().toLowerCase(Locale.ENGLISH))) && //vehicles VIN equals the VIN given AND
                         (drivenField.getText().trim().isEmpty() || //driven field is empty OR
                         Integer.toString(vehicle.getOdo()).toLowerCase(Locale.ENGLISH).contains(drivenField.getText().trim().toLowerCase(Locale.ENGLISH)))) { //vehicles ODO equals the "distance driven" given
                     // - does the vehicle match the filter, and following row is added to the table
