@@ -18,7 +18,6 @@ import java.text.SimpleDateFormat;
 public class GraphicAlternate extends JComponent {
     public static final int
             VIEW_DAYS = 0,
-            VIEW_WEEKS = 1,
             VIEW_MONTH = 3;
     public static final int
             S_IN_DAY = 86400,
@@ -86,10 +85,6 @@ public class GraphicAlternate extends JComponent {
             case(VIEW_DAYS):
                 unit = S_IN_DAY;
                 numberOfCollumns = 7;
-                break;
-            case(VIEW_WEEKS):
-                unit = S_IN_WEEK;
-                numberOfCollumns = 4;
                 break;
             case(VIEW_MONTH):
                 unit = S_IN_DAY;
