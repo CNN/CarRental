@@ -268,15 +268,14 @@ public class ReservationPanel extends SuperPanel {
         
         public ViewEntityPanel() {
             //Fields
-            JPanel centerPanel, idPanel, namePanel, phonePanel, adressPanel, eMailPanel, buttonPanel;
-            JLabel customerIDLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel, customerEMailLabel;
-            JButton cancelButton, deleteButton, editButton;
+            JPanel vehiclePanel, endDatePanel, startDatePanel, reservationIDPanel, customerPanel, centerPanel, buttonPanel;
+            JLabel vehicleIDLabel, dateFormatLabel, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
+            JButton deleteButton, editButton, cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
-            
-            setCustomerTextFields(customerToView);
-            
+
+            //createPanel
             setLayout(new BorderLayout());
-            setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "View vehicles"));
+            setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Make a reservation"));
 
             //Center Panel
             centerPanel = new JPanel();
@@ -287,68 +286,70 @@ public class ReservationPanel extends SuperPanel {
             //Colors
             setBackground(new Color(216, 216, 208));
             centerPanel.setBackground(new Color(239, 240, 236));
+            
+            //Reservation ID
+            reservationIDLabel = new JLabel("Reservation ID");
+            reservationIDTextField = new JTextField(" Automaticly generated", defaultJTextFieldColumns);
+            reservationIDTextField.setEditable(false);
+            reservationIDPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            
+            reservationIDPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            reservationIDPanel.add(reservationIDLabel);
+            reservationIDPanel.add(Box.createRigidArea(new Dimension(87 + strutDistance, 0)));
+            reservationIDPanel.add(reservationIDTextField);
+            centerPanel.add(reservationIDPanel);
 
-            //ID
+            //Customer ID
             customerIDLabel = new JLabel("Customer ID");
-            customerIDTextField = new JTextField(defaultJTextFieldColumns);
+            customerIDTextField = new JTextField("", defaultJTextFieldColumns);
             customerIDTextField.setEditable(false);
             customerIDTextField.setBackground(Color.WHITE);
-            idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            idPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            idPanel.add(customerIDLabel);
-            idPanel.add(Box.createRigidArea(new Dimension(50 + strutDistance, 0)));
-            idPanel.add(customerIDTextField);
-            centerPanel.add(idPanel);
-
-            //Name
-            customerNameLabel = new JLabel("Name");
-            customerNameTextField = new JTextField(defaultJTextFieldColumns);
-            customerNameTextField.setBackground(Color.WHITE);
-            namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             
-            namePanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            namePanel.add(customerNameLabel);
-            namePanel.add(Box.createRigidArea(new Dimension(87 + strutDistance, 0)));
-            namePanel.add(customerNameTextField);
-            centerPanel.add(namePanel);
-
-            //Phone
-            customerPhoneLabel = new JLabel("Phone number");
-            customerPhoneTextField = new JTextField(defaultJTextFieldColumns);
-            customerPhoneTextField.setBackground(Color.WHITE);
-            phonePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            customerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            customerPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            customerPanel.add(customerIDLabel);
+            customerPanel.add(Box.createRigidArea(new Dimension(50 + strutDistance, 0)));
+            customerPanel.add(customerIDTextField);
+            customerPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            centerPanel.add(customerPanel);
             
-            phonePanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            phonePanel.add(customerPhoneLabel);
-            phonePanel.add(Box.createRigidArea(new Dimension(38 + strutDistance, 0)));
-            phonePanel.add(customerPhoneTextField);
-            centerPanel.add(phonePanel);
-
-            //TODO Split adress
-            //Adress
-            customerAdressLabel = new JLabel("Adress");
-            customerAdressTextField = new JTextField(defaultJTextFieldColumns);
-            customerAdressTextField.setBackground(Color.WHITE);
-            adressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            //Vehicle ID
+            vehicleIDLabel = new JLabel("Vehicle ID");
+            vehicleIDTextField = new JTextField(defaultJTextFieldColumns);
             
-            adressPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            adressPanel.add(customerAdressLabel);
-            adressPanel.add(Box.createRigidArea(new Dimension(80 + strutDistance, 0)));
-            adressPanel.add(customerAdressTextField);
-            centerPanel.add(adressPanel);
+            vehiclePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            vehiclePanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            vehiclePanel.add(vehicleIDLabel);
+            vehiclePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            vehiclePanel.add(vehicleIDTextField);
+            centerPanel.add(vehiclePanel);
 
-            //EMail
-            customerEMailLabel = new JLabel("EMail");
-            customerEMailTextField = new JTextField(defaultJTextFieldColumns);
-            customerEMailTextField.setEditable(false);
-            customerEMailTextField.setBackground(Color.WHITE);
-            eMailPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            //Start date
+            startDateLabel = new JLabel("Reserved from");
+            startDateTextField = new JTextField(defaultJTextFieldColumns);
+            dateFormatLabel = new JLabel("yyyy-mm-dd");
             
-            eMailPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            eMailPanel.add(customerAdressLabel);
-            eMailPanel.add(Box.createRigidArea(new Dimension(80 + strutDistance, 0)));
-            eMailPanel.add(customerAdressTextField);
-            centerPanel.add(eMailPanel);
+            startDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            startDatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            startDatePanel.add(startDateLabel);
+            startDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            startDatePanel.add(startDateTextField);
+            startDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            startDatePanel.add(dateFormatLabel);
+            centerPanel.add(startDatePanel);
+
+            //End date
+            endDateLabel = new JLabel("Reserved till");
+            endDateTextField = new JTextField(defaultJTextFieldColumns);
+            
+            endDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            endDatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            endDatePanel.add(endDateLabel);
+            endDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            endDatePanel.add(endDateTextField);
+            endDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            endDatePanel.add(dateFormatLabel);
+            centerPanel.add(endDatePanel);
 
             //ButtonPanel
             buttonPanel = new JPanel();
@@ -363,15 +364,11 @@ public class ReservationPanel extends SuperPanel {
                 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String id = Integer.toString(customerToView.getID());
-                    if(delete(customerToView)){
-                        CarRental.getInstance().appendLog("Succesfully deleted customer " + id);
-                        System.out.println("Succesfully deleted customer " + id);
-                        updateViewEntityPanel();
-                    }else{
-                        CarRental.getInstance().appendLog("Failed to delete customer " + id);
-                        System.out.println("Failed to delete customer " + id + "\nCustomer might have a future reservation");
-                    }
+                    String id = Integer.toString(reservationToView.getID());
+                    delete(reservationToView);
+                    CarRental.getInstance().appendLog("Succesfully deleted customer " + id);
+                    System.out.println("Succesfully deleted customer " + id);
+                    updateViewEntityPanel();
                 }
             });
             buttonPanel.add(deleteButton);
@@ -380,7 +377,7 @@ public class ReservationPanel extends SuperPanel {
             //editButton
             editButton = new JButton("Save edits");
             editButton.addActionListener(new ActionListener() {
-                
+                //TODO Fix this:
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (customerPhoneTextField.getText().trim().length() > 0
