@@ -60,10 +60,12 @@ public class GraphicAlternate extends JComponent {
                     y = (y / rowHeight);
                     if(reference.size() > y && reference.get(y) != null) {
                         if(reference.get(y).size() > x && reference.get(y).get(x) != null) {
-                            System.out.println(reference.get(y).get(x).toString());
+                            if(reference.get(y).get(x).isMaintenance()) CarRental.getView().viewMaintenance();
+                            else CarRental.getView().viewReservation();
+                            System.out.println(reference.get(y).get(x).toString()); //TODO: Remove print
                         }
                     }
-                    System.out.println("Field: "+x+","+y);
+                    System.out.println("Field: "+x+","+y); //TODO: Remove print
                 }
             }
         });

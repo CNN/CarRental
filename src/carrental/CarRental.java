@@ -14,7 +14,7 @@ public final class CarRental {
     public static final boolean DEBUG = true;
     private static CarRental instance;
     private Model model;
-    private View view;
+    private static View view;
     private String log;
     
     private CarRental() {
@@ -34,6 +34,16 @@ public final class CarRental {
         //should never happen that there is no instance, but just in case
         if(instance == null) return new CarRental();
         return instance;
+    }
+    
+    /**
+     * Get an instance of the View main panel. Useful for changing the panel to
+     * be shown.
+     * @return instance of view
+     */
+    public static View getView() {
+        if(view == null) view = new View();
+        return view;
     }
     
     /**
