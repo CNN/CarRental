@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.swing.*;
 import java.util.Calendar;
+import java.util.Locale;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -502,7 +503,7 @@ public class CustomerPanel extends SuperPanel {
                 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //TODO NICLASONLY make the database update here
+                    filter();
                 }
             });
             bottomFilterPanel.add(filterButton);
@@ -564,6 +565,31 @@ public class CustomerPanel extends SuperPanel {
             filterPhoneTextField.setText("");
             filterNameTextField.setText("");
             filterIDTextField.setText("");
+        }
+        
+        public void filter(){
+            //Delete exisiting rows
+            customerTableModel.setRowCount(0);
+            //Add the rows that match the filter
+            for(Customer customer : customers){
+                //parameters
+                if(filterIDTextField.getText().trim().isEmpty() || //Filter ID is empty OR
+                   Integer.toString(customer.getID()).trim().toLowerCase(Locale.ENGLISH).contains(filterIDTextField.getText().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
+                   filterNameTextField.getText().trim().isEmpty() || //Filter name is empty OR
+                   customer.getName().trim().toLowerCase(Locale.ENGLISH).contains(filterNameTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
+                   filterPhoneTextField.getText().trim().isEmpty() || //Filter Phone is empty OR
+                   Integer.toString(customer.getTelephone()).trim().toLowerCase(Locale.ENGLISH).contains(filterPhoneTextField.getText().trim().toLowerCase(Locale.ENGLISH)) &&//Customer matches criteria
+                   filterAdressTextField.getText().trim().isEmpty() || //Adress field is empty OR
+                   customer.getAdress().trim().toLowerCase(Locale.ENGLISH).contains(filterAdressTextField.getText().trim().toLowerCase(Locale.ENGLISH))) //Customer matches criteria
+                {
+                    customerTableModel.addRow(new Object[]{customer.getID(), //ID
+                            customer.getTelephone(), //Phone
+                            customer.getName(), //Name
+                            customer.getAdress(), //Adress
+                            customer.getEMail() //E-Mail
+                            });
+                }
+            }
         }
     }
 }
