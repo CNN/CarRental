@@ -133,12 +133,8 @@ public class DbCom {
     
     public void deleteMatch(String table, String where) {
         try {
-            if(newStatement().execute("DELETE FROM "+table+" WHERE "+where)) {
-                CarRental.getInstance().appendLog("Succesfully deleted from "+table+" everything matching "+where+".");
-            }
-            else {
-                CarRental.getInstance().appendLog("Failed to delete from "+table+" matching "+where+".");
-            }
+            newStatement().executeUpdate("DELETE FROM "+table+" WHERE "+where);
+            CarRental.getInstance().appendLog("Succesfully deleted from "+table+" rows matching "+where+".");
         }
         catch (SQLException e) {
             CarRental.getInstance().appendLog("Failed to delete from database table "+table+".",e);
