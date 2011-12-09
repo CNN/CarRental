@@ -198,6 +198,15 @@ public final class CarRental {
     }
     
     /**
+     * Request a list of reservations matching the given customer id
+     * @param c_id id of customer, the reservations should belong to
+     * @return reservations
+     */
+    public ArrayList<Reservation> requestReservationsByCustomer(int c_id) {
+        return model.getReservationsByCustomerId(c_id);
+    }
+    
+    /**
      * Request an empty reservation from the model
      * @return reservation
      */
@@ -278,6 +287,54 @@ public final class CarRental {
      */
     public void saveReservation(Reservation r) {
         model.saveReservation(r);
+    }
+    
+    /**
+     * Delete a vehicle from the model
+     * @param id id of vehicle
+     */
+    public void deleteVehicle(int id) {
+        model.deleteVehicle(id);
+    }
+    
+    /**
+     * Delete a vehicletype from the model
+     * @param id id of vehicle type
+     */
+    public void deleteVehicleType(int id) {
+        model.deleteVehicleType(id);
+    }
+    
+    /**
+     * Delete a maintenance from the model
+     * @param id id of maintenance
+     */
+    public void deleteMaintenance(int id) {
+        model.deleteMaintenance(id);
+    }
+    
+    /**
+     * Delete a maintenance type from the model
+     * @param id id of maintenance type
+     */
+    public void deleteMaintenanceType(int id) {
+        model.deleteMaintenanceType(id);
+    }
+    
+    /**
+     * Delete a customer from the model
+     * @param id id of customer
+     */
+    public void deleteCustomer(int id) {
+        model.deleteCustomer(id);
+    }
+    
+    /**
+     * Delete a reservation from the model
+     * @param id id of reservation
+     */
+    public void deleteReservation(int id) {
+        model.deleteReservation(id);
     }
     
     /**

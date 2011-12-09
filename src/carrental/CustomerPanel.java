@@ -410,8 +410,8 @@ public class CustomerPanel extends SuperPanel {
         
         private boolean delete(Customer customer){
             boolean succes;
-            ArrayList<Booking> bookings = CarRental.getInstance().requestBookingsByCustomer(customer.getID());
-            if(bookings == null || bookings.size() == 0){
+            ArrayList<Reservation> bookings = CarRental.getInstance().requestReservationsByCustomer(customer.getID());
+            if(bookings == null || bookings.isEmpty()){
                 CarRental.getInstance().deleteCustomer(customer.getID());
                 succes = true;
             }else{
