@@ -9,6 +9,7 @@ import javax.swing.text.JTextComponent;
 /**
  *
  * @author CNN
+ * @version 2011-12-09
  */
 public class VehicleTypePanel extends JPanel {
 
@@ -24,7 +25,6 @@ public class VehicleTypePanel extends JPanel {
     public VehicleTypePanel() {
         //Panel settings
         setLayout(new BorderLayout(0, 0));// no gaps between components.
-        //setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Create a vehicle type"));
         //Center Panel
         centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
@@ -79,27 +79,6 @@ public class VehicleTypePanel extends JPanel {
 
         //create-button
         actionButton = new JButton("Action");
-        actionButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                assert (selectedVehicleType != null); //Vehicle type should never be null here
-//                if (!vehicleTypeNameField.getText().trim().isEmpty()
-//                        && !priceField.getText().trim().isEmpty()
-//                        && !descriptionArea.getText().trim().isEmpty()) {
-//                    //Currently does not check if the vehicletype name is in use already etc.
-//                    try {
-//                        VehicleType updatedVehicleType = new VehicleType(vehicleType.getID(), vehicleTypeNameField.getText().trim(),
-//                                descriptionArea.getText().trim(), Integer.parseInt(priceField.getText().trim()));
-//
-//                        CarRental.getInstance().saveVehicleType(updatedVehicleType);
-//                        CarRental.getInstance().appendLog("Vehicle type \"" + vehicleTypeNameField.getText().trim() + "\" changed in the database");
-//                    } catch (NumberFormatException ex) {
-//                        System.out.println("Your \"Price per day\" field does not consist of numbers only. The vehicle type wasn't created");
-//                    }
-//                }
-            }
-        });
         buttonPanel.add(actionButton);
     }
 

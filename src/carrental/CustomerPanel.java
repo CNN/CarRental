@@ -34,7 +34,7 @@ public class CustomerPanel extends SuperPanel {
         }
 
         //Sets the different subpanels. Also adds them to this object with JPanel.add().
-        AssignAndAddSubPanels(new MainScreenPanel(), createPanel, viewEntityPanel, emptyPanel, listPanel);
+        AssignAndAddSubPanels(new MainScreenPanel(), createPanel, viewEntityPanel, emptyPanel, emptyPanel, listPanel);
         this.setPreferredSize(new Dimension(800, 600));
 
         //Removes the default gaps between components
