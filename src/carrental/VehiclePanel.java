@@ -77,28 +77,6 @@ public class VehiclePanel extends SuperPanel {
         frame.setVisible(true);
     }
 
-    public void setVehicleToView(Vehicle vehicle) {
-        vehicleToView = vehicle;
-        //Remake the relevant modules.
-    }
-
-    public void setVehicleTypeToView(VehicleType vehicle) {
-        vehicleTypeToView = vehicle;
-    }
-
-    public void setVehicleList(ArrayList<Vehicle> array) {
-        vehicleList = array;
-    }
-
-    public void setVehicleTypes(ArrayList<VehicleType> array) {
-        vehicleTypes = array;
-    }
-
-    public void setBookings(ArrayList<Booking> array) {
-        bookings = array;
-        //graph.setBookings(array);
-    }
-
     public class MainScreenPanel extends JPanel {
 
         public MainScreenPanel() { //TODO Claus skriv her.. Du kan teste ved at klikke shift+f6 :)
@@ -329,20 +307,32 @@ public class VehiclePanel extends SuperPanel {
                                     && !licensePlateField.getText().trim().isEmpty()
                                     && !vinField.getText().trim().isEmpty()
                                     && !drivenField.getText().trim().isEmpty()) {
-                                //Currently does not check if VIN number is in use already etc.
-                                try {
-                                    Vehicle newVehicle = new Vehicle(vehicleList.size() + 1, vehicleTypes.get(vehicleTypeCombo.getSelectedIndex()).getID(),
-                                            descriptionField.getText().trim(), licensePlateField.getText().trim(),
-                                            vinField.getText().trim(), Integer.parseInt(drivenField.getText().trim()), additionalArea.getText().trim());
-
-                                    CarRental.getInstance().saveVehicle(newVehicle);
-                                    CarRental.getInstance().appendLog("Vehicle \"" + descriptionField.getText().trim() + "\" added to the database");
-                                    CarRental.getView().displayError("Vehicle \"" + descriptionField.getText().trim() + "\" added to the database");
-                                    vehicleList = CarRental.getInstance().requestVehicles();
-                                } catch (NumberFormatException ex) {
-                                    CarRental.getView().displayError("Your \"Distance driven\" field does not consist of numbers only. The vehicle wasn't created");
+                                //Checks if VIN number is in use already
+                                boolean VinTaken = false;
+                                for (Vehicle vehicle : vehicleList) {
+                                    if (vinField.getText().trim().equals(vehicle.getVin())) {
+                                        VinTaken = true;
+                                    }
                                 }
+                                if (!VinTaken) {
+                                    try {
+                                        Vehicle newVehicle = new Vehicle(vehicleList.get(vehicleList.size()-1).getID() + 1, vehicleTypes.get(vehicleTypeCombo.getSelectedIndex()).getID(),
+                                                descriptionField.getText().trim(), licensePlateField.getText().trim(),
+                                                vinField.getText().trim(), Integer.parseInt(drivenField.getText().trim()), additionalArea.getText().trim());
 
+                                        CarRental.getInstance().saveVehicle(newVehicle);
+                                        CarRental.getInstance().appendLog("Vehicle \"" + descriptionField.getText().trim() + "\" added to the database.");
+                                        CarRental.getView().displayError("Vehicle \"" + descriptionField.getText().trim() + "\" added to the database.");
+                                        vehicleList = CarRental.getInstance().requestVehicles();
+                                    } catch (NumberFormatException ex) {
+                                        CarRental.getView().displayError("Your \"Distance driven\" field does not consist of numbers only or was too long. The vehicle wasn't created.");
+                                    }
+
+                                } else {
+                                    CarRental.getView().displayError("A vehicle with VIN \"" + vinField.getText().trim() + "\" already exists.");
+                                }
+                            } else {
+                                CarRental.getView().displayError("The vehicle wasn't created. Fill out the text fields.");
                             }
                         }
                     });
@@ -350,8 +340,6 @@ public class VehiclePanel extends SuperPanel {
         }
 
         public void update() {
-            vehicleList = CarRental.getInstance().requestVehicles(); //If a car was edited from the view panel, this is needed as to have an updated list of VIN numbers
-            vehicleTypes = CarRental.getInstance().requestVehicleTypes();
             //Check for an added type for the JComboBox
             vehicleTypeComboModel.removeAllElements();
             for (VehicleType vehicleType : vehicleTypes) {
@@ -406,13 +394,9 @@ public class VehiclePanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    for (VehicleType vehicleType : vehicleTypes) {
-                        if (vehicleType.getName().equals(vehicleTypeComboModel.getElementAt(vehicleTypeCombo.getSelectedIndex()))) {
-                            vehicleTypeToView = vehicleType;
-                            break;
-                        }
-                    }
+                    vehicleTypeToView = vehicleTypes.get(vehicleTypeCombo.getSelectedIndex());
                     showViewTypePanel();
+                    CarRental.getView().displayError("Showing vehicle type \"" + vehicleTypeToView.getName() + "\" now.");
                 }
             });
 
@@ -424,7 +408,7 @@ public class VehiclePanel extends SuperPanel {
             vehicleTypePanel.add(Box.createRigidArea(new Dimension(48 + strutDistance, 0)));
             vehicleTypePanel.add(vehicleTypeCombo);
 
-            vehicleTypePanel.add(Box.createRigidArea(new Dimension(48 + strutDistance, 0)));
+            vehicleTypePanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
             vehicleTypePanel.add(viewSelectedTypeButton);
 
             centerPanel.add(vehicleTypePanel);
@@ -556,7 +540,8 @@ public class VehiclePanel extends SuperPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     CarRental.getInstance().deleteVehicle(vehicleToView.getID());
-                    System.out.println(""+vehicleToView.getID());
+                    CarRental.getInstance().appendLog("Vehicle \"" + vehicleToView.getDescription() + "\" deleted from the database.");
+                    CarRental.getView().displayError("Vehicle \"" + vehicleToView.getDescription() + "\" deleted from the database.");
                     vehicleList = CarRental.getInstance().requestVehicles();
                     showListPanel();
                 }
@@ -577,24 +562,28 @@ public class VehiclePanel extends SuperPanel {
                             && !licensePlateField.getText().trim().isEmpty()
                             && !vinField.getText().trim().isEmpty()
                             && !drivenField.getText().trim().isEmpty()) {
-                        //Currently does not check if VIN number is in use already etc.
-                        try {
-                            Vehicle updatedVehicle = new Vehicle(vehicleToView.getID(), vehicleTypes.get(vehicleTypeCombo.getSelectedIndex()).getID(),
-                                    descriptionField.getText().trim(), licensePlateField.getText().trim(),
-                                    vinField.getText().trim(), Integer.parseInt(drivenField.getText().trim()), additionalArea.getText().trim());
+                        //Checks if VIN number is in use already
+                        boolean VinTaken = false;
+                        for (Vehicle vehicle : vehicleList) {                  //TODO hvorfor virker !vehicle.equals(vehicleToView) ikke her!!
+                            if (vinField.getText().trim().equals(vehicle.getVin()) && vehicle.getID() != vehicleToView.getID()) { //if the vin is in use and it´s not from the currently viewed vehicle
+                                VinTaken = true;
+                            }
+                        }
+                        if (!VinTaken) {
+                            try {
+                                Vehicle updatedVehicle = new Vehicle(vehicleToView.getID(), vehicleTypes.get(vehicleTypeCombo.getSelectedIndex()).getID(),
+                                        descriptionField.getText().trim(), licensePlateField.getText().trim(),
+                                        vinField.getText().trim(), Integer.parseInt(drivenField.getText().trim()), additionalArea.getText().trim());
 
-                            CarRental.getInstance().saveVehicle(updatedVehicle);
-//                            for (VehicleType vehicleType : vehicleTypes){
-//                                System.out.println(vehicleType.getID() + vehicleType.getName());
-//                            }
-//
-//
-//                            System.out.println("you chose" + vehicleTypes.get(updatedVehicle.getVehicleType() - 1).getName());
-                            CarRental.getInstance().appendLog("Vehicle \"" + descriptionField.getText().trim() + "\" changed in the database");
-                            CarRental.getView().displayError("Vehicle \"" + descriptionField.getText().trim() + "\" changed in the database");
-                            vehicleList = CarRental.getInstance().requestVehicles();
-                        } catch (NumberFormatException ex) {
-                            CarRental.getView().displayError("Your \"Distance driven\" field does not consist of numbers only. The vehicle wasn't created");
+                                CarRental.getInstance().saveVehicle(updatedVehicle);
+                                CarRental.getInstance().appendLog("Vehicle \"" + descriptionField.getText().trim() + "\" changed in the database.");
+                                CarRental.getView().displayError("Vehicle \"" + descriptionField.getText().trim() + "\" changed in the database.");
+                                vehicleList = CarRental.getInstance().requestVehicles();
+                            } catch (NumberFormatException ex) {
+                                CarRental.getView().displayError("Your \"Distance driven\" field does not consist of numbers only or was too long. The vehicle wasn't created.");
+                            }
+                        } else {
+                            CarRental.getView().displayError("Another vehicle with VIN \"" + vinField.getText().trim() + "\" already exists.");
                         }
                     }
                 }
@@ -605,20 +594,22 @@ public class VehiclePanel extends SuperPanel {
         }
 
         public void update() {
-            vehicleTypes = CarRental.getInstance().requestVehicleTypes();
-            vehicleList = CarRental.getInstance().requestVehicles();
             customers = CarRental.getInstance().requestCustomers();
             maintenanceTypes = CarRental.getInstance().requestMaintenanceTypes();
             reservations = new ArrayList<Reservation>();
             maintenances = new ArrayList<Maintenance>();
+            int typeIndex = 0;
 
-            //refresh the vehicle types in the Combobox
+            //refresh the vehicle types in the Combobox and get the index to be displayed
             vehicleTypeComboModel.removeAllElements();
-            for (VehicleType vehicleType : vehicleTypes) {
-                vehicleTypeComboModel.addElement(vehicleType.getName());
+            for (int i = 0; i < vehicleTypes.size(); i++) {
+                vehicleTypeComboModel.addElement(vehicleTypes.get(i).getName()); //add the row
+                if (vehicleTypes.get(i).getID() == vehicleToView.getVehicleType()) {
+                    typeIndex = i;
+                }
             }
             //refresh the textfields
-            vehicleTypeCombo.setSelectedIndex(vehicleToView.getVehicleType() - 1);
+            vehicleTypeCombo.setSelectedIndex(typeIndex);
             descriptionField.setText(vehicleToView.getDescription());
             licensePlateField.setText(vehicleToView.getLicensePlate());
             vinField.setText(vehicleToView.getVin());
@@ -639,8 +630,9 @@ public class VehiclePanel extends SuperPanel {
 
             //Add the rows with reservations
             for (Reservation reservation : reservations) {
-                tableRow = new String[]{customers.get(reservation.getCustomerID() - 1).getName(),
-                    Integer.toString(customers.get(reservation.getCustomerID() - 1).getTelephone()),
+                tableRow = new String[]{
+                    CarRental.getInstance().requestCustomer(reservation.getCustomerID()).getName(),
+                    Integer.toString(CarRental.getInstance().requestCustomer(reservation.getCustomerID()).getTelephone()),
                     reservation.getTStart().toString(),
                     reservation.getTEnd().toString()};
                 reservationTableModel.addRow(tableRow);
@@ -650,12 +642,13 @@ public class VehiclePanel extends SuperPanel {
             //Add the rows with maintenances
             for (Maintenance maintenance : maintenances) {
                 String serviceCheck;
-                if (maintenanceTypes.get(maintenance.getTypeID() - 1).getIs_service()) {
+                if (CarRental.getInstance().requestMaintenanceType(maintenance.getTypeID()).getIs_service()) {
                     serviceCheck = "Yes";
                 } else {
                     serviceCheck = "No";
                 }
-                tableRow = new String[]{maintenanceTypes.get(maintenance.getTypeID() - 1).getName(),
+                tableRow = new String[]{
+                    CarRental.getInstance().requestMaintenanceType(maintenance.getTypeID()).getName(),
                     serviceCheck,
                     maintenance.getTStart().toString(),
                     maintenance.getTEnd().toString()};
@@ -670,16 +663,17 @@ public class VehiclePanel extends SuperPanel {
 
     public class ViewVehicleTypePanel extends JPanel {
 
-        JButton backButton, editButton;
+        JButton backButton, editButton, deleteButton;
         VehicleTypePanel vehicleTypePanel;
 
         public ViewVehicleTypePanel() {
             //Panel settings
             setLayout(new BorderLayout());
-            setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Create a vehicle type"));
+            setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Viewing vehicle type"));
             setBackground(new Color(216, 216, 208));
             //Create the panel for viewing the vehicle type.
             vehicleTypePanel = new VehicleTypePanel();
+            add(vehicleTypePanel, BorderLayout.CENTER);
 
             //Create the buttons needed
             //Back-button
@@ -689,6 +683,30 @@ public class VehiclePanel extends SuperPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     showViewEntityPanel();
+                    CarRental.getView().displayError("Showing vehicle \"" + vehicleToView.getDescription() + "\" now.");
+                }
+            });
+            //Delete-button
+            deleteButton = new JButton("Delete");
+            deleteButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    boolean inUse = false;
+                    for (Vehicle vehicle : vehicleList) {
+                        if (vehicle.getVehicleType() == vehicleTypeToView.getID()) {
+                            inUse = true;
+                        }
+                    }
+                    if (!inUse) {
+                        CarRental.getInstance().deleteVehicleType(vehicleTypeToView.getID());
+                        CarRental.getInstance().appendLog("Vehicle type \"" + vehicleTypeToView.getName() + "\" deleted from the database.");
+                        CarRental.getView().displayError("Vehicle type \"" + vehicleTypeToView.getName() + "\" deleted from the database.");
+                        vehicleTypes = CarRental.getInstance().requestVehicleTypes();
+                        showViewEntityPanel();
+                    } else {
+                        CarRental.getView().displayError("Vehicle type \"" + vehicleTypeToView.getName() + "\" is in use by at least one car. Could not be deleted.");
+                    }
                 }
             });
             // Edit-button
@@ -701,27 +719,40 @@ public class VehiclePanel extends SuperPanel {
                     if (!vehicleTypeTextList.get(0).getText().trim().isEmpty()
                             && !vehicleTypeTextList.get(1).getText().trim().isEmpty()
                             && !vehicleTypeTextList.get(2).getText().trim().isEmpty()) {
-                        //Currently does not check if the type name is already in use already etc.
-                        try {
-                            VehicleType updatedVehicleType = new VehicleType(vehicleTypeToView.getID(), vehicleTypeTextList.get(0).getText().trim(), vehicleTypeTextList.get(2).getText().trim(),
-                                    Integer.parseInt(vehicleTypeTextList.get(1).getText().trim()));
-
-                            CarRental.getInstance().saveVehicleType(updatedVehicleType);
-                            CarRental.getInstance().appendLog("Vehicle type \"" + vehicleTypeTextList.get(0).getText().trim() + "\" changed in the database");
-                            CarRental.getView().displayError("Vehicle type \"" + vehicleTypeTextList.get(0).getText().trim() + "\" changed in the database");
-                            vehicleTypes = CarRental.getInstance().requestVehicleTypes(); //update ment for if name check is implemented
-                        } catch (NumberFormatException ex) {
-                            CarRental.getView().displayError("Your \"price per day\" field does not consist of numbers only. The vehicle type wasn't created");
+                        //Checks if name is in use already
+                        boolean nameTaken = false;
+                        for (VehicleType vehicleType : vehicleTypes) {
+                            if (vehicleTypeTextList.get(0).getText().trim().equals(vehicleType.getName()) && vehicleType.getID() != vehicleTypeToView.getID()) { //if the name is in use and it´s not from the currently viewed vehicle
+                                nameTaken = true;
+                            }
                         }
+                        if (!nameTaken) {
+                            try {
+                                VehicleType updatedVehicleType = new VehicleType(vehicleTypeToView.getID(), vehicleTypeTextList.get(0).getText().trim(), vehicleTypeTextList.get(2).getText().trim(),
+                                        Integer.parseInt(vehicleTypeTextList.get(1).getText().trim()));
+
+                                CarRental.getInstance().saveVehicleType(updatedVehicleType);
+                                CarRental.getInstance().appendLog("Vehicle type \"" + vehicleTypeTextList.get(0).getText().trim() + "\" changed in the database.");
+                                CarRental.getView().displayError("Vehicle type \"" + vehicleTypeTextList.get(0).getText().trim() + "\" changed in the database.");
+                                vehicleTypes = CarRental.getInstance().requestVehicleTypes(); //update ment for if name check is implemented
+                            } catch (NumberFormatException ex) {
+                                CarRental.getView().displayError("Your \"price per day\" field does not consist of numbers only or was too long. The vehicle type wasn't created.");
+                            }
+                        } else {
+                            CarRental.getView().displayError("Another vehicle type with the name \"" + vehicleTypeTextList.get(0).getText().trim() + "\" already exists.");
+                        }
+                    } else {
+                        CarRental.getView().displayError("The vehicle type wasn't edited. You need to enter text in all the fields.");
                     }
                 }
             });
-            add(vehicleTypePanel, BorderLayout.CENTER);
         }
 
         public void update() {
-            vehicleTypePanel.setPanel(vehicleTypeToView, backButton, editButton);
+            vehicleTypePanel.setPanel(vehicleTypeToView, backButton, deleteButton, editButton);
             System.out.println(vehicleTypeToView.getName());
+
+
         }
     }
 
@@ -745,7 +776,7 @@ public class VehiclePanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    vehicleTypePanel.setPanel(null, null, null); //resets the panel
+                    vehicleTypePanel.setPanel(null, null, null, null); //resets the panel
                     showMainScreenPanel();
                 }
             });
@@ -755,26 +786,38 @@ public class VehiclePanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    ArrayList<JTextComponent> vehicleTypeTextList = new ArrayList<>();
+                    ArrayList<JTextComponent> vehicleTypeTextList = vehicleTypePanel.getTextComponents();
                     if (!vehicleTypeTextList.get(0).getText().trim().isEmpty()
                             && !vehicleTypeTextList.get(1).getText().trim().isEmpty()
                             && !vehicleTypeTextList.get(2).getText().trim().isEmpty()) {
-                        //Currently does not check if the type name is already in use already etc.
-                        try {
-                            VehicleType newVehicleType = new VehicleType(vehicleTypes.size() + 1, vehicleTypeTextList.get(0).getText().trim(), vehicleTypeTextList.get(2).getText().trim(),
-                                    Integer.parseInt(vehicleTypeTextList.get(1).getText().trim()));
-
-                            CarRental.getInstance().saveVehicleType(newVehicleType);
-                            CarRental.getInstance().appendLog("Vehicle type \"" + vehicleTypeTextList.get(0).getText().trim() + "\" added to the database");
-                            CarRental.getView().displayError("Vehicle type \"" + vehicleTypeTextList.get(0).getText().trim() + "\" added to the database");
-                            vehicleTypes = CarRental.getInstance().requestVehicleTypes(); //update ment for if name check is implemented
-                        } catch (NumberFormatException ex) {
-                            CarRental.getView().displayError("Your \"price per day\" field does not consist of numbers only. The vehicle type wasn't created");
+                        //Checks if name is in use already
+                        boolean nameTaken = false;
+                        for (VehicleType vehicleType : vehicleTypes) {
+                            if (vehicleTypeTextList.get(0).getText().trim().equals(vehicleType.getName())) {
+                                nameTaken = true;
+                            }
                         }
+                        if (!nameTaken) {
+                            try {
+                                VehicleType newVehicleType = new VehicleType(vehicleTypes.size() + 1, vehicleTypeTextList.get(0).getText().trim(), vehicleTypeTextList.get(2).getText().trim(),
+                                        Integer.parseInt(vehicleTypeTextList.get(1).getText().trim()));
+
+                                CarRental.getInstance().saveVehicleType(newVehicleType);
+                                CarRental.getInstance().appendLog("Vehicle type \"" + vehicleTypeTextList.get(0).getText().trim() + "\" added to the database.");
+                                CarRental.getView().displayError("Vehicle type \"" + vehicleTypeTextList.get(0).getText().trim() + "\" added to the database.");
+                                vehicleTypes = CarRental.getInstance().requestVehicleTypes();
+                            } catch (NumberFormatException ex) {
+                                CarRental.getView().displayError("Your \"price per day\" field does not consist of numbers only or was too long. The vehicle type wasn't created.");
+                            }
+                        } else {
+                            CarRental.getView().displayError("A vehicle type with the name \"" + vehicleTypeTextList.get(0).getText().trim() + "\" already exists.");
+                        }
+                    } else {
+                        CarRental.getView().displayError("The vehicle type wasn't created. You need to enter text in all the fields.");
                     }
                 }
             });
-            vehicleTypePanel.setPanel(null, cancelButton, createButton);
+            vehicleTypePanel.setPanel(null, cancelButton, null, createButton);
             add(vehicleTypePanel, BorderLayout.CENTER);
         }
     }
@@ -950,14 +993,13 @@ public class VehiclePanel extends SuperPanel {
                 public void actionPerformed(ActionEvent e) {
                     if (vehicleTable.getSelectedRow() >= 0) { //getSelectedRow returns -1 if no row is selected
                         for (Vehicle vehicle : vehicleList) {
-                            if (vehicle.getDescription().equals(vehicleTableModel.getValueAt(vehicleTable.getSelectedRow(), 1))
-                                    && vehicle.getVin().equals(vehicleTableModel.getValueAt(vehicleTable.getSelectedRow(), 3))) {
+                            if (vehicle.getVin().equals(vehicleTableModel.getValueAt(vehicleTable.getSelectedRow(), 3))) {
                                 vehicleToView = vehicle;
                                 break;
                             }
                         }
                         showViewEntityPanel();
-                        CarRental.getView().displayError("Showing \"" + vehicleToView.getDescription() + "\" now.");
+                        CarRental.getView().displayError("Showing vehicle \"" + vehicleToView.getDescription() + "\" now.");
                     }
                 }
             });
@@ -970,9 +1012,10 @@ public class VehiclePanel extends SuperPanel {
             //Delete exisiting rows
             vehicleTableModel.setRowCount(0);
 
-            //Add the updated rows with reservations
+            //Add the updated rows with vehicles
             for (Vehicle vehicle : vehicleList) {
-                vehicleTableModel.addRow(new String[]{vehicleTypes.get(vehicle.getVehicleType() - 1).getName(),
+                vehicleTableModel.addRow(new String[]{
+                            CarRental.getInstance().requestVehicleType(vehicle.getVehicleType()).getName(),
                             vehicle.getDescription(),
                             vehicle.getLicensePlate(),
                             vehicle.getVin(),
@@ -1010,7 +1053,8 @@ public class VehiclePanel extends SuperPanel {
                         (drivenField.getText().trim().isEmpty() || //driven field is empty OR
                         Integer.toString(vehicle.getOdo()).toLowerCase(Locale.ENGLISH).contains(drivenField.getText().trim().toLowerCase(Locale.ENGLISH)))) { //vehicles ODO equals the "distance driven" given
                     // - does the vehicle match the filter, and following row is added to the table
-                    vehicleTableModel.addRow(new String[]{vehicleTypes.get(vehicle.getVehicleType() - 1).getName(),
+                    vehicleTableModel.addRow(new String[]{
+                                CarRental.getInstance().requestVehicleType(vehicle.getVehicleType()).getName(),
                                 vehicle.getDescription(),
                                 vehicle.getLicensePlate(),
                                 vehicle.getVin(),

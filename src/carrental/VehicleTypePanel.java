@@ -18,7 +18,7 @@ public class VehicleTypePanel extends JPanel {
     JLabel vehicleTypeNameLabel, priceLabel, descriptionLabel;
     JTextField vehicleTypeNameField, priceField;
     JTextArea descriptionArea;
-    JButton actionButton, backButton;
+    JButton actionButton, backButton, deleteButton;
     final int defaultJTextFieldColumns = 20, strutDistance = 0;
     VehicleType selectedVehicleType;
 
@@ -43,9 +43,9 @@ public class VehicleTypePanel extends JPanel {
         vehicleTypeNameField = new JTextField(defaultJTextFieldColumns);
         vehicleTypeNamePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        vehicleTypeNamePanel.add(Box.createHorizontalStrut(5));
+        vehicleTypeNamePanel.add(Box.createRigidArea(new Dimension(5, 0)));
         vehicleTypeNamePanel.add(vehicleTypeNameLabel);
-        vehicleTypeNamePanel.add(Box.createHorizontalStrut(strutDistance));
+        vehicleTypeNamePanel.add(Box.createRigidArea(new Dimension(strutDistance, 0)));
         vehicleTypeNamePanel.add(vehicleTypeNameField);
         centerPanel.add(vehicleTypeNamePanel);
 
@@ -54,9 +54,9 @@ public class VehicleTypePanel extends JPanel {
         priceField = new JTextField(defaultJTextFieldColumns);
         pricePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        pricePanel.add(Box.createHorizontalStrut(5));
+        pricePanel.add(Box.createRigidArea(new Dimension(5, 0)));
         pricePanel.add(priceLabel);
-        pricePanel.add(Box.createHorizontalStrut(33 + strutDistance));
+        pricePanel.add(Box.createRigidArea(new Dimension(33 + strutDistance, 0)));
         pricePanel.add(priceField);
         centerPanel.add(pricePanel);
 
@@ -66,16 +66,21 @@ public class VehicleTypePanel extends JPanel {
         descriptionScrollPane = new JScrollPane(descriptionArea);
         descriptionPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        descriptionPanel.add(Box.createHorizontalStrut(5));
+        descriptionPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         descriptionPanel.add(descriptionLabel);
-        descriptionPanel.add(Box.createHorizontalStrut(43 + strutDistance));
+        descriptionPanel.add(Box.createRigidArea(new Dimension(43 + strutDistance, 0)));
         descriptionPanel.add(descriptionScrollPane);
         centerPanel.add(descriptionPanel);
 
         //cancel-Button
         backButton = new JButton("Back");
         buttonPanel.add(backButton);
-        buttonPanel.add(Box.createHorizontalStrut(5));
+        buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+
+        //Delete-Button
+        deleteButton = new JButton("Delete");
+        buttonPanel.add(deleteButton);
+        buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 
         //create-button
         actionButton = new JButton("Action");
@@ -90,7 +95,7 @@ public class VehicleTypePanel extends JPanel {
      * @param actionButton The button to have the back/cancel functionality in the panel. If null - the button has no function.
      * @return 
      */
-    public void setPanel(VehicleType vehicleType, JButton backButton, JButton actionButton) {
+    public void setPanel(VehicleType vehicleType, JButton backButton, JButton deleteButton, JButton actionButton) {
         resetPanel();
         if (vehicleType != null) {
             vehicleTypeNameField.setText(vehicleType.getName());
@@ -103,6 +108,13 @@ public class VehicleTypePanel extends JPanel {
                 this.backButton.addActionListener(a);
             }
             this.backButton.setVisible(true);
+        }
+        if (deleteButton != null) {
+            this.deleteButton.setText(deleteButton.getText());
+            for (ActionListener a : deleteButton.getActionListeners()) {
+                this.deleteButton.addActionListener(a);
+            }
+            this.deleteButton.setVisible(true);
         }
         if (actionButton != null) {
             this.actionButton.setText(actionButton.getText());
@@ -131,6 +143,11 @@ public class VehicleTypePanel extends JPanel {
             backButton.removeActionListener(a);
         }
         backButton.setVisible(false);
+        deleteButton.setText("Delete");
+        for (ActionListener a : deleteButton.getActionListeners()) {
+            deleteButton.removeActionListener(a);
+        }
+        deleteButton.setVisible(false);
         actionButton.setText("Action");
         for (ActionListener a : actionButton.getActionListeners()) {
             actionButton.removeActionListener(a);
