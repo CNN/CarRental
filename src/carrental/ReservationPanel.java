@@ -601,13 +601,13 @@ public class ReservationPanel extends SuperPanel {
 
     public class ListPanel extends JPanel {
 
-        JTextField filterAdressTextField, filterPhoneTextField, filterNameTextField, filterIDTextField;
-        JTable customerTable;
-        DefaultTableModel customerTableModel;
+        JTextField filterMaintenanceTextField, filterCustomerIDTextField, filterReservationIDTextField, filterVehicleIDTextField, filterStartDateTextField, filterEndDateTextField;
+        JTable reservationTable;
+        DefaultTableModel reservationTableModel;
 
         public ListPanel() {
             //Fields
-            JPanel centerPanel, customerListPanel, filterPanel, topFilterPanel, bottomFilterPanel, buttonPanel;
+            JPanel centerPanel, reservationListPanel, filterPanel, topFilterPanel, middleFilterPanel, bottomFilterPanel, buttonPanel;
             JScrollPane scrollPane;
             JButton cancelButton, filterButton, viewButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
@@ -623,26 +623,26 @@ public class ReservationPanel extends SuperPanel {
             add(centerPanel, BorderLayout.CENTER);
 
             //customerListPanel.
-            customerListPanel = new JPanel();
+            reservationListPanel = new JPanel();
 
             //Colors
             setBackground(new Color(216, 216, 208));
 
             //Creating the table model
-            customerTableModel = new DefaultTableModel(new Object[]{"ID", "Phone", "Name", "Adress", "E-Mail"}, 0);
-            setCustomerTable();
+            reservationTableModel = new DefaultTableModel(new Object[]{"ID", "VehicleID", "Start", "End", "MaintenanceType"}, 0);
+            setReservationTable();
 
             //Creating the table
-            customerTable = new JTable(customerTableModel);
+            reservationTable = new JTable(reservationTableModel);
             //adding it to it's own scrollpane
-            scrollPane = new JScrollPane(customerTable);
+            scrollPane = new JScrollPane(reservationTable);
             //Setting the default size for the scrollpane
-            customerTable.setPreferredScrollableViewportSize(new Dimension(680, 200));
-            customerListPanel.add(scrollPane);
-            centerPanel.add(customerListPanel);
+            reservationTable.setPreferredScrollableViewportSize(new Dimension(680, 200));
+            reservationListPanel.add(scrollPane);
+            centerPanel.add(reservationListPanel);
 
             //FilterPanel
-            JLabel filterAdressLabel, filterPhoneLabel, filterNameLabel, filterIDLabel;
+            JLabel filterReservationIDLabel, filterMaintenanceLabel, filterCustomerIDLabel, filterVehicleIDLabel, filterStartDateLabel, filterEndDateLabel, filterMaintenanceTypeLabel;
 
             filterPanel = new JPanel();
             filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.PAGE_AXIS));
@@ -653,44 +653,65 @@ public class ReservationPanel extends SuperPanel {
             topFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             filterPanel.add(topFilterPanel);
 
-            //ID
-            filterIDLabel = new JLabel("ID");
-            filterIDTextField = new JTextField(defaultJTextFieldColumns);
+            //Reservation ID
+            filterReservationIDLabel = new JLabel("Reservation ID");
+            filterReservationIDTextField = new JTextField(defaultJTextFieldColumns);
 
             topFilterPanel.add(Box.createRigidArea(new Dimension(0, 0)));
-            topFilterPanel.add(filterIDLabel);
+            topFilterPanel.add(filterReservationIDLabel);
             topFilterPanel.add(Box.createRigidArea(new Dimension(68 + strutDistance, 0)));
-            topFilterPanel.add(filterIDTextField);
+            topFilterPanel.add(filterReservationIDTextField);
 
-            //Name
-            filterNameLabel = new JLabel("Name");
-            filterNameTextField = new JTextField(defaultJTextFieldColumns);
+            //Vehicle ID
+            filterVehicleIDLabel = new JLabel("Vehicle ID");
+            filterVehicleIDTextField = new JTextField(defaultJTextFieldColumns);
 
             topFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            topFilterPanel.add(filterNameLabel);
+            topFilterPanel.add(filterVehicleIDLabel);
             topFilterPanel.add(Box.createRigidArea(new Dimension(12 + strutDistance, 0)));
-            topFilterPanel.add(filterNameTextField);
+            topFilterPanel.add(filterVehicleIDTextField);
+            
+            //Middle filter panel
+            middleFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            filterPanel.add(middleFilterPanel);
+            
+            //Maintenance
+            filterMaintenanceLabel = new JLabel("Maintenance Type");
+            filterMaintenanceTextField = new JTextField(defaultJTextFieldColumns);
+            
+            middleFilterPanel.add(filterMaintenanceLabel);
+            middleFilterPanel.add(Box.createRigidArea(new Dimension(strutDistance, 0)));
+            middleFilterPanel.add(filterMaintenanceTextField);
+            
+            //Customer ID
+            filterCustomerIDLabel = new JLabel("Customer ID");
+            filterCustomerIDTextField = new JTextField(defaultJTextFieldColumns);
+
+            middleFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            middleFilterPanel.add(filterCustomerIDLabel);
+            middleFilterPanel.add(Box.createRigidArea(new Dimension(12 + strutDistance, 0)));
+            middleFilterPanel.add(filterCustomerIDTextField);
 
             //Bottom Filter panel
             bottomFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             filterPanel.add(bottomFilterPanel);
 
-            //Phone
-            filterPhoneLabel = new JLabel("Phone number");
-            filterPhoneTextField = new JTextField(defaultJTextFieldColumns);
+            //Start Date
+            filterStartDateLabel = new JLabel("Start");
+            filterStartDateTextField = new JTextField(defaultJTextFieldColumns);
 
-            bottomFilterPanel.add(filterPhoneLabel);
+            bottomFilterPanel.add(filterStartDateLabel);
             bottomFilterPanel.add(Box.createRigidArea(new Dimension(strutDistance, 0)));
-            bottomFilterPanel.add(filterPhoneTextField);
+            bottomFilterPanel.add(filterStartDateTextField);
 
-            //Adress
-            filterAdressLabel = new JLabel("Adress");
-            filterAdressTextField = new JTextField(defaultJTextFieldColumns);
+            //End Date
+            filterEndDateLabel = new JLabel("End");
+            filterEndDateTextField = new JTextField(defaultJTextFieldColumns);
 
             bottomFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            bottomFilterPanel.add(filterAdressLabel);
+            bottomFilterPanel.add(filterStartDateLabel);
             bottomFilterPanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
-            bottomFilterPanel.add(filterAdressTextField);
+            bottomFilterPanel.add(filterStartDateTextField);
 
             //ButtonPanels
             buttonPanel = new JPanel();
