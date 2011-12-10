@@ -5,7 +5,6 @@ import java.awt.event.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.swing.*;
-import java.util.Calendar;
 import java.util.Locale;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -108,11 +107,14 @@ public class ReservationPanel extends SuperPanel {
         
         JTextField vehicleIDTextField, reservationIDTextField, customerIDTextField, startDateTextField, endDateTextField;
         JCheckBox maintenanceCheckBox;
+        JComboBox maintenanceTypeCombo;
+        ArrayList<MaintenanceType> maintenanceTypes;
+        DefaultComboBoxModel maintenanceTypeComboModel;
         
         public CreatePanel() {
             //Fields
-            JPanel vehiclePanel, endDatePanel, startDatePanel, reservationIDPanel, customerPanel, centerPanel, buttonPanel;
-            JLabel vehicleIDLabel, dateFormatLabel, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
+            JPanel maintenancePanel, vehiclePanel, endDatePanel, startDatePanel, reservationIDPanel, customerPanel, centerPanel, buttonPanel;
+            JLabel maintenanceLabel, vehicleIDLabel, dateFormatLabel, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
             JButton findCustomerButton, createButton, cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
@@ -141,6 +143,40 @@ public class ReservationPanel extends SuperPanel {
             reservationIDPanel.add(Box.createRigidArea(new Dimension(87 + strutDistance, 0)));
             reservationIDPanel.add(reservationIDTextField);
             centerPanel.add(reservationIDPanel);
+            
+            //Maintenance
+            maintenanceLabel = new JLabel("Maintenance");
+            maintenanceCheckBox = new JCheckBox();
+            maintenanceTypeComboModel = new DefaultComboBoxModel();
+            maintenanceTypeCombo = new JComboBox(maintenanceTypeComboModel);
+            maintenanceTypeCombo.setEnabled(false);
+            
+            maintenanceTypes = CarRental.getInstance().requestMaintenanceTypes();
+            
+            maintenanceCheckBox.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+                    if(maintenanceCheckBox.isEnabled()){
+                        maintenanceTypeCombo.setEnabled(true);
+                    }else{
+                        maintenanceTypeCombo.setEnabled(false);
+                    }
+                }
+            });
+            
+            for(MaintenanceType maintenanceType : maintenanceTypes){
+                maintenanceTypeComboModel.addElement(maintenanceType.getName());
+            }
+            
+            maintenancePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            maintenancePanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            maintenancePanel.add(maintenanceLabel);
+            maintenancePanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            maintenancePanel.add(maintenanceCheckBox);
+            maintenancePanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            maintenancePanel.add(maintenanceTypeCombo);
+            centerPanel.add(maintenancePanel);
 
             //Customer ID
             customerIDLabel = new JLabel("Customer ID");
@@ -265,6 +301,7 @@ public class ReservationPanel extends SuperPanel {
         String customerID, vehicleID, reservationID, startDate, endDate;
         JTextField vehicleIDTextField, reservationIDTextField, customerIDTextField, startDateTextField, endDateTextField;
         JCheckBox maintenanceCheckBox;
+        JComboBox maintenanceTypeCombo;
         
         public ViewEntityPanel() {
             //Fields
@@ -366,8 +403,8 @@ public class ReservationPanel extends SuperPanel {
                 public void actionPerformed(ActionEvent e) {
                     String id = Integer.toString(reservationToView.getID());
                     delete(reservationToView);
-                    CarRental.getInstance().appendLog("Succesfully deleted customer " + id);
-                    System.out.println("Succesfully deleted customer " + id);
+                    CarRental.getInstance().appendLog("Succesfully deleted reservation " + id);
+                    System.out.println("Succesfully deleted reservation " + id);
                     updateViewEntityPanel();
                 }
             });
@@ -380,24 +417,50 @@ public class ReservationPanel extends SuperPanel {
                 //TODO Fix this:
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    Timestamp tStart = new Timestamp(0);
+                    Timestamp tEnd = new Timestamp(0);
                     if (customerPhoneTextField.getText().trim().length() > 0
                             && customerNameTextField.getText().trim().length() > 0
                             && customerAdressTextField.getText().trim().length() > 0
                             && customerEMailTextField.getText().trim().length() > 0) {
                         try{
-                        CarRental.getInstance().saveCustomer(new Customer(
-                                Integer.parseInt(customerIDTextField.getText()),
-                                Integer.parseInt(customerPhoneTextField.getText()),
-                                customerNameTextField.getText(),
-                                customerAdressTextField.getText(),
-                                customerEMailTextField.getText()));
-                        customers = CarRental.getInstance().requestCustomers();
-                        CarRental.getInstance().appendLog("Customer " + customerIDTextField.getText() + " edited");
+                            tStart = Timestamp.valueOf(startDateTextField.getText());
+                            tEnd = Timestamp.valueOf(endDateTextField.getText());
+                        }catch (IllegalArgumentException ex){
+                            System.out.println("Time fields must be in format yyyy-mm-dd hh:mm:ss");
+                        }
+                        if(maintenanceCheckBox.isEnabled()){
+                        try{
+                        CarRental.getInstance().saveMaintenance(new Maintenance(
+                                Integer.parseInt(reservationIDTextField.getText()),
+                                Integer.parseInt(vehicleIDTextField.getText()),
+                                tStart,
+                                tEnd,
+                                maintenanceTypeCombo.getSelectedIndex()).getID())));
+                        reservations = CarRental.getInstance().requestReservations();
+                        CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
                         System.out.println("Customer " + customerIDTextField.getText() + " edited");
                         updateViewEntityPanel();
                         showViewEntityPanel();
                         }catch (NumberFormatException ex){
                             System.out.println("Phone number must be numbers only");
+                        }
+                        }else{
+                            try{
+                        CarRental.getInstance().saveReservation(new Reservation(
+                                Integer.parseInt(reservationIDTextField.getText()),
+                                Integer.parseInt(vehicleIDTextField.getText()),
+                                tStart,
+                                tEnd,
+                                Integer.parseInt(customerIDTextField.getText())));
+                        reservations = CarRental.getInstance().requestReservations();
+                        CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
+                        System.out.println("Customer " + customerIDTextField.getText() + " edited");
+                        updateViewEntityPanel();
+                        showViewEntityPanel();
+                        }catch (NumberFormatException ex){
+                            System.out.println("Phone number must be numbers only");
+                        }
                         }
                     } else { //A TextFild is empty
                         System.out.println("A text field is empty");
