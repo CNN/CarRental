@@ -284,7 +284,7 @@ public class ReservationPanel extends SuperPanel {
                                         Integer.parseInt(vehicleIDTextField.getText()),
                                         tStart,
                                         tEnd,
-                                        maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getID());
+                                        maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getID()));
                                 CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
                                 CarRental.getView().displayError("Reservation " + customerIDTextField.getText() + " edited");
                             } catch (NumberFormatException ex) {
@@ -504,7 +504,7 @@ public class ReservationPanel extends SuperPanel {
                                         Integer.parseInt(vehicleIDTextField.getText()),
                                         tStart,
                                         tEnd,
-                                        maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getID());
+                                        maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getID()));
                                 bookings = CarRental.getInstance().requestBookings();
                                 CarRental.getInstance().appendLog("Booking " + reservationIDTextField.getText() + " edited");
                                 CarRental.getView().displayError("Bookings " + reservationIDTextField.getText() + " edited");
