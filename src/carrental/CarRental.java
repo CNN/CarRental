@@ -1,6 +1,5 @@
 package carrental;
 
-import java.awt.event.*;
 import java.util.ArrayList;
 
 /**
@@ -72,6 +71,14 @@ public final class CarRental {
     }
     
     /**
+     * Get an id for a new vehicle
+     * @return id
+     */
+    public int requestNewVehicleId() {
+        return (model.getHighestVehicleId() + 1);
+    }
+    
+    /**
      * Request list of vehicle types from model
      * @return list of vehicle types
      */
@@ -106,6 +113,14 @@ public final class CarRental {
     }
     
     /**
+     * Request an id for a new vehicle type
+     * @return id
+     */
+    public int requestNewVehicleTypeId() {
+        return (model.getHighestVehicleTypeId() + 1);
+    }
+    
+    /**
      * Request a list of maintenances from model
      * @return list of maintenances
      */
@@ -131,6 +146,14 @@ public final class CarRental {
     }
     
     /**
+     * Request an id for a new maintenance.
+     * @return id
+     */
+    public int requestNewMaintenanceId() {
+        return (model.getHighestMaintenanceId() + 1);
+    }
+    
+    /**
      * Request a list of maintenance types from the model
      * @return list of maintenance types
      */
@@ -153,6 +176,14 @@ public final class CarRental {
      */
     public MaintenanceType requestMaintenanceType(int id) {
         return model.getMaintenanceType(id);
+    }
+    
+    /**
+     * Request a new id for a maintenance type
+     * @return id
+     */
+    public int requestNewMaintenanceTypeId() {
+        return (model.getHighestMaintenanceTypeId() + 1);
     }
     
     /**
@@ -190,6 +221,14 @@ public final class CarRental {
     }
     
     /**
+     * Request a new id for a customer
+     * @return id
+     */
+    public int requestNewCustomerId() {
+        return (model.getHighestCustomerId() + 1);
+    }
+    
+    /**
      * Request a list of reservations from the model
      * @return list of reservations
      */
@@ -221,6 +260,14 @@ public final class CarRental {
      */
     public Reservation requestReservation(int id) {
         return model.getReservation(id);
+    }
+    
+    /**
+     * Request a new reservation id
+     * @return id
+     */
+    public int requestNewReservationId() {
+        return (model.getHighestReservationId() + 1);
     }
     
     /**
