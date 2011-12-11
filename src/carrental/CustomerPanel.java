@@ -350,11 +350,11 @@ public class CustomerPanel extends SuperPanel {
                     String id = Integer.toString(customerToView.getID());
                     if(delete(customerToView)){
                         CarRental.getInstance().appendLog("Succesfully deleted customer " + id);
-                        System.out.println("Succesfully deleted customer " + id);
+                        CarRental.getView().displayError("Succesfully deleted customer " + id);
                         updateViewEntityPanel();
                     }else{
                         CarRental.getInstance().appendLog("Failed to delete customer " + id);
-                        System.out.println("Failed to delete customer " + id + "\nCustomer might have a future reservation");
+                        CarRental.getView().displayError("Failed to delete customer " + id + "\nCustomer might have a future reservation");
                     }
                 }
             });
@@ -380,14 +380,14 @@ public class CustomerPanel extends SuperPanel {
                                 customerEMailTextField.getText()));
                         customers = CarRental.getInstance().requestCustomers();
                         CarRental.getInstance().appendLog("Customer " + customerIDTextField.getText() + " edited");
-                        System.out.println("Customer " + customerIDTextField.getText() + " edited");
+                        CarRental.getView().displayError("Customer " + customerIDTextField.getText() + " edited");
                         updateViewEntityPanel();
                         showViewEntityPanel();
                         }catch (NumberFormatException ex){
-                            System.out.println("Phone number must be numbers only");
+                            CarRental.getView().displayError("Phone number must be numbers only");
                         }
                     } else { //A TextFild is empty
-                        System.out.println("A text field is empty");
+                        CarRental.getView().displayError("A text field is empty");
                     }
                 }
             });

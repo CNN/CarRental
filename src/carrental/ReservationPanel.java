@@ -9,7 +9,6 @@ import java.util.Locale;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-//TODO Print errors to View
 //TODO Implement request new ID for this and Customer
 /**
  * This is the main panel for reservations
