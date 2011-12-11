@@ -60,8 +60,16 @@ public class GraphicAlternate extends JComponent {
                     y = (y / rowHeight);
                     if(reference.size() > y && reference.get(y) != null) {
                         if(reference.get(y).size() > x && reference.get(y).get(x) != null) {
-                            if(reference.get(y).get(x).isMaintenance()) CarRental.getView().viewMaintenance();
-                            else CarRental.getView().viewReservation();
+                            if(reference.get(y).get(x).isMaintenance()) {
+                                //TODO: Activate
+                                //CarRental.getView().getMaintenancePanel().viewMaintenance(1);
+                                CarRental.getView().viewMaintenance();
+                            }
+                            else {
+                                CarRental.getView().getReservationPanel().setBookingToView(CarRental.getInstance().requestReservation(1));
+                                CarRental.getView().getReservationPanel().showViewEntityPanel();
+                                CarRental.getView().viewReservation();
+                            }
                             System.out.println(reference.get(y).get(x).toString()); //TODO: Remove print
                         }
                     }
