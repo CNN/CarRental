@@ -25,6 +25,7 @@ public class ReservationPanel extends SuperPanel {
     private final ViewEntityPanel viewEntityPanel = new ViewEntityPanel();
     private final ListPanel listPanel = new ListPanel();
     private final AddTypePanel addTypePanel = new AddTypePanel();
+    private final ViewTypePanel viewTypePanel = new ViewTypePanel();
 
     public ReservationPanel() {
         this.bookings = CarRental.getInstance().requestBookings();
@@ -35,7 +36,7 @@ public class ReservationPanel extends SuperPanel {
         }
 
         //Sets the different subpanels. Also adds them to this object with JPanel.add().
-        AssignAndAddSubPanels(new MainScreenPanel(), createPanel, viewEntityPanel, addTypePanel, listPanel);
+        AssignAndAddSubPanels(new MainScreenPanel(), createPanel, viewEntityPanel, addTypePanel, viewTypePanel, listPanel);
         this.setPreferredSize(new Dimension(800, 600));
 
         //Removes the default gaps between components
@@ -83,6 +84,7 @@ public class ReservationPanel extends SuperPanel {
         viewEntityPanel.updateViewEntityPanel();
         listPanel.updateListPanel();
         addTypePanel.updateAddTypePanel();
+        viewTypePanel.updateViewTypePanel();
     }
 
     public class MainScreenPanel extends JPanel {
@@ -598,6 +600,17 @@ public class ReservationPanel extends SuperPanel {
         }
 
         public void updateAddTypePanel() {
+        }
+    }
+    
+    public class ViewTypePanel extends JPanel{
+        
+        public ViewTypePanel(){
+            
+        }
+        
+        public void updateViewTypePanel(){
+            
         }
     }
 
