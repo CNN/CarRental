@@ -10,6 +10,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 //TODO Print errors to View
+//TODO Implement request new ID for this and Customer
 /**
  * This is the main panel for reservations
  * It contains JPanels for every relevant screen, when dealing with reservations.
@@ -18,19 +19,19 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ReservationPanel extends SuperPanel {
 
-    private Reservation reservationToView; //specific customer, used to view details
-    private ArrayList<Reservation> reservations; //array of costumers
+    private Booking bookingToView; //specific customer, used to view details
+    private ArrayList<Booking> bookings; //array of costumers
     private final CreatePanel createPanel = new CreatePanel();
     private final ViewEntityPanel viewEntityPanel = new ViewEntityPanel();
     private final ListPanel listPanel = new ListPanel();
     private final AddTypePanel addTypePanel = new AddTypePanel();
 
     public ReservationPanel() {
-        this.reservations = CarRental.getInstance().requestReservations();
-        if (reservations.get(0) != null) {
-            reservationToView = reservations.get(0);
+        this.bookings = CarRental.getInstance().requestBookings();
+        if (bookings.get(0) != null) {
+            bookingToView = bookings.get(0);
         } else {
-            reservationToView = CarRental.getInstance().requestReservation();
+            bookingToView = CarRental.getInstance().requestReservation();
         }
 
         //Sets the different subpanels. Also adds them to this object with JPanel.add().
@@ -59,23 +60,23 @@ public class ReservationPanel extends SuperPanel {
         frame.setVisible(true);
     }
 
-    public void setReservationToView(Reservation reservation) {
-        reservationToView = reservation;
+    public void setBookingToView(Reservation reservation) {
+        bookingToView = reservation;
     }
 
-    public void setReservationList(ArrayList<Reservation> reservations) {
-        this.reservations = reservations;
+    public void setBookingsList(ArrayList<Booking> bookings) {
+        this.bookings = bookings;
     }
 
     /**
      * Updates entire panel
      */
     public void updateReservationPanel() {
-        reservations = CarRental.getInstance().requestReservations();
-        if (reservations.get(0) != null) {
-            reservationToView = reservations.get(0);
+        bookings = CarRental.getInstance().requestBookings();
+        if (bookings.get(0) != null) {
+            bookingToView = bookings.get(0);
         } else {
-            reservationToView = CarRental.getInstance().requestReservation();
+            bookingToView = CarRental.getInstance().requestReservation();
         }
 
         createPanel.updateCreatePanel();
@@ -279,7 +280,7 @@ public class ReservationPanel extends SuperPanel {
                         if (maintenanceCheckBox.isEnabled()) {
                             try {
                                 CarRental.getInstance().saveMaintenance(new Maintenance(
-                                        reservations.size() + 1,
+                                        bookings.size() + 1,
                                         Integer.parseInt(vehicleIDTextField.getText()),
                                         tStart,
                                         tEnd,
@@ -292,7 +293,7 @@ public class ReservationPanel extends SuperPanel {
                         } else {
                             try {
                                 CarRental.getInstance().saveReservation(new Reservation(
-                                        reservations.size() + 1,
+                                        bookings.size() + 1,
                                         Integer.parseInt(vehicleIDTextField.getText()),
                                         tStart,
                                         tEnd,
@@ -302,7 +303,7 @@ public class ReservationPanel extends SuperPanel {
                             } catch (NumberFormatException ex) {
                                 System.out.println("Phone number must be numbers only");
                             }
-                            reservations = CarRental.getInstance().requestReservations();
+                            bookings = CarRental.getInstance().requestBookings();
                             updateCreatePanel();
                             showMainScreenPanel();
                         }
@@ -467,8 +468,8 @@ public class ReservationPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String id = Integer.toString(reservationToView.getID());
-                    delete(reservationToView);
+                    String id = Integer.toString(bookingToView.getID());
+                    delete(bookingToView);
                     CarRental.getInstance().appendLog("Succesfully deleted reservation " + id);
                     System.out.println("Succesfully deleted reservation " + id);
                     updateViewEntityPanel();
@@ -504,13 +505,13 @@ public class ReservationPanel extends SuperPanel {
                                         tStart,
                                         tEnd,
                                         maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getID());
-                                reservations = CarRental.getInstance().requestReservations();
-                                CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
-                                System.out.println("Customer " + customerIDTextField.getText() + " edited");
+                                bookings = CarRental.getInstance().requestBookings();
+                                CarRental.getInstance().appendLog("Booking " + reservationIDTextField.getText() + " edited");
+                                System.out.println("Bookings " + reservationIDTextField.getText() + " edited");
                                 updateViewEntityPanel();
                                 showViewEntityPanel();
                             } catch (NumberFormatException ex) {
-                                System.out.println("Phone number must be numbers only");
+                                System.out.println("Time fields must be in format yyyy-mm-dd hh:mm:ss");
                             }
                         } else {
                             try {
@@ -520,13 +521,13 @@ public class ReservationPanel extends SuperPanel {
                                         tStart,
                                         tEnd,
                                         Integer.parseInt(customerIDTextField.getText())));
-                                reservations = CarRental.getInstance().requestReservations();
-                                CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
-                                System.out.println("Customer " + customerIDTextField.getText() + " edited");
+                                bookings = CarRental.getInstance().requestBookings();
+                                CarRental.getInstance().appendLog("Bookings " + reservationIDTextField.getText() + " edited");
+                                System.out.println("Booking " + reservationIDTextField.getText() + " edited");
                                 updateViewEntityPanel();
                                 showViewEntityPanel();
                             } catch (NumberFormatException ex) {
-                                System.out.println("Phone number must be numbers only");
+                                System.out.println("Time fields must be in format yyyy-mm-dd hh:mm:ss");
                             }
                         }
                     } else { //A TextFild is empty
@@ -568,6 +569,7 @@ public class ReservationPanel extends SuperPanel {
                 maintenanceTypeCombo.setSelectedIndex(booking.getID());
                 customerID = "";
             } else {
+                ArrayList<Reservation> reservations = CarRental.getInstance().requestReservations();
                 customerID = "" + reservations.get(booking.getID()).getCustomerID();
             }
 
@@ -581,7 +583,7 @@ public class ReservationPanel extends SuperPanel {
         }
 
         public void updateViewEntityPanel() {
-            setReservationTextFields(reservationToView);
+            setReservationTextFields(bookingToView);
             customerIDTextField.setText(" " + customerID);
             reservationIDTextField.setText(" " + reservationID);
             vehicleIDTextField.setText(" " + vehicleID);
@@ -670,19 +672,19 @@ public class ReservationPanel extends SuperPanel {
             topFilterPanel.add(filterVehicleIDLabel);
             topFilterPanel.add(Box.createRigidArea(new Dimension(12 + strutDistance, 0)));
             topFilterPanel.add(filterVehicleIDTextField);
-            
+
             //Middle filter panel
             middleFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             filterPanel.add(middleFilterPanel);
-            
+
             //Maintenance
             filterMaintenanceLabel = new JLabel("Maintenance Type");
             filterMaintenanceTextField = new JTextField(defaultJTextFieldColumns);
-            
+
             middleFilterPanel.add(filterMaintenanceLabel);
             middleFilterPanel.add(Box.createRigidArea(new Dimension(strutDistance, 0)));
             middleFilterPanel.add(filterMaintenanceTextField);
-            
+
             //Customer ID
             filterCustomerIDLabel = new JLabel("Customer ID");
             filterCustomerIDTextField = new JTextField(defaultJTextFieldColumns);
@@ -750,30 +752,39 @@ public class ReservationPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (customerTable.getSelectedRow() >= 0) {
-                        customerToView = customers.get(customerTable.getSelectedRow());
+                    if (reservationTable.getSelectedRow() >= 0) {
+                        bookingToView = bookings.get(reservationTable.getSelectedRow());
                         showViewEntityPanel();
-                        CarRental.getInstance().appendLog("Showing customer \"" + customerToView.getName() + " " + customerToView.getID() + "\" now.");
+                        CarRental.getInstance().appendLog("Showing booking \"" + bookingToView.getID() + "\" now.");
                     }
                 }
             });
             buttonPanel.add(viewButton);
         }
 
-        public void setCustomerTable() {
-            customers = CarRental.getInstance().requestCustomers(); //update customers array
-            if (customers.get(0) != null) {
-                customerToView = customers.get(0);
+        public void setReservationTable() {
+            bookings = CarRental.getInstance().requestBookings(); //update customers array
+            if (bookings.get(0) != null) {
+                bookingToView = bookings.get(0);
             } else {
-                customerToView = CarRental.getInstance().requestCustomer();
+                bookingToView = CarRental.getInstance().requestReservation();
             }
 
-            for (Customer customer : customers) { //update table
-                customerTableModel.addRow(new Object[]{customer.getID(), //ID
-                            customer.getTelephone(), //Phone
-                            customer.getName(), //Name
-                            customer.getAdress(), //Adress
-                            customer.getEMail() //E-Mail
+            ArrayList<Maintenance> maintenances = CarRental.getInstance().requestMaintenances();
+
+            for (Booking booking : bookings) { //update table
+                int maintenance;
+                if (booking.isMaintenance()) {
+                    maintenance = maintenances.get(booking.getID()).getTypeID();
+                } else {
+                    maintenance = 0;
+                }
+                reservationTableModel.addRow(new Object[]{booking.getID(), //ID
+                            booking.getID(), //ID
+                            booking.getVehicleID(), //Vehicle ID
+                            booking.getTStart().toString(), //TStart
+                            booking.getTEnd().toString(), //TEnd
+                            maintenance //Maintenance type
                         });
             }
         }
@@ -792,14 +803,16 @@ public class ReservationPanel extends SuperPanel {
 
         public void filter() {
             //Delete exisiting rows
-            customerTableModel.setRowCount(0);
+            reservationTableModel.setRowCount(0);
             //Add the rows that match the filter
-            for (Customer customer : customers) {
+
+            //filterReservationIDLabel, filterMaintenanceLabel, filterCustomerIDLabel, filterVehicleIDLabel, filterStartDateLabel, filterEndDateLabel, filterMaintenanceTypeLabel;
+            for (Booking booking : bookings) {
                 //parameters
-                if (filterIDTextField.getText().trim().isEmpty() || //Filter ID is empty OR
-                        Integer.toString(customer.getID()).trim().toLowerCase(Locale.ENGLISH).contains(filterIDTextField.getText().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
-                        filterNameTextField.getText().trim().isEmpty() || //Filter name is empty OR
-                        customer.getName().trim().toLowerCase(Locale.ENGLISH).contains(filterNameTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
+                if (filterReservationIDTextField.getText().trim().isEmpty() || //Filter ID is empty OR
+                        Integer.toString(reservation.getID()).trim().toLowerCase(Locale.ENGLISH).contains(filterReservationIDTextField.getText().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
+                        filterMaintenanceTextField.getText().trim().isEmpty() || //Filter name is empty OR
+                        reserva().trim().toLowerCase(Locale.ENGLISH).contains(filterNameTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
                         filterPhoneTextField.getText().trim().isEmpty() || //Filter Phone is empty OR
                         Integer.toString(customer.getTelephone()).trim().toLowerCase(Locale.ENGLISH).contains(filterPhoneTextField.getText().trim().toLowerCase(Locale.ENGLISH)) &&//Customer matches criteria
                         filterAdressTextField.getText().trim().isEmpty() || //Adress field is empty OR
