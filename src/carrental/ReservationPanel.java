@@ -631,7 +631,7 @@ public class ReservationPanel extends SuperPanel {
             setBackground(new Color(216, 216, 208));
 
             //Creating the table model
-            reservationTableModel = new DefaultTableModel(new Object[]{"ID", "VehicleID", "Start", "End", "MaintenanceType"}, 0);
+            reservationTableModel = new DefaultTableModel(new Object[]{"ID", "VehicleID", "Start", "End", "CustomerID", "MaintenanceType"}, 0);
             setReservationTable();
 
             //Creating the table
@@ -771,19 +771,22 @@ public class ReservationPanel extends SuperPanel {
             }
 
             ArrayList<Maintenance> maintenances = CarRental.getInstance().requestMaintenances();
+            ArrayList<Reservation> reservations = CarRental.getInstance().requestReservations();
 
             for (Booking booking : bookings) { //update table
-                int maintenance;
+                int maintenance = 0;
+                int customer = 0;
                 if (booking.isMaintenance()) {
                     maintenance = maintenances.get(booking.getID()).getTypeID();
                 } else {
-                    maintenance = 0;
+                    customer = reservations.get(booking.getID()).getCustomerID();
                 }
-                reservationTableModel.addRow(new Object[]{booking.getID(), //ID
+                reservationTableModel.addRow(new Object[]{
                             booking.getID(), //ID
                             booking.getVehicleID(), //Vehicle ID
                             booking.getTStart().toString(), //TStart
                             booking.getTEnd().toString(), //TEnd
+                            customer,
                             maintenance //Maintenance type
                         });
             }
@@ -791,38 +794,66 @@ public class ReservationPanel extends SuperPanel {
 
         public void updateListPanel() {
             setFilterTextFields();
-            setCustomerTable();
+            setReservationTable();
         }
 
         public void setFilterTextFields() {
-            filterAdressTextField.setText("");
-            filterPhoneTextField.setText("");
-            filterNameTextField.setText("");
-            filterIDTextField.setText("");
+            filterCustomerIDTextField.setText("");
+            filterEndDateTextField.setText("");
+            filterMaintenanceTextField.setText("");
+            filterReservationIDTextField.setText("");
+            filterStartDateTextField.setText("");
+            filterVehicleIDTextField.setText("");
         }
 
         public void filter() {
             //Delete exisiting rows
             reservationTableModel.setRowCount(0);
             //Add the rows that match the filter
+            ArrayList<Maintenance> maintenances = CarRental.getInstance().requestMaintenances();
+            ArrayList<Reservation> reservations = CarRental.getInstance().requestReservations();
 
-            //filterReservationIDLabel, filterMaintenanceLabel, filterCustomerIDLabel, filterVehicleIDLabel, filterStartDateLabel, filterEndDateLabel, filterMaintenanceTypeLabel;
             for (Booking booking : bookings) {
+                int maintenance = 0;
+                int customer = 0;
+                if (booking.isMaintenance()) {
+                    maintenance = maintenances.get(booking.getID()).getTypeID();
+                } else {
+                    customer = reservations.get(booking.getID()).getCustomerID();
+                }
+
+                Timestamp tStart = new Timestamp(0);
+                Timestamp tEnd = new Timestamp(0);
+                if (!(filterStartDateTextField.getText().trim().isEmpty()) || !(filterEndDateTextField.getText().trim().isEmpty())) {
+                    try {
+                        tStart = Timestamp.valueOf(filterStartDateTextField.getText());
+                        tEnd = Timestamp.valueOf(filterEndDateTextField.getText());
+                    } catch (IllegalArgumentException ex) {
+                        System.out.println("Time fields must be in format yyyy-mm-dd hh:mm:ss");
+                    }
+                }
+
                 //parameters
                 if (filterReservationIDTextField.getText().trim().isEmpty() || //Filter ID is empty OR
-                        Integer.toString(reservation.getID()).trim().toLowerCase(Locale.ENGLISH).contains(filterReservationIDTextField.getText().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
+                        Integer.toString(booking.getID()).trim().toLowerCase(Locale.ENGLISH).contains(filterReservationIDTextField.getText().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
                         filterMaintenanceTextField.getText().trim().isEmpty() || //Filter name is empty OR
-                        reserva().trim().toLowerCase(Locale.ENGLISH).contains(filterNameTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
-                        filterPhoneTextField.getText().trim().isEmpty() || //Filter Phone is empty OR
-                        Integer.toString(customer.getTelephone()).trim().toLowerCase(Locale.ENGLISH).contains(filterPhoneTextField.getText().trim().toLowerCase(Locale.ENGLISH)) &&//Customer matches criteria
-                        filterAdressTextField.getText().trim().isEmpty() || //Adress field is empty OR
-                        customer.getAdress().trim().toLowerCase(Locale.ENGLISH).contains(filterAdressTextField.getText().trim().toLowerCase(Locale.ENGLISH))) //Customer matches criteria
-                {
-                    customerTableModel.addRow(new Object[]{customer.getID(), //ID
-                                customer.getTelephone(), //Phone
-                                customer.getName(), //Name
-                                customer.getAdress(), //Adress
-                                customer.getEMail() //E-Mail
+                        maintenance == Integer.parseInt(filterMaintenanceTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
+                        filterCustomerIDTextField.getText().trim().isEmpty() || //Filter Phone is empty OR
+                        customer == Integer.parseInt(filterCustomerIDTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
+                        filterVehicleIDTextField.getText().trim().isEmpty() || //Adress field is empty OR
+                        Integer.toString(booking.getVehicleID()).trim().toLowerCase(Locale.ENGLISH).contains(filterVehicleIDTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
+                        filterStartDateTextField.getText().trim().isEmpty()
+                        || tStart.before(booking.getTEnd())
+                        && filterEndDateTextField.getText().trim().isEmpty()
+                        || tEnd.before(booking.getTStart())) {
+
+                    reservationTableModel.addRow(new Object[]{
+                                booking.getID(), //ID
+                                booking.getVehicleID(), //Vehicle ID
+                                booking.getTStart().toString(), //TStart
+                                booking.getTEnd().toString(), //TEnd
+                                customer,
+                                maintenance //Maintenance type
                             });
                 }
             }
