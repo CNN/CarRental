@@ -4,6 +4,9 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.Font.*;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * GUI for CarRental project
@@ -32,12 +35,49 @@ public class View {
     }
     
     /**
+     * Sets the viewed panel to the customer panel
+     */
+    public void viewCustomer() {
+        main.selectCustomer();
+    }
+    
+    /**
+     * Sets the viewed panel to the reservation panel
+     */
+    public void viewReservation() {
+        main.selectReservation();
+    }
+    
+    /**
+     * Sets the viewed panel to the maintenance panel
+     */
+    public void viewMaintenance() {
+        main.selectMaintenance();
+    }
+    
+    /**
+     * Sets the viewed panel to the vehicle panel
+     */
+    public void viewVehicle() {
+        main.selectVehicle();
+    }
+    
+    /**
+     * Sets the current error message to be displayed.
+     * @param error_msg error message to be displayed.
+     */
+    public void displayError(String error_msg) {
+        main.setErrorLabelMessage(error_msg);
+    }
+    
+    /**
      * MainPanel is the primary panel of CarRental - it shows the static portion
      * of the GUI and displays the different panels in its center space.
      */
     class MainPanel extends JPanel {
         private JPanel west = new JPanel(),
                 west_inner = new JPanel(),
+                south = new JPanel(),
                 center_super = new JPanel(),
                 center_north = new JPanel(),
                 center = new JPanel(),
@@ -50,6 +90,8 @@ public class View {
         private CustomerPanel customerPanel = new CustomerPanel();
         private VehiclePanel vehiclePanel = new VehiclePanel();
         //TODO: not yet added: reservationpanel, maintenancepanel
+        private JLabel errorLabel = new JLabel(" ");
+        private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-YYYY hh:mm");
         
         public MainPanel() {
             this.setLayout(new BorderLayout());
@@ -59,6 +101,10 @@ public class View {
             west.setBorder(BorderFactory.createMatteBorder(0,0,0,2,Color.LIGHT_GRAY));
             west.add(west_inner);
             west_inner.setLayout(new GridLayout(0,1));
+            
+            //build south
+            south.setLayout(new FlowLayout(FlowLayout.RIGHT));
+            south.add(errorLabel);
             
             //reservation button
             JButton reservationButton = new JButton("Reservation");
@@ -200,6 +246,7 @@ public class View {
             center_super.add(center_north, BorderLayout.NORTH);
             this.add(west, BorderLayout.WEST);
             this.add(center_super, BorderLayout.CENTER);
+            this.add(south, BorderLayout.SOUTH);
             
         }
         
@@ -254,6 +301,15 @@ public class View {
             center.add(customerPanel);
             center_north.add(northCustomer);
             frame.pack();
+        }
+        
+        /**
+         * Set error message to display on the error label
+         * @param error_message message to display
+         */
+        public void setErrorLabelMessage(String error_message) {
+            Calendar.getInstance().getTimeInMillis();
+            errorLabel.setText(dateFormat.format(new Date(Calendar.getInstance().getTimeInMillis()))+" - "+error_message);
         }
     }
 }
