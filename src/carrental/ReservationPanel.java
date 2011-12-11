@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ReservationPanel extends SuperPanel {
 
+    //TODO ViewType, AddType, GetCustomer, GetVehicle, Calendar
     private Booking bookingToView; //specific customer, used to view details
     private ArrayList<Booking> bookings; //array of costumers
     private final CreatePanel createPanel = new CreatePanel();
@@ -24,6 +25,7 @@ public class ReservationPanel extends SuperPanel {
     private final ListPanel listPanel = new ListPanel();
     private final AddTypePanel addTypePanel = new AddTypePanel();
     private final ViewTypePanel viewTypePanel = new ViewTypePanel();
+    private final GetCustomerPanel getCustomerPanel = new GetCustomerPanel();
 
     public ReservationPanel() {
         this.bookings = CarRental.getInstance().requestBookings();
@@ -96,6 +98,207 @@ public class ReservationPanel extends SuperPanel {
             setBorder(titleBorder);
             add(new ViewEntityPanel());
             add(new ListPanel());
+        }
+    }
+
+    public class GetCustomerPanel extends JPanel {
+        //TODO Create show method and a button in Create
+
+        JTextField filterAdressTextField, filterPhoneTextField, filterNameTextField, filterIDTextField;
+        JTable customerTable;
+        DefaultTableModel customerTableModel;
+        ArrayList<Customer> customers;
+        Customer customerToView;
+
+        public GetCustomerPanel() {
+            customers = CarRental.getInstance().requestCustomers();
+            if (customers.get(0) == null) {
+                customerToView = CarRental.getInstance().requestCustomer();
+            } else {
+            }
+
+            //Fields
+            JPanel centerPanel, customerListPanel, filterPanel, topFilterPanel, bottomFilterPanel, buttonPanel;
+            JScrollPane scrollPane;
+            JButton cancelButton, filterButton, setButton;
+            final int defaultJTextFieldColumns = 20, strutDistance = 0;
+
+            //listPanel
+            setLayout(new BorderLayout());
+            setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "List of customers"));
+
+            //centerPanel
+            centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
+            centerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 40));
+            add(centerPanel, BorderLayout.CENTER);
+
+            //customerListPanel.
+            customerListPanel = new JPanel();
+
+            //Colors
+            setBackground(new Color(216, 216, 208));
+
+            //Creating the table model
+            customerTableModel = new DefaultTableModel(new Object[]{"ID", "Phone", "Name", "Adress", "E-Mail"}, 0);
+            setCustomerTable();
+
+            //Creating the table
+            customerTable = new JTable(customerTableModel);
+            //adding it to it's own scrollpane
+            scrollPane = new JScrollPane(customerTable);
+            //Setting the default size for the scrollpane
+            customerTable.setPreferredScrollableViewportSize(new Dimension(680, 200));
+            customerListPanel.add(scrollPane);
+            centerPanel.add(customerListPanel);
+
+            //FilterPanel
+            JLabel filterAdressLabel, filterPhoneLabel, filterNameLabel, filterIDLabel;
+
+            filterPanel = new JPanel();
+            filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.PAGE_AXIS));
+            filterPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2), "Filters"));
+            centerPanel.add(filterPanel);
+
+            //top row of filters
+            topFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            filterPanel.add(topFilterPanel);
+
+            //ID
+            filterIDLabel = new JLabel("ID");
+            filterIDTextField = new JTextField(defaultJTextFieldColumns);
+
+            topFilterPanel.add(Box.createRigidArea(new Dimension(0, 0)));
+            topFilterPanel.add(filterIDLabel);
+            topFilterPanel.add(Box.createRigidArea(new Dimension(68 + strutDistance, 0)));
+            topFilterPanel.add(filterIDTextField);
+
+            //Name
+            filterNameLabel = new JLabel("Name");
+            filterNameTextField = new JTextField(defaultJTextFieldColumns);
+
+            topFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            topFilterPanel.add(filterNameLabel);
+            topFilterPanel.add(Box.createRigidArea(new Dimension(12 + strutDistance, 0)));
+            topFilterPanel.add(filterNameTextField);
+
+            //Bottom Filter panel
+            bottomFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            filterPanel.add(bottomFilterPanel);
+
+            //Phone
+            filterPhoneLabel = new JLabel("Phone number");
+            filterPhoneTextField = new JTextField(defaultJTextFieldColumns);
+
+            bottomFilterPanel.add(filterPhoneLabel);
+            bottomFilterPanel.add(Box.createRigidArea(new Dimension(strutDistance, 0)));
+            bottomFilterPanel.add(filterPhoneTextField);
+
+            //Adress
+            filterAdressLabel = new JLabel("Adress");
+            filterAdressTextField = new JTextField(defaultJTextFieldColumns);
+
+            bottomFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            bottomFilterPanel.add(filterAdressLabel);
+            bottomFilterPanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
+            bottomFilterPanel.add(filterAdressTextField);
+
+            //ButtonPanels
+            buttonPanel = new JPanel();
+            add(buttonPanel, BorderLayout.SOUTH);
+            buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
+            buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
+            buttonPanel.add(Box.createHorizontalGlue());
+
+            //filter-button
+            filterButton = new JButton("Filter");
+            filterButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    filter();
+                }
+            });
+            bottomFilterPanel.add(filterButton);
+
+            //cancel-Button
+            cancelButton = new JButton("Back");
+            cancelButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setFilterTextFields();
+                    getCustomerPanel.setVisible(false);
+                    createPanel.setVisible(true);
+                }
+            });
+            buttonPanel.add(cancelButton);
+            buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+
+            //Set-button
+            setButton = new JButton("Set selected");
+            setButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (customerTable.getSelectedRow() >= 0) {
+                        createPanel.setCustomer(Integer.toString(customers.get(customerTable.getSelectedRow()).getID()));
+                        setFilterTextFields();
+                        getCustomerPanel.setVisible(false);
+                        createPanel.setVisible(true);
+                    }
+                }
+            });
+            buttonPanel.add(setButton);
+        }
+
+        public void setCustomerTable() {
+            customers = CarRental.getInstance().requestCustomers(); //update customers array
+            customerToView = CarRental.getInstance().requestCustomer();
+
+            for (Customer customer : customers) { //update table
+                String[] split = customer.getAdress().split("\n"); //for nicer look
+                String displayed = split[0] + ", " + split[1];
+
+                customerTableModel.addRow(new Object[]{customer.getID(), //ID
+                            customer.getTelephone(), //Phone
+                            customer.getName(), //Name
+                            displayed, //Adress
+                            customer.getEMail() //E-Mail
+                        });
+            }
+        }
+        
+        public void setFilterTextFields() {
+            filterAdressTextField.setText("");
+            filterPhoneTextField.setText("");
+            filterNameTextField.setText("");
+            filterIDTextField.setText("");
+        }
+
+        public void filter() {
+            //Delete exisiting rows
+            customerTableModel.setRowCount(0);
+            //Add the rows that match the filter
+            for (Customer customer : customers) {
+                //parameters
+                if (filterIDTextField.getText().trim().isEmpty() || //Filter ID is empty OR
+                        Integer.toString(customer.getID()).trim().toLowerCase(Locale.ENGLISH).contains(filterIDTextField.getText().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
+                        filterNameTextField.getText().trim().isEmpty() || //Filter name is empty OR
+                        customer.getName().trim().toLowerCase(Locale.ENGLISH).contains(filterNameTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
+                        filterPhoneTextField.getText().trim().isEmpty() || //Filter Phone is empty OR
+                        Integer.toString(customer.getTelephone()).trim().toLowerCase(Locale.ENGLISH).contains(filterPhoneTextField.getText().trim().toLowerCase(Locale.ENGLISH)) &&//Customer matches criteria
+                        filterAdressTextField.getText().trim().isEmpty() || //Adress field is empty OR
+                        customer.getAdress().trim().toLowerCase(Locale.ENGLISH).contains(filterAdressTextField.getText().trim().toLowerCase(Locale.ENGLISH))) //Customer matches criteria
+                {
+                    customerTableModel.addRow(new Object[]{customer.getID(), //ID
+                                customer.getTelephone(), //Phone
+                                customer.getName(), //Name
+                                customer.getAdress(), //Adress
+                                customer.getEMail() //E-Mail
+                            });
+                }
+            }
         }
     }
 
@@ -188,7 +391,8 @@ public class ReservationPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //TODO Find customer
+                    createPanel.setVisible(false);
+                    getCustomerPanel.setVisible(true);
                 }
             });
             customerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -314,6 +518,14 @@ public class ReservationPanel extends SuperPanel {
                 }
             });
             buttonPanel.add(createButton);
+        }
+
+        public void setCustomer(String customerID) {
+            customerIDTextField.setText(customerID);
+        }
+
+        public void setVehicle(String vehicleID) {
+            vehicleIDTextField.setText(vehicleID);
         }
 
         public void updateCreatePanel() {
@@ -569,6 +781,7 @@ public class ReservationPanel extends SuperPanel {
                 maintenanceTypeCombo.setSelectedIndex(booking.getID());
                 customerID = "";
             } else {
+                //TODO This does not work
                 ArrayList<Reservation> reservations = CarRental.getInstance().requestReservations();
                 customerID = "" + reservations.get(booking.getID()).getCustomerID();
             }
@@ -600,15 +813,13 @@ public class ReservationPanel extends SuperPanel {
         public void updateAddTypePanel() {
         }
     }
-    
-    public class ViewTypePanel extends JPanel{
-        
-        public ViewTypePanel(){
-            
+
+    public class ViewTypePanel extends JPanel {
+
+        public ViewTypePanel() {
         }
-        
-        public void updateViewTypePanel(){
-            
+
+        public void updateViewTypePanel() {
         }
     }
 
