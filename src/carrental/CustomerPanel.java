@@ -606,10 +606,13 @@ public class CustomerPanel extends SuperPanel {
             }
             
             for (Customer customer : customers) { //update table
+                String[]split = customer.getAdress().split("\n"); //for nicer look
+                String displayed = split[0] + ", "+ split[1];
+                
                 customerTableModel.addRow(new Object[]{customer.getID(), //ID
                             customer.getTelephone(), //Phone
                             customer.getName(), //Name
-                            customer.getAdress(), //Adress
+                            displayed, //Adress
                             customer.getEMail() //E-Mail
                         });
             }
