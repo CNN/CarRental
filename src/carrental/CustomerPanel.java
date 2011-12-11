@@ -211,9 +211,9 @@ public class CustomerPanel extends SuperPanel {
                             && customerAdressTextField.getText().trim().length() > 0
                             && customerEMailTextField.getText().trim().length() > 0) {
                         try{
-                        customerIDTextField.setText(" " + customers.size() + 1);
+                        customerIDTextField.setText(" " + CarRental.getInstance().requestNewCustomerId());
                         CarRental.getInstance().saveCustomer(new Customer(
-                                customers.size() + 1,
+                                CarRental.getInstance().requestNewCustomerId(),
                                 Integer.parseInt(customerPhoneTextField.getText()),
                                 customerNameTextField.getText(),
                                 customerAdressTextField.getText(),
