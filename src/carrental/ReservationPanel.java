@@ -9,7 +9,6 @@ import java.util.Locale;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-//TODO Implement request new ID for this and Customer
 /**
  * This is the main panel for reservations
  * It contains JPanels for every relevant screen, when dealing with reservations.
@@ -281,7 +280,7 @@ public class ReservationPanel extends SuperPanel {
                         if (maintenanceCheckBox.isEnabled()) {
                             try {
                                 CarRental.getInstance().saveMaintenance(new Maintenance(
-                                        bookings.size() + 1,
+                                        CarRental.getInstance().requestNewMaintenanceId(),
                                         Integer.parseInt(vehicleIDTextField.getText()),
                                         tStart,
                                         tEnd,
@@ -294,7 +293,7 @@ public class ReservationPanel extends SuperPanel {
                         } else {
                             try {
                                 CarRental.getInstance().saveReservation(new Reservation(
-                                        bookings.size() + 1,
+                                        CarRental.getInstance().requestNewReservationId(),
                                         Integer.parseInt(vehicleIDTextField.getText()),
                                         tStart,
                                         tEnd,
