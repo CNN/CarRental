@@ -269,7 +269,7 @@ public class VehiclePanel extends SuperPanel {
                                 }
                                 if (!VinTaken) {
                                     try {
-                                        Vehicle newVehicle = new Vehicle(vehicleList.get(vehicleList.size() - 1).getID() + 1, vehicleTypes.get(vehicleTypeCombo.getSelectedIndex()).getID(),
+                                        Vehicle newVehicle = new Vehicle(CarRental.getInstance().requestNewVehicleId(), vehicleTypes.get(vehicleTypeCombo.getSelectedIndex()).getID(),
                                                 descriptionField.getText().trim(), licensePlateField.getText().trim(),
                                                 vinField.getText().trim(), Integer.parseInt(drivenField.getText().trim()), additionalArea.getText().trim());
 
@@ -427,8 +427,7 @@ public class VehiclePanel extends SuperPanel {
 
             drivenPanel.add(Box.createRigidArea(new Dimension(32 + strutDistance, 0)));
             drivenPanel.add(drivenField);
-
-            drivenPanel.add(Box.createRigidArea(new Dimension(32 + strutDistance, 0)));
+            
             drivenPanel.add(kilometerLabel);
 
             centerPanel.add(drivenPanel);
@@ -803,7 +802,7 @@ public class VehiclePanel extends SuperPanel {
                         }
                         if (!nameTaken) {
                             try {
-                                VehicleType newVehicleType = new VehicleType(vehicleTypes.size() + 1, vehicleTypeTextList.get(0).getText().trim(), vehicleTypeTextList.get(2).getText().trim(),
+                                VehicleType newVehicleType = new VehicleType(CarRental.getInstance().requestNewVehicleTypeId(), vehicleTypeTextList.get(0).getText().trim(), vehicleTypeTextList.get(2).getText().trim(),
                                         Integer.parseInt(vehicleTypeTextList.get(1).getText().trim()));
 
                                 CarRental.getInstance().saveVehicleType(newVehicleType);
