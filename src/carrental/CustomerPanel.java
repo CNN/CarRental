@@ -34,7 +34,7 @@ public class CustomerPanel extends SuperPanel {
         }
 
         //Sets the different subpanels. Also adds them to this object with JPanel.add().
-        AssignAndAddSubPanels(new MainScreenPanel(), createPanel, viewEntityPanel, emptyPanel, listPanel);
+        AssignAndAddSubPanels(new MainScreenPanel(), createPanel, viewEntityPanel, emptyPanel, emptyPanel, listPanel);
         this.setPreferredSize(new Dimension(800, 600));
 
         //Removes the default gaps between components
@@ -410,8 +410,8 @@ public class CustomerPanel extends SuperPanel {
         
         private boolean delete(Customer customer){
             boolean succes;
-            ArrayList<Booking> bookings = CarRental.getInstance().requestBookingsByCustomer(customer.getID());
-            if(bookings == null || bookings.size() == 0){
+            ArrayList<Reservation> bookings = CarRental.getInstance().requestReservationsByCustomer(customer.getID());
+            if(bookings == null || bookings.isEmpty()){
                 CarRental.getInstance().deleteCustomer(customer.getID());
                 succes = true;
             }else{

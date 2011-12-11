@@ -131,6 +131,16 @@ public class DbCom {
         }
     }
     
+    public void deleteMatch(String table, String where) {
+        try {
+            newStatement().executeUpdate("DELETE FROM "+table+" WHERE "+where);
+            CarRental.getInstance().appendLog("Succesfully deleted from "+table+" rows matching "+where+".");
+        }
+        catch (SQLException e) {
+            CarRental.getInstance().appendLog("Failed to delete from database table "+table+".",e);
+        }
+    }
+    
     /**
      * Gets the highest id from a given table. Useful when wanting to add a new
      * object.

@@ -1,6 +1,7 @@
 package carrental;
 
-import javax.swing.JPanel;
+import java.awt.*;
+import javax.swing.*;
 import java.util.ArrayList;
 
 /**
@@ -11,7 +12,12 @@ public abstract class SuperPanel extends JPanel {
 
     // private JPanel mainScreenPanel, createPanel, viewEntityPanel, addTypePanel, listPanel;
     private ArrayList<JPanel> panels;
-    private int mainScreen, create, viewEntity, addType, list;
+    private int mainScreen, create, viewEntity, addType, viewType, list;
+
+    public SuperPanel() {
+        //Removes the default gaps between components
+        setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+    }
 
     /**
      * This method serves as a way for the superpanels to assign their subpanels as well as add them to their own core.
@@ -20,7 +26,7 @@ public abstract class SuperPanel extends JPanel {
      * @param addTypePanel The JPanel that shows the add new type-functionality
      * @param listPanel  The JPanel that shows the list of entities
      */
-    protected void AssignAndAddSubPanels(JPanel mainScreenPanel, JPanel createPanel, JPanel viewEntityPanel, JPanel addTypePanel, JPanel listPanel) {
+    public void AssignAndAddSubPanels(JPanel mainScreenPanel, JPanel createPanel, JPanel viewEntityPanel, JPanel addTypePanel, JPanel viewTypePanel, JPanel listPanel) {
         panels = new ArrayList();
 
         panels.add(mainScreenPanel);
@@ -31,6 +37,9 @@ public abstract class SuperPanel extends JPanel {
 
         panels.add(viewEntityPanel);
         viewEntity = panels.size() - 1;
+
+        panels.add(viewTypePanel);
+        viewType = panels.size() - 1;
 
         panels.add(addTypePanel);
         addType = panels.size() - 1;
@@ -77,23 +86,13 @@ public abstract class SuperPanel extends JPanel {
         onlyVisible(panels.get(addType));
     }
 
+    public void showViewTypePanel() {
+        onlyVisible(panels.get(viewType));
+    }
+
     public void showListPanel() {
         onlyVisible(panels.get(list));
     }
-    
-//    public void remakeAll(){
-//        makeMainScreenPanel();
-//        makeCreatePanel();
-//        makeViewEntityPanel();
-//        makeAddTypePanel();
-//        makeListPanel();
-//    } 
-    
-//    public abstract void makeMainScreenPanel();
-//    public abstract void makeCreatePanel();
-//    public abstract void makeViewEntityPanel();
-//    public abstract void makeAddTypePanel();
-//    public abstract void makeListPanel();
 
     public JPanel getMainScreenPanel() {
         return panels.get(mainScreen);
@@ -109,6 +108,10 @@ public abstract class SuperPanel extends JPanel {
 
     public JPanel getAddTypePanel() {
         return panels.get(addType);
+    }
+
+    public JPanel getViewTypePanel() {
+        return panels.get(viewType);
     }
 
     public JPanel getListPanel() {

@@ -1,6 +1,5 @@
 package carrental;
 
-import java.awt.event.*;
 import java.util.ArrayList;
 
 /**
@@ -14,7 +13,7 @@ public final class CarRental {
     public static final boolean DEBUG = true;
     private static CarRental instance;
     private Model model;
-    private View view;
+    private static View view;
     private String log;
     
     private CarRental() {
@@ -34,6 +33,16 @@ public final class CarRental {
         //should never happen that there is no instance, but just in case
         if(instance == null) return new CarRental();
         return instance;
+    }
+    
+    /**
+     * Get an instance of the View main panel. Useful for changing the panel to
+     * be shown.
+     * @return instance of view
+     */
+    public static View getView() {
+        if(view == null) view = new View();
+        return view;
     }
     
     /**
@@ -59,6 +68,14 @@ public final class CarRental {
      */
     public Vehicle requestVehicle(int id) {
         return model.getVehicle(id);
+    }
+    
+    /**
+     * Get an id for a new vehicle
+     * @return id
+     */
+    public int requestNewVehicleId() {
+        return (model.getHighestVehicleId() + 1);
     }
     
     /**
@@ -96,6 +113,14 @@ public final class CarRental {
     }
     
     /**
+     * Request an id for a new vehicle type
+     * @return id
+     */
+    public int requestNewVehicleTypeId() {
+        return (model.getHighestVehicleTypeId() + 1);
+    }
+    
+    /**
      * Request a list of maintenances from model
      * @return list of maintenances
      */
@@ -121,6 +146,14 @@ public final class CarRental {
     }
     
     /**
+     * Request an id for a new maintenance.
+     * @return id
+     */
+    public int requestNewMaintenanceId() {
+        return (model.getHighestMaintenanceId() + 1);
+    }
+    
+    /**
      * Request a list of maintenance types from the model
      * @return list of maintenance types
      */
@@ -143,6 +176,14 @@ public final class CarRental {
      */
     public MaintenanceType requestMaintenanceType(int id) {
         return model.getMaintenanceType(id);
+    }
+    
+    /**
+     * Request a new id for a maintenance type
+     * @return id
+     */
+    public int requestNewMaintenanceTypeId() {
+        return (model.getHighestMaintenanceTypeId() + 1);
     }
     
     /**
@@ -180,11 +221,28 @@ public final class CarRental {
     }
     
     /**
+     * Request a new id for a customer
+     * @return id
+     */
+    public int requestNewCustomerId() {
+        return (model.getHighestCustomerId() + 1);
+    }
+    
+    /**
      * Request a list of reservations from the model
      * @return list of reservations
      */
     public ArrayList<Reservation> requestReservations() {
         return model.getReservations();
+    }
+    
+    /**
+     * Request a list of reservations matching the given customer id
+     * @param c_id id of customer, the reservations should belong to
+     * @return reservations
+     */
+    public ArrayList<Reservation> requestReservationsByCustomer(int c_id) {
+        return model.getReservationsByCustomerId(c_id);
     }
     
     /**
@@ -202,6 +260,14 @@ public final class CarRental {
      */
     public Reservation requestReservation(int id) {
         return model.getReservation(id);
+    }
+    
+    /**
+     * Request a new reservation id
+     * @return id
+     */
+    public int requestNewReservationId() {
+        return (model.getHighestReservationId() + 1);
     }
     
     /**
@@ -268,6 +334,54 @@ public final class CarRental {
      */
     public void saveReservation(Reservation r) {
         model.saveReservation(r);
+    }
+    
+    /**
+     * Delete a vehicle from the model
+     * @param id id of vehicle
+     */
+    public void deleteVehicle(int id) {
+        model.deleteVehicle(id);
+    }
+    
+    /**
+     * Delete a vehicletype from the model
+     * @param id id of vehicle type
+     */
+    public void deleteVehicleType(int id) {
+        model.deleteVehicleType(id);
+    }
+    
+    /**
+     * Delete a maintenance from the model
+     * @param id id of maintenance
+     */
+    public void deleteMaintenance(int id) {
+        model.deleteMaintenance(id);
+    }
+    
+    /**
+     * Delete a maintenance type from the model
+     * @param id id of maintenance type
+     */
+    public void deleteMaintenanceType(int id) {
+        model.deleteMaintenanceType(id);
+    }
+    
+    /**
+     * Delete a customer from the model
+     * @param id id of customer
+     */
+    public void deleteCustomer(int id) {
+        model.deleteCustomer(id);
+    }
+    
+    /**
+     * Delete a reservation from the model
+     * @param id id of reservation
+     */
+    public void deleteReservation(int id) {
+        model.deleteReservation(id);
     }
     
     /**
