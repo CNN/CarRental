@@ -277,7 +277,7 @@ public class ReservationPanel extends SuperPanel {
                             tStart = Timestamp.valueOf(startDateTextField.getText());
                             tEnd = Timestamp.valueOf(endDateTextField.getText());
                         } catch (IllegalArgumentException ex) {
-                            System.out.println("Time fields must be in format yyyy-mm-dd hh:mm:ss");
+                            CarRental.getView().displayError("Time fields must be in format yyyy-mm-dd hh:mm:ss");
                         }
                         if (maintenanceCheckBox.isEnabled()) {
                             try {
@@ -288,9 +288,9 @@ public class ReservationPanel extends SuperPanel {
                                         tEnd,
                                         maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getID());
                                 CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
-                                System.out.println("Customer " + customerIDTextField.getText() + " edited");
+                                CarRental.getView().displayError("Reservation " + customerIDTextField.getText() + " edited");
                             } catch (NumberFormatException ex) {
-                                System.out.println("Phone number must be numbers only");
+                                CarRental.getView().displayError("Vehicle ID must be numbers only");
                             }
                         } else {
                             try {
@@ -301,16 +301,16 @@ public class ReservationPanel extends SuperPanel {
                                         tEnd,
                                         Integer.parseInt(customerIDTextField.getText())));
                                 CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
-                                System.out.println("Customer " + customerIDTextField.getText() + " edited");
+                                CarRental.getView().displayError("Reservation " + customerIDTextField.getText() + " edited");
                             } catch (NumberFormatException ex) {
-                                System.out.println("Phone number must be numbers only");
+                                CarRental.getView().displayError("Vehicle ID number must be numbers only");
                             }
                             bookings = CarRental.getInstance().requestBookings();
                             updateCreatePanel();
                             showMainScreenPanel();
                         }
                     } else { //A TextFild is empty
-                        System.out.println("A text field is empty");
+                        CarRental.getView().displayError("A text field is empty");
                     }
                     updateCreatePanel();
                 }
@@ -473,7 +473,7 @@ public class ReservationPanel extends SuperPanel {
                     String id = Integer.toString(bookingToView.getID());
                     delete(bookingToView);
                     CarRental.getInstance().appendLog("Succesfully deleted reservation " + id);
-                    System.out.println("Succesfully deleted reservation " + id);
+                    CarRental.getView().displayError("Succesfully deleted reservation " + id);
                     updateViewEntityPanel();
                 }
             });
@@ -497,7 +497,7 @@ public class ReservationPanel extends SuperPanel {
                             tStart = Timestamp.valueOf(startDateTextField.getText());
                             tEnd = Timestamp.valueOf(endDateTextField.getText());
                         } catch (IllegalArgumentException ex) {
-                            System.out.println("Time fields must be in format yyyy-mm-dd hh:mm:ss");
+                            CarRental.getView().displayError("Time fields must be in format yyyy-mm-dd hh:mm:ss");
                         }
                         if (maintenanceCheckBox.isEnabled()) {
                             try {
@@ -509,11 +509,11 @@ public class ReservationPanel extends SuperPanel {
                                         maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getID());
                                 bookings = CarRental.getInstance().requestBookings();
                                 CarRental.getInstance().appendLog("Booking " + reservationIDTextField.getText() + " edited");
-                                System.out.println("Bookings " + reservationIDTextField.getText() + " edited");
+                                CarRental.getView().displayError("Bookings " + reservationIDTextField.getText() + " edited");
                                 updateViewEntityPanel();
                                 showViewEntityPanel();
                             } catch (NumberFormatException ex) {
-                                System.out.println("Time fields must be in format yyyy-mm-dd hh:mm:ss");
+                                CarRental.getView().displayError("Time fields must be in format yyyy-mm-dd hh:mm:ss");
                             }
                         } else {
                             try {
@@ -525,15 +525,15 @@ public class ReservationPanel extends SuperPanel {
                                         Integer.parseInt(customerIDTextField.getText())));
                                 bookings = CarRental.getInstance().requestBookings();
                                 CarRental.getInstance().appendLog("Bookings " + reservationIDTextField.getText() + " edited");
-                                System.out.println("Booking " + reservationIDTextField.getText() + " edited");
+                                CarRental.getView().displayError("Booking " + reservationIDTextField.getText() + " edited");
                                 updateViewEntityPanel();
                                 showViewEntityPanel();
                             } catch (NumberFormatException ex) {
-                                System.out.println("Time fields must be in format yyyy-mm-dd hh:mm:ss");
+                                CarRental.getView().displayError("Time fields must be in format yyyy-mm-dd hh:mm:ss");
                             }
                         }
                     } else { //A TextFild is empty
-                        System.out.println("A text field is empty");
+                        CarRental.getView().displayError("A text field is empty");
                     }
                 }
             });
@@ -842,7 +842,7 @@ public class ReservationPanel extends SuperPanel {
                         tStart = Timestamp.valueOf(filterStartDateTextField.getText());
                         tEnd = Timestamp.valueOf(filterEndDateTextField.getText());
                     } catch (IllegalArgumentException ex) {
-                        System.out.println("Time fields must be in format yyyy-mm-dd hh:mm:ss");
+                        CarRental.getView().displayError("Time fields must be in format yyyy-mm-dd hh:mm:ss");
                     }
                 }
 
