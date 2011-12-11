@@ -7,24 +7,30 @@ import javax.swing.*;
 import javax.swing.text.JTextComponent;
 
 /**
- *
+ * This class provides a panel with an overview of a vehicle types attributes.
+ * The panel can be customized with up to 3 buttons and can be set to show information about a certain vehicle type.
  * @author CNN
  * @version 2011-12-09
  */
 public class VehicleTypePanel extends JPanel {
 
-    JScrollPane descriptionScrollPane;
-    JPanel centerPanel, buttonPanel, vehicleTypeNamePanel, pricePanel, descriptionPanel;
-    JLabel vehicleTypeNameLabel, priceLabel, descriptionLabel;
-    JTextField vehicleTypeNameField, priceField;
-    JTextArea descriptionArea;
-    JButton actionButton, backButton, deleteButton;
-    final int defaultJTextFieldColumns = 20, strutDistance = 0;
-    VehicleType selectedVehicleType;
+    private JTextField vehicleTypeNameField, priceField;
+    private JTextArea descriptionArea;
+    private JButton actionButton, backButton, deleteButton;
 
+    /**
+     * Sets up a basic panel with blank text fields.
+     */
     public VehicleTypePanel() {
+
+        JLabel vehicleTypeNameLabel, priceLabel, descriptionLabel;
+        JPanel centerPanel, buttonPanel, vehicleTypeNamePanel, pricePanel, descriptionPanel;
+        JScrollPane descriptionScrollPane;
+        final int defaultJTextFieldColumns = 20, strutDistance = 0;
+
         //Panel settings
         setLayout(new BorderLayout(0, 0));// no gaps between components.
+
         //Center Panel
         centerPanel = new JPanel();
         centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
@@ -88,12 +94,11 @@ public class VehicleTypePanel extends JPanel {
     }
 
     /**
-     * 
-     * 
-     * @param vehicleType The VehicleType to show in the returned centerPanel. If null - the text is blank.
-     * @param backButton  The button to have the back/cancel functionality in the panel. If null - the buttons has no function.
-     * @param actionButton The button to have the back/cancel functionality in the panel. If null - the button has no function.
-     * @return 
+     * Sets the panel to show the given parameters.
+     * @param vehicleType This is the vehicle type to show information about. If null, the text fields will be blank.
+     * @param backButton The button positioned the furthest to the left. If null, the button will not be shown.
+     * @param deleteButton The button positioned in the middle. If null, the button will not be shown.
+     * @param actionButton The button positioned the furthest to the left. If null, the button will not be shown.
      */
     public void setPanel(VehicleType vehicleType, JButton backButton, JButton deleteButton, JButton actionButton) {
         resetPanel();
@@ -125,6 +130,13 @@ public class VehicleTypePanel extends JPanel {
         }
     }
 
+    /**
+     * Returns an array with the text components from the main panel.
+     * These text fields can contain text or be blank.
+     * 
+     * @return An array of text components regarding a vehicle type. 
+     * The array will have the name at index 0, the price at index 1 and the description at index 2.
+     */
     public ArrayList<JTextComponent> getTextComponents() {
         ArrayList<JTextComponent> array = new ArrayList<>();
         array.add(vehicleTypeNameField);
@@ -134,6 +146,9 @@ public class VehicleTypePanel extends JPanel {
         return array;
     }
 
+    /**
+     * Resets the panels text fields to be blank. Also strips the buttons for actionlisteners and sets them invisible.
+     */
     private void resetPanel() {
         vehicleTypeNameField.setText(null);
         priceField.setText(null);

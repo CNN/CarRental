@@ -33,7 +33,6 @@ public class Vehicle {
 
     /**
      * This method updates this Vehicle object
-     * @param ID The updated ID number of this Vehicle
      * @param vehicleType The updated vehicle type of this Vehicle
      * @param description The updated description of this Vehicle
      * @param licensePlate The updated license plate of this Vehicle
