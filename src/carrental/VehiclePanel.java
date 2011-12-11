@@ -2,15 +2,11 @@ package carrental;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import javax.swing.*;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Locale;
-import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 import javax.swing.text.JTextComponent;
 
 /**
@@ -18,6 +14,7 @@ import javax.swing.text.JTextComponent;
  * It contains JPanels for every relevant screen, when dealing with vehicles.
  * These are implemented as inner classes.
  * @author CNN
+ * @version 2011-12-11
  */
 public class VehiclePanel extends SuperPanel {
 
@@ -25,26 +22,32 @@ public class VehiclePanel extends SuperPanel {
     private VehicleType vehicleTypeToView; //specific vehicle type, used to view details
     private ArrayList<Vehicle> vehicleList;
     private ArrayList<VehicleType> vehicleTypes;
-    private ArrayList<Booking> bookings;
-    private ArrayList<Reservation> reservations;      //The bookings are sorted into reservations -
-    private ArrayList<Maintenance> maintenances;     // and maintenances in the code
-    private ArrayList<MaintenanceType> maintenanceTypes;
-    private ArrayList<Customer> customers;
     private GraphicAlternate graph;
+    private CreatePanel createPanel;
     private ViewVehiclePanel viewVehiclePanel;
-    private ListPanel listPanel;
     private ViewVehicleTypePanel viewVehicleTypePanel;
+    private ListPanel listPanel;
 
+    /**
+     * Sets up the vehiclepanel and all its subpanels.
+     */
     public VehiclePanel() {
         vehicleList = CarRental.getInstance().requestVehicles();
         vehicleTypes = CarRental.getInstance().requestVehicleTypes();
+        createPanel = new CreatePanel();
         viewVehiclePanel = new ViewVehiclePanel();
-        listPanel = new ListPanel();
         viewVehicleTypePanel = new ViewVehicleTypePanel();
+        listPanel = new ListPanel();
         //Sets the different subpanels. Also adds them to this object with JPanel.add().
-        AssignAndAddSubPanels(new MainScreenPanel(), new CreatePanel(), viewVehiclePanel, new AddTypePanel(), viewVehicleTypePanel, listPanel);
+        AssignAndAddSubPanels(new MainScreenPanel(), createPanel, viewVehiclePanel, new AddTypePanel(), viewVehicleTypePanel, listPanel);
         this.setPreferredSize(new Dimension(800, 600));
         showMainScreenPanel();
+    }
+
+    @Override
+    public void showCreatePanel() {
+        createPanel.update();
+        super.showCreatePanel();
     }
 
     @Override
@@ -77,102 +80,43 @@ public class VehiclePanel extends SuperPanel {
         frame.setVisible(true);
     }
 
+    /**
+     * This inner class creates a JPanel with an overview of reservations for the vehicles.
+     */
     public class MainScreenPanel extends JPanel {
 
-        public MainScreenPanel() { //TODO Claus skriv her.. Du kan teste ved at klikke shift+f6 :)
+        /**
+         * Creates the panel with the overview.
+         */
+        public MainScreenPanel() {
             graph = new GraphicAlternate();
             graph.setPreferredSize(new Dimension(800, 600));
             add(graph);
             System.out.println(graph.toString());
-
-
-//        mainScreenPanel = new JPanel();
-//        JButton createButton, addTypeButton, listButton, viewVehicleButton;
-//        JPanel centerPanel, buttonFlowPanel, buttonGridPanel;
-//        TitledBorder titleBorder;
-//        //Panel settings
-//        mainScreenPanel.setLayout(new BorderLayout());
-//        titleBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Vehicles (Overview)");
-//        mainScreenPanel.setBorder(titleBorder);
-//
-//        centerPanel = new JPanel();
-//        mainScreenPanel.add(centerPanel, BorderLayout.CENTER);
-//        //Button panel with a gridlayout for vertical alignment.
-//        buttonGridPanel = new JPanel();
-//        buttonGridPanel.setLayout(new BoxLayout(buttonGridPanel, BoxLayout.PAGE_AXIS));
-//        //extra buttonpanel with a default flowlayout, to shrink the button to minimum size,
-//        buttonFlowPanel = new JPanel();
-//        buttonFlowPanel.add(buttonGridPanel);
-//        centerPanel.add(buttonFlowPanel);
-//        //Colors
-//        mainScreenPanel.setBackground(new Color(216, 216, 208));
-//        centerPanel.setBackground(new Color(239, 240, 236));
-//        //Create-button
-//        createButton = new JButton("Create a new vehicle");
-//        createButton.addActionListener(new ActionListener() {
-//
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                showCreatePanel();
-//            }
-//        });
-//
-//        buttonGridPanel.add(createButton);
-//        //Create some blank space between the buttons:
-//        buttonGridPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-//
-//        //addType-Button
-//        addTypeButton = new JButton("Add a new vehicle type");
-//        addTypeButton.addActionListener(new ActionListener() {
-//
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                showAddTypePanel();
-//            }
-//        });
-//        buttonGridPanel.add(addTypeButton);
-//        //Create some blank space between the buttons:
-//        buttonGridPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-//
-//        //View vehicle-Button
-//        viewVehicleButton = new JButton("View a vehicle");
-//        viewVehicleButton.addActionListener(new ActionListener() {
-//
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                showViewEntityPanel();
-//            }
-//        });
-//        buttonGridPanel.add(viewVehicleButton);
-//        //Create some blank space between the buttons:
-//        buttonGridPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-//
-//        //Show list-Button
-//        listButton = new JButton("Show a list of vehicles");
-//        listButton.addActionListener(new ActionListener() {
-//
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                showListPanel();
-//            }
-//        });
-//        buttonGridPanel.add(listButton);
         }
     }
 
+    /**
+     * This inner class creates a JPanel with the functionality to create a vehicle.
+     */
     public class CreatePanel extends JPanel {
 
-        private JPanel centerPanel, buttonPanel, vehicleTypePanel, descriptionPanel, licensePlatePanel, vinPanel, drivenPanel, additionalPanel;
-        private JLabel vehicleTypeLabel, descriptionLabel, licensePlateLabel, vinLabel, drivenLabel, additionalLabel;
-        private DefaultComboBoxModel vehicleTypeComboModel;
-        private JComboBox vehicleTypeCombo;
         private JTextField descriptionField, licensePlateField, vinField, drivenField;
         private JTextArea additionalArea;
-        private JScrollPane additionalScrollPane;
-        private JButton createButton, cancelButton;
-        private final int defaultJTextFieldColumns = 20, strutDistance = 0;
+        private DefaultComboBoxModel vehicleTypeComboModel;
 
+        /**
+         * Sets up the basic functionality needed to create a vehicle.
+         */
         public CreatePanel() {
+
+            JPanel centerPanel, buttonPanel, vehicleTypePanel, descriptionPanel, licensePlatePanel, vinPanel, drivenPanel, additionalPanel;
+            JLabel vehicleTypeLabel, descriptionLabel, licensePlateLabel, vinLabel, drivenLabel, kilometerLabel, additionalLabel;
+            JScrollPane additionalScrollPane;
+            JButton createButton, cancelButton;
+            final JComboBox vehicleTypeCombo;
+            final int defaultJTextFieldColumns = 20, strutDistance = 0;
+
             //Panel settings
             setLayout(new BorderLayout());
             setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Create a vehicle"));
@@ -207,6 +151,7 @@ public class VehiclePanel extends SuperPanel {
             vehicleTypePanel.add(vehicleTypeCombo);
 
             centerPanel.add(vehicleTypePanel);
+
             //Name
             descriptionLabel = new JLabel("Description");
             descriptionField = new JTextField(defaultJTextFieldColumns);
@@ -219,6 +164,7 @@ public class VehiclePanel extends SuperPanel {
             descriptionPanel.add(descriptionField);
 
             centerPanel.add(descriptionPanel);
+
             //LicensePlate
             licensePlateLabel = new JLabel("License Plate");
             licensePlateField = new JTextField(defaultJTextFieldColumns);
@@ -231,6 +177,7 @@ public class VehiclePanel extends SuperPanel {
             licensePlatePanel.add(licensePlateField);
 
             centerPanel.add(licensePlatePanel);
+
             //VIN
             vinLabel = new JLabel("VIN");
             vinField = new JTextField(defaultJTextFieldColumns);
@@ -243,9 +190,11 @@ public class VehiclePanel extends SuperPanel {
             vinPanel.add(vinField);
 
             centerPanel.add(vinPanel);
+
             //Driven
             drivenLabel = new JLabel("Distance driven");
             drivenField = new JTextField(defaultJTextFieldColumns);
+            kilometerLabel = new JLabel("kilometers");
             drivenPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
             drivenPanel.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -254,7 +203,10 @@ public class VehiclePanel extends SuperPanel {
             drivenPanel.add(Box.createRigidArea(new Dimension(32 + strutDistance, 0)));
             drivenPanel.add(drivenField);
 
+            drivenPanel.add(kilometerLabel);
+
             centerPanel.add(drivenPanel);
+
             //Additional Comment
             additionalLabel = new JLabel("Additional comments");
             additionalArea = new JTextArea(5, 30);
@@ -269,6 +221,7 @@ public class VehiclePanel extends SuperPanel {
             additionalPanel.add(additionalScrollPane);
 
             centerPanel.add(additionalPanel);
+
             //ButtonPanels
             buttonPanel = new JPanel();
 
@@ -316,7 +269,7 @@ public class VehiclePanel extends SuperPanel {
                                 }
                                 if (!VinTaken) {
                                     try {
-                                        Vehicle newVehicle = new Vehicle(vehicleList.get(vehicleList.size()-1).getID() + 1, vehicleTypes.get(vehicleTypeCombo.getSelectedIndex()).getID(),
+                                        Vehicle newVehicle = new Vehicle(vehicleList.get(vehicleList.size() - 1).getID() + 1, vehicleTypes.get(vehicleTypeCombo.getSelectedIndex()).getID(),
                                                 descriptionField.getText().trim(), licensePlateField.getText().trim(),
                                                 vinField.getText().trim(), Integer.parseInt(drivenField.getText().trim()), additionalArea.getText().trim());
 
@@ -339,6 +292,9 @@ public class VehiclePanel extends SuperPanel {
             buttonPanel.add(createButton);
         }
 
+        /**
+         * Updates the panel. Textfields are set blank and the vehicle types are updated.
+         */
         public void update() {
             //Check for an added type for the JComboBox
             vehicleTypeComboModel.removeAllElements();
@@ -354,26 +310,34 @@ public class VehiclePanel extends SuperPanel {
         }
     }
 
+    /**
+     * This inner class creates a JPanel which shows a certain vehicle. The vehicle is selected in the ListPanel-class
+     */
     public class ViewVehiclePanel extends JPanel {
 
-        private JPanel centerPanel, reservationPanel, maintenancePanel, buttonPanel, vehicleTypePanel, descriptionPanel, licensePlatePanel, vinPanel, drivenPanel, additionalPanel;
-        private JLabel vehicleTypeLabel, descriptionLabel, licensePlateLabel, vinLabel, drivenLabel, additionalLabel;
         private JTextField descriptionField, licensePlateField, vinField, drivenField;
         private DefaultComboBoxModel vehicleTypeComboModel;
         private JComboBox vehicleTypeCombo;
         private JTextArea additionalArea;
-        private JButton backButton, editButton, deleteButton, viewSelectedTypeButton;
-        private final int defaultJTextFieldColumns = 20, strutDistance = 0;
         private DefaultTableModel reservationTableModel, maintenanceTableModel;
-        private JTable reservationTable, maintenanceTable;
-        private JScrollPane reservationScrollPane, maintenanceScrollPane, additionalScrollPane;
-        private String[] tableColumn;
-        private String[] tableRow;
 
+        /**
+         * Sets up the basic funtionality needed to view a vehicle.
+         */
         public ViewVehiclePanel() {
+
+            JPanel centerPanel, reservationPanel, maintenancePanel, buttonPanel, vehicleTypePanel, descriptionPanel, licensePlatePanel, vinPanel, drivenPanel, additionalPanel;
+            JLabel vehicleTypeLabel, descriptionLabel, licensePlateLabel, vinLabel, drivenLabel, kilometerLabel, additionalLabel;
+            JButton backButton, editButton, deleteButton, viewSelectedTypeButton;
+            JScrollPane reservationScrollPane, maintenanceScrollPane, additionalScrollPane;
+            String[] tableColumn;
+            JTable reservationTable, maintenanceTable;
+            final int defaultJTextFieldColumns = 20, strutDistance = 0;
+
             //Panel settings
             setLayout(new BorderLayout());
             setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Viewing Vehicle"));
+
             //Center Panel
             centerPanel = new JPanel();
             centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
@@ -412,6 +376,7 @@ public class VehiclePanel extends SuperPanel {
             vehicleTypePanel.add(viewSelectedTypeButton);
 
             centerPanel.add(vehicleTypePanel);
+
             //Description
             descriptionLabel = new JLabel("Description");
             descriptionField = new JTextField(defaultJTextFieldColumns);
@@ -424,6 +389,7 @@ public class VehiclePanel extends SuperPanel {
             descriptionPanel.add(descriptionField);
 
             centerPanel.add(descriptionPanel);
+
             //LicensePlate
             licensePlateLabel = new JLabel("License Plate");
             licensePlateField = new JTextField(defaultJTextFieldColumns);
@@ -436,6 +402,7 @@ public class VehiclePanel extends SuperPanel {
             licensePlatePanel.add(licensePlateField);
 
             centerPanel.add(licensePlatePanel);
+
             //VIN
             vinLabel = new JLabel("VIN");
             vinField = new JTextField(defaultJTextFieldColumns);
@@ -448,9 +415,11 @@ public class VehiclePanel extends SuperPanel {
             vinPanel.add(vinField);
 
             centerPanel.add(vinPanel);
+
             //Driven
             drivenLabel = new JLabel("Distance driven");
             drivenField = new JTextField(defaultJTextFieldColumns);
+            kilometerLabel = new JLabel("kilometers");
             drivenPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
             drivenPanel.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -459,7 +428,11 @@ public class VehiclePanel extends SuperPanel {
             drivenPanel.add(Box.createRigidArea(new Dimension(32 + strutDistance, 0)));
             drivenPanel.add(drivenField);
 
+            drivenPanel.add(Box.createRigidArea(new Dimension(32 + strutDistance, 0)));
+            drivenPanel.add(kilometerLabel);
+
             centerPanel.add(drivenPanel);
+
             //Additional Comment
             additionalLabel = new JLabel("Additional comments");
             additionalArea = new JTextArea(3, 30);
@@ -477,6 +450,7 @@ public class VehiclePanel extends SuperPanel {
 
             //Adding a small rigid area
             centerPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+
             //ReservationPanel
             reservationPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             reservationPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2), "Reservations"));
@@ -486,18 +460,20 @@ public class VehiclePanel extends SuperPanel {
             //Creating the reservation table model
             tableColumn = new String[]{"Customer", "Phone number", "From", "To"};
             reservationTableModel = new DefaultTableModel(tableColumn, 0);
-            //creating the JTable
+
+            //Creating the JTable
             reservationTable = new JTable(reservationTableModel);
 
-
             reservationScrollPane = new JScrollPane(reservationTable);
+
             //Setting the default size for the table in this scrollpane
             reservationTable.setPreferredScrollableViewportSize(new Dimension(700, 100));
             reservationPanel.add(reservationScrollPane);
 
             //Adding a small rigid area
             centerPanel.add(Box.createRigidArea(new Dimension(0, 5)));
-            //maintenancePanel
+
+            //MaintenancePanel
             maintenancePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             maintenancePanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2), "Maintenances"));
             maintenancePanel.setBackground(new Color(216, 216, 208));
@@ -506,10 +482,12 @@ public class VehiclePanel extends SuperPanel {
             //Creating the maintenance table model
             tableColumn = new String[]{"Maintenance type", "Service check", "From", "To"};
             maintenanceTableModel = new DefaultTableModel(tableColumn, 0);
-            //creating the JTable
+
+            //Creating the JTable
             maintenanceTable = new JTable(maintenanceTableModel);
 
             maintenanceScrollPane = new JScrollPane(maintenanceTable);
+
             //Setting the default size for the table in this scrollpane
             maintenanceTable.setPreferredScrollableViewportSize(new Dimension(700, 100));
             maintenancePanel.add(maintenanceScrollPane);
@@ -521,7 +499,7 @@ public class VehiclePanel extends SuperPanel {
             buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
             buttonPanel.add(Box.createHorizontalGlue());
 
-            //cancel-Button
+            //Cancel-Button
             backButton = new JButton("Back");
             backButton.addActionListener(new ActionListener() {
 
@@ -549,9 +527,7 @@ public class VehiclePanel extends SuperPanel {
             buttonPanel.add(deleteButton);
             buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 
-
-
-            //create-button
+            //Create-button
             editButton = new JButton("Edit");
             editButton.addActionListener(new ActionListener() {
 
@@ -589,27 +565,33 @@ public class VehiclePanel extends SuperPanel {
                 }
             });
             buttonPanel.add(editButton);
-
-
         }
 
+        /**
+         * Updates the panel to show the selected vehicle. This type is selected in the ViewVehiclePanel-class
+         */
         public void update() {
-            customers = CarRental.getInstance().requestCustomers();
-            maintenanceTypes = CarRental.getInstance().requestMaintenanceTypes();
-            reservations = new ArrayList<Reservation>();
-            maintenances = new ArrayList<Maintenance>();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            ArrayList<Reservation> reservations = new ArrayList<Reservation>(); //The bookings are sorted into reservations -
+            ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();    // and maintenances in the code
+            String[] tableRow;
             int typeIndex = 0;
 
             //refresh the vehicle types in the Combobox and get the index to be displayed
             vehicleTypeComboModel.removeAllElements();
-            for (int i = 0; i < vehicleTypes.size(); i++) {
+
+            for (int i = 0;
+                    i < vehicleTypes.size();
+                    i++) {
                 vehicleTypeComboModel.addElement(vehicleTypes.get(i).getName()); //add the row
                 if (vehicleTypes.get(i).getID() == vehicleToView.getVehicleType()) {
                     typeIndex = i;
                 }
             }
-            //refresh the textfields
+
+            //Refresh the textfields
             vehicleTypeCombo.setSelectedIndex(typeIndex);
+
             descriptionField.setText(vehicleToView.getDescription());
             licensePlateField.setText(vehicleToView.getLicensePlate());
             vinField.setText(vehicleToView.getVin());
@@ -617,6 +599,7 @@ public class VehiclePanel extends SuperPanel {
             additionalArea.setText(vehicleToView.getAdditional());
 
             //Splits bookings into reservations and maintenances
+
             for (Booking booking : CarRental.getInstance().requestBookingsByVehicle(vehicleToView.getID())) {
                 if (!booking.isMaintenance()) {
                     reservations.add((Reservation) booking);
@@ -624,22 +607,28 @@ public class VehiclePanel extends SuperPanel {
                     maintenances.add((Maintenance) booking);
                 }
             }
+
             //Removes the old rows before adding the new ones
-            reservationTableModel.setRowCount(0); //TODO lol er det her virkelig den eneste måde at tømme tabellen på? reservationTable.removeAll() virker ikke, så prøv ikke den
-            maintenanceTableModel.setRowCount(0);
+            reservationTableModel.setRowCount(
+                    0); //TODO lol er det her virkelig den eneste måde at tømme tabellen på? reservationTable.removeAll() virker ikke, så prøv ikke den
+            maintenanceTableModel.setRowCount(
+                    0);
 
             //Add the rows with reservations
+
             for (Reservation reservation : reservations) {
                 tableRow = new String[]{
                     CarRental.getInstance().requestCustomer(reservation.getCustomerID()).getName(),
                     Integer.toString(CarRental.getInstance().requestCustomer(reservation.getCustomerID()).getTelephone()),
-                    reservation.getTStart().toString(),
-                    reservation.getTEnd().toString()};
+                    dateFormat.format(reservation.getTStart()),
+                    dateFormat.format(reservation.getTEnd())};
                 reservationTableModel.addRow(tableRow);
             }
+
             assert (reservations.size() == reservationTableModel.getRowCount()) : "size: " + reservations.size() + " rows: " + reservationTableModel.getRowCount();
 
             //Add the rows with maintenances
+
             for (Maintenance maintenance : maintenances) {
                 String serviceCheck;
                 if (CarRental.getInstance().requestMaintenanceType(maintenance.getTypeID()).getIs_service()) {
@@ -650,27 +639,33 @@ public class VehiclePanel extends SuperPanel {
                 tableRow = new String[]{
                     CarRental.getInstance().requestMaintenanceType(maintenance.getTypeID()).getName(),
                     serviceCheck,
-                    maintenance.getTStart().toString(),
-                    maintenance.getTEnd().toString()};
+                    dateFormat.format(maintenance.getTStart()),
+                    dateFormat.format(maintenance.getTEnd())};
                 maintenanceTableModel.addRow(tableRow);
             }
+
             assert (maintenances.size() == maintenanceTableModel.getRowCount()) : "size: " + maintenances.size() + " rows: " + maintenanceTableModel.getRowCount();
-
-
-
         }
     }
 
+    /**
+     * This inner class creates a JPanel which shows a certain vehicle type. The vehicletype is selected in the ViewVehiclePanel-class
+     */
     public class ViewVehicleTypePanel extends JPanel {
 
-        JButton backButton, editButton, deleteButton;
-        VehicleTypePanel vehicleTypePanel;
+        private JButton backButton, editButton, deleteButton;
+        private VehicleTypePanel vehicleTypePanel;
 
+        /**
+         * Sets up the basic funtionalit needed to view a vehicle type.
+         */
         public ViewVehicleTypePanel() {
+
             //Panel settings
             setLayout(new BorderLayout());
             setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Viewing vehicle type"));
             setBackground(new Color(216, 216, 208));
+
             //Create the panel for viewing the vehicle type.
             vehicleTypePanel = new VehicleTypePanel();
             add(vehicleTypePanel, BorderLayout.CENTER);
@@ -686,6 +681,7 @@ public class VehiclePanel extends SuperPanel {
                     CarRental.getView().displayError("Showing vehicle \"" + vehicleToView.getDescription() + "\" now.");
                 }
             });
+
             //Delete-button
             deleteButton = new JButton("Delete");
             deleteButton.addActionListener(new ActionListener() {
@@ -709,6 +705,7 @@ public class VehiclePanel extends SuperPanel {
                     }
                 }
             });
+
             // Edit-button
             editButton = new JButton("Edit");
             editButton.addActionListener(new ActionListener() {
@@ -748,19 +745,25 @@ public class VehiclePanel extends SuperPanel {
             });
         }
 
+        /**
+         * Updates the panel to show the selected vehicle type. This type is selected in the ViewVehiclePanel-class
+         */
         public void update() {
             vehicleTypePanel.setPanel(vehicleTypeToView, backButton, deleteButton, editButton);
-            System.out.println(vehicleTypeToView.getName());
-
-
         }
     }
 
+    /**
+     * This inner class creates a JPanel with the functionality to create a new vehicle type.
+     */
     public class AddTypePanel extends JPanel {
 
-        JButton cancelButton, createButton;
-        VehicleTypePanel vehicleTypePanel;
+        private JButton cancelButton, createButton;
+        private VehicleTypePanel vehicleTypePanel;
 
+        /**
+         * Sets up the basic functionality needed to create a new vehicle type.
+         */
         public AddTypePanel() {
             //Panel settings
             setLayout(new BorderLayout());
@@ -780,6 +783,7 @@ public class VehiclePanel extends SuperPanel {
                     showMainScreenPanel();
                 }
             });
+
             // Create-button
             createButton = new JButton("Create");
             createButton.addActionListener(new ActionListener() {
@@ -822,38 +826,49 @@ public class VehiclePanel extends SuperPanel {
         }
     }
 
+    /**
+     * This inner class creates a JPanel with a list of vehicles. It is possible to search in the list.
+     */
     public class ListPanel extends JPanel {
 
-        JPanel centerPanel, vehicleListPanel, filterPanel, topFilterPanel, middleFilterPanel, bottomFilterPanel, buttonPanel;
-        JScrollPane listScrollPane;
-        JTable vehicleTable;
-        DefaultTableModel vehicleTableModel;
-        JLabel vehicleTypeLabel, descriptionLabel, licensePlateLabel, vinLabel, drivenLabel; // make "additional" search filter too?
-        JComboBox vehicleTypeCombo;
-        DefaultComboBoxModel vehicleTypeComboModel;
-        JTextField descriptionField, licensePlateField, vinField, drivenField;
-        JButton filterButton, cancelButton, viewButton;
-        final int defaultJTextFieldColumns = 20, strutDistance = 0;
-        int currentVehicleTypeIndex = -1; //this is for storing the currently selected choice from the combobox.
+        private DefaultTableModel vehicleTableModel;
+        private JComboBox vehicleTypeCombo;
+        private DefaultComboBoxModel vehicleTypeComboModel;
+        private JTextField descriptionField, licensePlateField, vinField, drivenField;
+        private int currentVehicleTypeIndex = -1; //this is for storing the currently selected choice from the combobox.
 
+        /**
+         * Sets up the basic functionality needed to show the list of vehicles.
+         */
         public ListPanel() {
+
+            JPanel centerPanel, vehicleListPanel, filterPanel, topFilterPanel, middleFilterPanel, bottomFilterPanel, buttonPanel;
+            JLabel vehicleTypeLabel, descriptionLabel, licensePlateLabel, vinLabel, drivenLabel;
+            JButton cancelButton, viewButton;
+            final JTable vehicleTable;
+            JScrollPane listScrollPane;
+            final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
             //Panel settings
             setLayout(new BorderLayout());
             setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "List of vehicles"));
+
             //CenterPanel
             centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
             centerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 40));
             add(centerPanel, BorderLayout.CENTER);
+
             //VehicleListPanel.
             vehicleListPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
             //Colors
             setBackground(new Color(216, 216, 208));
 
             //Creating the table model
             vehicleTableModel = new DefaultTableModel(new Object[]{"Type", "Description", "LicensePlate", "VIN", "Distance driven"}, 0);
-            //creating the JTable
+
+            //Creating the JTable
             vehicleTable = new JTable(vehicleTableModel);
 
             listScrollPane = new JScrollPane(vehicleTable);
@@ -886,13 +901,9 @@ public class VehiclePanel extends SuperPanel {
                     } else if (currentVehicleTypeIndex > -1 && currentVehicleTypeIndex != vehicleTypeCombo.getSelectedIndex()) {
                         filter();
                         currentVehicleTypeIndex = vehicleTypeCombo.getSelectedIndex();
-                    } else {
-                        //do not filter() as the vehicle type was either the default "All" chosen as the first move,
-                        //or the same as the one already filtered after
                     }
                 }
             });
-
             topFilterPanel.add(vehicleTypeLabel);
             topFilterPanel.add(Box.createRigidArea(new Dimension(16 + strutDistance, 0)));
             topFilterPanel.add(vehicleTypeCombo);
@@ -907,7 +918,6 @@ public class VehiclePanel extends SuperPanel {
                     filter();
                 }
             });
-
             topFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             topFilterPanel.add(descriptionLabel);
             topFilterPanel.add(Box.createRigidArea(new Dimension(45 + strutDistance, 0)));
@@ -926,7 +936,6 @@ public class VehiclePanel extends SuperPanel {
                     filter();
                 }
             });
-
             middleFilterPanel.add(licensePlateLabel);
             middleFilterPanel.add(Box.createRigidArea(new Dimension(11 + strutDistance, 0)));
             middleFilterPanel.add(licensePlateField);
@@ -960,7 +969,6 @@ public class VehiclePanel extends SuperPanel {
                     filter();
                 }
             });
-
             bottomFilterPanel.add(drivenLabel);
             bottomFilterPanel.add(Box.createRigidArea(new Dimension(strutDistance, 0)));
             bottomFilterPanel.add(drivenField);
@@ -1006,9 +1014,14 @@ public class VehiclePanel extends SuperPanel {
             buttonPanel.add(viewButton);
         }
 
+        /**
+         * Updates the panel to show an updated list of vehicles.
+         */
         public void update() {
+
             //reset the selected vehicle type
             currentVehicleTypeIndex = -1;
+
             //Delete exisiting rows
             vehicleTableModel.setRowCount(0);
 
@@ -1029,6 +1042,7 @@ public class VehiclePanel extends SuperPanel {
             for (VehicleType vehicleType : vehicleTypes) {
                 vehicleTypeComboModel.addElement(vehicleType.getName());
             }
+
             //Sets all text fields blank
             descriptionField.setText(null);
             licensePlateField.setText(null);
@@ -1036,11 +1050,17 @@ public class VehiclePanel extends SuperPanel {
             drivenField.setText(null);
         }
 
+        /**
+         * Rearranges the list of vehicles so that only entries matching the filters will be shown.
+         */
         public void filter() {
+
             //Delete exisiting rows
             vehicleTableModel.setRowCount(0);
+
             //Add the rows that match the filter
             for (Vehicle vehicle : vehicleList) {
+
                 //As long as -
                 if (((vehicleTypeCombo.getSelectedIndex() == -1 || vehicleTypeCombo.getSelectedIndex() == 0) || //vehicle type is not chosen or set to "All" OR
                         vehicle.getVehicleType() == vehicleTypes.get(vehicleTypeCombo.getSelectedIndex() - 1).getID()) && //Vehicle's type is the vehicle type chosen AND
@@ -1052,6 +1072,7 @@ public class VehiclePanel extends SuperPanel {
                         vehicle.getVin().toLowerCase(Locale.ENGLISH).contains(vinField.getText().trim().toLowerCase(Locale.ENGLISH))) && //vehicles VIN equals the VIN given AND
                         (drivenField.getText().trim().isEmpty() || //driven field is empty OR
                         Integer.toString(vehicle.getOdo()).toLowerCase(Locale.ENGLISH).contains(drivenField.getText().trim().toLowerCase(Locale.ENGLISH)))) { //vehicles ODO equals the "distance driven" given
+
                     // - does the vehicle match the filter, and following row is added to the table
                     vehicleTableModel.addRow(new String[]{
                                 CarRental.getInstance().requestVehicleType(vehicle.getVehicleType()).getName(),
