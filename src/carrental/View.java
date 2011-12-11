@@ -35,6 +35,39 @@ public class View {
     }
     
     /**
+     * Get the reservation panel used
+     * @return reservation panel
+     */
+    public ReservationPanel getReservationPanel() {
+        return main.getReservationPanel();
+    }
+    
+//    //TODO: Activate
+//    /**
+//     * Get the maintenance panel used
+//     * @return 
+//     */
+//    public MaintenancePanel getMaintenancePanel() {
+//        return main.getMaintenancePanel();
+//    }
+    
+    /**
+     * Get the customer panel used
+     * @return customer panel
+     */
+    public CustomerPanel getCustomerPanel() {
+        return main.getCustomerPanel();
+    }
+    
+    /**
+     * Get the vehicle panel used
+     * @return vehicle panel
+     */
+    public VehiclePanel getVehiclePanel() {
+        return main.getVehiclePanel();
+    }
+    
+    /**
      * Sets the viewed panel to the customer panel
      */
     public void viewCustomer() {
@@ -85,8 +118,8 @@ public class View {
                 northCustomer = new JPanel(),
                 northVehicle = new JPanel(),
                 northMaintenance = new JPanel(),
-                maintenancePanel = new JPanel(),
-                reservationPanel = new JPanel();
+                maintenancePanel = new JPanel();
+        private ReservationPanel reservationPanel = new ReservationPanel();
         private CustomerPanel customerPanel = new CustomerPanel();
         private VehiclePanel vehiclePanel = new VehiclePanel();
         //TODO: not yet added: reservationpanel, maintenancepanel
@@ -248,6 +281,39 @@ public class View {
             this.add(center_super, BorderLayout.CENTER);
             this.add(south, BorderLayout.SOUTH);
             
+        }
+        
+        /**
+         * Get the reservation panel
+         * @return reservation panel
+         */
+        public ReservationPanel getReservationPanel() {
+            return reservationPanel;
+        }
+        
+//        //TODO: ACtivate
+//        /**
+//         * Get the maintenance panel
+//         * @return maintenance panel
+//         */
+//        public Maintenance getMaintenancePanel() {
+//            return maintenancePanel;
+//        }
+                
+        /**
+         * get the customer panel
+         * @return customer panel
+         */
+        public CustomerPanel getCustomerPanel() {
+            return customerPanel;
+        }
+        
+        /**
+         * get the vehicle panel
+         * @return vehicle panel
+         */
+        public VehiclePanel getVehiclePanel() {
+            return vehiclePanel;
         }
         
         /**
