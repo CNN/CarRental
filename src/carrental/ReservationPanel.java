@@ -519,8 +519,11 @@ public class ReservationPanel extends SuperPanel {
 
             for (Customer customer : customers) { //update table
                 String[] split = customer.getAdress().split("\n"); //for nicer look
-                String displayed = split[0] + ", " + split[1];
-
+                String displayed = split[0];
+                for(int i = 1; i < split.length; i++){
+                    displayed = displayed + ", " + split[i];
+                }
+                
                 customerTableModel.addRow(new Object[]{customer.getID(), //ID
                             customer.getTelephone(), //Phone
                             customer.getName(), //Name
@@ -1260,9 +1263,10 @@ public class ReservationPanel extends SuperPanel {
                 int maintenance = 0;
                 int customer = 0;
                 if (booking.isMaintenance()) {
-                    maintenance = maintenances.get(booking.getID()).getTypeID();
+                    //maintenance = maintenances.get(booking.getID()).getTypeID();
                 } else {
-                    customer = reservations.get(booking.getID()).getCustomerID();
+                    //TODO Fix this
+                    //customer = reservations.get(booking.getID()).getCustomerID();
                 }
                 reservationTableModel.addRow(new Object[]{
                             booking.getID(), //ID

@@ -353,7 +353,7 @@ public class CustomerPanel extends SuperPanel {
             eMailPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             eMailPanel.add(customerEMailLabel);
             eMailPanel.add(Box.createRigidArea(new Dimension(80 + strutDistance, 0)));
-            eMailPanel.add(customerAdressTextField);
+            eMailPanel.add(customerEMailTextField);
             centerPanel.add(eMailPanel);
 
             //ButtonPanel
@@ -631,7 +631,10 @@ public class CustomerPanel extends SuperPanel {
             
             for (Customer customer : customers) { //update table
                 String[]split = customer.getAdress().split("\n"); //for nicer look
-                String displayed = split[0] + ", "+ split[1];
+                String displayed = split[0];
+                for(int i = 1; i < split.length; i++){
+                    displayed = displayed + ", " + split[i];
+                }
                 
                 customerTableModel.addRow(new Object[]{customer.getID(), //ID
                             customer.getTelephone(), //Phone
