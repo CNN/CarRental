@@ -427,8 +427,7 @@ public class VehiclePanel extends SuperPanel {
 
             drivenPanel.add(Box.createRigidArea(new Dimension(32 + strutDistance, 0)));
             drivenPanel.add(drivenField);
-
-            drivenPanel.add(Box.createRigidArea(new Dimension(32 + strutDistance, 0)));
+            
             drivenPanel.add(kilometerLabel);
 
             centerPanel.add(drivenPanel);
