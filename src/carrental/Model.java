@@ -55,6 +55,14 @@ public class Model {
     }
     
     /**
+     * Get the highest id of a vehicle in the current database.
+     * @return id
+     */
+    public int getHighestVehicleId() {
+        return database.getHighestId("vehicle");
+    }
+    
+    /**
      * Save a vehicle to the database
      * @param v the vehicle to save
      */
@@ -123,6 +131,14 @@ public class Model {
     }
     
     /**
+     * Get the highest id of a vehicle type in the current database
+     * @return id
+     */
+    public int getHighestVehicleTypeId() {
+        return database.getHighestId("vehicletype");
+    }
+    
+    /**
      * Save a vehicletype to the database
      * @param vt the vehicletype to save
      */
@@ -185,6 +201,14 @@ public class Model {
             results.add(new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4)));
         }
         return results;
+    }
+    
+    /**
+     * Get the highest id of a customer in the database
+     * @return id
+     */
+    public int getHighestCustomerId() {
+        return database.getHighestId("customer");
     }
     
     /**
@@ -295,6 +319,14 @@ public class Model {
     }
     
     /**
+     * Get the highest id of a reservation in the database
+     * @return id
+     */
+    public int getHighestReservationId() {
+        return database.getHighestId("reservation");
+    }
+    
+    /**
      * Save a reservation to the database
      * @param r the reservation to save
      */
@@ -368,6 +400,14 @@ public class Model {
             results.add(new MaintenanceType(Integer.parseInt(m.get(0)),m.get(1),is_service));
         }
         return results;
+    }
+    
+    /**
+     * Get highest id of a maintenance type in db
+     * @return id
+     */
+    public int getHighestMaintenanceTypeId() {
+        return database.getHighestId("maintenance_type");
     }
     
     /**
@@ -448,6 +488,14 @@ public class Model {
             }
         }
         return results;
+    }
+    
+    /**
+     * Get the highest id of a maintenance in the database
+     * @return id
+     */
+    public int getHighestMaintenanceId() {
+        return database.getHighestId("maintenance");
     }
     
     /**
