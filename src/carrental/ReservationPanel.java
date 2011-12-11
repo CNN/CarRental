@@ -558,7 +558,7 @@ public class ReservationPanel extends SuperPanel {
             } else if (booking instanceof Maintenance) {
                 CarRental.getInstance().deleteMaintenance(booking.getID());
             }
-        } //TODO Request methods from Niels
+        }
 
         public void setReservationTextFields(Booking booking) {
             if (booking == null) {

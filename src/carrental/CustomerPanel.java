@@ -248,12 +248,12 @@ public class CustomerPanel extends SuperPanel {
     
     public class ViewEntityPanel extends JPanel {
         String customerID, customerName, customerPhone, customerAdress, customerEMail;
-        JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
+        JTextField customerZipcodeTextField, customerStreetTextField, customerCityTextField, customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
         
         public ViewEntityPanel() {
             //Fields
             JPanel centerPanel, idPanel, namePanel, phonePanel, adressPanel, eMailPanel, buttonPanel;
-            JLabel customerIDLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel, customerEMailLabel;
+            JLabel customerZipcodeLabel, customerStreetLabel, customerCityLabel, customerIDLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel, customerEMailLabel;
             JButton cancelButton, deleteButton, editButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
             
@@ -308,17 +308,39 @@ public class CustomerPanel extends SuperPanel {
             phonePanel.add(customerPhoneTextField);
             centerPanel.add(phonePanel);
 
-            //TODO Split adress
+//            //Adress old look
+//            customerAdressLabel = new JLabel("Adress");
+//            customerAdressTextField = new JTextField(defaultJTextFieldColumns);
+//            customerAdressTextField.setBackground(Color.WHITE);
+//            adressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+//            
+//            adressPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+//            adressPanel.add(customerAdressLabel);
+//            adressPanel.add(Box.createRigidArea(new Dimension(80 + strutDistance, 0)));
+//            adressPanel.add(customerAdressTextField);
+//            centerPanel.add(adressPanel);
+            
             //Adress
-            customerAdressLabel = new JLabel("Adress");
-            customerAdressTextField = new JTextField(defaultJTextFieldColumns);
-            customerAdressTextField.setBackground(Color.WHITE);
             adressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            customerStreetLabel = new JLabel("Street and number");
+            customerStreetTextField = new JTextField(defaultJTextFieldColumns);
+            customerZipcodeLabel = new JLabel("Zip/postal code");
+            customerZipcodeTextField = new JTextField(defaultJTextFieldColumns);
+            customerCityLabel = new JLabel("City/Town");
+            customerCityTextField = new JTextField(defaultJTextFieldColumns);
             
             adressPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            adressPanel.add(customerAdressLabel);
+            adressPanel.add(customerStreetLabel);
             adressPanel.add(Box.createRigidArea(new Dimension(80 + strutDistance, 0)));
-            adressPanel.add(customerAdressTextField);
+            adressPanel.add(customerStreetTextField);
+            adressPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            adressPanel.add(customerZipcodeLabel);
+            adressPanel.add(Box.createRigidArea(new Dimension(80 + strutDistance, 0)));
+            adressPanel.add(customerZipcodeTextField);
+            adressPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            adressPanel.add(customerCityLabel);
+            adressPanel.add(Box.createRigidArea(new Dimension(80 + strutDistance, 0)));
+            adressPanel.add(customerCityTextField);
             centerPanel.add(adressPanel);
 
             //EMail
@@ -329,7 +351,7 @@ public class CustomerPanel extends SuperPanel {
             eMailPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             
             eMailPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            eMailPanel.add(customerAdressLabel);
+            eMailPanel.add(customerEMailLabel);
             eMailPanel.add(Box.createRigidArea(new Dimension(80 + strutDistance, 0)));
             eMailPanel.add(customerAdressTextField);
             centerPanel.add(eMailPanel);
@@ -371,12 +393,14 @@ public class CustomerPanel extends SuperPanel {
                             && customerNameTextField.getText().trim().length() > 0
                             && customerAdressTextField.getText().trim().length() > 0
                             && customerEMailTextField.getText().trim().length() > 0) {
+                        String adress = customerStreetTextField.getText() + " " + customerZipcodeTextField.getText() + " " + customerCityTextField.getText();
                         try{
                         CarRental.getInstance().saveCustomer(new Customer(
                                 Integer.parseInt(customerIDTextField.getText()),
                                 Integer.parseInt(customerPhoneTextField.getText()),
                                 customerNameTextField.getText(),
-                                customerAdressTextField.getText(),
+                                adress,
+                                //customerAdressTextField.getText(),
                                 customerEMailTextField.getText()));
                         customers = CarRental.getInstance().requestCustomers();
                         CarRental.getInstance().appendLog("Customer " + customerIDTextField.getText() + " edited");
