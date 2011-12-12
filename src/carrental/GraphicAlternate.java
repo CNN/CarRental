@@ -27,7 +27,7 @@ public class GraphicAlternate extends JComponent {
             collumnWidth, rowHeight = 20,
             numberOfCollumns, numberOfRows,
             pointerX = 0, pointerY = 0,
-            textSpace = 100, textHeight = 15,
+            textSpace = 120, textHeight = 15,
             display = VIEW_DAYS;
     private ArrayList<Vehicle> vehicles = new ArrayList<>();
     private ArrayList<ArrayList<Booking>> vehicle_bookings = new ArrayList<>(),
@@ -57,7 +57,7 @@ public class GraphicAlternate extends JComponent {
                 else {
                     //check if maintenance or reservation
                     x = ((x - textSpace) / collumnWidth);
-                    y = (y / rowHeight);
+                    y = ((y - 5)/ rowHeight);
                     if(reference.size() > y && reference.get(y) != null) {
                         if(reference.get(y).size() > x && reference.get(y).get(x) != null) {
                             if(reference.get(y).get(x).isMaintenance()) {
@@ -66,14 +66,12 @@ public class GraphicAlternate extends JComponent {
                                 CarRental.getView().viewMaintenance();
                             }
                             else {
-                                CarRental.getView().getReservationPanel().setBookingToView(CarRental.getInstance().requestReservation(1));
+                                CarRental.getView().getReservationPanel().setBookingToView(CarRental.getInstance().requestReservation(reference.get(y).get(x).getID()));
                                 CarRental.getView().getReservationPanel().showViewEntityPanel();
                                 CarRental.getView().viewReservation();
                             }
-                            System.out.println(reference.get(y).get(x).toString()); //TODO: Remove print
                         }
                     }
-                    System.out.println("Field: "+x+","+y); //TODO: Remove print
                 }
             }
         });
@@ -81,6 +79,7 @@ public class GraphicAlternate extends JComponent {
     }
     
     public final void refreshDataAndPaint() {
+        reference = new ArrayList<>();
         //get vehicles, set row amounts
         vehicles = CarRental.getInstance().requestVehicles();
         if(!vehicles.isEmpty()) numberOfRows = vehicles.size();
@@ -149,6 +148,7 @@ public class GraphicAlternate extends JComponent {
             dateString.add(dateFormat.format(timestamp));
         }
         
+        requestFocusInWindow();
         repaint();
     }
 
@@ -204,15 +204,13 @@ public class GraphicAlternate extends JComponent {
         //print y-axis text
         for(Vehicle v : vehicles) {
             g.setColor(Color.black);
-            String str = "";
+            String desc = "";
             if(v.getID() > -1 && !v.getDescription().isEmpty()) {
-                String desc = v.getDescription();
-                if(desc.length() > 16) desc = desc.substring(0,16);
-                str = v.getID()+": "+desc;
-                if(v.getID() < 10) str = "0"+str;
+                desc = v.getDescription();
+                if(desc.length() > 18) desc = desc.substring(0,16)+"...";
             }
-            else str = "Unknown Vehicle";
-            g.drawString(str, 0, pointerY);
+            else desc = "Unknown Vehicle";
+            g.drawString(desc, 0, pointerY);
             movePointerY();
         }
         
