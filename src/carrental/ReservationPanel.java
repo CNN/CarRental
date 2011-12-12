@@ -17,16 +17,15 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ReservationPanel extends SuperPanel {
 
-    //TODO ViewType, AddType, GetVehicle, Calendar
+    //TODO private, Calendar
     private Booking bookingToView; //specific customer, used to view details
     private ArrayList<Booking> bookings; //array of costumers
     private final CreatePanel createPanel = new CreatePanel();
     private final ViewEntityPanel viewEntityPanel = new ViewEntityPanel();
     private final ListPanel listPanel = new ListPanel();
-    private final AddTypePanel addTypePanel = new AddTypePanel();
-    private final ViewTypePanel viewTypePanel = new ViewTypePanel();
     private final GetCustomerPanel getCustomerPanel = new GetCustomerPanel();
     private final GetVehiclePanel getVehiclePanel = new GetVehiclePanel();
+    private final JPanel emptyPanel = null;
 
     public ReservationPanel() {
         this.bookings = CarRental.getInstance().requestBookings();
@@ -37,7 +36,7 @@ public class ReservationPanel extends SuperPanel {
         }
 
         //Sets the different subpanels. Also adds them to this object with JPanel.add().
-        AssignAndAddSubPanels(new MainScreenPanel(), createPanel, viewEntityPanel, addTypePanel, viewTypePanel, listPanel);
+        AssignAndAddSubPanels(new MainScreenPanel(), createPanel, viewEntityPanel, emptyPanel, emptyPanel, listPanel);
         this.setPreferredSize(new Dimension(800, 600));
 
         //Removes the default gaps between components
@@ -84,8 +83,6 @@ public class ReservationPanel extends SuperPanel {
         createPanel.updateCreatePanel();
         viewEntityPanel.updateViewEntityPanel();
         listPanel.updateListPanel();
-        addTypePanel.updateAddTypePanel();
-        viewTypePanel.updateViewTypePanel();
     }
 
     public class MainScreenPanel extends JPanel {
@@ -1046,7 +1043,7 @@ public class ReservationPanel extends SuperPanel {
                 boolean found = false, end = false;
                 ArrayList<Reservation> reservations = CarRental.getInstance().requestReservations();
                 int i = 0;
-                while (!found || end) {
+                while (!found && end) {
                     if (i == reservations.size() - 1) {
                         end = true;
                     }
@@ -1074,24 +1071,6 @@ public class ReservationPanel extends SuperPanel {
             vehicleIDTextField.setText(" " + vehicleID);
             startDateTextField.setText(" " + startDate);
             endDateTextField.setText(" " + endDate);
-        }
-    }
-
-    public class AddTypePanel extends JPanel {
-
-        public AddTypePanel() {
-        }
-
-        public void updateAddTypePanel() {
-        }
-    }
-
-    public class ViewTypePanel extends JPanel {
-
-        public ViewTypePanel() {
-        }
-
-        public void updateViewTypePanel() {
         }
     }
 
@@ -1275,7 +1254,7 @@ public class ReservationPanel extends SuperPanel {
                 if (booking.isMaintenance()) {
                     boolean found = false, end = false;
                     int i = 0;
-                    while (!found || end) {
+                    while (!found && end) {
                         if (i == maintenances.size() - 1) {
                             end = true;
                         }
@@ -1288,7 +1267,7 @@ public class ReservationPanel extends SuperPanel {
                 } else {
                     boolean found = false, end = false;
                     int i = 0;
-                    while (!found || end) {
+                    while (!found && end) {
                         if (i == reservations.size() - 1) {
                             end = true;
                         }
