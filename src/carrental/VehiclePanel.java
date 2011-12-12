@@ -711,7 +711,7 @@ public class VehiclePanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    ArrayList<JTextComponent> vehicleTypeTextList = new ArrayList<>();
+                    ArrayList<JTextComponent> vehicleTypeTextList = vehicleTypePanel.getTextComponents();
                     if (!vehicleTypeTextList.get(0).getText().trim().isEmpty()
                             && !vehicleTypeTextList.get(1).getText().trim().isEmpty()
                             && !vehicleTypeTextList.get(2).getText().trim().isEmpty()) {
