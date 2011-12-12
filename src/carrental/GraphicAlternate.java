@@ -27,7 +27,7 @@ public class GraphicAlternate extends JComponent {
             collumnWidth, rowHeight = 20,
             numberOfCollumns, numberOfRows,
             pointerX = 0, pointerY = 0,
-            textSpace = 100, textHeight = 15,
+            textSpace = 120, textHeight = 15,
             display = VIEW_DAYS;
     private ArrayList<Vehicle> vehicles = new ArrayList<>();
     private ArrayList<ArrayList<Booking>> vehicle_bookings = new ArrayList<>(),
@@ -207,15 +207,13 @@ public class GraphicAlternate extends JComponent {
         //print y-axis text
         for(Vehicle v : vehicles) {
             g.setColor(Color.black);
-            String str = "";
+            String desc = "";
             if(v.getID() > -1 && !v.getDescription().isEmpty()) {
-                String desc = v.getDescription();
-                if(desc.length() > 16) desc = desc.substring(0,16);
-                str = v.getID()+": "+desc;
-                if(v.getID() < 10) str = "0"+str;
+                desc = v.getDescription();
+                if(desc.length() > 18) desc = desc.substring(0,16)+"...";
             }
-            else str = "Unknown Vehicle";
-            g.drawString(str, 0, pointerY);
+            else desc = "Unknown Vehicle";
+            g.drawString(desc, 0, pointerY);
             movePointerY();
         }
         
