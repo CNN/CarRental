@@ -57,7 +57,7 @@ public class GraphicAlternate extends JComponent {
                 else {
                     //check if maintenance or reservation
                     x = ((x - textSpace) / collumnWidth);
-                    y = (y / rowHeight);
+                    y = ((y - 5)/ rowHeight);
                     if(reference.size() > y && reference.get(y) != null) {
                         if(reference.get(y).size() > x && reference.get(y).get(x) != null) {
                             if(reference.get(y).get(x).isMaintenance()) {
