@@ -92,7 +92,6 @@ public class VehiclePanel extends SuperPanel {
             graph = new GraphicAlternate();
             graph.setPreferredSize(new Dimension(800, 600));
             add(graph);
-            System.out.println(graph.toString());
         }
     }
 
