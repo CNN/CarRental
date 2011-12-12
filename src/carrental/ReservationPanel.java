@@ -103,6 +103,7 @@ public class ReservationPanel extends SuperPanel {
     }
 
     public class GetVehiclePanel extends JPanel {
+
         DefaultTableModel vehicleTableModel;
         JComboBox vehicleTypeCombo;
         DefaultComboBoxModel vehicleTypeComboModel;
@@ -371,7 +372,9 @@ public class ReservationPanel extends SuperPanel {
 
         public GetCustomerPanel() {
             customers = CarRental.getInstance().requestCustomers();
-            if (customers.get(0) == null)   customerToView = CarRental.getInstance().requestCustomer();
+            if (customers.get(0) == null) {
+                customerToView = CarRental.getInstance().requestCustomer();
+            }
 
             //Fields
             JPanel centerPanel, customerListPanel, filterPanel, topFilterPanel, bottomFilterPanel, buttonPanel;
@@ -515,10 +518,10 @@ public class ReservationPanel extends SuperPanel {
             for (Customer customer : customers) { //update table
                 String[] split = customer.getAdress().split("\n"); //for nicer look
                 String displayed = split[0];
-                for(int i = 1; i < split.length; i++){
+                for (int i = 1; i < split.length; i++) {
                     displayed = displayed + ", " + split[i];
                 }
-                
+
                 customerTableModel.addRow(new Object[]{customer.getID(), //ID
                             customer.getTelephone(), //Phone
                             customer.getName(), //Name
@@ -561,9 +564,10 @@ public class ReservationPanel extends SuperPanel {
         }
     }
 
-    public class CreatePanel extends JPanel {        
+    public class CreatePanel extends JPanel {
         //Uses Calendar libary to create Timestamps
         //Dropdown of VehicleTypes
+
         JTextField vehicleIDTextField, reservationIDTextField, customerIDTextField, startDateTextField, endDateTextField;
         JCheckBox maintenanceCheckBox;
         JComboBox maintenanceTypeCombo;
@@ -1042,11 +1046,11 @@ public class ReservationPanel extends SuperPanel {
                 boolean found = false, end = false;
                 ArrayList<Reservation> reservations = CarRental.getInstance().requestReservations();
                 int i = 0;
-                while(!found || end){
-                    if(i == reservations.size() -1){
+                while (!found || end) {
+                    if (i == reservations.size() - 1) {
                         end = true;
                     }
-                    if(reservations.get(i).getID() == booking.getID()){
+                    if (reservations.get(i).getID() == booking.getID()) {
                         customerID = "" + reservations.get(i).getCustomerID();
                         found = true;
                     }
@@ -1266,11 +1270,34 @@ public class ReservationPanel extends SuperPanel {
             for (Booking booking : bookings) { //update table
                 int maintenance = 0;
                 int customer = 0;
+                //TODO Check that this works
+                //This should work... 
                 if (booking.isMaintenance()) {
-                    //maintenance = maintenances.get(booking.getID()).getTypeID();
+                    boolean found = false, end = false;
+                    int i = 0;
+                    while (!found || end) {
+                        if (i == maintenances.size() - 1) {
+                            end = true;
+                        }
+                        if (maintenances.get(i).getID() == booking.getID()) {
+                            maintenance = maintenances.get(i).getTypeID();
+                            found = true;
+                        }
+                        i++;
+                    }
                 } else {
-                    //TODO Fix this
-                    //customer = reservations.get(booking.getID()).getCustomerID();
+                    boolean found = false, end = false;
+                    int i = 0;
+                    while (!found || end) {
+                        if (i == reservations.size() - 1) {
+                            end = true;
+                        }
+                        if (reservations.get(i).getID() == booking.getID()) {
+                            customer = reservations.get(i).getCustomerID();
+                            found = true;
+                        }
+                        i++;
+                    }
                 }
                 reservationTableModel.addRow(new Object[]{
                             booking.getID(), //ID
