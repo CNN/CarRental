@@ -58,11 +58,8 @@ public class GraphicAlternate extends JComponent {
                     //check if maintenance or reservation
                     x = ((x - textSpace) / collumnWidth);
                     y = ((y - 5)/ rowHeight);
-                    System.out.println(reference.toString());
-                    System.out.println(x+","+y);
                     if(reference.size() > y && reference.get(y) != null) {
                         if(reference.get(y).size() > x && reference.get(y).get(x) != null) {
-                            System.out.println(reference.get(y).get(x));
                             if(reference.get(y).get(x).isMaintenance()) {
                                 //TODO: Activate
                                 //CarRental.getView().getMaintenancePanel().viewMaintenance(1);
