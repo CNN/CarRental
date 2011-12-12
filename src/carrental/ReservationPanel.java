@@ -575,7 +575,7 @@ public class ReservationPanel extends SuperPanel {
             //Fields
             JPanel maintenancePanel, vehiclePanel, endDatePanel, startDatePanel, reservationIDPanel, customerPanel, centerPanel, buttonPanel;
             JLabel maintenanceLabel, vehicleIDLabel, dateFormatLabel, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
-            JButton findCustomerButton, createButton, cancelButton;
+            JButton findVehicleButton, findCustomerButton, createButton, cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
             //createPanel
@@ -660,18 +660,28 @@ public class ReservationPanel extends SuperPanel {
             customerPanel.add(customerIDTextField);
             customerPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             customerPanel.add(findCustomerButton);
-            customerPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             centerPanel.add(customerPanel);
 
             //Vehicle ID
             vehicleIDLabel = new JLabel("Vehicle ID");
             vehicleIDTextField = new JTextField(defaultJTextFieldColumns);
+            findVehicleButton = new JButton("Find Vehicle");
+            findVehicleButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    createPanel.setVisible(false);
+                    getVehiclePanel.setVisible(true);
+                }
+            });
 
             vehiclePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             vehiclePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             vehiclePanel.add(vehicleIDLabel);
             vehiclePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
             vehiclePanel.add(vehicleIDTextField);
+            vehiclePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            vehiclePanel.add(findVehicleButton);
             centerPanel.add(vehiclePanel);
 
             //Start date
