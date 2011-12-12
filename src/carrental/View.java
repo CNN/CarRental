@@ -187,8 +187,20 @@ public class View {
             //build north menu for reservation
             //reservation: create button
             JButton reservationCreate = new JButton("Create");
+            reservationCreate.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    reservationPanel.showCreatePanel();
+                }
+            });
             //reservation: list button
             JButton reservationList = new JButton("List");
+            reservationList.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    reservationPanel.showListPanel();
+                }
+            });
             northReservation.setLayout(new FlowLayout(FlowLayout.LEFT));
             northReservation.add(reservationCreate);
             northReservation.add(reservationList);
