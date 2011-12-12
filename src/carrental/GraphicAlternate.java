@@ -66,14 +66,12 @@ public class GraphicAlternate extends JComponent {
                                 CarRental.getView().viewMaintenance();
                             }
                             else {
-                                CarRental.getView().getReservationPanel().setBookingToView(CarRental.getInstance().requestReservation(1));
+                                CarRental.getView().getReservationPanel().setBookingToView(CarRental.getInstance().requestReservation(reference.get(y).get(x).getID()));
                                 CarRental.getView().getReservationPanel().showViewEntityPanel();
                                 CarRental.getView().viewReservation();
                             }
-                            System.out.println(reference.get(y).get(x).toString()); //TODO: Remove print
                         }
                     }
-                    System.out.println("Field: "+x+","+y); //TODO: Remove print
                 }
             }
         });
