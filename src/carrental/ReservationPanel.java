@@ -46,7 +46,7 @@ public class ReservationPanel extends SuperPanel {
         //showCreatePanel();
         //showMainScreenPanel();
         //showViewEntityPanel();
-        //showListPanel();
+        showListPanel();
     }
 
     //Temporary Main
