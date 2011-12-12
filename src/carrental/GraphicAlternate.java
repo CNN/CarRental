@@ -147,6 +147,7 @@ public class GraphicAlternate extends JComponent {
             dateString.add(dateFormat.format(timestamp));
         }
         
+        requestFocusInWindow();
         repaint();
     }
 
