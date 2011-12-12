@@ -13,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
  * This is the main panel for reservations
  * It contains JPanels for every relevant screen, when dealing with reservations.
  * @author CNN
- * @version 2011-12-09
+ * @version 2011-12-12
  */
 public class ReservationPanel extends SuperPanel {
 
@@ -47,7 +47,7 @@ public class ReservationPanel extends SuperPanel {
         //showCreatePanel();
         //showMainScreenPanel();
         //showViewEntityPanel();
-        showListPanel();
+        //showListPanel();
     }
 
     //Temporary Main
@@ -103,8 +103,6 @@ public class ReservationPanel extends SuperPanel {
     }
 
     public class GetVehiclePanel extends JPanel {
-        //TODO Create show method and a button in Create
-
         DefaultTableModel vehicleTableModel;
         JComboBox vehicleTypeCombo;
         DefaultComboBoxModel vehicleTypeComboModel;
@@ -373,10 +371,7 @@ public class ReservationPanel extends SuperPanel {
 
         public GetCustomerPanel() {
             customers = CarRental.getInstance().requestCustomers();
-            if (customers.get(0) == null) {
-                customerToView = CarRental.getInstance().requestCustomer();
-            } else {
-            }
+            if (customers.get(0) == null)   customerToView = CarRental.getInstance().requestCustomer();
 
             //Fields
             JPanel centerPanel, customerListPanel, filterPanel, topFilterPanel, bottomFilterPanel, buttonPanel;
@@ -566,9 +561,7 @@ public class ReservationPanel extends SuperPanel {
         }
     }
 
-    public class CreatePanel extends JPanel {
-
-        //This somehow gets a customer (another panel?)
+    public class CreatePanel extends JPanel {        
         //Uses Calendar libary to create Timestamps
         //Dropdown of VehicleTypes
         JTextField vehicleIDTextField, reservationIDTextField, customerIDTextField, startDateTextField, endDateTextField;
@@ -1044,10 +1037,21 @@ public class ReservationPanel extends SuperPanel {
                 maintenanceTypeCombo.setEnabled(true);
                 maintenanceTypeCombo.setSelectedIndex(booking.getID());
                 customerID = "";
-            } else {
-                //TODO This does not work
+            } else { //TODO Check that this works
+                //This should work... 
+                boolean found = false, end = false;
                 ArrayList<Reservation> reservations = CarRental.getInstance().requestReservations();
-                customerID = "" + reservations.get(booking.getID()).getCustomerID();
+                int i = 0;
+                while(!found || end){
+                    if(i == reservations.size() -1){
+                        end = true;
+                    }
+                    if(reservations.get(i).getID() == booking.getID()){
+                        customerID = "" + reservations.get(i).getCustomerID();
+                        found = true;
+                    }
+                    i++;
+                }
             }
 
             reservationID = "" + booking.getID();
