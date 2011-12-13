@@ -99,8 +99,8 @@ public class CustomerPanel extends SuperPanel {
     
     public class CreatePanel extends JPanel {
         
-        JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
-        JLabel errorLabel;
+        private JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
+        private JLabel errorLabel;
         
         public CreatePanel() {
             //Fields
@@ -247,8 +247,8 @@ public class CustomerPanel extends SuperPanel {
     }
     
     public class ViewEntityPanel extends JPanel {
-        String customerID, customerName, customerPhone, customerAdress, customerEMail;
-        JTextField customerZipcodeTextField, customerStreetTextField, customerCityTextField, customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
+        private String customerID, customerName, customerPhone, customerAdress, customerEMail;
+        private JTextField customerZipcodeTextField, customerStreetTextField, customerCityTextField, customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
         
         public ViewEntityPanel() {
             //Fields
@@ -486,9 +486,9 @@ public class CustomerPanel extends SuperPanel {
     
     public class ListPanel extends JPanel {
         
-        JTextField filterAdressTextField, filterPhoneTextField, filterNameTextField, filterIDTextField;
-        JTable customerTable;
-        DefaultTableModel customerTableModel;
+        private JTextField filterAdressTextField, filterPhoneTextField, filterNameTextField, filterIDTextField;
+        private JTable customerTable;
+        private DefaultTableModel customerTableModel;
         
         public ListPanel() {
             //Fields

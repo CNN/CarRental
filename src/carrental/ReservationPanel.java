@@ -101,13 +101,13 @@ public class ReservationPanel extends SuperPanel {
 
     public class GetVehiclePanel extends JPanel {
 
-        DefaultTableModel vehicleTableModel;
-        JComboBox vehicleTypeCombo;
-        DefaultComboBoxModel vehicleTypeComboModel;
-        JTextField descriptionField, licensePlateField, vinField, drivenField;
-        int currentVehicleTypeIndex = -1; //this is for storing the currently selected choice from the combobox.
-        ArrayList<Vehicle> vehicleList;
-        ArrayList<VehicleType> vehicleTypes;
+        private DefaultTableModel vehicleTableModel;
+        private JComboBox vehicleTypeCombo;
+        private DefaultComboBoxModel vehicleTypeComboModel;
+        private JTextField descriptionField, licensePlateField, vinField, drivenField;
+        private int currentVehicleTypeIndex = -1; //this is for storing the currently selected choice from the combobox.
+        private ArrayList<Vehicle> vehicleList;
+        private ArrayList<VehicleType> vehicleTypes;
 
         public GetVehiclePanel() {
             JPanel centerPanel, vehicleListPanel, filterPanel, topFilterPanel, middleFilterPanel, bottomFilterPanel, buttonPanel;
@@ -361,11 +361,11 @@ public class ReservationPanel extends SuperPanel {
 
     public class GetCustomerPanel extends JPanel {
 
-        JTextField filterAdressTextField, filterPhoneTextField, filterNameTextField, filterIDTextField;
-        JTable customerTable;
-        DefaultTableModel customerTableModel;
-        ArrayList<Customer> customers;
-        Customer customerToView;
+        private JTextField filterAdressTextField, filterPhoneTextField, filterNameTextField, filterIDTextField;
+        private JTable customerTable;
+        private DefaultTableModel customerTableModel;
+        private ArrayList<Customer> customers;
+        private Customer customerToView;
 
         public GetCustomerPanel() {
             customers = CarRental.getInstance().requestCustomers();
@@ -565,11 +565,11 @@ public class ReservationPanel extends SuperPanel {
         //Uses Calendar libary to create Timestamps
         //Dropdown of VehicleTypes
 
-        JTextField vehicleIDTextField, reservationIDTextField, customerIDTextField, startDateTextField, endDateTextField;
-        JCheckBox maintenanceCheckBox;
-        JComboBox maintenanceTypeCombo;
-        ArrayList<MaintenanceType> maintenanceTypes;
-        DefaultComboBoxModel maintenanceTypeComboModel;
+        private JTextField vehicleIDTextField, reservationIDTextField, customerIDTextField, startDateTextField, endDateTextField;
+        private JCheckBox maintenanceCheckBox;
+        private JComboBox maintenanceTypeCombo;
+        private ArrayList<MaintenanceType> maintenanceTypes;
+        private DefaultComboBoxModel maintenanceTypeComboModel;
 
         public CreatePanel() {
             //Fields
@@ -809,12 +809,12 @@ public class ReservationPanel extends SuperPanel {
 
     public class ViewEntityPanel extends JPanel {
 
-        String customerID, vehicleID, reservationID, startDate, endDate;
-        JTextField vehicleIDTextField, reservationIDTextField, customerIDTextField, startDateTextField, endDateTextField;
-        JCheckBox maintenanceCheckBox;
-        JComboBox maintenanceTypeCombo;
-        DefaultComboBoxModel maintenanceTypeComboModel;
-        ArrayList<MaintenanceType> maintenanceTypes;
+        private String customerID, vehicleID, reservationID, startDate, endDate;
+        private JTextField vehicleIDTextField, reservationIDTextField, customerIDTextField, startDateTextField, endDateTextField;
+        private JCheckBox maintenanceCheckBox;
+        private JComboBox maintenanceTypeCombo;
+        private DefaultComboBoxModel maintenanceTypeComboModel;
+        private ArrayList<MaintenanceType> maintenanceTypes;
 
         public ViewEntityPanel() {
             //Fields
@@ -1089,9 +1089,9 @@ public class ReservationPanel extends SuperPanel {
 
     public class ListPanel extends JPanel {
 
-        JTextField filterMaintenanceTextField, filterCustomerIDTextField, filterReservationIDTextField, filterVehicleIDTextField, filterStartDateTextField, filterEndDateTextField;
-        JTable reservationTable;
-        DefaultTableModel reservationTableModel;
+        private JTextField filterMaintenanceTextField, filterCustomerIDTextField, filterReservationIDTextField, filterVehicleIDTextField, filterStartDateTextField, filterEndDateTextField;
+        private JTable reservationTable;
+        private DefaultTableModel reservationTableModel;
 
         public ListPanel() {
             //Fields
