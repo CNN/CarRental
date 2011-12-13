@@ -95,7 +95,7 @@ public class ReservationPanel extends SuperPanel {
             titleBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Reservations");
             setBorder(titleBorder);
             add(new ViewEntityPanel());
-            add(new ListPanel());
+           // add(new ListPanel());
         }
     }
 
@@ -685,8 +685,9 @@ public class ReservationPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    listPanel.updateListPanel();
                     updateCreatePanel();
-                    showMainScreenPanel();
+                    showListPanel();
                 }
             });
             buttonPanel.add(cancelButton);
@@ -725,12 +726,13 @@ public class ReservationPanel extends SuperPanel {
                             }
                             reservations = CarRental.getInstance().requestReservations();
                             updateCreatePanel();
-                            showMainScreenPanel();
+                            showListPanel();
                         
                     } else { //A TextFild is empty
                         CarRental.getView().displayError("A text field is empty");
                     }
                     updateCreatePanel();
+                    listPanel.updateListPanel();
                 }
             });
             buttonPanel.add(createButton);
@@ -798,9 +800,9 @@ public class ReservationPanel extends SuperPanel {
             customerIDTextField.setBackground(Color.WHITE);
 
             customerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            customerPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            customerPanel.add(Box.createRigidArea(new Dimension(3, 0)));
             customerPanel.add(customerIDLabel);
-            customerPanel.add(Box.createRigidArea(new Dimension(28 + strutDistance, 0)));
+            customerPanel.add(Box.createRigidArea(new Dimension(58 + strutDistance, 0)));
             customerPanel.add(customerIDTextField);
             customerPanel.add(Box.createRigidArea(new Dimension(13, 0)));
             centerPanel.add(customerPanel);
@@ -862,6 +864,7 @@ public class ReservationPanel extends SuperPanel {
                     CarRental.getInstance().appendLog("Succesfully deleted reservation " + id);
                     CarRental.getView().displayError("Succesfully deleted reservation " + id);
                     updateViewEntityPanel();
+                    listPanel.updateListPanel();
                 }
             });
             buttonPanel.add(deleteButton);
@@ -896,6 +899,7 @@ public class ReservationPanel extends SuperPanel {
                                 reservations = CarRental.getInstance().requestReservations();
                                 CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
                                 CarRental.getView().displayError("Reservation " + reservationIDTextField.getText() + " edited");
+                                listPanel.updateListPanel();
                                 updateViewEntityPanel();
                                 showViewEntityPanel();
                             } catch (NumberFormatException ex) {
@@ -917,7 +921,8 @@ public class ReservationPanel extends SuperPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     updateViewEntityPanel();
-                    showMainScreenPanel();
+                    showListPanel();
+                    listPanel.updateListPanel();
                 }
             });
             buttonPanel.add(cancelButton);
@@ -938,7 +943,6 @@ public class ReservationPanel extends SuperPanel {
             vehicleID = "" + reservation.getVehicleID();
             startDate = reservation.getTStart().toString();
             endDate = reservation.getTEnd().toString();
-
         }
 
         public void updateViewEntityPanel() {
@@ -1081,7 +1085,7 @@ public class ReservationPanel extends SuperPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     setFilterTextFields();
-                    showMainScreenPanel();
+                    showListPanel();
                 }
             });
             buttonPanel.add(cancelButton);
@@ -1105,13 +1109,13 @@ public class ReservationPanel extends SuperPanel {
 
         public void setReservationTable() {
             reservations = CarRental.getInstance().requestReservations(); //update customers array
+            reservationTableModel.setRowCount(0);
+            
             if (reservations.isEmpty()) {
                 reservationToView = CarRental.getInstance().requestReservation();
             } else {
                 reservationToView = reservations.get(0);
             }
-            
-            ArrayList<Reservation> reservations = CarRental.getInstance().requestReservations();
 
             for (Reservation reservation : reservations) { //update table
                 reservationTableModel.addRow(new Object[]{
@@ -1141,7 +1145,7 @@ public class ReservationPanel extends SuperPanel {
             //Delete exisiting rows
             reservationTableModel.setRowCount(0);
             //Add the rows that match the filter
-            ArrayList<Reservation> reservations = CarRental.getInstance().requestReservations();
+            reservations = CarRental.getInstance().requestReservations();
 
             for (Reservation reservation : reservations) {
                 Timestamp tStart = new Timestamp(0);
