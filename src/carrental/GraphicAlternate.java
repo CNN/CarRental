@@ -61,8 +61,8 @@ public class GraphicAlternate extends JComponent {
                     if(reference.size() > y && reference.get(y) != null) {
                         if(reference.get(y).size() > x && reference.get(y).get(x) != null) {
                             if(reference.get(y).get(x).isMaintenance()) {
-                                //TODO: Activate
-                                //CarRental.getView().getMaintenancePanel().viewMaintenance(1);
+                                //TODO: Set maintenance to view...
+                                CarRental.getView().getMaintenancePanel().showViewEntityPanel();
                                 CarRental.getView().viewMaintenance();
                             }
                             else {

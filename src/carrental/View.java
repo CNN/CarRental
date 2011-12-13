@@ -42,14 +42,13 @@ public class View {
         return main.getReservationPanel();
     }
     
-//    //TODO: Activate
-//    /**
-//     * Get the maintenance panel used
-//     * @return 
-//     */
-//    public MaintenancePanel getMaintenancePanel() {
-//        return main.getMaintenancePanel();
-//    }
+    /*
+     * Get the maintenance panel used
+     * @return maintenance panel
+     */
+    public MaintenancePanel getMaintenancePanel() {
+        return main.getMaintenancePanel();
+    }
     
     /**
      * Get the customer panel used
@@ -338,6 +337,14 @@ public class View {
          */
         public CustomerPanel getCustomerPanel() {
             return customerPanel;
+        }
+        
+        /**
+         * get the maintenance panel
+         * @return maintenance panel
+         */
+        public MaintenancePanel getMaintenancePanel() {
+            return maintenancePanel;
         }
         
         /**
