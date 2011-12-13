@@ -117,8 +117,8 @@ public class View {
                 northReservation = new JPanel(),
                 northCustomer = new JPanel(),
                 northVehicle = new JPanel(),
-                northMaintenance = new JPanel(),
-                maintenancePanel = new JPanel();
+                northMaintenance = new JPanel();
+        private MaintenancePanel maintenancePanel = new MaintenancePanel();
         private ReservationPanel reservationPanel = new ReservationPanel();
         private CustomerPanel customerPanel = new CustomerPanel();
         private VehiclePanel vehiclePanel = new VehiclePanel();
@@ -187,8 +187,21 @@ public class View {
             //build north menu for reservation
             //reservation: create button
             JButton reservationCreate = new JButton("Create");
+            reservationCreate.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    reservationPanel.showCreatePanel();
+                }
+            });
             //reservation: list button
             JButton reservationList = new JButton("List");
+            reservationList.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    reservationPanel.showListPanel();
+                }
+            });
+            
             northReservation.setLayout(new FlowLayout(FlowLayout.LEFT));
             northReservation.add(reservationCreate);
             northReservation.add(reservationList);
@@ -256,10 +269,29 @@ public class View {
             //build north menu for maintenance
             //maintenance: create button
             JButton maintenanceCreate = new JButton("Create");
+            maintenanceCreate.addActionListener(new ActionListener() {
+               @Override
+               public void actionPerformed(ActionEvent e) {
+                   maintenancePanel.showCreatePanel();
+               }
+            });
             //maintenance: create type button
             JButton maintenanceTypeCreate = new JButton("Create Maintenance Type");
+            maintenanceTypeCreate.addActionListener(new ActionListener() {
+               @Override
+               public void actionPerformed(ActionEvent e) {
+                   maintenancePanel.showAddTypePanel();
+               }
+            });
             //maintenance: list button
             JButton maintenanceList = new JButton("List");
+            maintenanceList.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    maintenancePanel.showListPanel();
+                }
+            });
+            
             northMaintenance.setLayout(new FlowLayout(FlowLayout.LEFT));
             northMaintenance.add(maintenanceCreate);
             northMaintenance.add(maintenanceTypeCreate);

@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
  * GraphicAlternate displays an overview of vehicles and their respective
  * reservations and maintenances.
  * @author CNN
- * @version 2011-12-06
+ * @version 2011-12-12
  */
 public class GraphicAlternate extends JComponent {
     public static final int
