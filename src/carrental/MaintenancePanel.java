@@ -5,7 +5,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;
 import java.sql.Timestamp;
@@ -24,6 +23,7 @@ public class MaintenancePanel extends SuperPanel {
     private MaintenanceType maintenanceTypeToView; //specific vehicle type, used to view details
     private ArrayList<Maintenance> maintenanceList;
     private ArrayList<MaintenanceType> maintenanceTypes;
+    private ArrayList<Vehicle> vehicles;
     private CreatePanel createPanel;
     private ViewMaintenancePanel viewMaintenancePanel;
     private ViewMaintenanceTypePanel viewMaintenanceTypePanel;
@@ -36,6 +36,7 @@ public class MaintenancePanel extends SuperPanel {
     public MaintenancePanel() {
         maintenanceList = CarRental.getInstance().requestMaintenances();
         maintenanceTypes = CarRental.getInstance().requestMaintenanceTypes();
+        vehicles = CarRental.getInstance().requestVehicles();
         createPanel = new CreatePanel();
         viewMaintenancePanel = new ViewMaintenancePanel();
         viewMaintenanceTypePanel = new ViewMaintenanceTypePanel();
@@ -70,18 +71,6 @@ public class MaintenancePanel extends SuperPanel {
         viewMaintenanceTypePanel.update();
         super.showViewTypePanel();
     }
-
-    //Temporary Main
-    //TODO: Remove
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("MaintenanceFrame");
-        frame.setPreferredSize(new Dimension(800, 600));
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container contentPane = frame.getContentPane();
-        contentPane.add(new VehiclePanel());
-        frame.pack();
-        frame.setVisible(true);
-    }
     
     public class MainScreenPanel extends JPanel {}
 
@@ -91,19 +80,18 @@ public class MaintenancePanel extends SuperPanel {
     public class CreatePanel extends JPanel {
 
         private JTextField dateStartField, dateEndField;
-        private DefaultComboBoxModel maintenanceTypeComboModel;
+        private DefaultComboBoxModel maintenanceTypeComboModel, vehicleComboModel;
         private JCheckBox typeIsServiceCheckBox;
 
-        //TODO: On change combobox tick is service if type selected is service
         /**
          * Sets up the basic functionality needed to create a vehicle.
          */
         public CreatePanel() {
 
-            JPanel centerPanel, buttonPanel, maintenanceTypePanel, datePanel, isServicePanel;
-            JLabel maintenanceTypeLabel, fromLabel, toLabel;
+            JPanel centerPanel, buttonPanel, maintenanceTypePanel, datePanel, vehiclePanel;
+            JLabel maintenanceTypeLabel, fromLabel, toLabel, vehicleLabel;
             JButton createButton, cancelButton;
-            final JComboBox maintenanceTypeCombo;
+            final JComboBox maintenanceTypeCombo, vehicleCombo;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
             //Panel settings
@@ -139,8 +127,17 @@ public class MaintenancePanel extends SuperPanel {
             maintenanceTypePanel.add(Box.createRigidArea(new Dimension(48 + strutDistance, 0)));
             maintenanceTypePanel.add(maintenanceTypeCombo);
             
-            //TODO: If text works here, remove the label!
             typeIsServiceCheckBox = new JCheckBox("Is service");
+            typeIsServiceCheckBox.setEnabled(false);
+            
+            maintenanceTypeCombo.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(maintenanceTypes.size() > maintenanceTypeCombo.getSelectedIndex() && maintenanceTypeCombo.getSelectedIndex() != -1)
+                        typeIsServiceCheckBox.setSelected(maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getIs_service());
+                }
+            });
+            
             maintenanceTypePanel.add(typeIsServiceCheckBox);
 
             centerPanel.add(maintenanceTypePanel);
@@ -164,7 +161,24 @@ public class MaintenancePanel extends SuperPanel {
 
             centerPanel.add(datePanel);
             
-            //TODO: Add car combo box!
+            //Vehicle
+            vehicleLabel = new JLabel("Vehicle:");
+            vehicleComboModel = new DefaultComboBoxModel();
+            vehicleCombo = new JComboBox(vehicleComboModel);
+            
+            for (Vehicle vehicle : vehicles) {
+                vehicleCombo.addItem(vehicle.getDescription());
+            }
+            
+            vehiclePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+            vehiclePanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            vehiclePanel.add(vehicleLabel);
+
+            vehiclePanel.add(Box.createRigidArea(new Dimension(48 + strutDistance, 0)));
+            vehiclePanel.add(vehicleCombo);
+            
+            centerPanel.add(vehiclePanel);
 
             //ButtonPanels
             buttonPanel = new JPanel();
@@ -202,9 +216,9 @@ public class MaintenancePanel extends SuperPanel {
                         public void actionPerformed(ActionEvent e) {
                             if (!dateStartField.getText().trim().isEmpty()
                                     && !dateEndField.getText().trim().isEmpty()) {
-                                try { //TODO: Replace 0 with number of car, gotten from combo box!
+                                try {
                                     Maintenance newMaintenance = new Maintenance(CarRental.getInstance().requestNewMaintenanceId(),
-                                            0,
+                                            vehicles.get(vehicleCombo.getSelectedIndex()).getID(),
                                             new Timestamp(dateFormat.parse(dateStartField.getText().trim()).getTime()),
                                             new Timestamp(dateFormat.parse(dateEndField.getText().trim()).getTime()),
                                             maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getID());
@@ -228,7 +242,11 @@ public class MaintenancePanel extends SuperPanel {
          */
         public void update() {
             //Check for an added type for the JComboBox(es)
-            //TODO: Add the vehicle combo box here, too
+            vehicleComboModel.removeAllElements();
+            for(Vehicle v : vehicles) {
+                vehicleComboModel.addElement(v.getDescription());
+            }
+            
             maintenanceTypeComboModel.removeAllElements();
             for (MaintenanceType maintenanceType : maintenanceTypes) {
                 maintenanceTypeComboModel.addElement(maintenanceType.getName());
@@ -239,24 +257,21 @@ public class MaintenancePanel extends SuperPanel {
         }
     }
 
-    //TODO: On change combo box, tick is service if selected is service
     /**
      * This inner class creates a JPanel which shows a certain maintenance. The maintenance is selected in the ListPanel-class
      */
     public class ViewMaintenancePanel extends JPanel {
-        //TODO: Add vehicle
         private JTextField dateStartField, dateEndField;
-        private DefaultComboBoxModel maintenanceTypeComboModel;
-        private JComboBox maintenanceTypeCombo;
+        private DefaultComboBoxModel maintenanceTypeComboModel, vehicleComboModel;
+        private JComboBox maintenanceTypeCombo, vehicleCombo;
         private JCheckBox typeIsServiceCheckBox;
 
         /**
          * Sets up the basic funtionality needed to view a maintenance.
          */
         public ViewMaintenancePanel() {
-            //TODO: Add vehicle shown!
-            JPanel centerPanel, buttonPanel, maintenanceTypePanel, datePanel;
-            JLabel maintenanceTypeLabel, fromLabel, toLabel;
+            JPanel centerPanel, buttonPanel, maintenanceTypePanel, datePanel, vehiclePanel;
+            JLabel maintenanceTypeLabel, fromLabel, toLabel, vehicleLabel;
             JButton backButton, editButton, deleteButton, viewSelectedTypeButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
@@ -280,10 +295,18 @@ public class MaintenancePanel extends SuperPanel {
             maintenanceTypeCombo = new JComboBox(maintenanceTypeComboModel); //this JComboBox selections are added in the update() method
 
             typeIsServiceCheckBox = new JCheckBox("Is service?");
+            typeIsServiceCheckBox.setEnabled(false);
+            
+            maintenanceTypeCombo.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if(maintenanceTypes.size() > maintenanceTypeCombo.getSelectedIndex() && maintenanceTypeCombo.getSelectedIndex() != -1)
+                        typeIsServiceCheckBox.setSelected(maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getIs_service());
+                }
+            });
             
             viewSelectedTypeButton = new JButton("View selected type");
             viewSelectedTypeButton.addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     maintenanceTypeToView = maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex());
@@ -326,7 +349,26 @@ public class MaintenancePanel extends SuperPanel {
             datePanel.add(dateEndField);
 
             centerPanel.add(datePanel);
-            //TODO: Add vehicle combo box
+            
+            //Vehicle
+            vehicleLabel = new JLabel("Vehicle:");
+            vehicleComboModel = new DefaultComboBoxModel();
+            vehicleCombo = new JComboBox(vehicleComboModel);
+            
+            for (Vehicle vehicle : vehicles) {
+                vehicleCombo.addItem(vehicle.getDescription());
+            }
+            
+            vehiclePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+            vehiclePanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            vehiclePanel.add(vehicleLabel);
+
+            vehiclePanel.add(Box.createRigidArea(new Dimension(48 + strutDistance, 0)));
+            vehiclePanel.add(vehicleCombo);
+            
+            centerPanel.add(vehiclePanel);
+            
             //ButtonPanels
             buttonPanel = new JPanel();
             add(buttonPanel, BorderLayout.SOUTH);
@@ -370,9 +412,9 @@ public class MaintenancePanel extends SuperPanel {
                     assert (maintenanceToView != null); //VehicleToView should never be null here
                     if (!dateStartField.getText().trim().isEmpty()
                                     && !dateEndField.getText().trim().isEmpty()) {
-                        try { //TODO: Replace 0 with id gotten from vehicle dropdown
+                        try {
                             Maintenance updatedMaintenance = new Maintenance(CarRental.getInstance().requestNewMaintenanceId(),
-                                            0,
+                                            vehicles.get(vehicleCombo.getSelectedIndex()).getID(),
                                             new Timestamp(dateFormat.parse(dateStartField.getText().trim()).getTime()),
                                             new Timestamp(dateFormat.parse(dateEndField.getText().trim()).getTime()),
                                             maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getID());
@@ -394,7 +436,16 @@ public class MaintenancePanel extends SuperPanel {
          */
         public void update() {
             //Check for an added type for the JComboBox(es)
-            //TODO: Add the vehicle combo box here, too
+            
+            int v_index = 0;
+            vehicleComboModel.removeAllElements();
+            for(Vehicle v : vehicles) {
+                vehicleComboModel.addElement(v.getDescription());
+                if(v.getID() == maintenanceToView.getVehicleID())
+                    vehicleCombo.setSelectedIndex(v_index);
+                v_index++;
+            }
+            
             maintenanceTypeComboModel.removeAllElements();
             int type_index = 0;
             for (MaintenanceType maintenanceType : maintenanceTypes) {
@@ -415,31 +466,53 @@ public class MaintenancePanel extends SuperPanel {
     public class ViewMaintenanceTypePanel extends JPanel {
 
         private JButton backButton, editButton, deleteButton;
+        JTextField typeField;
+        JCheckBox isServiceBox;
+        final int defaultJTextFieldColumns = 15, strutDistance = 0;
 
         /**
          * Sets up the basic funtionalit needed to view a vehicle type.
          */
         public ViewMaintenanceTypePanel() {
 
+            JPanel viewPanel, buttonPanel, centerPanel;
+            JLabel typeLabel;
+            
             //Panel settings
             setLayout(new BorderLayout());
             setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Viewing maintenance type"));
             setBackground(new Color(216, 216, 208));
+            centerPanel = new JPanel();
+            centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
+            add(centerPanel, BorderLayout.CENTER);
 
             //View panel
-            //TODO: Make this
+            viewPanel = new JPanel();
+            
+            typeLabel = new JLabel("Name:");
+            typeField = new JTextField(defaultJTextFieldColumns);
+            isServiceBox = new JCheckBox("Is service?");
+            
+            viewPanel.add(typeLabel);
+            viewPanel.add(typeField);
+            viewPanel.add(isServiceBox);
+            
+            centerPanel.add(viewPanel);
 
             //Create the buttons needed
+            buttonPanel = new JPanel();
+            buttonPanel.setLayout(new FlowLayout());
+            
             //Back-button
             backButton = new JButton("Back");
             backButton.addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     showViewEntityPanel();
                     CarRental.getInstance().appendLog("Showing maintenance #" + maintenanceToView.getID() + " now.");
                 }
             });
+            buttonPanel.add(backButton);
 
             //Delete-button
             deleteButton = new JButton("Delete");
@@ -463,17 +536,18 @@ public class MaintenancePanel extends SuperPanel {
                     }
                 }
             });
+            buttonPanel.add(deleteButton);
 
             // Edit-button
             editButton = new JButton("Edit");
             editButton.addActionListener(new ActionListener() {
-
+                //TODO: Entry is somehow created instead of updated!
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     //TODO: WTF IS THIS?! JTextComponent of nothing.
                     ArrayList<JTextComponent> maintenanceTypeTextList = new ArrayList<>();
-                    //TODO: Check that fields are filled
-                    if (true) {
+                    
+                    if (true) { //TODO: Check that fields are filled
                         //Checks if name is in use already
                         boolean nameTaken = false;
                         for (MaintenanceType maintenanceType : maintenanceTypes) {
@@ -496,13 +570,17 @@ public class MaintenancePanel extends SuperPanel {
                     }
                 }
             });
+            buttonPanel.add(editButton);
+            
+            centerPanel.add(buttonPanel);
         }
 
         /**
          * Updates the panel to show the selected vehicle type. This type is selected in the ViewVehiclePanel-class
          */
         public void update() {
-            //TODO: Write this Maintenance Type View panel update!
+            typeField.setText(maintenanceTypeToView.getName());
+            isServiceBox.setSelected(maintenanceTypeToView.getIs_service());
         }
     }
 
@@ -512,28 +590,54 @@ public class MaintenancePanel extends SuperPanel {
     public class AddTypePanel extends JPanel {
 
         private JButton cancelButton, createButton;
-        //TODO: Write create type panel!
+        private JTextField typeField;
+        private JCheckBox isServiceBox;
+        private final int defaultJTextFieldColumns = 15;
 
         /**
          * Sets up the basic functionality needed to create a new vehicle type.
          */
         public AddTypePanel() {
+            //Create the panel for viewing the vehicle type.
+            JPanel viewPanel, buttonPanel, centerPanel;
+            JLabel typeLabel;
+            
             //Panel settings
             setLayout(new BorderLayout());
-            setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Create a vehicle type"));
+            setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Viewing maintenance type"));
             setBackground(new Color(216, 216, 208));
-            //Create the panel for viewing the vehicle type.
+            centerPanel = new JPanel();
+            centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
+            add(centerPanel, BorderLayout.CENTER);
 
+            //View panel
+            viewPanel = new JPanel();
+            
+            typeLabel = new JLabel("Name:");
+            typeField = new JTextField(defaultJTextFieldColumns);
+            isServiceBox = new JCheckBox("Is service?");
+            
+            viewPanel.add(typeLabel);
+            viewPanel.add(typeField);
+            viewPanel.add(isServiceBox);
+            
+            centerPanel.add(viewPanel);
+            
             //Create the buttons needed
+            buttonPanel = new JPanel();
+            buttonPanel.setLayout(new FlowLayout());
+            
             //Cancel-button
             cancelButton = new JButton("Cancel");
             cancelButton.addActionListener(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    showMainScreenPanel();
+                    showListPanel();
                 }
             });
+            
+            buttonPanel.add(cancelButton);
 
             // Create-button
             createButton = new JButton("Create");
@@ -573,9 +677,9 @@ public class MaintenancePanel extends SuperPanel {
 //                    }
                 }
             });
-            //TODO: Same goes for this - cleanup!
-//            vehicleTypePanel.setPanel(null, cancelButton, null, createButton);
-//            add(vehicleTypePanel, BorderLayout.CENTER);
+            
+            buttonPanel.add(createButton);
+            centerPanel.add(buttonPanel);
         }
     }
 
@@ -782,6 +886,7 @@ public class MaintenancePanel extends SuperPanel {
             typeIsServiceBox.setSelected(false);
         }
 
+        //TODO: Fix mass parse exception on changing date - only update when date is completely filled in.
         /**
          * Rearranges the list of vehicles so that only entries matching the filters will be shown.
          */
@@ -793,16 +898,16 @@ public class MaintenancePanel extends SuperPanel {
             //Add the rows that match the filter
             for (Maintenance maintenance : maintenanceList) {
                 try {
-                //TODO: Comments here:
+
                 //As long as -
-                    if (((maintenanceTypeCombo.getSelectedIndex() == -1 || maintenanceTypeCombo.getSelectedIndex() == 0) || //vehicle type is not chosen or set to "All" OR
-                            maintenance.getTypeID() == maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex() - 1).getID()) && //Vehicle's type is the vehicle type chosen AND
+                    if (((maintenanceTypeCombo.getSelectedIndex() == -1 || maintenanceTypeCombo.getSelectedIndex() == 0) || //maintenance type is not chosen or set to "All" OR
+                            maintenance.getTypeID() == maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex() - 1).getID()) && //Maintenance's type is the maintenance type chosen
                             (dateStartField.getText().trim().isEmpty() || //date start field is empty OR
-                            maintenance.getTStart().after(new Timestamp(dateFormat.parse(dateStartField.getText().trim()).getTime()))) && //vehicles descripton equals the description given AND
-                            (dateEndField.getText().trim().isEmpty() || //description field is empty OR
-                            maintenance.getTEnd().before(new Timestamp(dateFormat.parse(dateEndField.getText().trim()).getTime()))) && //vehicles license plate number equals the license plate number given AND
-                            (!typeIsServiceBox.isSelected() || //VIN field is empty OR
-                            typeIsServiceBox.isSelected() && CarRental.getInstance().requestMaintenanceType(maintenance.getTypeID()).getIs_service()) //vehicles VIN equals the VIN given AND
+                            maintenance.getTStart().after(new Timestamp(dateFormat.parse(dateStartField.getText().trim()).getTime()))) && //date start equals the date given AND
+                            (dateEndField.getText().trim().isEmpty() || //date end is empty OR
+                            maintenance.getTEnd().before(new Timestamp(dateFormat.parse(dateEndField.getText().trim()).getTime()))) && //date end equals the date given AND
+                            (!typeIsServiceBox.isSelected() || //is service is empty OR
+                            typeIsServiceBox.isSelected() && CarRental.getInstance().requestMaintenanceType(maintenance.getTypeID()).getIs_service()) //maintenance is servce
                             ) {
 
                         // - does the vehicle match the filter, and following row is added to the table

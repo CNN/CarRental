@@ -506,9 +506,9 @@ public class Model {
         ArrayList<String> save_data = new ArrayList<>();
         save_data.add(Integer.toString(m.getID()));
         save_data.add(Integer.toString(m.getVehicleID()));
+        save_data.add(Integer.toString(m.getTypeID()));
         save_data.add(m.getTStart().toString());
         save_data.add(m.getTEnd().toString());
-        save_data.add(Integer.toString(m.getTypeID()));
         database.saveArray("maintenance", save_data);
     }
     

@@ -239,7 +239,7 @@ public class GraphicAlternate extends JComponent {
             if(draw_this) g.drawString(dateString.get(x), (int)(pointerX + (0.5 * (collumnWidth - 60))), textpointer); //60, collumnWidth
             if(draw_line) g.drawLine((int)(pointerX + (0.5 * (collumnWidth - 60)) + 30), textpointer - 12, (int)(pointerX + (0.5 * (collumnWidth - 60)) + 30), height - 3*textHeight);
             movePointerX();
-            if (textpointer == height - textHeight) { //TODO Fix so this doesn't expand height
+            if (textpointer == height - textHeight) {
                 textpointer -= textHeight;
             } else {
                 textpointer += textHeight;
