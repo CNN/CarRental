@@ -13,20 +13,19 @@ import javax.swing.table.DefaultTableModel;
  * This is the main panel for reservations
  * It contains JPanels for every relevant screen, when dealing with reservations.
  * @author CNN
- * @version 2011-12-09
+ * @version 2011-12-12
  */
 public class ReservationPanel extends SuperPanel {
 
-    //TODO ViewType, AddType, GetVehicle, Calendar
+    //TODO private, Calendar
     private Booking bookingToView; //specific customer, used to view details
     private ArrayList<Booking> bookings; //array of costumers
     private final CreatePanel createPanel = new CreatePanel();
     private final ViewEntityPanel viewEntityPanel = new ViewEntityPanel();
     private final ListPanel listPanel = new ListPanel();
-    private final AddTypePanel addTypePanel = new AddTypePanel();
-    private final ViewTypePanel viewTypePanel = new ViewTypePanel();
     private final GetCustomerPanel getCustomerPanel = new GetCustomerPanel();
     private final GetVehiclePanel getVehiclePanel = new GetVehiclePanel();
+    private final JPanel emptyPanel = null;
 
     public ReservationPanel() {
         this.bookings = CarRental.getInstance().requestBookings();
@@ -37,7 +36,7 @@ public class ReservationPanel extends SuperPanel {
         }
 
         //Sets the different subpanels. Also adds them to this object with JPanel.add().
-        AssignAndAddSubPanels(new MainScreenPanel(), createPanel, viewEntityPanel, addTypePanel, viewTypePanel, listPanel);
+        AssignAndAddSubPanels(new MainScreenPanel(), createPanel, viewEntityPanel, emptyPanel, emptyPanel, listPanel);
         this.setPreferredSize(new Dimension(800, 600));
 
         //Removes the default gaps between components
@@ -84,8 +83,6 @@ public class ReservationPanel extends SuperPanel {
         createPanel.updateCreatePanel();
         viewEntityPanel.updateViewEntityPanel();
         listPanel.updateListPanel();
-        addTypePanel.updateAddTypePanel();
-        viewTypePanel.updateViewTypePanel();
     }
 
     public class MainScreenPanel extends JPanel {
@@ -103,7 +100,6 @@ public class ReservationPanel extends SuperPanel {
     }
 
     public class GetVehiclePanel extends JPanel {
-        //TODO Create show method and a button in Create
 
         DefaultTableModel vehicleTableModel;
         JComboBox vehicleTypeCombo;
@@ -375,7 +371,6 @@ public class ReservationPanel extends SuperPanel {
             customers = CarRental.getInstance().requestCustomers();
             if (customers.get(0) == null) {
                 customerToView = CarRental.getInstance().requestCustomer();
-            } else {
             }
 
             //Fields
@@ -520,10 +515,10 @@ public class ReservationPanel extends SuperPanel {
             for (Customer customer : customers) { //update table
                 String[] split = customer.getAdress().split("\n"); //for nicer look
                 String displayed = split[0];
-                for(int i = 1; i < split.length; i++){
+                for (int i = 1; i < split.length; i++) {
                     displayed = displayed + ", " + split[i];
                 }
-                
+
                 customerTableModel.addRow(new Object[]{customer.getID(), //ID
                             customer.getTelephone(), //Phone
                             customer.getName(), //Name
@@ -567,10 +562,9 @@ public class ReservationPanel extends SuperPanel {
     }
 
     public class CreatePanel extends JPanel {
-
-        //This somehow gets a customer (another panel?)
         //Uses Calendar libary to create Timestamps
         //Dropdown of VehicleTypes
+
         JTextField vehicleIDTextField, reservationIDTextField, customerIDTextField, startDateTextField, endDateTextField;
         JCheckBox maintenanceCheckBox;
         JComboBox maintenanceTypeCombo;
@@ -581,7 +575,7 @@ public class ReservationPanel extends SuperPanel {
             //Fields
             JPanel maintenancePanel, vehiclePanel, endDatePanel, startDatePanel, reservationIDPanel, customerPanel, centerPanel, buttonPanel;
             JLabel maintenanceLabel, vehicleIDLabel, dateFormatLabel, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
-            JButton findCustomerButton, createButton, cancelButton;
+            JButton findVehicleButton, findCustomerButton, createButton, cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
             //createPanel
@@ -666,18 +660,28 @@ public class ReservationPanel extends SuperPanel {
             customerPanel.add(customerIDTextField);
             customerPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             customerPanel.add(findCustomerButton);
-            customerPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             centerPanel.add(customerPanel);
 
             //Vehicle ID
             vehicleIDLabel = new JLabel("Vehicle ID");
             vehicleIDTextField = new JTextField(defaultJTextFieldColumns);
+            findVehicleButton = new JButton("Find Vehicle");
+            findVehicleButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    createPanel.setVisible(false);
+                    getVehiclePanel.setVisible(true);
+                }
+            });
 
             vehiclePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             vehiclePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             vehiclePanel.add(vehicleIDLabel);
             vehiclePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
             vehiclePanel.add(vehicleIDTextField);
+            vehiclePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            vehiclePanel.add(findVehicleButton);
             centerPanel.add(vehiclePanel);
 
             //Start date
@@ -1044,10 +1048,21 @@ public class ReservationPanel extends SuperPanel {
                 maintenanceTypeCombo.setEnabled(true);
                 maintenanceTypeCombo.setSelectedIndex(booking.getID());
                 customerID = "";
-            } else {
-                //TODO This does not work
+            } else { //TODO Check that this works
+                //This should work... 
+                boolean found = false, end = false;
                 ArrayList<Reservation> reservations = CarRental.getInstance().requestReservations();
-                customerID = "" + reservations.get(booking.getID()).getCustomerID();
+                int i = 0;
+                while (!found && end) {
+                    if (i == reservations.size() - 1) {
+                        end = true;
+                    }
+                    if (reservations.get(i).getID() == booking.getID()) {
+                        customerID = "" + reservations.get(i).getCustomerID();
+                        found = true;
+                    }
+                    i++;
+                }
             }
 
             reservationID = "" + booking.getID();
@@ -1066,24 +1081,6 @@ public class ReservationPanel extends SuperPanel {
             vehicleIDTextField.setText(" " + vehicleID);
             startDateTextField.setText(" " + startDate);
             endDateTextField.setText(" " + endDate);
-        }
-    }
-
-    public class AddTypePanel extends JPanel {
-
-        public AddTypePanel() {
-        }
-
-        public void updateAddTypePanel() {
-        }
-    }
-
-    public class ViewTypePanel extends JPanel {
-
-        public ViewTypePanel() {
-        }
-
-        public void updateViewTypePanel() {
         }
     }
 
@@ -1262,11 +1259,34 @@ public class ReservationPanel extends SuperPanel {
             for (Booking booking : bookings) { //update table
                 int maintenance = 0;
                 int customer = 0;
+                //TODO Check that this works
+                //This should work... 
                 if (booking.isMaintenance()) {
-                    //maintenance = maintenances.get(booking.getID()).getTypeID();
+                    boolean found = false, end = false;
+                    int i = 0;
+                    while (!found && end) {
+                        if (i == maintenances.size() - 1) {
+                            end = true;
+                        }
+                        if (maintenances.get(i).getID() == booking.getID()) {
+                            maintenance = maintenances.get(i).getTypeID();
+                            found = true;
+                        }
+                        i++;
+                    }
                 } else {
-                    //TODO Fix this
-                    //customer = reservations.get(booking.getID()).getCustomerID();
+                    boolean found = false, end = false;
+                    int i = 0;
+                    while (!found && end) {
+                        if (i == reservations.size() - 1) {
+                            end = true;
+                        }
+                        if (reservations.get(i).getID() == booking.getID()) {
+                            customer = reservations.get(i).getCustomerID();
+                            found = true;
+                        }
+                        i++;
+                    }
                 }
                 reservationTableModel.addRow(new Object[]{
                             booking.getID(), //ID

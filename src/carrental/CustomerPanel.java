@@ -43,7 +43,7 @@ public class CustomerPanel extends SuperPanel {
         //For testing: Choose your panel
         //showCreatePanel();
         //showMainScreenPanel();
-        showViewEntityPanel();
+        //showViewEntityPanel();
         //showListPanel();
     }
 
