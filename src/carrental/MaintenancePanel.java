@@ -47,6 +47,10 @@ public class MaintenancePanel extends SuperPanel {
         this.setPreferredSize(new Dimension(800, 600));
         showListPanel();
     }
+    
+    public void setMaintenanceToView(Maintenance m) {
+        maintenanceToView = m;
+    }
 
     @Override
     public void showCreatePanel() {
@@ -406,7 +410,6 @@ public class MaintenancePanel extends SuperPanel {
             //Create-button
             editButton = new JButton("Edit");
             editButton.addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     assert (maintenanceToView != null); //VehicleToView should never be null here
@@ -429,6 +432,7 @@ public class MaintenancePanel extends SuperPanel {
                 }
             });
             buttonPanel.add(editButton);
+            update();
         }
 
         /**
@@ -826,7 +830,9 @@ public class MaintenancePanel extends SuperPanel {
                 public void actionPerformed(ActionEvent e) {
                     if (maintenanceTable.getSelectedRow() >= 0) { //getSelectedRow returns -1 if no row is selected
                         for (Maintenance maintenance : maintenanceList) { //TODO: Fix comparison here
-                            if (dateFormat.format(maintenance.getTStart().getTime()).equals(maintenanceTableModel.getValueAt(maintenanceTable.getSelectedRow(), 3)) && 
+                            if ((maintenance.getVehicleID() < 1 && maintenanceTableModel.getValueAt(maintenanceTable.getSelectedRow(), 0).toString().isEmpty() ||
+                                    CarRental.getInstance().requestVehicle(maintenance.getVehicleID()).getDescription().trim().equals(maintenanceTableModel.getValueAt(maintenanceTable.getSelectedRow(),0).toString().trim())) &&
+                                    dateFormat.format(maintenance.getTStart().getTime()).equals(maintenanceTableModel.getValueAt(maintenanceTable.getSelectedRow(), 3)) && 
                                     dateFormat.format(maintenance.getTEnd().getTime()).equals(maintenanceTableModel.getValueAt(maintenanceTable.getSelectedRow(),4))) {
                                 maintenanceToView = maintenance;
                                 break;
@@ -902,6 +908,7 @@ public class MaintenancePanel extends SuperPanel {
 
                         // - does the vehicle match the filter, and following row is added to the table
                         maintenanceTableModel.addRow(new String[]{
+                            CarRental.getInstance().requestVehicle(maintenance.getVehicleID()).getDescription(),
                             CarRental.getInstance().requestMaintenanceType(maintenance.getTypeID()).getName(),
                             (CarRental.getInstance().requestMaintenanceType(maintenance.getTypeID()).getIs_service() ? "Yes" : "No"),
                             dateFormat.format(new Date(maintenance.getTStart().getTime())),
