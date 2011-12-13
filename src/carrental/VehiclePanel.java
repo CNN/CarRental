@@ -262,7 +262,7 @@ public class VehiclePanel extends SuperPanel {
                                 //Checks if VIN number is in use already
                                 boolean VinTaken = false;
                                 for (Vehicle vehicle : vehicleList) {
-                                    if (vinField.getText().trim().equals(vehicle.getVin())) {
+                                    if (vinField.getText().trim().toLowerCase(Locale.ENGLISH).equals(vehicle.getVin().toLowerCase(Locale.ENGLISH))) {
                                         VinTaken = true;
                                     }
                                 }
@@ -717,7 +717,8 @@ public class VehiclePanel extends SuperPanel {
                         //Checks if name is in use already
                         boolean nameTaken = false;
                         for (VehicleType vehicleType : vehicleTypes) {
-                            if (vehicleTypeTextList.get(0).getText().trim().equals(vehicleType.getName()) && vehicleType.getID() != vehicleTypeToView.getID()) { //if the name is in use and it´s not from the currently viewed vehicle
+                            if (vehicleTypeTextList.get(0).getText().trim().toLowerCase(Locale.ENGLISH).equals(vehicleType.getName().toLowerCase(Locale.ENGLISH))
+                                 && vehicleType.getID() != vehicleTypeToView.getID()) { //if the name is in use and it´s not from the currently viewed vehicle
                                 nameTaken = true;
                             }
                         }
@@ -795,7 +796,7 @@ public class VehiclePanel extends SuperPanel {
                         //Checks if name is in use already
                         boolean nameTaken = false;
                         for (VehicleType vehicleType : vehicleTypes) {
-                            if (vehicleTypeTextList.get(0).getText().trim().equals(vehicleType.getName())) {
+                            if (vehicleTypeTextList.get(0).getText().trim().toLowerCase(Locale.ENGLISH).equals(vehicleType.getName().toLowerCase(Locale.ENGLISH))) {
                                 nameTaken = true;
                             }
                         }
