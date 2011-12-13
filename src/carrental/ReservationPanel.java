@@ -16,10 +16,8 @@ import javax.swing.table.DefaultTableModel;
  * @version 2011-12-12
  */
 public class ReservationPanel extends SuperPanel {
-    
-    //TODO Delete maintenance functionality
 
-    //TODO private, Calendar
+    //TODO CustomerName and VehicleDescription in ViewEntity, Calendar
     private Reservation reservationToView; //specific customer, used to view details
     private ArrayList<Reservation> reservations; //array of reservations
     private final CreatePanel createPanel = new CreatePanel();
@@ -31,7 +29,7 @@ public class ReservationPanel extends SuperPanel {
 
     public ReservationPanel() {
         this.reservations = CarRental.getInstance().requestReservations();
-        if (reservations.get(0) != null) {
+        if (!reservations.isEmpty()) {
             reservationToView = reservations.get(0);
         } else {
             reservationToView = CarRental.getInstance().requestReservation();
@@ -568,15 +566,11 @@ public class ReservationPanel extends SuperPanel {
         //Dropdown of VehicleTypes
 
         private JTextField vehicleIDTextField, reservationIDTextField, customerIDTextField, startDateTextField, endDateTextField;
-        private JCheckBox maintenanceCheckBox;
-        private JComboBox maintenanceTypeCombo;
-        private ArrayList<MaintenanceType> maintenanceTypes;
-        private DefaultComboBoxModel maintenanceTypeComboModel;
 
         public CreatePanel() {
             //Fields
-            JPanel maintenancePanel, vehiclePanel, endDatePanel, startDatePanel, reservationIDPanel, customerPanel, centerPanel, buttonPanel;
-            JLabel maintenanceLabel, vehicleIDLabel, dateFormatLabel, dateFormatLabel2, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
+            JPanel vehiclePanel, endDatePanel, startDatePanel, reservationIDPanel, customerPanel, centerPanel, buttonPanel;
+            JLabel vehicleIDLabel, dateFormatLabel, dateFormatLabel2, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
             JButton findVehicleButton, findCustomerButton, createButton, cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
@@ -691,7 +685,6 @@ public class ReservationPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    maintenanceTypeCombo.setEnabled(false);
                     updateCreatePanel();
                     showMainScreenPanel();
                 }
@@ -752,7 +745,6 @@ public class ReservationPanel extends SuperPanel {
         }
 
         public void updateCreatePanel() {
-            maintenanceTypes = CarRental.getInstance().requestMaintenanceTypes();
             reservationIDTextField.setText(" Automaticly generated");
             vehicleIDTextField.setText("");
             customerIDTextField.setText("");
@@ -961,7 +953,7 @@ public class ReservationPanel extends SuperPanel {
 
     public class ListPanel extends JPanel {
 
-        private JTextField filterMaintenanceTextField, filterCustomerIDTextField, filterReservationIDTextField, filterVehicleIDTextField, filterStartDateTextField, filterEndDateTextField;
+        private JTextField filterCustomerIDTextField, filterReservationIDTextField, filterVehicleIDTextField, filterStartDateTextField, filterEndDateTextField;
         private JTable reservationTable;
         private DefaultTableModel reservationTableModel;
 
@@ -1113,10 +1105,10 @@ public class ReservationPanel extends SuperPanel {
 
         public void setReservationTable() {
             reservations = CarRental.getInstance().requestReservations(); //update customers array
-            if (reservations.get(0) != null) {
-                reservationToView = reservations.get(0);
-            } else {
+            if (reservations.isEmpty()) {
                 reservationToView = CarRental.getInstance().requestReservation();
+            } else {
+                reservationToView = reservations.get(0);
             }
             
             ArrayList<Reservation> reservations = CarRental.getInstance().requestReservations();
@@ -1149,7 +1141,6 @@ public class ReservationPanel extends SuperPanel {
             //Delete exisiting rows
             reservationTableModel.setRowCount(0);
             //Add the rows that match the filter
-            ArrayList<Maintenance> maintenances = CarRental.getInstance().requestMaintenances();
             ArrayList<Reservation> reservations = CarRental.getInstance().requestReservations();
 
             for (Reservation reservation : reservations) {
