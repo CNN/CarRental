@@ -224,7 +224,7 @@ public class MaintenancePanel extends SuperPanel {
                                             maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getID());
 
                                     CarRental.getInstance().saveMaintenance(newMaintenance);
-                                    CarRental.getInstance().appendLog("Maintenance for vehicle #" + 0 + " added to the database.");
+                                    CarRental.getInstance().appendLog("Maintenance for vehicle #" + vehicles.get(vehicleCombo.getSelectedIndex()).getID() + " added to the database.");
                                     maintenanceList = CarRental.getInstance().requestMaintenances();
                                 } catch (java.text.ParseException ex) {
                                     CarRental.getInstance().appendLog("Could not format the date entered, maintenance not scheduled",ex);
@@ -413,7 +413,7 @@ public class MaintenancePanel extends SuperPanel {
                     if (!dateStartField.getText().trim().isEmpty()
                                     && !dateEndField.getText().trim().isEmpty()) {
                         try {
-                            Maintenance updatedMaintenance = new Maintenance(CarRental.getInstance().requestNewMaintenanceId(),
+                            Maintenance updatedMaintenance = new Maintenance(maintenanceToView.getID(),
                                             vehicles.get(vehicleCombo.getSelectedIndex()).getID(),
                                             new Timestamp(dateFormat.parse(dateStartField.getText().trim()).getTime()),
                                             new Timestamp(dateFormat.parse(dateEndField.getText().trim()).getTime()),
@@ -441,7 +441,7 @@ public class MaintenancePanel extends SuperPanel {
             vehicleComboModel.removeAllElements();
             for(Vehicle v : vehicles) {
                 vehicleComboModel.addElement(v.getDescription());
-                if(v.getID() == maintenanceToView.getVehicleID())
+                if(maintenanceToView != null && v.getID() == maintenanceToView.getVehicleID())
                     vehicleCombo.setSelectedIndex(v_index);
                 v_index++;
             }
@@ -450,13 +450,13 @@ public class MaintenancePanel extends SuperPanel {
             int type_index = 0;
             for (MaintenanceType maintenanceType : maintenanceTypes) {
                 maintenanceTypeComboModel.addElement(maintenanceType.getName());
-                if(maintenanceType.getID() == maintenanceToView.getTypeID())
+                if(maintenanceToView != null && maintenanceType.getID() == maintenanceToView.getTypeID())
                     maintenanceTypeCombo.setSelectedIndex(type_index);
                 type_index++;
             }
-            //Sets all text fields blank
-            dateStartField.setText(dateFormat.format(new Date(maintenanceToView.getTStart().getTime())));
-            dateEndField.setText(dateFormat.format(new Date(maintenanceToView.getTEnd().getTime())));
+            //Sets all text fields
+            if(maintenanceToView != null) dateStartField.setText(dateFormat.format(new Date(maintenanceToView.getTStart().getTime())));
+            if(maintenanceToView != null) dateEndField.setText(dateFormat.format(new Date(maintenanceToView.getTEnd().getTime())));
         }
     }
 
@@ -541,29 +541,24 @@ public class MaintenancePanel extends SuperPanel {
             // Edit-button
             editButton = new JButton("Edit");
             editButton.addActionListener(new ActionListener() {
-                //TODO: Entry is somehow created instead of updated!
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //TODO: WTF IS THIS?! JTextComponent of nothing.
-                    ArrayList<JTextComponent> maintenanceTypeTextList = new ArrayList<>();
-                    
-                    if (true) { //TODO: Check that fields are filled
+                    if (!typeField.getText().trim().isEmpty()) {
                         //Checks if name is in use already
                         boolean nameTaken = false;
                         for (MaintenanceType maintenanceType : maintenanceTypes) {
-                            if (maintenanceTypeTextList.get(0).getText().trim().equals(maintenanceType.getName()) && maintenanceType.getID() != maintenanceTypeToView.getID()) { //if the name is in use and it´s not from the currently viewed vehicle
+                            if (maintenanceType.getName().equals(typeField.getText().trim()) && maintenanceType.getID() != maintenanceTypeToView.getID()) { //if the name is in use and it´s not from the currently viewed vehicle
                                 nameTaken = true;
                             }
                         }
                         if (!nameTaken) {
-                            //TODO: Get iis_service from posted date
-                            MaintenanceType updatedMaintenanceType = new MaintenanceType(maintenanceTypeToView.getID(), maintenanceTypeTextList.get(0).getText().trim(), true);
+                            MaintenanceType updatedMaintenanceType = new MaintenanceType(maintenanceTypeToView.getID(), typeField.getText().trim(), isServiceBox.isSelected());
 
                             CarRental.getInstance().saveMaintenanceType(updatedMaintenanceType);
-                            CarRental.getInstance().appendLog("Maintenance type \"" + maintenanceTypeTextList.get(0).getText().trim() + "\" changed in the database.");
+                            CarRental.getInstance().appendLog("Maintenance type \"" + typeField.getText().trim() + "\" changed in the database.");
                             maintenanceTypes = CarRental.getInstance().requestMaintenanceTypes(); //update ment for if name check is implemented
                         } else {
-                            CarRental.getInstance().appendLog("Another maintenance type with the name, \"" + maintenanceTypeTextList.get(0).getText().trim() + "\", already exists.");
+                            CarRental.getInstance().appendLog("Another maintenance type with the name, \"" + typeField.getText().trim() + "\", already exists.");
                         }
                     } else {
                         CarRental.getInstance().appendLog("The maintenance type wasn't edited. All fields must be filled.");
@@ -642,48 +637,42 @@ public class MaintenancePanel extends SuperPanel {
             // Create-button
             createButton = new JButton("Create");
             createButton.addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     //TODO: Clean up this mess, leftover from vehiclepanel
-//                    ArrayList<JTextComponent> vehicleTypeTextList = maintenanceTypePanel.getTextComponents();
-//                    if (!vehicleTypeTextList.get(0).getText().trim().isEmpty()
-//                            && !vehicleTypeTextList.get(1).getText().trim().isEmpty()
-//                            && !vehicleTypeTextList.get(2).getText().trim().isEmpty()) {
-//                        //Checks if name is in use already
-//                        boolean nameTaken = false;
-//                        for (MaintenanceType maintenanceType : maintenanceTypes) {
-//                            if (vehicleTypeTextList.get(0).getText().trim().equals(vehicleType.getName())) {
-//                                nameTaken = true;
-//                            }
-//                        }
-//                        if (!nameTaken) {
-//                            try {
-//                                VehicleType newVehicleType = new VehicleType(CarRental.getInstance().requestNewVehicleTypeId(), vehicleTypeTextList.get(0).getText().trim(), vehicleTypeTextList.get(2).getText().trim(),
-//                                        Integer.parseInt(vehicleTypeTextList.get(1).getText().trim()));
-//
-//                                CarRental.getInstance().saveVehicleType(newVehicleType);
-//                                CarRental.getInstance().appendLog("Vehicle type \"" + vehicleTypeTextList.get(0).getText().trim() + "\" added to the database.");
-//                                CarRental.getView().displayError("Vehicle type \"" + vehicleTypeTextList.get(0).getText().trim() + "\" added to the database.");
-//                                vehicleTypes = CarRental.getInstance().requestVehicleTypes();
-//                            } catch (NumberFormatException ex) {
-//                                CarRental.getView().displayError("Your \"price per day\" field does not consist of numbers only or was too long. The vehicle type wasn't created.");
-//                            }
-//                        } else {
-//                            CarRental.getView().displayError("A vehicle type with the name \"" + vehicleTypeTextList.get(0).getText().trim() + "\" already exists.");
-//                        }
-//                    } else {
-//                        CarRental.getView().displayError("The vehicle type wasn't created. You need to enter text in all the fields.");
-//                    }
+                    if (!typeField.getText().trim().isEmpty()) {
+                        //Checks if name is in use already
+                        boolean nameTaken = false;
+                        for (MaintenanceType maintenanceType : maintenanceTypes) {
+                            if (typeField.getText().trim().equals(maintenanceType.getName())) {
+                                nameTaken = true;
+                            }
+                        }
+                        if (!nameTaken) {
+                            MaintenanceType newMaintenanceType = new MaintenanceType(CarRental.getInstance().requestNewMaintenanceTypeId(), typeField.getText().trim(), isServiceBox.isSelected());
+
+                            CarRental.getInstance().saveMaintenanceType(newMaintenanceType);
+                            CarRental.getInstance().appendLog("Maintenance type \"" + typeField.getText().trim() + "\" added to the database.");
+                            maintenanceTypes = CarRental.getInstance().requestMaintenanceTypes();
+                        } else {
+                            CarRental.getInstance().appendLog("A vehicle type with the name \"" + typeField.getText().trim() + "\" already exists.");
+                        }
+                    } else {
+                        CarRental.getInstance().appendLog("The maintenance type wasn't created. You need to enter text in all the fields.");
+                    }
                 }
             });
             
             buttonPanel.add(createButton);
             centerPanel.add(buttonPanel);
         }
+        
+        public void update() {
+            typeField.setText(null);
+            isServiceBox.setSelected(false);
+        }
     }
-
-    //<<<<<HERE>>>>>>
+    
     /**
      * This inner class creates a JPanel with a list of vehicles. It is possible to search in the list.
      */
@@ -725,7 +714,7 @@ public class MaintenancePanel extends SuperPanel {
             setBackground(new Color(216, 216, 208));
 
             //Creating the table model
-            maintenanceTableModel = new DefaultTableModel(new Object[]{"Type", "Is service?", "Date start", "Date end"}, 0);
+            maintenanceTableModel = new DefaultTableModel(new Object[]{"Vehicle", "Type", "Is service?", "Date start", "Date end"}, 0);
 
             //Creating the JTable
             maintenanceTable = new JTable(maintenanceTableModel);
@@ -836,9 +825,9 @@ public class MaintenancePanel extends SuperPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (maintenanceTable.getSelectedRow() >= 0) { //getSelectedRow returns -1 if no row is selected
-                        for (Maintenance maintenance : maintenanceList) {
-                            if (dateFormat.format(maintenance.getTStart().getTime()).equals(maintenanceTableModel.getValueAt(maintenanceTable.getSelectedRow(), 2)) && 
-                                    dateFormat.format(maintenance.getTEnd().getTime()).equals(maintenanceTableModel.getValueAt(maintenanceTable.getSelectedRow(),3))) {
+                        for (Maintenance maintenance : maintenanceList) { //TODO: Fix comparison here
+                            if (dateFormat.format(maintenance.getTStart().getTime()).equals(maintenanceTableModel.getValueAt(maintenanceTable.getSelectedRow(), 3)) && 
+                                    dateFormat.format(maintenance.getTEnd().getTime()).equals(maintenanceTableModel.getValueAt(maintenanceTable.getSelectedRow(),4))) {
                                 maintenanceToView = maintenance;
                                 break;
                             }
@@ -865,10 +854,11 @@ public class MaintenancePanel extends SuperPanel {
             //Add the updated rows with vehicles
             for (Maintenance maintenance : maintenanceList) {
                 maintenanceTableModel.addRow(new String[]{
-                            CarRental.getInstance().requestMaintenanceType(maintenance.getTypeID()).getName(),
-                            (CarRental.getInstance().requestMaintenanceType(maintenance.getTypeID()).getIs_service() ? "Yes" : "No"),
-                            dateFormat.format(new Date(maintenance.getTStart().getTime())),
-                            dateFormat.format(new Date(maintenance.getTEnd().getTime()))
+                    CarRental.getInstance().requestVehicle(maintenance.getVehicleID()).getDescription(),
+                    CarRental.getInstance().requestMaintenanceType(maintenance.getTypeID()).getName(),
+                    (CarRental.getInstance().requestMaintenanceType(maintenance.getTypeID()).getIs_service() ? "Yes" : "No"),
+                    dateFormat.format(new Date(maintenance.getTStart().getTime())),
+                    dateFormat.format(new Date(maintenance.getTEnd().getTime()))
                 });
             }
             assert (maintenanceList.size() == maintenanceTableModel.getRowCount()) : "size: " + maintenanceList.size() + " rows: " + maintenanceTableModel.getRowCount();

@@ -67,6 +67,7 @@ public final class CarRental {
      * @return vehicle
      */
     public Vehicle requestVehicle(int id) {
+        if(id < 1) return model.getVehicle();
         return model.getVehicle(id);
     }
     
@@ -100,6 +101,7 @@ public final class CarRental {
      * @return vehicle type
      */
     public VehicleType requestVehicleType(int id) {
+        if(id < 1) return model.getVehicleType();
         return model.getVehicleType(id);
     }
     
@@ -142,6 +144,7 @@ public final class CarRental {
      * @return maintenance
      */
     public Maintenance requestMaintenance(int id) {
+        if(id < 1) return model.getMaintenance();
         return model.getMaintenance(id);
     }
     
@@ -208,6 +211,7 @@ public final class CarRental {
      * @return customer
      */
     public Customer requestCustomer(int id) {
+        if(id < 1) return model.getCustomer();
         return model.getCustomer(id);
     }
     
@@ -259,6 +263,7 @@ public final class CarRental {
      * @return reservation
      */
     public Reservation requestReservation(int id) {
+        if(id < 1) return model.getReservation();
         return model.getReservation(id);
     }
     
