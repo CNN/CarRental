@@ -5,7 +5,6 @@ import java.awt.event.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.swing.*;
-import java.util.Calendar;
 import java.util.Locale;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -92,15 +91,12 @@ public class CustomerPanel extends SuperPanel {
             setLayout(new BorderLayout());
             titleBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Customers");
             setBorder(titleBorder);
-            add(new ViewEntityPanel());
-            add(new ListPanel());
         }
     }
     
     public class CreatePanel extends JPanel {
         
         private JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
-        private JLabel errorLabel;
         
         public CreatePanel() {
             //Fields
@@ -194,7 +190,7 @@ public class CustomerPanel extends SuperPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     updateCreatePanel();
-                    showMainScreenPanel();
+                    showListPanel();
                 }
             });
             buttonPanel.add(cancelButton);
@@ -221,23 +217,19 @@ public class CustomerPanel extends SuperPanel {
                         customers = CarRental.getInstance().requestCustomers();
                         updateCreatePanel();
                         }catch (NumberFormatException ex){
-                            errorLabel.setText("Phone number must be numbers only");
+                            CarRental.getView().displayError("Phone number must be numbers only");
                         }
                     } else { //A TextFild is empty
-                        errorLabel.setText("A text field is empty");
+                        CarRental.getView().displayError("A text field is empty");
                     }
                     updateCreatePanel();
                 }
             });
             buttonPanel.add(createButton);
-
-            //Error label
-            errorLabel = new JLabel();
-            buttonPanel.add(errorLabel);
         }
         
         public void updateCreatePanel() {
-            errorLabel.setText(null);
+            CarRental.getView().displayError(null);
             customerIDTextField.setText(" Automaticly generated");
             customerPhoneTextField.setText("");
             customerNameTextField.setText("");

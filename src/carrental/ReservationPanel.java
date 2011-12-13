@@ -603,7 +603,6 @@ public class ReservationPanel extends SuperPanel {
             //Visibility
             panelContainer.setVisible(true);
             centerPanel.setVisible(true);
-            
 
             //Colors
             setBackground(new Color(216, 216, 208));
