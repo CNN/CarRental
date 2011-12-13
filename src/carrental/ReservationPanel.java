@@ -258,7 +258,7 @@ public class ReservationPanel extends SuperPanel {
                 public void actionPerformed(ActionEvent e) {
                     update();
                     getVehiclePanel.setVisible(false);
-                    createPanel.setVisible(true);
+                    createPanel.centerPanel.setVisible(true);
                 }
             });
             buttonPanel.add(cancelButton);
@@ -280,7 +280,7 @@ public class ReservationPanel extends SuperPanel {
                         drivenField.setText(null);
 
                         getVehiclePanel.setVisible(false);
-                        createPanel.setVisible(true);
+                        createPanel.centerPanel.setVisible(true);
                     }
                 }
             });
@@ -485,7 +485,7 @@ public class ReservationPanel extends SuperPanel {
                 public void actionPerformed(ActionEvent e) {
                     setFilterTextFields();
                     getCustomerPanel.setVisible(false);
-                    createPanel.setVisible(true);
+                    createPanel.centerPanel.setVisible(true);
                 }
             });
             buttonPanel.add(cancelButton);
@@ -501,7 +501,7 @@ public class ReservationPanel extends SuperPanel {
                         createPanel.setCustomer(Integer.toString(customers.get(customerTable.getSelectedRow()).getID()));
                         setFilterTextFields();
                         getCustomerPanel.setVisible(false);
-                        createPanel.setVisible(true);
+                        createPanel.centerPanel.setVisible(true);
                     }
                 }
             });
@@ -566,13 +566,29 @@ public class ReservationPanel extends SuperPanel {
         //Dropdown of VehicleTypes
 
         private JTextField vehicleIDTextField, reservationIDTextField, customerIDTextField, startDateTextField, endDateTextField;
+        private GetCustomerPanel getCustomerPanel;
+        private GetVehiclePanel getVehiclePanel;
+        private JPanel centerPanel;
 
         public CreatePanel() {
             //Fields
-            JPanel vehiclePanel, centerPanel, endDatePanel, startDatePanel, reservationIDPanel, customerPanel, buttonPanel;
+            JPanel panelContainer, vehiclePanel, endDatePanel, startDatePanel, reservationIDPanel, customerPanel, buttonPanel;
             JLabel vehicleIDLabel, dateFormatLabel, dateFormatLabel2, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
             JButton findVehicleButton, findCustomerButton, createButton, cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
+            
+            //Panel Container
+            panelContainer = new JPanel(new FlowLayout());
+            add(panelContainer, BorderLayout.CENTER);
+            
+            getCustomerPanel = new GetCustomerPanel();
+            getVehiclePanel = new GetVehiclePanel();
+            
+            panelContainer.add(getCustomerPanel);
+            panelContainer.add(getVehiclePanel);
+            
+            getCustomerPanel.setVisible(false);
+            getVehiclePanel.setVisible(false);
 
             //createPanel
             setLayout(new BorderLayout());
@@ -582,7 +598,11 @@ public class ReservationPanel extends SuperPanel {
             centerPanel = new JPanel();
             centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
             centerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 40));
-            add(centerPanel, BorderLayout.CENTER);
+            panelContainer.add(centerPanel);
+            
+            //Visibility
+            panelContainer.setVisible(true);
+            centerPanel.setVisible(true);
 
             //Colors
             setBackground(new Color(216, 216, 208));
