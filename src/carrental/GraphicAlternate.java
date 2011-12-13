@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
  * GraphicAlternate displays an overview of vehicles and their respective
  * reservations and maintenances.
  * @author CNN
- * @version 2011-12-06
+ * @version 2011-12-12
  */
 public class GraphicAlternate extends JComponent {
     public static final int
@@ -61,12 +61,12 @@ public class GraphicAlternate extends JComponent {
                     if(reference.size() > y && reference.get(y) != null) {
                         if(reference.get(y).size() > x && reference.get(y).get(x) != null) {
                             if(reference.get(y).get(x).isMaintenance()) {
-                                //TODO: Activate
-                                //CarRental.getView().getMaintenancePanel().viewMaintenance(1);
+                                //TODO: Set maintenance to view...
+                                CarRental.getView().getMaintenancePanel().showViewEntityPanel();
                                 CarRental.getView().viewMaintenance();
                             }
                             else {
-                                CarRental.getView().getReservationPanel().setBookingToView(CarRental.getInstance().requestReservation(reference.get(y).get(x).getID()));
+                                CarRental.getView().getReservationPanel().setReservationToView(CarRental.getInstance().requestReservation(reference.get(y).get(x).getID()));
                                 CarRental.getView().getReservationPanel().showViewEntityPanel();
                                 CarRental.getView().viewReservation();
                             }

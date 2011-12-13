@@ -17,9 +17,9 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ReservationPanel extends SuperPanel {
 
-    //TODO private, Calendar
-    private Booking bookingToView; //specific customer, used to view details
-    private ArrayList<Booking> bookings; //array of costumers
+    //TODO CustomerName and VehicleDescription in ViewEntity, Calendar
+    private Reservation reservationToView; //specific customer, used to view details
+    private ArrayList<Reservation> reservations; //array of reservations
     private final CreatePanel createPanel = new CreatePanel();
     private final ViewEntityPanel viewEntityPanel = new ViewEntityPanel();
     private final ListPanel listPanel = new ListPanel();
@@ -28,11 +28,11 @@ public class ReservationPanel extends SuperPanel {
     private final JPanel emptyPanel = null;
 
     public ReservationPanel() {
-        this.bookings = CarRental.getInstance().requestBookings();
-        if (bookings.get(0) != null) {
-            bookingToView = bookings.get(0);
+        this.reservations = CarRental.getInstance().requestReservations();
+        if (!reservations.isEmpty()) {
+            reservationToView = reservations.get(0);
         } else {
-            bookingToView = CarRental.getInstance().requestReservation();
+            reservationToView = CarRental.getInstance().requestReservation();
         }
 
         //Sets the different subpanels. Also adds them to this object with JPanel.add().
@@ -61,23 +61,23 @@ public class ReservationPanel extends SuperPanel {
         frame.setVisible(true);
     }
 
-    public void setBookingToView(Reservation reservation) {
-        bookingToView = reservation;
+    public void setReservationToView(Reservation reservation) {
+        reservationToView = reservation;
     }
 
-    public void setBookingsList(ArrayList<Booking> bookings) {
-        this.bookings = bookings;
+    public void setBookingsList(ArrayList<Reservation> reservations) {
+        this.reservations = reservations;
     }
 
     /**
      * Updates entire panel
      */
     public void updateReservationPanel() {
-        bookings = CarRental.getInstance().requestBookings();
-        if (bookings.get(0) != null) {
-            bookingToView = bookings.get(0);
+        reservations = CarRental.getInstance().requestReservations();
+        if (reservations.get(0) != null) {
+            reservationToView = reservations.get(0);
         } else {
-            bookingToView = CarRental.getInstance().requestReservation();
+            reservationToView = CarRental.getInstance().requestReservation();
         }
 
         createPanel.updateCreatePanel();
@@ -95,19 +95,19 @@ public class ReservationPanel extends SuperPanel {
             titleBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Reservations");
             setBorder(titleBorder);
             add(new ViewEntityPanel());
-            add(new ListPanel());
+           // add(new ListPanel());
         }
     }
 
     public class GetVehiclePanel extends JPanel {
 
-        DefaultTableModel vehicleTableModel;
-        JComboBox vehicleTypeCombo;
-        DefaultComboBoxModel vehicleTypeComboModel;
-        JTextField descriptionField, licensePlateField, vinField, drivenField;
-        int currentVehicleTypeIndex = -1; //this is for storing the currently selected choice from the combobox.
-        ArrayList<Vehicle> vehicleList;
-        ArrayList<VehicleType> vehicleTypes;
+        private DefaultTableModel vehicleTableModel;
+        private JComboBox vehicleTypeCombo;
+        private DefaultComboBoxModel vehicleTypeComboModel;
+        private JTextField descriptionField, licensePlateField, vinField, drivenField;
+        private int currentVehicleTypeIndex = -1; //this is for storing the currently selected choice from the combobox.
+        private ArrayList<Vehicle> vehicleList;
+        private ArrayList<VehicleType> vehicleTypes;
 
         public GetVehiclePanel() {
             JPanel centerPanel, vehicleListPanel, filterPanel, topFilterPanel, middleFilterPanel, bottomFilterPanel, buttonPanel;
@@ -258,7 +258,7 @@ public class ReservationPanel extends SuperPanel {
                 public void actionPerformed(ActionEvent e) {
                     update();
                     getVehiclePanel.setVisible(false);
-                    createPanel.setVisible(true);
+                    createPanel.centerPanel.setVisible(true);
                 }
             });
             buttonPanel.add(cancelButton);
@@ -280,7 +280,7 @@ public class ReservationPanel extends SuperPanel {
                         drivenField.setText(null);
 
                         getVehiclePanel.setVisible(false);
-                        createPanel.setVisible(true);
+                        createPanel.centerPanel.setVisible(true);
                     }
                 }
             });
@@ -361,11 +361,11 @@ public class ReservationPanel extends SuperPanel {
 
     public class GetCustomerPanel extends JPanel {
 
-        JTextField filterAdressTextField, filterPhoneTextField, filterNameTextField, filterIDTextField;
-        JTable customerTable;
-        DefaultTableModel customerTableModel;
-        ArrayList<Customer> customers;
-        Customer customerToView;
+        private JTextField filterAdressTextField, filterPhoneTextField, filterNameTextField, filterIDTextField;
+        private JTable customerTable;
+        private DefaultTableModel customerTableModel;
+        private ArrayList<Customer> customers;
+        private Customer customerToView;
 
         public GetCustomerPanel() {
             customers = CarRental.getInstance().requestCustomers();
@@ -485,7 +485,7 @@ public class ReservationPanel extends SuperPanel {
                 public void actionPerformed(ActionEvent e) {
                     setFilterTextFields();
                     getCustomerPanel.setVisible(false);
-                    createPanel.setVisible(true);
+                    createPanel.centerPanel.setVisible(true);
                 }
             });
             buttonPanel.add(cancelButton);
@@ -501,7 +501,7 @@ public class ReservationPanel extends SuperPanel {
                         createPanel.setCustomer(Integer.toString(customers.get(customerTable.getSelectedRow()).getID()));
                         setFilterTextFields();
                         getCustomerPanel.setVisible(false);
-                        createPanel.setVisible(true);
+                        createPanel.centerPanel.setVisible(true);
                     }
                 }
             });
@@ -565,18 +565,30 @@ public class ReservationPanel extends SuperPanel {
         //Uses Calendar libary to create Timestamps
         //Dropdown of VehicleTypes
 
-        JTextField vehicleIDTextField, reservationIDTextField, customerIDTextField, startDateTextField, endDateTextField;
-        JCheckBox maintenanceCheckBox;
-        JComboBox maintenanceTypeCombo;
-        ArrayList<MaintenanceType> maintenanceTypes;
-        DefaultComboBoxModel maintenanceTypeComboModel;
+        private JTextField vehicleIDTextField, reservationIDTextField, customerIDTextField, startDateTextField, endDateTextField;
+        private GetCustomerPanel getCustomerPanel;
+        private GetVehiclePanel getVehiclePanel;
+        private JPanel centerPanel;
 
         public CreatePanel() {
             //Fields
-            JPanel maintenancePanel, vehiclePanel, endDatePanel, startDatePanel, reservationIDPanel, customerPanel, centerPanel, buttonPanel;
-            JLabel maintenanceLabel, vehicleIDLabel, dateFormatLabel, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
-            JButton findCustomerButton, createButton, cancelButton;
+            JPanel panelContainer, vehiclePanel, endDatePanel, startDatePanel, reservationIDPanel, customerPanel, buttonPanel;
+            JLabel vehicleIDLabel, dateFormatLabel, dateFormatLabel2, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
+            JButton findVehicleButton, findCustomerButton, createButton, cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
+            
+            //Panel Container
+            panelContainer = new JPanel(new FlowLayout());
+            add(panelContainer, BorderLayout.CENTER);
+            
+            getCustomerPanel = new GetCustomerPanel();
+            getVehiclePanel = new GetVehiclePanel();
+            
+            panelContainer.add(getCustomerPanel);
+            panelContainer.add(getVehiclePanel);
+            
+            getCustomerPanel.setVisible(false);
+            getVehiclePanel.setVisible(false);
 
             //createPanel
             setLayout(new BorderLayout());
@@ -586,7 +598,11 @@ public class ReservationPanel extends SuperPanel {
             centerPanel = new JPanel();
             centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
             centerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 40));
-            add(centerPanel, BorderLayout.CENTER);
+            panelContainer.add(centerPanel);
+            
+            //Visibility
+            panelContainer.setVisible(true);
+            centerPanel.setVisible(true);
 
             //Colors
             setBackground(new Color(216, 216, 208));
@@ -598,51 +614,15 @@ public class ReservationPanel extends SuperPanel {
             reservationIDTextField.setEditable(false);
             reservationIDPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-            reservationIDPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            reservationIDPanel.add(Box.createRigidArea(new Dimension(7, 0)));
             reservationIDPanel.add(reservationIDLabel);
-            reservationIDPanel.add(Box.createRigidArea(new Dimension(87 + strutDistance, 0)));
+            reservationIDPanel.add(Box.createRigidArea(new Dimension(13 + strutDistance, 0)));
             reservationIDPanel.add(reservationIDTextField);
             centerPanel.add(reservationIDPanel);
-
-            //Maintenance
-            maintenanceLabel = new JLabel("Maintenance");
-            maintenanceCheckBox = new JCheckBox();
-            maintenanceTypeComboModel = new DefaultComboBoxModel();
-            maintenanceTypeCombo = new JComboBox(maintenanceTypeComboModel);
-            maintenanceTypeCombo.setEnabled(false);
-
-            maintenanceTypes = CarRental.getInstance().requestMaintenanceTypes();
-
-            maintenanceCheckBox.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent ae) {
-                    if (maintenanceCheckBox.isEnabled()) {
-                        maintenanceTypeCombo.setEnabled(true);
-                        customerIDTextField.setText(null);
-                    } else {
-                        maintenanceTypeCombo.setEnabled(false);
-                    }
-                }
-            });
-
-            for (MaintenanceType maintenanceType : maintenanceTypes) {
-                maintenanceTypeComboModel.addElement(maintenanceType.getName());
-            }
-
-            maintenancePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            maintenancePanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            maintenancePanel.add(maintenanceLabel);
-            maintenancePanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            maintenancePanel.add(maintenanceCheckBox);
-            maintenancePanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            maintenancePanel.add(maintenanceTypeCombo);
-            centerPanel.add(maintenancePanel);
 
             //Customer ID
             customerIDLabel = new JLabel("Customer ID");
             customerIDTextField = new JTextField("", defaultJTextFieldColumns);
-            customerIDTextField.setEditable(false);
             customerIDTextField.setBackground(Color.WHITE);
             findCustomerButton = new JButton("Find Customer");
             findCustomerButton.addActionListener(new ActionListener() {
@@ -656,22 +636,32 @@ public class ReservationPanel extends SuperPanel {
             customerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             customerPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             customerPanel.add(customerIDLabel);
-            customerPanel.add(Box.createRigidArea(new Dimension(50 + strutDistance, 0)));
+            customerPanel.add(Box.createRigidArea(new Dimension(28 + strutDistance, 0)));
             customerPanel.add(customerIDTextField);
-            customerPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            customerPanel.add(Box.createRigidArea(new Dimension(13, 0)));
             customerPanel.add(findCustomerButton);
-            customerPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             centerPanel.add(customerPanel);
 
             //Vehicle ID
             vehicleIDLabel = new JLabel("Vehicle ID");
             vehicleIDTextField = new JTextField(defaultJTextFieldColumns);
+            findVehicleButton = new JButton("Find Vehicle");
+            findVehicleButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    createPanel.setVisible(false);
+                    getVehiclePanel.setVisible(true);
+                }
+            });
 
             vehiclePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             vehiclePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             vehiclePanel.add(vehicleIDLabel);
-            vehiclePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            vehiclePanel.add(Box.createRigidArea(new Dimension(42 + strutDistance, 0)));
             vehiclePanel.add(vehicleIDTextField);
+            vehiclePanel.add(Box.createRigidArea(new Dimension(14 + strutDistance, 0)));
+            vehiclePanel.add(findVehicleButton);
             centerPanel.add(vehiclePanel);
 
             //Start date
@@ -682,23 +672,24 @@ public class ReservationPanel extends SuperPanel {
             startDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             startDatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             startDatePanel.add(startDateLabel);
-            startDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            startDatePanel.add(Box.createRigidArea(new Dimension(16 + strutDistance, 0)));
             startDatePanel.add(startDateTextField);
-            startDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            startDatePanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
             startDatePanel.add(dateFormatLabel);
             centerPanel.add(startDatePanel);
 
             //End date
             endDateLabel = new JLabel("Reserved till");
             endDateTextField = new JTextField(defaultJTextFieldColumns);
+            dateFormatLabel2 = new JLabel("yyyy-mm-dd");
 
             endDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             endDatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             endDatePanel.add(endDateLabel);
-            endDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            endDatePanel.add(Box.createRigidArea(new Dimension(29 + strutDistance, 0)));
             endDatePanel.add(endDateTextField);
-            endDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
-            endDatePanel.add(dateFormatLabel);
+            endDatePanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
+            endDatePanel.add(dateFormatLabel2);
             centerPanel.add(endDatePanel);
 
             //ButtonPanel
@@ -714,8 +705,9 @@ public class ReservationPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    listPanel.updateListPanel();
                     updateCreatePanel();
-                    showMainScreenPanel();
+                    showListPanel();
                 }
             });
             buttonPanel.add(cancelButton);
@@ -739,20 +731,7 @@ public class ReservationPanel extends SuperPanel {
                         } catch (IllegalArgumentException ex) {
                             CarRental.getView().displayError("Time fields must be in format yyyy-mm-dd hh:mm:ss");
                         }
-                        if (maintenanceCheckBox.isEnabled()) {
-                            try {
-                                CarRental.getInstance().saveMaintenance(new Maintenance(
-                                        CarRental.getInstance().requestNewMaintenanceId(),
-                                        Integer.parseInt(vehicleIDTextField.getText()),
-                                        tStart,
-                                        tEnd,
-                                        maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getID()));
-                                CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
-                                CarRental.getView().displayError("Reservation " + customerIDTextField.getText() + " edited");
-                            } catch (NumberFormatException ex) {
-                                CarRental.getView().displayError("Vehicle ID must be numbers only");
-                            }
-                        } else {
+                        
                             try {
                                 CarRental.getInstance().saveReservation(new Reservation(
                                         CarRental.getInstance().requestNewReservationId(),
@@ -765,14 +744,15 @@ public class ReservationPanel extends SuperPanel {
                             } catch (NumberFormatException ex) {
                                 CarRental.getView().displayError("Vehicle ID number must be numbers only");
                             }
-                            bookings = CarRental.getInstance().requestBookings();
+                            reservations = CarRental.getInstance().requestReservations();
                             updateCreatePanel();
-                            showMainScreenPanel();
-                        }
+                            showListPanel();
+                        
                     } else { //A TextFild is empty
                         CarRental.getView().displayError("A text field is empty");
                     }
                     updateCreatePanel();
+                    listPanel.updateListPanel();
                 }
             });
             buttonPanel.add(createButton);
@@ -787,7 +767,6 @@ public class ReservationPanel extends SuperPanel {
         }
 
         public void updateCreatePanel() {
-            maintenanceTypes = CarRental.getInstance().requestMaintenanceTypes();
             reservationIDTextField.setText(" Automaticly generated");
             vehicleIDTextField.setText("");
             customerIDTextField.setText("");
@@ -798,17 +777,13 @@ public class ReservationPanel extends SuperPanel {
 
     public class ViewEntityPanel extends JPanel {
 
-        String customerID, vehicleID, reservationID, startDate, endDate;
-        JTextField vehicleIDTextField, reservationIDTextField, customerIDTextField, startDateTextField, endDateTextField;
-        JCheckBox maintenanceCheckBox;
-        JComboBox maintenanceTypeCombo;
-        DefaultComboBoxModel maintenanceTypeComboModel;
-        ArrayList<MaintenanceType> maintenanceTypes;
+        private String customerID, vehicleID, reservationID, startDate, endDate;
+        private JTextField vehicleIDTextField, reservationIDTextField, customerIDTextField, startDateTextField, endDateTextField;
 
         public ViewEntityPanel() {
             //Fields
-            JPanel maintenancePanel, vehiclePanel, endDatePanel, startDatePanel, reservationIDPanel, customerPanel, centerPanel, buttonPanel;
-            JLabel maintenanceLabel, vehicleIDLabel, dateFormatLabel, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
+            JPanel vehiclePanel, endDatePanel, startDatePanel, reservationIDPanel, customerPanel, centerPanel, buttonPanel;
+            JLabel vehicleIDLabel, dateFormatLabel, dateFormatLabel2, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
             JButton deleteButton, editButton, cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
@@ -832,46 +807,11 @@ public class ReservationPanel extends SuperPanel {
             reservationIDTextField.setEditable(false);
             reservationIDPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-            reservationIDPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            reservationIDPanel.add(Box.createRigidArea(new Dimension(7, 0)));
             reservationIDPanel.add(reservationIDLabel);
-            reservationIDPanel.add(Box.createRigidArea(new Dimension(87 + strutDistance, 0)));
+            reservationIDPanel.add(Box.createRigidArea(new Dimension(13 + strutDistance, 0)));
             reservationIDPanel.add(reservationIDTextField);
             centerPanel.add(reservationIDPanel);
-
-            //Maintenance
-            maintenanceLabel = new JLabel("Maintenance");
-            maintenanceCheckBox = new JCheckBox();
-            maintenanceTypeComboModel = new DefaultComboBoxModel();
-            maintenanceTypeCombo = new JComboBox(maintenanceTypeComboModel);
-            maintenanceTypeCombo.setEnabled(false);
-
-            maintenanceTypes = CarRental.getInstance().requestMaintenanceTypes();
-
-            maintenanceCheckBox.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent ae) {
-                    if (maintenanceCheckBox.isEnabled()) {
-                        maintenanceTypeCombo.setEnabled(true);
-                        customerIDTextField.setText(null);
-                    } else {
-                        maintenanceTypeCombo.setEnabled(false);
-                    }
-                }
-            });
-
-            for (MaintenanceType maintenanceType : maintenanceTypes) {
-                maintenanceTypeComboModel.addElement(maintenanceType.getName());
-            }
-
-            maintenancePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            maintenancePanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            maintenancePanel.add(maintenanceLabel);
-            maintenancePanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            maintenancePanel.add(maintenanceCheckBox);
-            maintenancePanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            maintenancePanel.add(maintenanceTypeCombo);
-            centerPanel.add(maintenancePanel);
 
             //Customer ID
             customerIDLabel = new JLabel("Customer ID");
@@ -880,11 +820,11 @@ public class ReservationPanel extends SuperPanel {
             customerIDTextField.setBackground(Color.WHITE);
 
             customerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            customerPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            customerPanel.add(Box.createRigidArea(new Dimension(3, 0)));
             customerPanel.add(customerIDLabel);
-            customerPanel.add(Box.createRigidArea(new Dimension(50 + strutDistance, 0)));
+            customerPanel.add(Box.createRigidArea(new Dimension(58 + strutDistance, 0)));
             customerPanel.add(customerIDTextField);
-            customerPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            customerPanel.add(Box.createRigidArea(new Dimension(13, 0)));
             centerPanel.add(customerPanel);
 
             //Vehicle ID
@@ -894,7 +834,7 @@ public class ReservationPanel extends SuperPanel {
             vehiclePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             vehiclePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             vehiclePanel.add(vehicleIDLabel);
-            vehiclePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            vehiclePanel.add(Box.createRigidArea(new Dimension(42 + strutDistance, 0)));
             vehiclePanel.add(vehicleIDTextField);
             centerPanel.add(vehiclePanel);
 
@@ -906,23 +846,24 @@ public class ReservationPanel extends SuperPanel {
             startDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             startDatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             startDatePanel.add(startDateLabel);
-            startDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            startDatePanel.add(Box.createRigidArea(new Dimension(16 + strutDistance, 0)));
             startDatePanel.add(startDateTextField);
-            startDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            startDatePanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
             startDatePanel.add(dateFormatLabel);
             centerPanel.add(startDatePanel);
 
             //End date
             endDateLabel = new JLabel("Reserved till");
             endDateTextField = new JTextField(defaultJTextFieldColumns);
+            dateFormatLabel2 = new JLabel("yyyy-mm-dd");
 
             endDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             endDatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             endDatePanel.add(endDateLabel);
-            endDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            endDatePanel.add(Box.createRigidArea(new Dimension(29 + strutDistance, 0)));
             endDatePanel.add(endDateTextField);
-            endDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
-            endDatePanel.add(dateFormatLabel);
+            endDatePanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
+            endDatePanel.add(dateFormatLabel2);
             centerPanel.add(endDatePanel);
 
             //ButtonPanel
@@ -938,11 +879,12 @@ public class ReservationPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    String id = Integer.toString(bookingToView.getID());
-                    delete(bookingToView);
+                    String id = Integer.toString(reservationToView.getID());
+                    delete(reservationToView);
                     CarRental.getInstance().appendLog("Succesfully deleted reservation " + id);
                     CarRental.getView().displayError("Succesfully deleted reservation " + id);
                     updateViewEntityPanel();
+                    listPanel.updateListPanel();
                 }
             });
             buttonPanel.add(deleteButton);
@@ -967,23 +909,6 @@ public class ReservationPanel extends SuperPanel {
                         } catch (IllegalArgumentException ex) {
                             CarRental.getView().displayError("Time fields must be in format yyyy-mm-dd hh:mm:ss");
                         }
-                        if (maintenanceCheckBox.isEnabled()) {
-                            try {
-                                CarRental.getInstance().saveMaintenance(new Maintenance(
-                                        Integer.parseInt(reservationIDTextField.getText()),
-                                        Integer.parseInt(vehicleIDTextField.getText()),
-                                        tStart,
-                                        tEnd,
-                                        maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getID()));
-                                bookings = CarRental.getInstance().requestBookings();
-                                CarRental.getInstance().appendLog("Booking " + reservationIDTextField.getText() + " edited");
-                                CarRental.getView().displayError("Bookings " + reservationIDTextField.getText() + " edited");
-                                updateViewEntityPanel();
-                                showViewEntityPanel();
-                            } catch (NumberFormatException ex) {
-                                CarRental.getView().displayError("Time fields must be in format yyyy-mm-dd hh:mm:ss");
-                            }
-                        } else {
                             try {
                                 CarRental.getInstance().saveReservation(new Reservation(
                                         Integer.parseInt(reservationIDTextField.getText()),
@@ -991,15 +916,16 @@ public class ReservationPanel extends SuperPanel {
                                         tStart,
                                         tEnd,
                                         Integer.parseInt(customerIDTextField.getText())));
-                                bookings = CarRental.getInstance().requestBookings();
-                                CarRental.getInstance().appendLog("Bookings " + reservationIDTextField.getText() + " edited");
-                                CarRental.getView().displayError("Booking " + reservationIDTextField.getText() + " edited");
+                                reservations = CarRental.getInstance().requestReservations();
+                                CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
+                                CarRental.getView().displayError("Reservation " + reservationIDTextField.getText() + " edited");
+                                listPanel.updateListPanel();
                                 updateViewEntityPanel();
                                 showViewEntityPanel();
                             } catch (NumberFormatException ex) {
                                 CarRental.getView().displayError("Time fields must be in format yyyy-mm-dd hh:mm:ss");
                             }
-                        }
+                        
                     } else { //A TextFild is empty
                         CarRental.getView().displayError("A text field is empty");
                     }
@@ -1015,57 +941,32 @@ public class ReservationPanel extends SuperPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     updateViewEntityPanel();
-                    showMainScreenPanel();
+                    showListPanel();
+                    listPanel.updateListPanel();
                 }
             });
             buttonPanel.add(cancelButton);
             buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         }
 
-        private void delete(Booking booking) {
-            if (booking instanceof Reservation) {
-                CarRental.getInstance().deleteReservation(booking.getID());
-            } else if (booking instanceof Maintenance) {
-                CarRental.getInstance().deleteMaintenance(booking.getID());
-            }
+        private void delete(Reservation reservation) {
+            CarRental.getInstance().deleteReservation(reservation.getID());
         }
 
-        public void setReservationTextFields(Booking booking) {
-            if (booking == null) {
-                booking = CarRental.getInstance().requestReservation();
+        public void setReservationTextFields(Reservation reservation) {
+            if (reservation == null) {
+                reservation = CarRental.getInstance().requestReservation();
             }
-            if (booking.isMaintenance()) {
-                maintenanceTypeCombo.setEnabled(true);
-                maintenanceTypeCombo.setSelectedIndex(booking.getID());
-                customerID = "";
-            } else { //TODO Check that this works
-                //This should work... 
-                boolean found = false, end = false;
-                ArrayList<Reservation> reservations = CarRental.getInstance().requestReservations();
-                int i = 0;
-                while (!found && end) {
-                    if (i == reservations.size() - 1) {
-                        end = true;
-                    }
-                    if (reservations.get(i).getID() == booking.getID()) {
-                        customerID = "" + reservations.get(i).getCustomerID();
-                        found = true;
-                    }
-                    i++;
-                }
-            }
-
-            reservationID = "" + booking.getID();
-            vehicleID = "" + booking.getVehicleID();
-            startDate = booking.getTStart().toString();
-            endDate = booking.getTEnd().toString();
-            maintenanceTypes = CarRental.getInstance().requestMaintenanceTypes();
-            maintenanceCheckBox.setEnabled(booking.isMaintenance()); //TODO Don't think this works...
-
+            
+            customerID = "" + reservation.getCustomerID();
+            reservationID = "" + reservation.getID();
+            vehicleID = "" + reservation.getVehicleID();
+            startDate = reservation.getTStart().toString();
+            endDate = reservation.getTEnd().toString();
         }
 
         public void updateViewEntityPanel() {
-            setReservationTextFields(bookingToView);
+            setReservationTextFields(reservationToView);
             customerIDTextField.setText(" " + customerID);
             reservationIDTextField.setText(" " + reservationID);
             vehicleIDTextField.setText(" " + vehicleID);
@@ -1076,9 +977,9 @@ public class ReservationPanel extends SuperPanel {
 
     public class ListPanel extends JPanel {
 
-        JTextField filterMaintenanceTextField, filterCustomerIDTextField, filterReservationIDTextField, filterVehicleIDTextField, filterStartDateTextField, filterEndDateTextField;
-        JTable reservationTable;
-        DefaultTableModel reservationTableModel;
+        private JTextField filterCustomerIDTextField, filterReservationIDTextField, filterVehicleIDTextField, filterStartDateTextField, filterEndDateTextField;
+        private JTable reservationTable;
+        private DefaultTableModel reservationTableModel;
 
         public ListPanel() {
             //Fields
@@ -1104,7 +1005,7 @@ public class ReservationPanel extends SuperPanel {
             setBackground(new Color(216, 216, 208));
 
             //Creating the table model
-            reservationTableModel = new DefaultTableModel(new Object[]{"ID", "VehicleID", "Start", "End", "CustomerID", "MaintenanceType"}, 0);
+            reservationTableModel = new DefaultTableModel(new Object[]{"ID", "VehicleID", "Start", "End", "CustomerID"}, 0);
             setReservationTable();
 
             //Creating the table
@@ -1117,7 +1018,7 @@ public class ReservationPanel extends SuperPanel {
             centerPanel.add(reservationListPanel);
 
             //FilterPanel
-            JLabel filterReservationIDLabel, filterMaintenanceLabel, filterCustomerIDLabel, filterVehicleIDLabel, filterStartDateLabel, filterEndDateLabel, filterMaintenanceTypeLabel;
+            JLabel filterReservationIDLabel, filterCustomerIDLabel, filterVehicleIDLabel, filterStartDateLabel, filterEndDateLabel;
 
             filterPanel = new JPanel();
             filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.PAGE_AXIS));
@@ -1134,34 +1035,25 @@ public class ReservationPanel extends SuperPanel {
 
             topFilterPanel.add(Box.createRigidArea(new Dimension(0, 0)));
             topFilterPanel.add(filterReservationIDLabel);
-            topFilterPanel.add(Box.createRigidArea(new Dimension(68 + strutDistance, 0)));
+            topFilterPanel.add(Box.createRigidArea(new Dimension(17 + strutDistance, 0)));
             topFilterPanel.add(filterReservationIDTextField);
 
             //Vehicle ID
             filterVehicleIDLabel = new JLabel("Vehicle ID");
             filterVehicleIDTextField = new JTextField(defaultJTextFieldColumns);
 
-            topFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            topFilterPanel.add(Box.createRigidArea(new Dimension(19, 0)));
             topFilterPanel.add(filterVehicleIDLabel);
             topFilterPanel.add(Box.createRigidArea(new Dimension(12 + strutDistance, 0)));
             topFilterPanel.add(filterVehicleIDTextField);
-
-            //Middle filter panel
-            middleFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            filterPanel.add(middleFilterPanel);
-
-            //Maintenance
-            filterMaintenanceLabel = new JLabel("Maintenance Type");
-            filterMaintenanceTextField = new JTextField(defaultJTextFieldColumns);
-
-            middleFilterPanel.add(filterMaintenanceLabel);
-            middleFilterPanel.add(Box.createRigidArea(new Dimension(strutDistance, 0)));
-            middleFilterPanel.add(filterMaintenanceTextField);
 
             //Customer ID
             filterCustomerIDLabel = new JLabel("Customer ID");
             filterCustomerIDTextField = new JTextField(defaultJTextFieldColumns);
 
+            middleFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            filterPanel.add(middleFilterPanel);
+            
             middleFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             middleFilterPanel.add(filterCustomerIDLabel);
             middleFilterPanel.add(Box.createRigidArea(new Dimension(12 + strutDistance, 0)));
@@ -1175,6 +1067,7 @@ public class ReservationPanel extends SuperPanel {
             filterStartDateLabel = new JLabel("Start");
             filterStartDateTextField = new JTextField(defaultJTextFieldColumns);
 
+            bottomFilterPanel.add(Box.createRigidArea(new Dimension(strutDistance, 50)));
             bottomFilterPanel.add(filterStartDateLabel);
             bottomFilterPanel.add(Box.createRigidArea(new Dimension(strutDistance, 0)));
             bottomFilterPanel.add(filterStartDateTextField);
@@ -1183,17 +1076,9 @@ public class ReservationPanel extends SuperPanel {
             filterEndDateLabel = new JLabel("End");
             filterEndDateTextField = new JTextField(defaultJTextFieldColumns);
 
-            bottomFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            bottomFilterPanel.add(filterStartDateLabel);
+            bottomFilterPanel.add(filterEndDateLabel);
             bottomFilterPanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
-            bottomFilterPanel.add(filterStartDateTextField);
-
-            //ButtonPanels
-            buttonPanel = new JPanel();
-            add(buttonPanel, BorderLayout.SOUTH);
-            buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
-            buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
-            buttonPanel.add(Box.createHorizontalGlue());
+            bottomFilterPanel.add(filterEndDateTextField);
 
             //filter-button
             filterButton = new JButton("Filter");
@@ -1206,6 +1091,13 @@ public class ReservationPanel extends SuperPanel {
             });
             bottomFilterPanel.add(filterButton);
 
+            //ButtonPanels
+            buttonPanel = new JPanel();
+            add(buttonPanel, BorderLayout.SOUTH);
+            buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
+            buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
+            buttonPanel.add(Box.createHorizontalGlue());
+
             //cancel-Button
             cancelButton = new JButton("Back");
             cancelButton.addActionListener(new ActionListener() {
@@ -1213,7 +1105,7 @@ public class ReservationPanel extends SuperPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     setFilterTextFields();
-                    showMainScreenPanel();
+                    showListPanel();
                 }
             });
             buttonPanel.add(cancelButton);
@@ -1226,9 +1118,9 @@ public class ReservationPanel extends SuperPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (reservationTable.getSelectedRow() >= 0) {
-                        bookingToView = bookings.get(reservationTable.getSelectedRow());
+                        reservationToView = reservations.get(reservationTable.getSelectedRow());
                         showViewEntityPanel();
-                        CarRental.getInstance().appendLog("Showing booking \"" + bookingToView.getID() + "\" now.");
+                        CarRental.getInstance().appendLog("Showing reservation \"" + reservationToView.getID() + "\" now.");
                     }
                 }
             });
@@ -1236,55 +1128,22 @@ public class ReservationPanel extends SuperPanel {
         }
 
         public void setReservationTable() {
-            bookings = CarRental.getInstance().requestBookings(); //update customers array
-            if (bookings.get(0) != null) {
-                bookingToView = bookings.get(0);
+            reservations = CarRental.getInstance().requestReservations(); //update customers array
+            reservationTableModel.setRowCount(0);
+            
+            if (reservations.isEmpty()) {
+                reservationToView = CarRental.getInstance().requestReservation();
             } else {
-                bookingToView = CarRental.getInstance().requestReservation();
+                reservationToView = reservations.get(0);
             }
 
-            ArrayList<Maintenance> maintenances = CarRental.getInstance().requestMaintenances();
-            ArrayList<Reservation> reservations = CarRental.getInstance().requestReservations();
-
-            for (Booking booking : bookings) { //update table
-                int maintenance = 0;
-                int customer = 0;
-                //TODO Check that this works
-                //This should work... 
-                if (booking.isMaintenance()) {
-                    boolean found = false, end = false;
-                    int i = 0;
-                    while (!found && end) {
-                        if (i == maintenances.size() - 1) {
-                            end = true;
-                        }
-                        if (maintenances.get(i).getID() == booking.getID()) {
-                            maintenance = maintenances.get(i).getTypeID();
-                            found = true;
-                        }
-                        i++;
-                    }
-                } else {
-                    boolean found = false, end = false;
-                    int i = 0;
-                    while (!found && end) {
-                        if (i == reservations.size() - 1) {
-                            end = true;
-                        }
-                        if (reservations.get(i).getID() == booking.getID()) {
-                            customer = reservations.get(i).getCustomerID();
-                            found = true;
-                        }
-                        i++;
-                    }
-                }
+            for (Reservation reservation : reservations) { //update table
                 reservationTableModel.addRow(new Object[]{
-                            booking.getID(), //ID
-                            booking.getVehicleID(), //Vehicle ID
-                            booking.getTStart().toString(), //TStart
-                            booking.getTEnd().toString(), //TEnd
-                            customer,
-                            maintenance //Maintenance type
+                            reservation.getID(), //ID
+                            reservation.getVehicleID(), //Vehicle ID
+                            reservation.getTStart().toString(), //TStart
+                            reservation.getTEnd().toString(), //TEnd
+                            reservation.getCustomerID(), //Customer
                         });
             }
         }
@@ -1297,7 +1156,6 @@ public class ReservationPanel extends SuperPanel {
         public void setFilterTextFields() {
             filterCustomerIDTextField.setText("");
             filterEndDateTextField.setText("");
-            filterMaintenanceTextField.setText("");
             filterReservationIDTextField.setText("");
             filterStartDateTextField.setText("");
             filterVehicleIDTextField.setText("");
@@ -1307,18 +1165,9 @@ public class ReservationPanel extends SuperPanel {
             //Delete exisiting rows
             reservationTableModel.setRowCount(0);
             //Add the rows that match the filter
-            ArrayList<Maintenance> maintenances = CarRental.getInstance().requestMaintenances();
-            ArrayList<Reservation> reservations = CarRental.getInstance().requestReservations();
+            reservations = CarRental.getInstance().requestReservations();
 
-            for (Booking booking : bookings) {
-                int maintenance = 0;
-                int customer = 0;
-                if (booking.isMaintenance()) {
-                    maintenance = maintenances.get(booking.getID()).getTypeID();
-                } else {
-                    customer = reservations.get(booking.getID()).getCustomerID();
-                }
-
+            for (Reservation reservation : reservations) {
                 Timestamp tStart = new Timestamp(0);
                 Timestamp tEnd = new Timestamp(0);
                 if (!(filterStartDateTextField.getText().trim().isEmpty()) || !(filterEndDateTextField.getText().trim().isEmpty())) {
@@ -1332,25 +1181,22 @@ public class ReservationPanel extends SuperPanel {
 
                 //parameters
                 if (filterReservationIDTextField.getText().trim().isEmpty() || //Filter ID is empty OR
-                        Integer.toString(booking.getID()).trim().toLowerCase(Locale.ENGLISH).contains(filterReservationIDTextField.getText().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
-                        filterMaintenanceTextField.getText().trim().isEmpty() || //Filter name is empty OR
-                        maintenance == Integer.parseInt(filterMaintenanceTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
+                        Integer.toString(reservation.getID()).trim().toLowerCase(Locale.ENGLISH).contains(filterReservationIDTextField.getText().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
                         filterCustomerIDTextField.getText().trim().isEmpty() || //Filter Phone is empty OR
-                        customer == Integer.parseInt(filterCustomerIDTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
+                        Integer.toString(reservation.getCustomerID()).trim().toLowerCase(Locale.ENGLISH).contains(filterCustomerIDTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
                         filterVehicleIDTextField.getText().trim().isEmpty() || //Adress field is empty OR
-                        Integer.toString(booking.getVehicleID()).trim().toLowerCase(Locale.ENGLISH).contains(filterVehicleIDTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
+                        Integer.toString(reservation.getVehicleID()).trim().toLowerCase(Locale.ENGLISH).contains(filterVehicleIDTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
                         filterStartDateTextField.getText().trim().isEmpty()
-                        || tStart.before(booking.getTEnd())
+                        || tStart.before(reservation.getTEnd())
                         && filterEndDateTextField.getText().trim().isEmpty()
-                        || tEnd.before(booking.getTStart())) {
+                        || tEnd.before(reservation.getTStart())) {
 
                     reservationTableModel.addRow(new Object[]{
-                                booking.getID(), //ID
-                                booking.getVehicleID(), //Vehicle ID
-                                booking.getTStart().toString(), //TStart
-                                booking.getTEnd().toString(), //TEnd
-                                customer,
-                                maintenance //Maintenance type
+                                reservation.getID(), //ID
+                                reservation.getVehicleID(), //Vehicle ID
+                                reservation.getTStart().toString(), //TStart
+                                reservation.getTEnd().toString(), //TEnd
+                                reservation.getCustomerID(),
                             });
                 }
             }

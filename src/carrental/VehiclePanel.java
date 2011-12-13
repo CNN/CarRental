@@ -655,7 +655,7 @@ public class VehiclePanel extends SuperPanel {
         private VehicleTypePanel vehicleTypePanel;
 
         /**
-         * Sets up the basic funtionalit needed to view a vehicle type.
+         * Sets up the basic funktionalitet needed to view a vehicle type.
          */
         public ViewVehicleTypePanel() {
 
