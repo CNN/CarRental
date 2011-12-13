@@ -574,7 +574,7 @@ public class ReservationPanel extends SuperPanel {
         public CreatePanel() {
             //Fields
             JPanel maintenancePanel, vehiclePanel, endDatePanel, startDatePanel, reservationIDPanel, customerPanel, centerPanel, buttonPanel;
-            JLabel maintenanceLabel, vehicleIDLabel, dateFormatLabel, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
+            JLabel maintenanceLabel, vehicleIDLabel, dateFormatLabel, dateFormatLabel2, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
             JButton findVehicleButton, findCustomerButton, createButton, cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
@@ -598,9 +598,9 @@ public class ReservationPanel extends SuperPanel {
             reservationIDTextField.setEditable(false);
             reservationIDPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-            reservationIDPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            reservationIDPanel.add(Box.createRigidArea(new Dimension(7, 0)));
             reservationIDPanel.add(reservationIDLabel);
-            reservationIDPanel.add(Box.createRigidArea(new Dimension(87 + strutDistance, 0)));
+            reservationIDPanel.add(Box.createRigidArea(new Dimension(13 + strutDistance, 0)));
             reservationIDPanel.add(reservationIDTextField);
             centerPanel.add(reservationIDPanel);
 
@@ -620,7 +620,7 @@ public class ReservationPanel extends SuperPanel {
                     if (maintenanceCheckBox.isEnabled()) {
                         maintenanceTypeCombo.setEnabled(true);
                         customerIDTextField.setText(null);
-                    } else {
+                    } else if (!maintenanceCheckBox.isEnabled()) {
                         maintenanceTypeCombo.setEnabled(false);
                     }
                 }
@@ -633,16 +633,15 @@ public class ReservationPanel extends SuperPanel {
             maintenancePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             maintenancePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             maintenancePanel.add(maintenanceLabel);
-            maintenancePanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            maintenancePanel.add(Box.createRigidArea(new Dimension(22, 0)));
             maintenancePanel.add(maintenanceCheckBox);
-            maintenancePanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            maintenancePanel.add(Box.createRigidArea(new Dimension(30, 0)));
             maintenancePanel.add(maintenanceTypeCombo);
             centerPanel.add(maintenancePanel);
 
             //Customer ID
             customerIDLabel = new JLabel("Customer ID");
             customerIDTextField = new JTextField("", defaultJTextFieldColumns);
-            customerIDTextField.setEditable(false);
             customerIDTextField.setBackground(Color.WHITE);
             findCustomerButton = new JButton("Find Customer");
             findCustomerButton.addActionListener(new ActionListener() {
@@ -656,9 +655,9 @@ public class ReservationPanel extends SuperPanel {
             customerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             customerPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             customerPanel.add(customerIDLabel);
-            customerPanel.add(Box.createRigidArea(new Dimension(50 + strutDistance, 0)));
+            customerPanel.add(Box.createRigidArea(new Dimension(28 + strutDistance, 0)));
             customerPanel.add(customerIDTextField);
-            customerPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            customerPanel.add(Box.createRigidArea(new Dimension(13, 0)));
             customerPanel.add(findCustomerButton);
             centerPanel.add(customerPanel);
 
@@ -678,9 +677,9 @@ public class ReservationPanel extends SuperPanel {
             vehiclePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             vehiclePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             vehiclePanel.add(vehicleIDLabel);
-            vehiclePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            vehiclePanel.add(Box.createRigidArea(new Dimension(42 + strutDistance, 0)));
             vehiclePanel.add(vehicleIDTextField);
-            vehiclePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            vehiclePanel.add(Box.createRigidArea(new Dimension(14 + strutDistance, 0)));
             vehiclePanel.add(findVehicleButton);
             centerPanel.add(vehiclePanel);
 
@@ -692,23 +691,24 @@ public class ReservationPanel extends SuperPanel {
             startDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             startDatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             startDatePanel.add(startDateLabel);
-            startDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            startDatePanel.add(Box.createRigidArea(new Dimension(16 + strutDistance, 0)));
             startDatePanel.add(startDateTextField);
-            startDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            startDatePanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
             startDatePanel.add(dateFormatLabel);
             centerPanel.add(startDatePanel);
 
             //End date
             endDateLabel = new JLabel("Reserved till");
             endDateTextField = new JTextField(defaultJTextFieldColumns);
+            dateFormatLabel2 = new JLabel("yyyy-mm-dd");
 
             endDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             endDatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             endDatePanel.add(endDateLabel);
-            endDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            endDatePanel.add(Box.createRigidArea(new Dimension(29 + strutDistance, 0)));
             endDatePanel.add(endDateTextField);
-            endDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
-            endDatePanel.add(dateFormatLabel);
+            endDatePanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
+            endDatePanel.add(dateFormatLabel2);
             centerPanel.add(endDatePanel);
 
             //ButtonPanel
@@ -724,6 +724,7 @@ public class ReservationPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    maintenanceTypeCombo.setEnabled(false);
                     updateCreatePanel();
                     showMainScreenPanel();
                 }
@@ -818,7 +819,7 @@ public class ReservationPanel extends SuperPanel {
         public ViewEntityPanel() {
             //Fields
             JPanel maintenancePanel, vehiclePanel, endDatePanel, startDatePanel, reservationIDPanel, customerPanel, centerPanel, buttonPanel;
-            JLabel maintenanceLabel, vehicleIDLabel, dateFormatLabel, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
+            JLabel maintenanceLabel, vehicleIDLabel, dateFormatLabel, dateFormatLabel2, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
             JButton deleteButton, editButton, cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
@@ -842,9 +843,9 @@ public class ReservationPanel extends SuperPanel {
             reservationIDTextField.setEditable(false);
             reservationIDPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-            reservationIDPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            reservationIDPanel.add(Box.createRigidArea(new Dimension(7, 0)));
             reservationIDPanel.add(reservationIDLabel);
-            reservationIDPanel.add(Box.createRigidArea(new Dimension(87 + strutDistance, 0)));
+            reservationIDPanel.add(Box.createRigidArea(new Dimension(13 + strutDistance, 0)));
             reservationIDPanel.add(reservationIDTextField);
             centerPanel.add(reservationIDPanel);
 
@@ -877,9 +878,9 @@ public class ReservationPanel extends SuperPanel {
             maintenancePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             maintenancePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             maintenancePanel.add(maintenanceLabel);
-            maintenancePanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            maintenancePanel.add(Box.createRigidArea(new Dimension(22, 0)));
             maintenancePanel.add(maintenanceCheckBox);
-            maintenancePanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            maintenancePanel.add(Box.createRigidArea(new Dimension(30, 0)));
             maintenancePanel.add(maintenanceTypeCombo);
             centerPanel.add(maintenancePanel);
 
@@ -892,9 +893,9 @@ public class ReservationPanel extends SuperPanel {
             customerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             customerPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             customerPanel.add(customerIDLabel);
-            customerPanel.add(Box.createRigidArea(new Dimension(50 + strutDistance, 0)));
+            customerPanel.add(Box.createRigidArea(new Dimension(28 + strutDistance, 0)));
             customerPanel.add(customerIDTextField);
-            customerPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            customerPanel.add(Box.createRigidArea(new Dimension(13, 0)));
             centerPanel.add(customerPanel);
 
             //Vehicle ID
@@ -904,7 +905,7 @@ public class ReservationPanel extends SuperPanel {
             vehiclePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             vehiclePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             vehiclePanel.add(vehicleIDLabel);
-            vehiclePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            vehiclePanel.add(Box.createRigidArea(new Dimension(42 + strutDistance, 0)));
             vehiclePanel.add(vehicleIDTextField);
             centerPanel.add(vehiclePanel);
 
@@ -916,23 +917,24 @@ public class ReservationPanel extends SuperPanel {
             startDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             startDatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             startDatePanel.add(startDateLabel);
-            startDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            startDatePanel.add(Box.createRigidArea(new Dimension(16 + strutDistance, 0)));
             startDatePanel.add(startDateTextField);
-            startDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            startDatePanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
             startDatePanel.add(dateFormatLabel);
             centerPanel.add(startDatePanel);
 
             //End date
             endDateLabel = new JLabel("Reserved till");
             endDateTextField = new JTextField(defaultJTextFieldColumns);
+            dateFormatLabel2 = new JLabel("yyyy-mm-dd");
 
             endDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             endDatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             endDatePanel.add(endDateLabel);
-            endDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
+            endDatePanel.add(Box.createRigidArea(new Dimension(29 + strutDistance, 0)));
             endDatePanel.add(endDateTextField);
-            endDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
-            endDatePanel.add(dateFormatLabel);
+            endDatePanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
+            endDatePanel.add(dateFormatLabel2);
             centerPanel.add(endDatePanel);
 
             //ButtonPanel
@@ -1024,6 +1026,7 @@ public class ReservationPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    maintenanceTypeCombo.setEnabled(false);
                     updateViewEntityPanel();
                     showMainScreenPanel();
                 }
@@ -1144,14 +1147,14 @@ public class ReservationPanel extends SuperPanel {
 
             topFilterPanel.add(Box.createRigidArea(new Dimension(0, 0)));
             topFilterPanel.add(filterReservationIDLabel);
-            topFilterPanel.add(Box.createRigidArea(new Dimension(68 + strutDistance, 0)));
+            topFilterPanel.add(Box.createRigidArea(new Dimension(17 + strutDistance, 0)));
             topFilterPanel.add(filterReservationIDTextField);
 
             //Vehicle ID
             filterVehicleIDLabel = new JLabel("Vehicle ID");
             filterVehicleIDTextField = new JTextField(defaultJTextFieldColumns);
 
-            topFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            topFilterPanel.add(Box.createRigidArea(new Dimension(19, 0)));
             topFilterPanel.add(filterVehicleIDLabel);
             topFilterPanel.add(Box.createRigidArea(new Dimension(12 + strutDistance, 0)));
             topFilterPanel.add(filterVehicleIDTextField);
@@ -1185,6 +1188,7 @@ public class ReservationPanel extends SuperPanel {
             filterStartDateLabel = new JLabel("Start");
             filterStartDateTextField = new JTextField(defaultJTextFieldColumns);
 
+            bottomFilterPanel.add(Box.createRigidArea(new Dimension(strutDistance, 50)));
             bottomFilterPanel.add(filterStartDateLabel);
             bottomFilterPanel.add(Box.createRigidArea(new Dimension(strutDistance, 0)));
             bottomFilterPanel.add(filterStartDateTextField);
@@ -1193,17 +1197,9 @@ public class ReservationPanel extends SuperPanel {
             filterEndDateLabel = new JLabel("End");
             filterEndDateTextField = new JTextField(defaultJTextFieldColumns);
 
-            bottomFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            bottomFilterPanel.add(filterStartDateLabel);
+            bottomFilterPanel.add(filterEndDateLabel);
             bottomFilterPanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
-            bottomFilterPanel.add(filterStartDateTextField);
-
-            //ButtonPanels
-            buttonPanel = new JPanel();
-            add(buttonPanel, BorderLayout.SOUTH);
-            buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
-            buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
-            buttonPanel.add(Box.createHorizontalGlue());
+            bottomFilterPanel.add(filterEndDateTextField);
 
             //filter-button
             filterButton = new JButton("Filter");
@@ -1215,6 +1211,13 @@ public class ReservationPanel extends SuperPanel {
                 }
             });
             bottomFilterPanel.add(filterButton);
+
+            //ButtonPanels
+            buttonPanel = new JPanel();
+            add(buttonPanel, BorderLayout.SOUTH);
+            buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
+            buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
+            buttonPanel.add(Box.createHorizontalGlue());
 
             //cancel-Button
             cancelButton = new JButton("Back");
