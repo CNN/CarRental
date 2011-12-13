@@ -569,7 +569,7 @@ public class ReservationPanel extends SuperPanel {
 
         public CreatePanel() {
             //Fields
-            JPanel vehiclePanel, endDatePanel, startDatePanel, reservationIDPanel, customerPanel, centerPanel, buttonPanel;
+            JPanel vehiclePanel, centerPanel, endDatePanel, startDatePanel, reservationIDPanel, customerPanel, buttonPanel;
             JLabel vehicleIDLabel, dateFormatLabel, dateFormatLabel2, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
             JButton findVehicleButton, findCustomerButton, createButton, cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
