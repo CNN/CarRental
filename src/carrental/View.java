@@ -123,7 +123,7 @@ public class View {
         private VehiclePanel vehiclePanel = new VehiclePanel();
         //TODO: not yet added: reservationpanel, maintenancepanel
         private JLabel errorLabel = new JLabel(" ");
-        private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-YYYY hh:mm");
+        private SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
         
         public MainPanel() {
             this.setLayout(new BorderLayout());
@@ -413,7 +413,6 @@ public class View {
          * @param error_message message to display
          */
         public void setErrorLabelMessage(String error_message) {
-            Calendar.getInstance().getTimeInMillis();
             errorLabel.setText(dateFormat.format(new Date(Calendar.getInstance().getTimeInMillis()))+" - "+error_message);
         }
     }
