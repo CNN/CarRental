@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
  * GraphicAlternate displays an overview of vehicles and their respective
  * reservations and maintenances.
  * @author CNN
- * @version 2011-12-12
+ * @version 2011-12-14
  */
 public class GraphicAlternate extends JComponent {
     public static final int
@@ -42,6 +42,7 @@ public class GraphicAlternate extends JComponent {
     public GraphicAlternate() {
         calendar = Calendar.getInstance();
         
+        //click logic follows:
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX();
@@ -61,7 +62,7 @@ public class GraphicAlternate extends JComponent {
                     if(reference.size() > y && reference.get(y) != null) {
                         if(reference.get(y).size() > x && reference.get(y).get(x) != null) {
                             if(reference.get(y).get(x).isMaintenance()) {
-                                //TODO: Set maintenance to view...
+                                CarRental.getView().getMaintenancePanel().setMaintenanceToView(CarRental.getInstance().requestMaintenance(reference.get(y).get(x).getID()));
                                 CarRental.getView().getMaintenancePanel().showViewEntityPanel();
                                 CarRental.getView().viewMaintenance();
                             }
@@ -78,6 +79,10 @@ public class GraphicAlternate extends JComponent {
         refreshDataAndPaint();
     }
     
+    /**
+     * This method is used to refresh all the data used (gets new lists from
+     * model) and repaint the whole visual aspect based on this new data.
+     */
     public final void refreshDataAndPaint() {
         reference = new ArrayList<>();
         //get vehicles, set row amounts
@@ -152,6 +157,9 @@ public class GraphicAlternate extends JComponent {
         repaint();
     }
 
+    /**
+     * Moves a marker used to paint the visuals a certain amount down.
+     */
     private void movePointerY() {
         if (pointerY >= (height - textHeight)) {
             pointerY = 0;
@@ -160,6 +168,9 @@ public class GraphicAlternate extends JComponent {
         }
     }
 
+    /**
+     * Moves a marker used to paint the visuals a certain amount to the right.
+     */
     private void movePointerX() {
         if (pointerX >= (width - collumnWidth)) {
             pointerX = textSpace;
@@ -168,13 +179,16 @@ public class GraphicAlternate extends JComponent {
         }
     }
 
+    /**
+     * Paints the whole visual. Called through repaint().
+     * @param g Graphics element used to paint, supplied automatically when
+     * using repaint().
+     */
     public void paint(Graphics g) {
-        
         pointerX = textSpace;
         pointerY = 0;
         
-        //print reservation blocks
-        //for each row
+        //print reservation blocks for each row
         for(int y = 0; y < numberOfRows; y++) {
             reference.add(new ArrayList<Booking>());
             //for each cell
@@ -219,8 +233,7 @@ public class GraphicAlternate extends JComponent {
 
         g.setColor(Color.LIGHT_GRAY);
         g.drawLine(0, height - 3*textHeight, width, height - 3*textHeight);
-        
-        
+
         //draw x-axis text
         for (int x = 0; x < numberOfCollumns; x++) {
             boolean draw_this = false, draw_line = false;
@@ -239,7 +252,7 @@ public class GraphicAlternate extends JComponent {
             if(draw_this) g.drawString(dateString.get(x), (int)(pointerX + (0.5 * (collumnWidth - 60))), textpointer); //60, collumnWidth
             if(draw_line) g.drawLine((int)(pointerX + (0.5 * (collumnWidth - 60)) + 30), textpointer - 12, (int)(pointerX + (0.5 * (collumnWidth - 60)) + 30), height - 3*textHeight);
             movePointerX();
-            if (textpointer == height - textHeight) { //TODO Fix so this doesn't expand height
+            if (textpointer == height - textHeight) {
                 textpointer -= textHeight;
             } else {
                 textpointer += textHeight;

@@ -451,13 +451,13 @@ public class Model {
     public Maintenance getMaintenance(int id) {
         ArrayList<String> m = database.getFirstMatch("SELECT * FROM maintenance WHERE id = '"+id+"'");
         try {
-            Date date_start_parsed = dateFormat.parse(m.get(2));
-            Date date_end_parsed = dateFormat.parse(m.get(3));
+            Date date_start_parsed = dateFormat.parse(m.get(3));
+            Date date_end_parsed = dateFormat.parse(m.get(4));
             return new Maintenance(Integer.parseInt(m.get(0)),
                     Integer.parseInt(m.get(1)),
                     new Timestamp(date_start_parsed.getTime()),
                     new Timestamp(date_end_parsed.getTime()),
-                    Integer.parseInt(m.get(4)));
+                    Integer.parseInt(m.get(2)));
         }
         catch (ParseException e) {
             CarRental.getInstance().appendLog("Failed to get maintenance from database, parse error when parsing dates.",e);
@@ -506,9 +506,9 @@ public class Model {
         ArrayList<String> save_data = new ArrayList<>();
         save_data.add(Integer.toString(m.getID()));
         save_data.add(Integer.toString(m.getVehicleID()));
+        save_data.add(Integer.toString(m.getTypeID()));
         save_data.add(m.getTStart().toString());
         save_data.add(m.getTEnd().toString());
-        save_data.add(Integer.toString(m.getTypeID()));
         database.saveArray("maintenance", save_data);
     }
     
