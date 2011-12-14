@@ -123,7 +123,7 @@ public class View {
         private VehiclePanel vehiclePanel = new VehiclePanel();
         //TODO: not yet added: reservationpanel, maintenancepanel
         private JLabel errorLabel = new JLabel(" ");
-        private SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
+        private SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         
         public MainPanel() {
             this.setLayout(new BorderLayout());
