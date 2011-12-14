@@ -714,28 +714,28 @@ public class ReservationPanel extends SuperPanel {
             centerPanel.add(vehiclePanel);
 
             //Start date
-            startDateLabel = new JLabel("Reserved from");
+            startDateLabel = new JLabel("Start date");
             startDateTextField = new JTextField(defaultJTextFieldColumns);
             dateFormatLabel = new JLabel("dd-mm-yyyy");
 
             startDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             startDatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             startDatePanel.add(startDateLabel);
-            startDatePanel.add(Box.createRigidArea(new Dimension(16 + strutDistance, 0)));
+            startDatePanel.add(Box.createRigidArea(new Dimension(42 + strutDistance, 0)));
             startDatePanel.add(startDateTextField);
             startDatePanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
             startDatePanel.add(dateFormatLabel);
             centerPanel.add(startDatePanel);
 
             //End date
-            endDateLabel = new JLabel("Reserved till");
+            endDateLabel = new JLabel("End date");
             endDateTextField = new JTextField(defaultJTextFieldColumns);
             dateFormatLabel2 = new JLabel("dd-mm-yyyy");
 
             endDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             endDatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             endDatePanel.add(endDateLabel);
-            endDatePanel.add(Box.createRigidArea(new Dimension(29 + strutDistance, 0)));
+            endDatePanel.add(Box.createRigidArea(new Dimension(49 + strutDistance, 0)));
             endDatePanel.add(endDateTextField);
             endDatePanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
             endDatePanel.add(dateFormatLabel2);
@@ -871,7 +871,7 @@ public class ReservationPanel extends SuperPanel {
 
             reservationIDPanel.add(Box.createRigidArea(new Dimension(7, 0)));
             reservationIDPanel.add(reservationIDLabel);
-            reservationIDPanel.add(Box.createRigidArea(new Dimension(13 + strutDistance, 0)));
+            reservationIDPanel.add(Box.createRigidArea(new Dimension(10 + strutDistance, 0)));
             reservationIDPanel.add(reservationIDTextField);
             centerPanel.add(reservationIDPanel);
 
@@ -907,33 +907,33 @@ public class ReservationPanel extends SuperPanel {
             vehiclePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             vehiclePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             vehiclePanel.add(vehicleIDLabel);
-            vehiclePanel.add(Box.createRigidArea(new Dimension(43 + strutDistance, 0)));
+            vehiclePanel.add(Box.createRigidArea(new Dimension(38 + strutDistance, 0)));
             vehiclePanel.add(vehicleIDTextField);
             centerPanel.add(vehiclePanel);
 
             //Start date
-            startDateLabel = new JLabel("Reserved from");
+            startDateLabel = new JLabel("Start date");
             startDateTextField = new JTextField(defaultJTextFieldColumns);
             dateFormatLabel = new JLabel("dd-mm-yyyy");
 
             startDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             startDatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             startDatePanel.add(startDateLabel);
-            startDatePanel.add(Box.createRigidArea(new Dimension(16 + strutDistance, 0)));
+            startDatePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
             startDatePanel.add(startDateTextField);
             startDatePanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
             startDatePanel.add(dateFormatLabel);
             centerPanel.add(startDatePanel);
 
             //End date
-            endDateLabel = new JLabel("Reserved till");
+            endDateLabel = new JLabel("End date");
             endDateTextField = new JTextField(defaultJTextFieldColumns);
             dateFormatLabel2 = new JLabel("dd-mm-yyyy");
 
             endDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             endDatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             endDatePanel.add(endDateLabel);
-            endDatePanel.add(Box.createRigidArea(new Dimension(29 + strutDistance, 0)));
+            endDatePanel.add(Box.createRigidArea(new Dimension(44 + strutDistance, 0)));
             endDatePanel.add(endDateTextField);
             endDatePanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
             endDatePanel.add(dateFormatLabel2);
@@ -1054,7 +1054,7 @@ public class ReservationPanel extends SuperPanel {
 
             //listPanel
             setLayout(new BorderLayout());
-            setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "List of customers"));
+            setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "List of Reservations"));
 
             //centerPanel
             centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -1069,7 +1069,7 @@ public class ReservationPanel extends SuperPanel {
             setBackground(new Color(216, 216, 208));
 
             //Creating the table model
-            reservationTableModel = new DefaultTableModel(new Object[]{"ID", "VehicleID", "Start", "End", "CustomerID"}, 0);
+            reservationTableModel = new DefaultTableModel(new Object[]{"ID", "VehicleID", "Start date", "End date", "CustomerID"}, 0);
 
             //Creating the table
             reservationTable = new JTable(reservationTableModel);
@@ -1145,7 +1145,7 @@ public class ReservationPanel extends SuperPanel {
             filterPanel.add(bottomFilterPanel);
 
             //Start Date
-            filterStartDateLabel = new JLabel("Start");
+            filterStartDateLabel = new JLabel("Start date");
             filterStartDateTextField = new JTextField(defaultJTextFieldColumns);
             filterStartDateTextField.addKeyListener(new KeyAdapter() {
 
@@ -1156,11 +1156,11 @@ public class ReservationPanel extends SuperPanel {
 
             bottomFilterPanel.add(Box.createRigidArea(new Dimension(0 + strutDistance, 0)));
             bottomFilterPanel.add(filterStartDateLabel);
-            bottomFilterPanel.add(Box.createRigidArea(new Dimension(70 + strutDistance, 0)));
+            bottomFilterPanel.add(Box.createRigidArea(new Dimension(42 + strutDistance, 0)));
             bottomFilterPanel.add(filterStartDateTextField);
 
             //End Date
-            filterEndDateLabel = new JLabel("End");
+            filterEndDateLabel = new JLabel("End date");
             filterEndDateTextField = new JTextField(defaultJTextFieldColumns);
             filterEndDateTextField.addKeyListener(new KeyAdapter() {
 
@@ -1171,7 +1171,7 @@ public class ReservationPanel extends SuperPanel {
 
             bottomFilterPanel.add(Box.createRigidArea(new Dimension(20 + strutDistance, 0)));
             bottomFilterPanel.add(filterEndDateLabel);
-            bottomFilterPanel.add(Box.createRigidArea(new Dimension(45 + strutDistance, 0)));
+            bottomFilterPanel.add(Box.createRigidArea(new Dimension(20 + strutDistance, 0)));
             bottomFilterPanel.add(filterEndDateTextField);
 
             //ButtonPanels
