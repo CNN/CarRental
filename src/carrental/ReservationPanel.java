@@ -19,8 +19,8 @@ import java.util.Date;
  */
 public class ReservationPanel extends SuperPanel {
 
-    //TODO CustomerName and VehicleDescription in ViewEntity, check if vehicle already lent on date, Calendar
-    //change err to append
+    //TODO check if vehicle already lent on date, Calendar
+    
     /** time occupied
      * 
      * for(reservations){

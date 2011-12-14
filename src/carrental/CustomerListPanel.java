@@ -155,15 +155,6 @@ public class CustomerListPanel extends JPanel {
         }
     }
     
-    //TODO Doesn't work
-    public void setCustomer(int customerID){
-        for(int i = 1; i-1 <= customerTable.getHeight(); i++){
-            if(customerTableModel.getValueAt(i, 1) == customerID){
-                customerTable.setRowSelectionInterval(i, i);
-            }
-        }
-    }
-    
     public void setCustomerTable() {
         customers = CarRental.getInstance().requestCustomers(); //update customers array
         
