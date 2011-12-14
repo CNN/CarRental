@@ -1097,14 +1097,8 @@ public class ReservationPanel extends SuperPanel {
         }
 
         public void setReservationTable() {
-            reservations = CarRental.getInstance().requestReservations(); //update customers array
+            reservations = CarRental.getInstance().requestReservations(); //update array
             reservationTableModel.setRowCount(0);
-
-            if (reservations.isEmpty()) {
-                reservationToView = CarRental.getInstance().requestReservation();
-            } else {
-                reservationToView = reservations.get(0);
-            }
 
             for (Reservation reservation : reservations) { //update table
                 reservationTableModel.addRow(new Object[]{
