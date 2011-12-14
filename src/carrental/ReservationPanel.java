@@ -599,7 +599,9 @@ public class ReservationPanel extends SuperPanel {
             JLabel vehicleIDLabel, dateFormatLabel, dateFormatLabel2, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
             JButton findVehicleButton, findCustomerButton, createButton, cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
-
+            //createPanel
+            setLayout(new BorderLayout());
+            setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Make a reservation"));
             //Panel Container
             panelContainer = new JPanel(new FlowLayout());
             add(panelContainer, BorderLayout.CENTER);
@@ -612,10 +614,6 @@ public class ReservationPanel extends SuperPanel {
 
             getCustomerPanel.setVisible(false);
             getVehiclePanel.setVisible(false);
-
-            //createPanel
-            setLayout(new BorderLayout());
-            setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Make a reservation"));
 
             //Center Panel
             centerPanel = new JPanel();
