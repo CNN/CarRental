@@ -684,7 +684,7 @@ public class MaintenancePanel extends SuperPanel {
             setBackground(new Color(216, 216, 208));
 
             //Creating the table
-            maintenanceTableModel = new DefaultTableModel(new Object[]{"Vehicle", "Type", "Service check", "Start dae", "End date"}, 0);
+            maintenanceTableModel = new DefaultTableModel(new Object[]{"Vehicle", "Type", "Service check", "Start date", "End date"}, 0);
             maintenanceTable = new JTable(maintenanceTableModel);
 
             listScrollPane = new JScrollPane(maintenanceTable);

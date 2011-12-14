@@ -1035,6 +1035,12 @@ public class ReservationPanel extends SuperPanel {
             vehicleIDTextField.setText(" " + reservationToView.getVehicleID());
             startDateTextField.setText(" " + dateFormat.format(new Date(reservationToView.getTStart().getTime())));
             endDateTextField.setText(" " + dateFormat.format(new Date(reservationToView.getTEnd().getTime())));
+            
+            //set customer
+            //customerListPanel.setCustomer(reservationToView.getID());
+            
+            //set vehicle
+            //vehicleListPanel.setVehicle(reservationToView.getVehicleID());
         }
     }
 

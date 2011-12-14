@@ -197,6 +197,8 @@ public class VehicleListPanel extends JPanel {
         viewButton = new JButton("View selected");
         viewButton.setVisible(false);
         buttonPanel.add(viewButton);
+        
+        update();
     }
 
     /**

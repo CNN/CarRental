@@ -147,13 +147,17 @@ public class CustomerListPanel extends JPanel {
         buttonPanel.add(viewButton);
     }
     
+    //TODO Doesn't work
+    public void setCustomer(int customerID){
+        for(int i = 1; i-1 <= customerTable.getHeight(); i++){
+            if(customerTableModel.getValueAt(i, 1) == customerID){
+                customerTable.setRowSelectionInterval(i, i);
+            }
+        }
+    }
+    
     public void setCustomerTable() {
         customers = CarRental.getInstance().requestCustomers(); //update customers array
-        if (customers.get(0) != null) {
-            customerToView = customers.get(0);
-        } else {
-            customerToView = CarRental.getInstance().requestCustomer();
-        }
         
         for (Customer customer : customers) { //update table
             String[] split = customer.getAdress().split("\n"); //for nicer look
