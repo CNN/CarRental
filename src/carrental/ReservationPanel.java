@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.util.Locale;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * This is the main panel for reservations
@@ -26,6 +28,7 @@ public class ReservationPanel extends SuperPanel {
     private final GetCustomerPanel getCustomerPanel = new GetCustomerPanel();
     private final GetVehiclePanel getVehiclePanel = new GetVehiclePanel();
     private final JPanel emptyPanel = null;
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     public ReservationPanel() {
         this.reservations = CarRental.getInstance().requestReservations();
@@ -95,7 +98,7 @@ public class ReservationPanel extends SuperPanel {
             titleBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Reservations");
             setBorder(titleBorder);
             add(new ViewEntityPanel());
-           // add(new ListPanel());
+            // add(new ListPanel());
         }
     }
 
@@ -365,13 +368,9 @@ public class ReservationPanel extends SuperPanel {
         private JTable customerTable;
         private DefaultTableModel customerTableModel;
         private ArrayList<Customer> customers;
-        private Customer customerToView;
 
         public GetCustomerPanel() {
             customers = CarRental.getInstance().requestCustomers();
-            if (customers.get(0) == null) {
-                customerToView = CarRental.getInstance().requestCustomer();
-            }
 
             //Fields
             JPanel centerPanel, customerListPanel, filterPanel, topFilterPanel, bottomFilterPanel, buttonPanel;
@@ -510,7 +509,6 @@ public class ReservationPanel extends SuperPanel {
 
         public void setCustomerTable() {
             customers = CarRental.getInstance().requestCustomers(); //update customers array
-            customerToView = CarRental.getInstance().requestCustomer();
 
             for (Customer customer : customers) { //update table
                 String[] split = customer.getAdress().split("\n"); //for nicer look
@@ -576,17 +574,17 @@ public class ReservationPanel extends SuperPanel {
             JLabel vehicleIDLabel, dateFormatLabel, dateFormatLabel2, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
             JButton findVehicleButton, findCustomerButton, createButton, cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
-            
+
             //Panel Container
             panelContainer = new JPanel(new FlowLayout());
             add(panelContainer, BorderLayout.CENTER);
-            
+
             getCustomerPanel = new GetCustomerPanel();
             getVehiclePanel = new GetVehiclePanel();
-            
+
             panelContainer.add(getCustomerPanel);
             panelContainer.add(getVehiclePanel);
-            
+
             getCustomerPanel.setVisible(false);
             getVehiclePanel.setVisible(false);
 
@@ -599,7 +597,7 @@ public class ReservationPanel extends SuperPanel {
             centerPanel.setLayout(new BoxLayout(centerPanel, BoxLayout.PAGE_AXIS));
             centerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 40));
             panelContainer.add(centerPanel);
-            
+
             //Visibility
             panelContainer.setVisible(true);
             centerPanel.setVisible(true);
@@ -667,7 +665,7 @@ public class ReservationPanel extends SuperPanel {
             //Start date
             startDateLabel = new JLabel("Reserved from");
             startDateTextField = new JTextField(defaultJTextFieldColumns);
-            dateFormatLabel = new JLabel("yyyy-mm-dd");
+            dateFormatLabel = new JLabel("dd-mm-yyyy");
 
             startDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             startDatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -681,7 +679,7 @@ public class ReservationPanel extends SuperPanel {
             //End date
             endDateLabel = new JLabel("Reserved till");
             endDateTextField = new JTextField(defaultJTextFieldColumns);
-            dateFormatLabel2 = new JLabel("yyyy-mm-dd");
+            dateFormatLabel2 = new JLabel("dd-mm-yyyy");
 
             endDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             endDatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -719,35 +717,28 @@ public class ReservationPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Timestamp tStart = new Timestamp(0);
-                    Timestamp tEnd = new Timestamp(0);
                     if (reservationIDTextField.getText().trim().length() > 0
                             && vehicleIDTextField.getText().trim().length() > 0
                             && startDateTextField.getText().trim().length() > 0
                             && endDateTextField.getText().trim().length() > 0) {
                         try {
-                            tStart = Timestamp.valueOf(startDateTextField.getText());
-                            tEnd = Timestamp.valueOf(endDateTextField.getText());
-                        } catch (IllegalArgumentException ex) {
-                            CarRental.getView().displayError("Time fields must be in format yyyy-mm-dd hh:mm:ss");
+                            CarRental.getInstance().saveReservation(new Reservation(
+                                    CarRental.getInstance().requestNewReservationId(),
+                                    Integer.parseInt(vehicleIDTextField.getText()),
+                                    new Timestamp(dateFormat.parse(startDateTextField.getText().trim()).getTime()),
+                                    new Timestamp(dateFormat.parse(endDateTextField.getText().trim()).getTime()),
+                                    Integer.parseInt(customerIDTextField.getText())));
+                            CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
+                            CarRental.getView().displayError("Reservation " + customerIDTextField.getText() + " edited");
+                        } catch (NumberFormatException ex) {
+                            CarRental.getView().displayError("Vehicle ID number must be numbers only");
+                        } catch (java.text.ParseException ex) {
+                            CarRental.getView().displayError("Time fields must be in format dd-mm-yyyy");
                         }
-                        
-                            try {
-                                CarRental.getInstance().saveReservation(new Reservation(
-                                        CarRental.getInstance().requestNewReservationId(),
-                                        Integer.parseInt(vehicleIDTextField.getText()),
-                                        tStart,
-                                        tEnd,
-                                        Integer.parseInt(customerIDTextField.getText())));
-                                CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
-                                CarRental.getView().displayError("Reservation " + customerIDTextField.getText() + " edited");
-                            } catch (NumberFormatException ex) {
-                                CarRental.getView().displayError("Vehicle ID number must be numbers only");
-                            }
-                            reservations = CarRental.getInstance().requestReservations();
-                            updateCreatePanel();
-                            showListPanel();
-                        
+                        reservations = CarRental.getInstance().requestReservations();
+                        updateCreatePanel();
+                        showListPanel();
+
                     } else { //A TextFild is empty
                         CarRental.getView().displayError("A text field is empty");
                     }
@@ -777,7 +768,6 @@ public class ReservationPanel extends SuperPanel {
 
     public class ViewEntityPanel extends JPanel {
 
-        private String customerID, vehicleID, reservationID, startDate, endDate;
         private JTextField vehicleIDTextField, reservationIDTextField, customerIDTextField, startDateTextField, endDateTextField;
 
         public ViewEntityPanel() {
@@ -816,13 +806,12 @@ public class ReservationPanel extends SuperPanel {
             //Customer ID
             customerIDLabel = new JLabel("Customer ID");
             customerIDTextField = new JTextField("", defaultJTextFieldColumns);
-            customerIDTextField.setEditable(false);
             customerIDTextField.setBackground(Color.WHITE);
 
             customerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             customerPanel.add(Box.createRigidArea(new Dimension(3, 0)));
             customerPanel.add(customerIDLabel);
-            customerPanel.add(Box.createRigidArea(new Dimension(58 + strutDistance, 0)));
+            customerPanel.add(Box.createRigidArea(new Dimension(23 + strutDistance, 0)));
             customerPanel.add(customerIDTextField);
             customerPanel.add(Box.createRigidArea(new Dimension(13, 0)));
             centerPanel.add(customerPanel);
@@ -834,14 +823,14 @@ public class ReservationPanel extends SuperPanel {
             vehiclePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             vehiclePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             vehiclePanel.add(vehicleIDLabel);
-            vehiclePanel.add(Box.createRigidArea(new Dimension(42 + strutDistance, 0)));
+            vehiclePanel.add(Box.createRigidArea(new Dimension(43 + strutDistance, 0)));
             vehiclePanel.add(vehicleIDTextField);
             centerPanel.add(vehiclePanel);
 
             //Start date
             startDateLabel = new JLabel("Reserved from");
             startDateTextField = new JTextField(defaultJTextFieldColumns);
-            dateFormatLabel = new JLabel("yyyy-mm-dd");
+            dateFormatLabel = new JLabel("dd-mm-yyyy");
 
             startDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             startDatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -855,7 +844,7 @@ public class ReservationPanel extends SuperPanel {
             //End date
             endDateLabel = new JLabel("Reserved till");
             endDateTextField = new JTextField(defaultJTextFieldColumns);
-            dateFormatLabel2 = new JLabel("yyyy-mm-dd");
+            dateFormatLabel2 = new JLabel("dd-mm-yyyy");
 
             endDatePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             endDatePanel.add(Box.createRigidArea(new Dimension(5, 0)));
@@ -897,35 +886,27 @@ public class ReservationPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    Timestamp tStart = new Timestamp(0);
-                    Timestamp tEnd = new Timestamp(0);
                     if (reservationIDTextField.getText().trim().length() > 0
                             && vehicleIDTextField.getText().trim().length() > 0
                             && startDateTextField.getText().trim().length() > 0
                             && endDateTextField.getText().trim().length() > 0) {
                         try {
-                            tStart = Timestamp.valueOf(startDateTextField.getText());
-                            tEnd = Timestamp.valueOf(endDateTextField.getText());
-                        } catch (IllegalArgumentException ex) {
-                            CarRental.getView().displayError("Time fields must be in format yyyy-mm-dd hh:mm:ss");
+                            CarRental.getInstance().saveReservation(new Reservation(
+                                    Integer.parseInt(reservationIDTextField.getText()),
+                                    Integer.parseInt(vehicleIDTextField.getText()),
+                                    new Timestamp(dateFormat.parse(startDateTextField.getText().trim()).getTime()),
+                                    new Timestamp(dateFormat.parse(endDateTextField.getText().trim()).getTime()),
+                                    Integer.parseInt(customerIDTextField.getText())));
+                            reservations = CarRental.getInstance().requestReservations();
+                            CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
+                            CarRental.getView().displayError("Reservation " + reservationIDTextField.getText() + " edited");
+                            listPanel.updateListPanel();
+                            updateViewEntityPanel();
+                            showViewEntityPanel();
+                        } catch (java.text.ParseException ex) {
+                            CarRental.getView().displayError("Time fields must be in format dd-mm-yyyy");
                         }
-                            try {
-                                CarRental.getInstance().saveReservation(new Reservation(
-                                        Integer.parseInt(reservationIDTextField.getText()),
-                                        Integer.parseInt(vehicleIDTextField.getText()),
-                                        tStart,
-                                        tEnd,
-                                        Integer.parseInt(customerIDTextField.getText())));
-                                reservations = CarRental.getInstance().requestReservations();
-                                CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
-                                CarRental.getView().displayError("Reservation " + reservationIDTextField.getText() + " edited");
-                                listPanel.updateListPanel();
-                                updateViewEntityPanel();
-                                showViewEntityPanel();
-                            } catch (NumberFormatException ex) {
-                                CarRental.getView().displayError("Time fields must be in format yyyy-mm-dd hh:mm:ss");
-                            }
-                        
+
                     } else { //A TextFild is empty
                         CarRental.getView().displayError("A text field is empty");
                     }
@@ -953,25 +934,12 @@ public class ReservationPanel extends SuperPanel {
             CarRental.getInstance().deleteReservation(reservation.getID());
         }
 
-        public void setReservationTextFields(Reservation reservation) {
-            if (reservation == null) {
-                reservation = CarRental.getInstance().requestReservation();
-            }
-            
-            customerID = "" + reservation.getCustomerID();
-            reservationID = "" + reservation.getID();
-            vehicleID = "" + reservation.getVehicleID();
-            startDate = reservation.getTStart().toString();
-            endDate = reservation.getTEnd().toString();
-        }
-
         public void updateViewEntityPanel() {
-            setReservationTextFields(reservationToView);
-            customerIDTextField.setText(" " + customerID);
-            reservationIDTextField.setText(" " + reservationID);
-            vehicleIDTextField.setText(" " + vehicleID);
-            startDateTextField.setText(" " + startDate);
-            endDateTextField.setText(" " + endDate);
+            customerIDTextField.setText(" " + reservationToView.getCustomerID());
+            reservationIDTextField.setText(" " + reservationToView.getID());
+            vehicleIDTextField.setText(" " + reservationToView.getVehicleID());
+            startDateTextField.setText(" " + dateFormat.format(new Date(reservationToView.getTStart().getTime())));
+            endDateTextField.setText(" " + dateFormat.format(new Date(reservationToView.getTEnd().getTime())));
         }
     }
 
@@ -1053,7 +1021,7 @@ public class ReservationPanel extends SuperPanel {
 
             middleFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             filterPanel.add(middleFilterPanel);
-            
+
             middleFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             middleFilterPanel.add(filterCustomerIDLabel);
             middleFilterPanel.add(Box.createRigidArea(new Dimension(12 + strutDistance, 0)));
@@ -1119,6 +1087,7 @@ public class ReservationPanel extends SuperPanel {
                 public void actionPerformed(ActionEvent e) {
                     if (reservationTable.getSelectedRow() >= 0) {
                         reservationToView = reservations.get(reservationTable.getSelectedRow());
+                        viewEntityPanel.updateViewEntityPanel();
                         showViewEntityPanel();
                         CarRental.getInstance().appendLog("Showing reservation \"" + reservationToView.getID() + "\" now.");
                     }
@@ -1130,7 +1099,7 @@ public class ReservationPanel extends SuperPanel {
         public void setReservationTable() {
             reservations = CarRental.getInstance().requestReservations(); //update customers array
             reservationTableModel.setRowCount(0);
-            
+
             if (reservations.isEmpty()) {
                 reservationToView = CarRental.getInstance().requestReservation();
             } else {
@@ -1172,10 +1141,10 @@ public class ReservationPanel extends SuperPanel {
                 Timestamp tEnd = new Timestamp(0);
                 if (!(filterStartDateTextField.getText().trim().isEmpty()) || !(filterEndDateTextField.getText().trim().isEmpty())) {
                     try {
-                        tStart = Timestamp.valueOf(filterStartDateTextField.getText());
-                        tEnd = Timestamp.valueOf(filterEndDateTextField.getText());
-                    } catch (IllegalArgumentException ex) {
-                        CarRental.getView().displayError("Time fields must be in format yyyy-mm-dd hh:mm:ss");
+                        tStart.setTime(dateFormat.parse(filterStartDateTextField.getText().trim()).getTime());
+                        tEnd.setTime(dateFormat.parse(filterEndDateTextField.getText().trim()).getTime());
+                    } catch (java.text.ParseException ex) {
+                        CarRental.getView().displayError("Time fields must be in format dd-mm-yyyy");
                     }
                 }
 
@@ -1196,8 +1165,7 @@ public class ReservationPanel extends SuperPanel {
                                 reservation.getVehicleID(), //Vehicle ID
                                 reservation.getTStart().toString(), //TStart
                                 reservation.getTEnd().toString(), //TEnd
-                                reservation.getCustomerID(),
-                            });
+                                reservation.getCustomerID(),});
                 }
             }
         }
