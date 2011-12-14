@@ -948,11 +948,27 @@ public class ReservationPanel extends SuperPanel {
             
             //Change customer
             changeCustomerButton = new JButton("Change Customer");
+            changeCustomerButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setCustomerIDTextField(customerListPanel.getCustomerID()) ;
+                }
+            });
+            
             buttonPanel.add(changeCustomerButton);
             buttonPanel.add(Box.createRigidArea(new Dimension(8 + strutDistance, 0)));
             
             //Change vehicle
             changeVehicleButton = new JButton("Change Vehicle");
+            changeVehicleButton.addActionListener(new ActionListener() {
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    setVehicleIDTextField(vehicleListPanel.getVehicleID()) ;
+                }
+            });
+            
             buttonPanel.add(changeVehicleButton);
             buttonPanel.add(Box.createRigidArea(new Dimension(50 + strutDistance, 0)));
 
@@ -975,7 +991,6 @@ public class ReservationPanel extends SuperPanel {
             //editButton
             editButton = new JButton("Save changes");
             editButton.addActionListener(new ActionListener() {
-                //TODO Fix this:
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -1000,7 +1015,8 @@ public class ReservationPanel extends SuperPanel {
                         } catch (NumberFormatException ex) {
                             CarRental.getInstance().appendLog("NumberFormatExceptopm...");
                         }
-
+                        reservationToView = CarRental.getInstance().requestReservation(reservationToView.getID());
+                        updateViewEntityPanel();
                     } else { //A TextFild is empty
                         CarRental.getInstance().appendLog("A text field is empty");
                     }
@@ -1026,6 +1042,14 @@ public class ReservationPanel extends SuperPanel {
 
         private void delete(Reservation reservation) {
             CarRental.getInstance().deleteReservation(reservation.getID());
+        }
+        
+        public void setCustomerIDTextField(int id){
+            if(id > -1) customerIDTextField.setText(" " + id);
+        }
+        
+        public void setVehicleIDTextField(int id){
+            if(id > -1) vehicleIDTextField.setText(" " + id);
         }
 
         public void updateViewEntityPanel() {

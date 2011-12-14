@@ -287,6 +287,14 @@ public class VehicleListPanel extends JPanel {
         }
     }
     
+    public int getVehicleID(){
+        if (vehicleTable.getSelectedRow() >= 0) {
+            return vehicleList.get(vehicleTable.getSelectedRow()).getID();
+        }else{
+            return -1;
+        }
+    }
+    
     public void setTableSize(int width, int height){
         vehicleTable.setPreferredScrollableViewportSize(new Dimension(width, height));
     }

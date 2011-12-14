@@ -147,6 +147,14 @@ public class CustomerListPanel extends JPanel {
         buttonPanel.add(viewButton);
     }
     
+    public int getCustomerID(){
+        if (customerTable.getSelectedRow() >= 0) {
+            return customers.get(customerTable.getSelectedRow()).getID();
+        }else{
+            return -1;
+        }
+    }
+    
     //TODO Doesn't work
     public void setCustomer(int customerID){
         for(int i = 1; i-1 <= customerTable.getHeight(); i++){
