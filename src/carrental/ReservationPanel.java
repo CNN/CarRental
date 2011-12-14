@@ -19,7 +19,8 @@ import java.util.Date;
  */
 public class ReservationPanel extends SuperPanel {
 
-    //TODO CustomerName and VehicleDescription in ViewEntity, Calendar
+    //TODO CustomerName and VehicleDescription in ViewEntity, check if vehicle already lent on date, Calendar
+    
     private Reservation reservationToView; //specific customer, used to view details
     private ArrayList<Reservation> reservations; //array of reservations
     private final CreatePanel createPanel = new CreatePanel();
@@ -376,7 +377,7 @@ public class ReservationPanel extends SuperPanel {
             //Fields
             JPanel centerPanel, customerListPanel, filterPanel, topFilterPanel, bottomFilterPanel, buttonPanel;
             JScrollPane scrollPane;
-            JButton cancelButton, filterButton, setButton;
+            JButton cancelButton, setButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
             //listPanel
@@ -793,7 +794,7 @@ public class ReservationPanel extends SuperPanel {
 
             //createPanel
             setLayout(new BorderLayout());
-            setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Make a reservation"));
+            setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "View a reservation"));
 
             //Center Panel
             centerPanel = new JPanel();
@@ -894,7 +895,7 @@ public class ReservationPanel extends SuperPanel {
             buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 
             //editButton
-            editButton = new JButton("Save edits");
+            editButton = new JButton("Save changes");
             editButton.addActionListener(new ActionListener() {
                 //TODO Fix this:
 
@@ -907,10 +908,10 @@ public class ReservationPanel extends SuperPanel {
                         try {
                             CarRental.getInstance().saveReservation(new Reservation(
                                     Integer.parseInt(reservationIDTextField.getText()),
-                                    Integer.parseInt(vehicleIDTextField.getText()),
+                                    Integer.parseInt(vehicleIDTextField.getText().trim()),
                                     new Timestamp(dateFormat.parse(startDateTextField.getText().trim()).getTime()),
                                     new Timestamp(dateFormat.parse(endDateTextField.getText().trim()).getTime()),
-                                    Integer.parseInt(customerIDTextField.getText())));
+                                    Integer.parseInt(customerIDTextField.getText().trim())));
                             reservations = CarRental.getInstance().requestReservations();
                             CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
                             CarRental.getView().displayError("Reservation " + reservationIDTextField.getText() + " edited");
@@ -919,6 +920,8 @@ public class ReservationPanel extends SuperPanel {
                             showViewEntityPanel();
                         } catch (java.text.ParseException ex) {
                             CarRental.getView().displayError("Time fields must be in format dd-mm-yyyy");
+                        } catch( NumberFormatException ex){
+                            CarRental.getView().displayError("NumberFormatExceptopm...");
                         }
 
                     } else { //A TextFild is empty
@@ -967,7 +970,7 @@ public class ReservationPanel extends SuperPanel {
             //Fields
             JPanel centerPanel, reservationListPanel, filterPanel, topFilterPanel, middleFilterPanel, bottomFilterPanel, buttonPanel;
             JScrollPane scrollPane;
-            JButton cancelButton, filterButton, viewButton;
+            JButton cancelButton, viewButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
             //listPanel

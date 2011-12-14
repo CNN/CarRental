@@ -379,7 +379,7 @@ public class CustomerPanel extends SuperPanel {
             buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             
             //editButton
-            editButton = new JButton("Save edits");
+            editButton = new JButton("Save changes");
             editButton.addActionListener(new ActionListener() {
                 
                 @Override
@@ -420,7 +420,7 @@ public class CustomerPanel extends SuperPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     updateViewEntityPanel();
-                    showMainScreenPanel();
+                    showListPanel();
                 }
             });
             buttonPanel.add(cancelButton);
@@ -486,7 +486,7 @@ public class CustomerPanel extends SuperPanel {
             //Fields
             JPanel centerPanel, customerListPanel, filterPanel, topFilterPanel, bottomFilterPanel, buttonPanel;
             JScrollPane scrollPane;
-            JButton cancelButton, filterButton, viewButton;
+            JButton cancelButton, viewButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
             //listPanel
@@ -575,17 +575,6 @@ public class CustomerPanel extends SuperPanel {
             buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
             buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
             buttonPanel.add(Box.createHorizontalGlue());
-
-            //filter-button
-            filterButton = new JButton("Filter");
-            filterButton.addActionListener(new ActionListener() {
-                
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    filter();
-                }
-            });
-            bottomFilterPanel.add(filterButton);
 
             //cancel-Button
             cancelButton = new JButton("Back");
