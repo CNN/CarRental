@@ -11,6 +11,7 @@ import java.util.ArrayList;
  */
 public final class CarRental {
     public static final boolean DEBUG = true;
+    private boolean launched = false;
     private static CarRental instance;
     private Model model;
     private static View view;
@@ -22,6 +23,7 @@ public final class CarRental {
         appendLog("Initializing...");
         model = new Model();
         view = new View();
+        launched = true;
     }
     
     /**
@@ -398,7 +400,7 @@ public final class CarRental {
     public void appendLog(String string) {
         if(CarRental.DEBUG) System.out.println(string);
         log = log+"\n"+string;
-        getView().displayError(string);
+        if(launched) getView().displayError(string);
     }
     
     /**
