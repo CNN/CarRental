@@ -217,10 +217,10 @@ public class CustomerPanel extends SuperPanel {
                         customers = CarRental.getInstance().requestCustomers();
                         updateCreatePanel();
                         }catch (NumberFormatException ex){
-                            CarRental.getView().displayError("Phone number must be numbers only");
+                            CarRental.getInstance().appendLog("Phone number must be numbers only");
                         }
                     } else { //A TextFild is empty
-                        CarRental.getView().displayError("A text field is empty");
+                        CarRental.getInstance().appendLog("A text field is empty");
                     }
                     updateCreatePanel();
                 }
@@ -229,7 +229,6 @@ public class CustomerPanel extends SuperPanel {
         }
         
         public void updateCreatePanel() {
-            CarRental.getView().displayError(null);
             customerIDTextField.setText(" Automaticly generated");
             customerPhoneTextField.setText("");
             customerNameTextField.setText("");
@@ -367,11 +366,9 @@ public class CustomerPanel extends SuperPanel {
                     String id = Integer.toString(customerToView.getID());
                     if(delete(customerToView)){
                         CarRental.getInstance().appendLog("Succesfully deleted customer " + id);
-                        CarRental.getView().displayError("Succesfully deleted customer " + id);
                         updateViewEntityPanel();
                     }else{
                         CarRental.getInstance().appendLog("Failed to delete customer " + id);
-                        CarRental.getView().displayError("Failed to delete customer " + id + "\nCustomer might have a future reservation");
                     }
                 }
             });
@@ -399,14 +396,13 @@ public class CustomerPanel extends SuperPanel {
                                 customerEMailTextField.getText()));
                         customers = CarRental.getInstance().requestCustomers();
                         CarRental.getInstance().appendLog("Customer " + customerIDTextField.getText() + " edited");
-                        CarRental.getView().displayError("Customer " + customerIDTextField.getText() + " edited");
                         updateViewEntityPanel();
                         showViewEntityPanel();
                         }catch (NumberFormatException ex){
-                            CarRental.getView().displayError("Phone number must be numbers only");
+                            CarRental.getInstance().appendLog("Phone number must be numbers only");
                         }
                     } else { //A TextFild is empty
-                        CarRental.getView().displayError("A text field is empty");
+                        CarRental.getInstance().appendLog("A text field is empty");
                     }
                 }
             });

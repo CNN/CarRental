@@ -114,17 +114,7 @@ public class GraphicAlternate extends JComponent {
                 break;
             case(VIEW_MONTH):
                 unit = S_IN_DAY;
-                Calendar cal = Calendar.getInstance();
-                cal.setTimeInMillis(first_date.getTime());
-                if(month.format(new Date(first_date.getTime())).equals("02") &&
-                        cal.isLenient()) numberOfCollumns = 29;
-                else if(month.format(new Date(first_date.getTime())).equals("02") &&
-                        !cal.isLenient()) numberOfCollumns = 28;
-                else if(Integer.parseInt(month.format(new Date(first_date.getTime()))) % 2 == 0 &&
-                        Integer.parseInt(month.format(new Date(first_date.getTime()))) > 7 ||
-                        Integer.parseInt(month.format(new Date(first_date.getTime()))) % 2 == 1 &&
-                        Integer.parseInt(month.format(new Date(first_date.getTime()))) < 8) numberOfCollumns = 31;
-                else numberOfCollumns = 30;
+                numberOfCollumns = 30;
                 break;
             default:
                 unit = 0;
@@ -190,6 +180,10 @@ public class GraphicAlternate extends JComponent {
         
         //print reservation blocks for each row
         for(int y = 0; y < numberOfRows; y++) {
+            if(y % 2 == 0) {
+                g.setColor(new Color(220,220,220));
+                g.fillRect(0, y*rowHeight + 5, width, rowHeight);
+            }
             reference.add(new ArrayList<Booking>());
             //for each cell
             for(int x = 0; x < numberOfCollumns; x++) {
@@ -205,7 +199,7 @@ public class GraphicAlternate extends JComponent {
                     }
                 }
                 if(booked) {
-                    g.fillRect(x * collumnWidth + textSpace, y * rowHeight + 5, collumnWidth, rowHeight);
+                    g.fillRect(x * collumnWidth + textSpace, y * rowHeight + 6, collumnWidth, rowHeight - 2);
                 }
                 reference.get(y).add(bkng);
                 movePointerX();
@@ -237,7 +231,7 @@ public class GraphicAlternate extends JComponent {
         //draw x-axis text
         for (int x = 0; x < numberOfCollumns; x++) {
             boolean draw_this = false, draw_line = false;
-            g.setColor(Color.LIGHT_GRAY);
+            g.setColor(Color.GRAY);
             g.drawLine(pointerX, 0, pointerX, height - 3*textHeight);
             g.setColor(Color.black);
             //draw all if less than 10 cols
@@ -259,11 +253,25 @@ public class GraphicAlternate extends JComponent {
             }
         }
         
+        g.setColor(new Color(230,230,230));
+        g.fillRect(705, 0, 80, 36);
+        g.setColor(Color.BLACK);
+        g.drawRect(705,0,80,36);
         String str = "";
         if(display == VIEW_DAYS) str = "> ";
         g.drawString(str+"View week", 710, 15);
         str = "";
         if(display == VIEW_MONTH) str = "> ";
         g.drawString(str+"View month", 710, 30);
+        
+        g.setColor(Color.BLUE);
+        g.fillRect(4, height - 42, 11, 11);
+        g.setColor(Color.RED);
+        g.fillRect(4, height - 27, 11, 11);
+        g.setColor(Color.BLACK);
+        g.drawRect(4, height - 42, 11, 11);
+        g.drawRect(4, height - 27, 11, 11);
+        g.drawString("Reservation", 20, height - 32);
+        g.drawString("Maintenance", 20, height - 16);
     }
 }
