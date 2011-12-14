@@ -415,6 +415,7 @@ public final class CarRental {
     public void appendLog(String string, Exception e) {
         if(CarRental.DEBUG) System.out.println(e+": "+string);
         log = log+"\n"+string+": "+e;
+        if(launched) getView().displayError(string);
     }
     
     /**
