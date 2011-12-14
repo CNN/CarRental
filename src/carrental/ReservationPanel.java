@@ -422,6 +422,12 @@ public class ReservationPanel extends SuperPanel {
             //ID
             filterIDLabel = new JLabel("ID");
             filterIDTextField = new JTextField(defaultJTextFieldColumns);
+            filterIDTextField.addKeyListener(new KeyAdapter() {
+
+                public void keyReleased(KeyEvent e) {
+                    filter();
+                }
+            });
 
             topFilterPanel.add(Box.createRigidArea(new Dimension(0, 0)));
             topFilterPanel.add(filterIDLabel);
@@ -431,6 +437,12 @@ public class ReservationPanel extends SuperPanel {
             //Name
             filterNameLabel = new JLabel("Name");
             filterNameTextField = new JTextField(defaultJTextFieldColumns);
+            filterNameTextField.addKeyListener(new KeyAdapter() {
+
+                public void keyReleased(KeyEvent e) {
+                    filter();
+                }
+            });
 
             topFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             topFilterPanel.add(filterNameLabel);
@@ -444,6 +456,12 @@ public class ReservationPanel extends SuperPanel {
             //Phone
             filterPhoneLabel = new JLabel("Phone number");
             filterPhoneTextField = new JTextField(defaultJTextFieldColumns);
+            filterPhoneTextField.addKeyListener(new KeyAdapter() {
+
+                public void keyReleased(KeyEvent e) {
+                    filter();
+                }
+            });
 
             bottomFilterPanel.add(filterPhoneLabel);
             bottomFilterPanel.add(Box.createRigidArea(new Dimension(strutDistance, 0)));
@@ -452,6 +470,12 @@ public class ReservationPanel extends SuperPanel {
             //Adress
             filterAdressLabel = new JLabel("Adress");
             filterAdressTextField = new JTextField(defaultJTextFieldColumns);
+            filterAdressTextField.addKeyListener(new KeyAdapter() {
+
+                public void keyReleased(KeyEvent e) {
+                    filter();
+                }
+            });
 
             bottomFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             bottomFilterPanel.add(filterAdressLabel);
@@ -464,17 +488,6 @@ public class ReservationPanel extends SuperPanel {
             buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
             buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
             buttonPanel.add(Box.createHorizontalGlue());
-
-            //filter-button
-            filterButton = new JButton("Filter");
-            filterButton.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    filter();
-                }
-            });
-            bottomFilterPanel.add(filterButton);
 
             //cancel-Button
             cancelButton = new JButton("Back");
@@ -966,7 +979,7 @@ public class ReservationPanel extends SuperPanel {
             centerPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 40));
             add(centerPanel, BorderLayout.CENTER);
 
-            //customerListPanel.
+            //customerListPanel
             reservationListPanel = new JPanel();
 
             //Colors
@@ -1000,6 +1013,12 @@ public class ReservationPanel extends SuperPanel {
             //Reservation ID
             filterReservationIDLabel = new JLabel("Reservation ID");
             filterReservationIDTextField = new JTextField(defaultJTextFieldColumns);
+            filterReservationIDTextField.addKeyListener(new KeyAdapter() {
+
+                public void keyReleased(KeyEvent e) {
+                    filter();
+                }
+            });
 
             topFilterPanel.add(Box.createRigidArea(new Dimension(0, 0)));
             topFilterPanel.add(filterReservationIDLabel);
@@ -1009,6 +1028,12 @@ public class ReservationPanel extends SuperPanel {
             //Vehicle ID
             filterVehicleIDLabel = new JLabel("Vehicle ID");
             filterVehicleIDTextField = new JTextField(defaultJTextFieldColumns);
+            filterVehicleIDTextField.addKeyListener(new KeyAdapter() {
+
+                public void keyReleased(KeyEvent e) {
+                    filter();
+                }
+            });
 
             topFilterPanel.add(Box.createRigidArea(new Dimension(19, 0)));
             topFilterPanel.add(filterVehicleIDLabel);
@@ -1018,6 +1043,12 @@ public class ReservationPanel extends SuperPanel {
             //Customer ID
             filterCustomerIDLabel = new JLabel("Customer ID");
             filterCustomerIDTextField = new JTextField(defaultJTextFieldColumns);
+            filterCustomerIDTextField.addKeyListener(new KeyAdapter() {
+
+                public void keyReleased(KeyEvent e) {
+                    filter();
+                }
+            });
 
             middleFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             filterPanel.add(middleFilterPanel);
@@ -1034,6 +1065,12 @@ public class ReservationPanel extends SuperPanel {
             //Start Date
             filterStartDateLabel = new JLabel("Start");
             filterStartDateTextField = new JTextField(defaultJTextFieldColumns);
+            filterStartDateTextField.addKeyListener(new KeyAdapter() {
+
+                public void keyReleased(KeyEvent e) {
+                    filter();
+                }
+            });
 
             bottomFilterPanel.add(Box.createRigidArea(new Dimension(strutDistance, 50)));
             bottomFilterPanel.add(filterStartDateLabel);
@@ -1043,21 +1080,16 @@ public class ReservationPanel extends SuperPanel {
             //End Date
             filterEndDateLabel = new JLabel("End");
             filterEndDateTextField = new JTextField(defaultJTextFieldColumns);
+            filterEndDateTextField.addKeyListener(new KeyAdapter() {
+
+                public void keyReleased(KeyEvent e) {
+                    filter();
+                }
+            });
 
             bottomFilterPanel.add(filterEndDateLabel);
             bottomFilterPanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
             bottomFilterPanel.add(filterEndDateTextField);
-
-            //filter-button
-            filterButton = new JButton("Filter");
-            filterButton.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    filter();
-                }
-            });
-            bottomFilterPanel.add(filterButton);
 
             //ButtonPanels
             buttonPanel = new JPanel();
