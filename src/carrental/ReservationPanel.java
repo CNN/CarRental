@@ -832,7 +832,7 @@ public class ReservationPanel extends SuperPanel {
             //Fields
             JPanel panelContainer, customerNamePanel, vehiclePanel, endDatePanel, startDatePanel, reservationIDPanel, customerPanel, buttonPanel;
             JLabel customerNameLabel, vehicleIDLabel, dateFormatLabel, dateFormatLabel2, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
-            JButton deleteButton, editButton, cancelButton;
+            JButton changeVehicleButton, changeCustomerButton, deleteButton, editButton, cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
             
             //View entity panel
@@ -945,6 +945,16 @@ public class ReservationPanel extends SuperPanel {
             buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
             buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
             buttonPanel.add(Box.createHorizontalGlue());
+            
+            //Change customer
+            changeCustomerButton = new JButton("Change Customer");
+            buttonPanel.add(changeCustomerButton);
+            buttonPanel.add(Box.createRigidArea(new Dimension(8 + strutDistance, 0)));
+            
+            //Change vehicle
+            changeVehicleButton = new JButton("Change Vehicle");
+            buttonPanel.add(changeVehicleButton);
+            buttonPanel.add(Box.createRigidArea(new Dimension(50 + strutDistance, 0)));
 
             //deleteButton
             deleteButton = new JButton("Delete");
