@@ -741,7 +741,8 @@ public class MaintenancePanel extends SuperPanel {
             dateStartField.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyReleased(KeyEvent e) {
-                    filter();
+                    if(dateStartField.getText().matches("[0-9]{2}-[0-9]{2}-[0-9]{4}") ||
+                            dateStartField.getText().trim().isEmpty()) filter();
                 }
             });
             
@@ -755,7 +756,8 @@ public class MaintenancePanel extends SuperPanel {
             dateEndField.addKeyListener(new KeyAdapter() {
                 @Override
                 public void keyReleased(KeyEvent e) {
-                    filter();
+                    if(dateEndField.getText().matches("[0-9]{2}-[0-9]{2}-[0-9]{4}") ||
+                            dateEndField.getText().trim().isEmpty()) filter();
                 }
             });
             middleFilterPanel.add(dateEndLabel);

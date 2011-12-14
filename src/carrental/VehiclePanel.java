@@ -274,17 +274,16 @@ public class VehiclePanel extends SuperPanel {
 
                                         CarRental.getInstance().saveVehicle(newVehicle);
                                         CarRental.getInstance().appendLog("Vehicle \"" + descriptionField.getText().trim() + "\" added to the database.");
-                                        CarRental.getView().displayError("Vehicle \"" + descriptionField.getText().trim() + "\" added to the database.");
                                         vehicleList = CarRental.getInstance().requestVehicles();
                                     } catch (NumberFormatException ex) {
-                                        CarRental.getView().displayError("Your \"Distance driven\" field does not consist of numbers only or was too long. The vehicle wasn't created.");
+                                        CarRental.getInstance().appendLog("Your \"Distance driven\" field does not consist of numbers only or was too long. The vehicle wasn't created.");
                                     }
 
                                 } else {
-                                    CarRental.getView().displayError("A vehicle with VIN \"" + vinField.getText().trim() + "\" already exists.");
+                                    CarRental.getInstance().appendLog("A vehicle with VIN \"" + vinField.getText().trim() + "\" already exists.");
                                 }
                             } else {
-                                CarRental.getView().displayError("The vehicle wasn't created. Fill out the text fields.");
+                                CarRental.getInstance().appendLog("The vehicle wasn't created. Fill out the text fields.");
                             }
                         }
                     });
@@ -327,7 +326,7 @@ public class VehiclePanel extends SuperPanel {
 
             JPanel centerPanel, reservationPanel, maintenancePanel, buttonPanel, vehicleTypePanel, descriptionPanel, licensePlatePanel, vinPanel, drivenPanel, additionalPanel;
             JLabel vehicleTypeLabel, descriptionLabel, licensePlateLabel, vinLabel, drivenLabel, kilometerLabel, additionalLabel;
-            JButton backButton, editButton, deleteButton, viewSelectedTypeButton;
+            JButton backButton, saveButton, deleteButton, viewSelectedTypeButton;
             JScrollPane reservationScrollPane, maintenanceScrollPane, additionalScrollPane;
             String[] tableColumn;
             JTable reservationTable, maintenanceTable;
@@ -359,7 +358,7 @@ public class VehiclePanel extends SuperPanel {
                 public void actionPerformed(ActionEvent e) {
                     vehicleTypeToView = vehicleTypes.get(vehicleTypeCombo.getSelectedIndex());
                     showViewTypePanel();
-                    CarRental.getView().displayError("Showing vehicle type \"" + vehicleTypeToView.getName() + "\" now.");
+                    CarRental.getInstance().appendLog("Showing vehicle type \"" + vehicleTypeToView.getName() + "\" now.");
                 }
             });
 
@@ -517,7 +516,6 @@ public class VehiclePanel extends SuperPanel {
                 public void actionPerformed(ActionEvent e) {
                     CarRental.getInstance().deleteVehicle(vehicleToView.getID());
                     CarRental.getInstance().appendLog("Vehicle \"" + vehicleToView.getDescription() + "\" deleted from the database.");
-                    CarRental.getView().displayError("Vehicle \"" + vehicleToView.getDescription() + "\" deleted from the database.");
                     vehicleList = CarRental.getInstance().requestVehicles();
                     showListPanel();
                 }
@@ -526,8 +524,8 @@ public class VehiclePanel extends SuperPanel {
             buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 
             //Create-button
-            editButton = new JButton("Edit");
-            editButton.addActionListener(new ActionListener() {
+            saveButton = new JButton("Save changes");
+            saveButton.addActionListener(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -551,18 +549,17 @@ public class VehiclePanel extends SuperPanel {
 
                                 CarRental.getInstance().saveVehicle(updatedVehicle);
                                 CarRental.getInstance().appendLog("Vehicle \"" + descriptionField.getText().trim() + "\" changed in the database.");
-                                CarRental.getView().displayError("Vehicle \"" + descriptionField.getText().trim() + "\" changed in the database.");
                                 vehicleList = CarRental.getInstance().requestVehicles();
                             } catch (NumberFormatException ex) {
-                                CarRental.getView().displayError("Your \"Distance driven\" field does not consist of numbers only or was too long. The vehicle wasn't created.");
+                                CarRental.getInstance().appendLog("Your \"Distance driven\" field does not consist of numbers only or was too long. The vehicle wasn't created.");
                             }
                         } else {
-                            CarRental.getView().displayError("Another vehicle with VIN \"" + vinField.getText().trim() + "\" already exists.");
+                            CarRental.getInstance().appendLog("Another vehicle with VIN \"" + vinField.getText().trim() + "\" already exists.");
                         }
                     }
                 }
             });
-            buttonPanel.add(editButton);
+            buttonPanel.add(saveButton);
         }
 
         /**
@@ -651,7 +648,7 @@ public class VehiclePanel extends SuperPanel {
      */
     public class ViewVehicleTypePanel extends JPanel {
 
-        private JButton backButton, editButton, deleteButton;
+        private JButton backButton, saveButton, deleteButton;
         private VehicleTypePanel vehicleTypePanel;
 
         /**
@@ -676,7 +673,7 @@ public class VehiclePanel extends SuperPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     showViewEntityPanel();
-                    CarRental.getView().displayError("Showing vehicle \"" + vehicleToView.getDescription() + "\" now.");
+                    CarRental.getInstance().appendLog("Showing vehicle \"" + vehicleToView.getDescription() + "\" now.");
                 }
             });
 
@@ -695,18 +692,17 @@ public class VehiclePanel extends SuperPanel {
                     if (!inUse) {
                         CarRental.getInstance().deleteVehicleType(vehicleTypeToView.getID());
                         CarRental.getInstance().appendLog("Vehicle type \"" + vehicleTypeToView.getName() + "\" deleted from the database.");
-                        CarRental.getView().displayError("Vehicle type \"" + vehicleTypeToView.getName() + "\" deleted from the database.");
                         vehicleTypes = CarRental.getInstance().requestVehicleTypes();
                         showViewEntityPanel();
                     } else {
-                        CarRental.getView().displayError("Vehicle type \"" + vehicleTypeToView.getName() + "\" is in use by at least one car. Could not be deleted.");
+                        CarRental.getInstance().appendLog("Vehicle type \"" + vehicleTypeToView.getName() + "\" is in use by at least one car. Could not be deleted.");
                     }
                 }
             });
 
-            // Edit-button
-            editButton = new JButton("Edit");
-            editButton.addActionListener(new ActionListener() {
+            // Save changes-button
+            saveButton = new JButton("Save changes");
+            saveButton.addActionListener(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -729,16 +725,15 @@ public class VehiclePanel extends SuperPanel {
 
                                 CarRental.getInstance().saveVehicleType(updatedVehicleType);
                                 CarRental.getInstance().appendLog("Vehicle type \"" + vehicleTypeTextList.get(0).getText().trim() + "\" changed in the database.");
-                                CarRental.getView().displayError("Vehicle type \"" + vehicleTypeTextList.get(0).getText().trim() + "\" changed in the database.");
                                 vehicleTypes = CarRental.getInstance().requestVehicleTypes(); //update ment for if name check is implemented
                             } catch (NumberFormatException ex) {
-                                CarRental.getView().displayError("Your \"price per day\" field does not consist of numbers only or was too long. The vehicle type wasn't created.");
+                                CarRental.getInstance().appendLog("Your \"price per day\" field does not consist of numbers only or was too long. The vehicle type wasn't created.");
                             }
                         } else {
-                            CarRental.getView().displayError("Another vehicle type with the name \"" + vehicleTypeTextList.get(0).getText().trim() + "\" already exists.");
+                            CarRental.getInstance().appendLog("Another vehicle type with the name \"" + vehicleTypeTextList.get(0).getText().trim() + "\" already exists.");
                         }
                     } else {
-                        CarRental.getView().displayError("The vehicle type wasn't edited. You need to enter text in all the fields.");
+                        CarRental.getInstance().appendLog("The vehicle type wasn't edited. You need to enter text in all the fields.");
                     }
                 }
             });
@@ -748,7 +743,7 @@ public class VehiclePanel extends SuperPanel {
          * Updates the panel to show the selected vehicle type. This type is selected in the ViewVehiclePanel-class
          */
         public void update() {
-            vehicleTypePanel.setPanel(vehicleTypeToView, backButton, deleteButton, editButton);
+            vehicleTypePanel.setPanel(vehicleTypeToView, backButton, deleteButton, saveButton);
         }
     }
 
@@ -807,16 +802,15 @@ public class VehiclePanel extends SuperPanel {
 
                                 CarRental.getInstance().saveVehicleType(newVehicleType);
                                 CarRental.getInstance().appendLog("Vehicle type \"" + vehicleTypeTextList.get(0).getText().trim() + "\" added to the database.");
-                                CarRental.getView().displayError("Vehicle type \"" + vehicleTypeTextList.get(0).getText().trim() + "\" added to the database.");
                                 vehicleTypes = CarRental.getInstance().requestVehicleTypes();
                             } catch (NumberFormatException ex) {
-                                CarRental.getView().displayError("Your \"price per day\" field does not consist of numbers only or was too long. The vehicle type wasn't created.");
+                                CarRental.getInstance().appendLog("Your \"price per day\" field does not consist of numbers only or was too long. The vehicle type wasn't created.");
                             }
                         } else {
-                            CarRental.getView().displayError("A vehicle type with the name \"" + vehicleTypeTextList.get(0).getText().trim() + "\" already exists.");
+                            CarRental.getInstance().appendLog("A vehicle type with the name \"" + vehicleTypeTextList.get(0).getText().trim() + "\" already exists.");
                         }
                     } else {
-                        CarRental.getView().displayError("The vehicle type wasn't created. You need to enter text in all the fields.");
+                        CarRental.getInstance().appendLog("The vehicle type wasn't created. You need to enter text in all the fields.");
                     }
                 }
             });
@@ -1006,7 +1000,7 @@ public class VehiclePanel extends SuperPanel {
                             }
                         }
                         showViewEntityPanel();
-                        CarRental.getView().displayError("Showing vehicle \"" + vehicleToView.getDescription() + "\" now.");
+                        CarRental.getInstance().appendLog("Showing vehicle \"" + vehicleToView.getDescription() + "\" now.");
                     }
                 }
             });

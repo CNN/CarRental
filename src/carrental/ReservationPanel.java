@@ -1210,8 +1210,8 @@ public class ReservationPanel extends SuperPanel {
                 reservationTableModel.addRow(new Object[]{
                             reservation.getID(), //ID
                             reservation.getVehicleID(), //Vehicle ID
-                            dateFormat.format(new Date(reservation.getTStart().getTime())), //TStart
-                            dateFormat.format(new Date(reservation.getTEnd().getTime())), //TEnd
+                            dateFormat.format(new Date(reservation.getTStart().getTime())), //TStart 
+                            dateFormat.format(new Date(reservation.getTEnd().getTime())), //TEnd 
                             reservation.getCustomerID() //Customer
                         });
             }
