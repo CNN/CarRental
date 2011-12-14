@@ -15,7 +15,7 @@ import java.util.Date;
  * This is the main panel for reservations
  * It contains JPanels for every relevant screen, when dealing with reservations.
  * @author CNN
- * @version 2011-12-12
+ * @version 2011-12-14
  */
 public class ReservationPanel extends SuperPanel {
 
@@ -775,18 +775,17 @@ public class ReservationPanel extends SuperPanel {
                                     new Timestamp(dateFormat.parse(endDateTextField.getText().trim()).getTime()),
                                     Integer.parseInt(customerIDTextField.getText())));
                             CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
-                            CarRental.getView().displayError("Reservation " + customerIDTextField.getText() + " edited");
                         } catch (NumberFormatException ex) {
-                            CarRental.getView().displayError("Vehicle ID number must be numbers only");
+                            CarRental.getInstance().appendLog("Vehicle ID number must be numbers only");
                         } catch (java.text.ParseException ex) {
-                            CarRental.getView().displayError("Time fields must be in format dd-mm-yyyy");
+                            CarRental.getInstance().appendLog("Time fields must be in format dd-mm-yyyy");
                         }
                         reservations = CarRental.getInstance().requestReservations();
                         updateCreatePanel();
                         showListPanel();
 
                     } else { //A TextFild is empty
-                        CarRental.getView().displayError("A text field is empty");
+                        CarRental.getInstance().appendLog("A text field is empty");
                     }
                     updateCreatePanel();
                     listPanel.updateListPanel();
@@ -922,7 +921,6 @@ public class ReservationPanel extends SuperPanel {
                     String id = Integer.toString(reservationToView.getID());
                     delete(reservationToView);
                     CarRental.getInstance().appendLog("Succesfully deleted reservation " + id);
-                    CarRental.getView().displayError("Succesfully deleted reservation " + id);
                     updateViewEntityPanel();
                     listPanel.updateListPanel();
                 }
@@ -950,18 +948,17 @@ public class ReservationPanel extends SuperPanel {
                                     Integer.parseInt(customerIDTextField.getText().trim())));
                             reservations = CarRental.getInstance().requestReservations();
                             CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
-                            CarRental.getView().displayError("Reservation " + reservationIDTextField.getText() + " edited");
                             listPanel.updateListPanel();
                             updateViewEntityPanel();
                             showViewEntityPanel();
                         } catch (java.text.ParseException ex) {
-                            CarRental.getView().displayError("Time fields must be in format dd-mm-yyyy");
+                            CarRental.getInstance().appendLog("Time fields must be in format dd-mm-yyyy");
                         } catch( NumberFormatException ex){
-                            CarRental.getView().displayError("NumberFormatExceptopm...");
+                            CarRental.getInstance().appendLog("NumberFormatExceptopm...");
                         }
 
                     } else { //A TextFild is empty
-                        CarRental.getView().displayError("A text field is empty");
+                        CarRental.getInstance().appendLog("A text field is empty");
                     }
                 }
             });
@@ -1205,7 +1202,7 @@ public class ReservationPanel extends SuperPanel {
                         tStart.setTime(dateFormat.parse(filterStartDateTextField.getText().trim()).getTime());
                         tEnd.setTime(dateFormat.parse(filterEndDateTextField.getText().trim()).getTime());
                     } catch (java.text.ParseException ex) {
-                        CarRental.getView().displayError("Time fields must be in format dd-mm-yyyy");
+                        CarRental.getInstance().appendLog("Time fields must be in format dd-mm-yyyy");
                     }
                 }
 
