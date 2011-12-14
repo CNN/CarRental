@@ -49,6 +49,7 @@ public class ReservationPanel extends SuperPanel {
         //showCreatePanel();
         //showMainScreenPanel();
         //showViewEntityPanel();
+        listPanel.updateListPanel();
         showListPanel();
     }
 
@@ -974,7 +975,6 @@ public class ReservationPanel extends SuperPanel {
 
             //Creating the table model
             reservationTableModel = new DefaultTableModel(new Object[]{"ID", "VehicleID", "Start", "End", "CustomerID"}, 0);
-            setReservationTable();
 
             //Creating the table
             reservationTable = new JTable(reservationTableModel);
@@ -1096,16 +1096,11 @@ public class ReservationPanel extends SuperPanel {
             buttonPanel.add(viewButton);
         }
 
-        public void setReservationTable() {
-            reservations = CarRental.getInstance().requestReservations(); //update customers array
+        public void updateListPanel() {
+            setFilterTextFields();
+            reservations = CarRental.getInstance().requestReservations(); //update array
+            
             reservationTableModel.setRowCount(0);
-
-            if (reservations.isEmpty()) {
-                reservationToView = CarRental.getInstance().requestReservation();
-            } else {
-                reservationToView = reservations.get(0);
-            }
-
             for (Reservation reservation : reservations) { //update table
                 reservationTableModel.addRow(new Object[]{
                             reservation.getID(), //ID
@@ -1115,11 +1110,6 @@ public class ReservationPanel extends SuperPanel {
                             reservation.getCustomerID() //Customer
                         });
             }
-        }
-
-        public void updateListPanel() {
-            setFilterTextFields();
-            setReservationTable();
         }
 
         public void setFilterTextFields() {
