@@ -114,17 +114,7 @@ public class GraphicAlternate extends JComponent {
                 break;
             case(VIEW_MONTH):
                 unit = S_IN_DAY;
-                Calendar cal = Calendar.getInstance();
-                cal.setTimeInMillis(first_date.getTime());
-                if(month.format(new Date(first_date.getTime())).equals("02") &&
-                        cal.isLenient()) numberOfCollumns = 29;
-                else if(month.format(new Date(first_date.getTime())).equals("02") &&
-                        !cal.isLenient()) numberOfCollumns = 28;
-                else if(Integer.parseInt(month.format(new Date(first_date.getTime()))) % 2 == 0 &&
-                        Integer.parseInt(month.format(new Date(first_date.getTime()))) > 7 ||
-                        Integer.parseInt(month.format(new Date(first_date.getTime()))) % 2 == 1 &&
-                        Integer.parseInt(month.format(new Date(first_date.getTime()))) < 8) numberOfCollumns = 31;
-                else numberOfCollumns = 30;
+                numberOfCollumns = 30;
                 break;
             default:
                 unit = 0;
