@@ -392,12 +392,13 @@ public final class CarRental {
     /**
      * Append a string as a new line to the log. If something goes wrong or
      * is of interest as to determine when something goes wrong, it should be
-     * added to the log.
+     * added to the log. Also displays the string supplied to the user.
      * @param string New line to add to the log.
      */
     public void appendLog(String string) {
         if(CarRental.DEBUG) System.out.println(string);
         log = log+"\n"+string;
+        getView().displayError(string);
     }
     
     /**
