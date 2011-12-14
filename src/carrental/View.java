@@ -121,7 +121,6 @@ public class View {
         private ReservationPanel reservationPanel = new ReservationPanel();
         private CustomerPanel customerPanel = new CustomerPanel();
         private VehiclePanel vehiclePanel = new VehiclePanel();
-        //TODO: not yet added: reservationpanel, maintenancepanel
         private JLabel errorLabel = new JLabel(" ");
         private SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         
@@ -321,15 +320,6 @@ public class View {
         public ReservationPanel getReservationPanel() {
             return reservationPanel;
         }
-        
-//        //TODO: ACtivate
-//        /**
-//         * Get the maintenance panel
-//         * @return maintenance panel
-//         */
-//        public Maintenance getMaintenancePanel() {
-//            return maintenancePanel;
-//        }
                 
         /**
          * get the customer panel
