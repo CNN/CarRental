@@ -1110,9 +1110,9 @@ public class ReservationPanel extends SuperPanel {
                 reservationTableModel.addRow(new Object[]{
                             reservation.getID(), //ID
                             reservation.getVehicleID(), //Vehicle ID
-                            reservation.getTStart().toString(), //TStart
-                            reservation.getTEnd().toString(), //TEnd
-                            reservation.getCustomerID(), //Customer
+                            dateFormat.format(new Date(reservation.getTStart().getTime())), //TStart
+                            dateFormat.format(new Date(reservation.getTEnd().getTime())), //TEnd
+                            reservation.getCustomerID() //Customer
                         });
             }
         }
@@ -1163,8 +1163,8 @@ public class ReservationPanel extends SuperPanel {
                     reservationTableModel.addRow(new Object[]{
                                 reservation.getID(), //ID
                                 reservation.getVehicleID(), //Vehicle ID
-                                reservation.getTStart().toString(), //TStart
-                                reservation.getTEnd().toString(), //TEnd
+                                dateFormat.format(new Date(reservation.getTStart().getTime())), //TStart
+                                dateFormat.format(new Date(reservation.getTEnd().getTime())), //TEnd
                                 reservation.getCustomerID(),});
                 }
             }
