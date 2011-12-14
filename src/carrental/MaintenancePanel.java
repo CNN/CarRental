@@ -385,7 +385,7 @@ public class MaintenancePanel extends SuperPanel {
             buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 
             //Create-button
-            editButton = new JButton("Edit");
+            editButton = new JButton("Save changes");
             editButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -511,7 +511,7 @@ public class MaintenancePanel extends SuperPanel {
             buttonPanel.add(deleteButton);
 
             // Edit-button
-            editButton = new JButton("Edit");
+            editButton = new JButton("Save changes");
             editButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
