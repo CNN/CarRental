@@ -68,18 +68,6 @@ public class VehiclePanel extends SuperPanel {
         super.showViewTypePanel();
     }
 
-    //Temporary Main
-    //TODO: Remove
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("VehicleFrame");
-        frame.setPreferredSize(new Dimension(800, 600));
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container contentPane = frame.getContentPane();
-        contentPane.add(new VehiclePanel());
-        frame.pack();
-        frame.setVisible(true);
-    }
-
     /**
      * This inner class creates a JPanel with an overview of reservations for the vehicles.
      */
@@ -604,10 +592,8 @@ public class VehiclePanel extends SuperPanel {
             }
 
             //Removes the old rows before adding the new ones
-            reservationTableModel.setRowCount(
-                    0); //TODO lol er det her virkelig den eneste måde at tømme tabellen på? reservationTable.removeAll() virker ikke, så prøv ikke den
-            maintenanceTableModel.setRowCount(
-                    0);
+            reservationTableModel.setRowCount(0);
+            maintenanceTableModel.setRowCount(0);
 
             //Add the rows with reservations
 

@@ -42,7 +42,6 @@ public class MaintenancePanel extends SuperPanel {
         listPanel = new ListPanel();
         //Sets the different subpanels. Also adds them to this object with JPanel.add().
         AssignAndAddSubPanels(new MainScreenPanel(), createPanel, viewMaintenancePanel, new AddTypePanel(), viewMaintenanceTypePanel, listPanel);
-            //TODO: Should this (above) add the main panel? It's the same in customer and reservation!
         this.setPreferredSize(new Dimension(800, 600));
         showListPanel();
     }
@@ -846,7 +845,6 @@ public class MaintenancePanel extends SuperPanel {
             typeIsServiceBox.setSelected(false);
         }
 
-        //TODO: Fix mass parse exception on changing date - only update when date is completely filled in.
         /**
          * Updates the list of maintenances so that only entries matching the
          * filters will be shown.
