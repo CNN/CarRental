@@ -147,13 +147,16 @@ public class CustomerListPanel extends JPanel {
         buttonPanel.add(viewButton);
     }
     
+    public int getCustomerID(){
+        if (customerTable.getSelectedRow() >= 0) {
+            return customers.get(customerTable.getSelectedRow()).getID();
+        }else{
+            return -1;
+        }
+    }
+    
     public void setCustomerTable() {
         customers = CarRental.getInstance().requestCustomers(); //update customers array
-        if (customers.get(0) != null) {
-            customerToView = customers.get(0);
-        } else {
-            customerToView = CarRental.getInstance().requestCustomer();
-        }
         
         for (Customer customer : customers) { //update table
             String[] split = customer.getAdress().split("\n"); //for nicer look

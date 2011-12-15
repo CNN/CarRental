@@ -197,6 +197,8 @@ public class VehicleListPanel extends JPanel {
         viewButton = new JButton("View selected");
         viewButton.setVisible(false);
         buttonPanel.add(viewButton);
+        
+        update();
     }
 
     /**
@@ -282,6 +284,14 @@ public class VehicleListPanel extends JPanel {
                 this.viewButton.addActionListener(a);
             }
             this.viewButton.setVisible(true);
+        }
+    }
+    
+    public int getVehicleID(){
+        if (vehicleTable.getSelectedRow() >= 0) {
+            return vehicleList.get(vehicleTable.getSelectedRow()).getID();
+        }else{
+            return -1;
         }
     }
     

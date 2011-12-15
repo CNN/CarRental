@@ -120,10 +120,11 @@ public class MaintenancePanel extends SuperPanel {
             maintenanceTypePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             maintenanceTypePanel.add(maintenanceTypeLabel);
 
-            maintenanceTypePanel.add(Box.createRigidArea(new Dimension(48 + strutDistance, 0)));
+            maintenanceTypePanel.add(Box.createRigidArea(new Dimension(30 + strutDistance, 0)));
             maintenanceTypePanel.add(maintenanceTypeCombo);
+            maintenanceTypePanel.add(Box.createRigidArea(new Dimension(30 + strutDistance, 0)));
             
-            typeIsServiceCheckBox = new JCheckBox("Is service");
+            typeIsServiceCheckBox = new JCheckBox("Service check");
             typeIsServiceCheckBox.setEnabled(false);
             
             maintenanceTypeCombo.addActionListener(new ActionListener() {
@@ -140,24 +141,24 @@ public class MaintenancePanel extends SuperPanel {
             centerPanel.add(maintenanceTypePanel);
 
             //Date
-            fromLabel = new JLabel("From:");
+            fromLabel = new JLabel("Start date");
             dateStartField = new JTextField(defaultJTextFieldColumns);
-            toLabel = new JLabel("To:");
+            toLabel = new JLabel("End date");
             dateEndField = new JTextField(defaultJTextFieldColumns);
             datePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
             datePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             datePanel.add(fromLabel);
-            datePanel.add(Box.createRigidArea(new Dimension(20 + strutDistance, 0)));
+            datePanel.add(Box.createRigidArea(new Dimension(15 + strutDistance, 0)));
             datePanel.add(dateStartField);
-            datePanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            datePanel.add(Box.createRigidArea(new Dimension(15, 0)));
             datePanel.add(toLabel);
-            datePanel.add(Box.createRigidArea(new Dimension(20 + strutDistance, 0)));
+            datePanel.add(Box.createRigidArea(new Dimension(15 + strutDistance, 0)));
             datePanel.add(dateEndField);
             centerPanel.add(datePanel);
             
             //Vehicle
-            vehicleLabel = new JLabel("Vehicle:");
+            vehicleLabel = new JLabel("Vehicle");
             vehicleComboModel = new DefaultComboBoxModel();
             vehicleCombo = new JComboBox(vehicleComboModel);
             
@@ -169,7 +170,7 @@ public class MaintenancePanel extends SuperPanel {
 
             vehiclePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             vehiclePanel.add(vehicleLabel);
-            vehiclePanel.add(Box.createRigidArea(new Dimension(48 + strutDistance, 0)));
+            vehiclePanel.add(Box.createRigidArea(new Dimension(30 + strutDistance, 0)));
             vehiclePanel.add(vehicleCombo);
             centerPanel.add(vehiclePanel);
 
@@ -194,7 +195,7 @@ public class MaintenancePanel extends SuperPanel {
                     });
             
             buttonPanel.add(cancelButton);
-            buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            buttonPanel.add(Box.createRigidArea(new Dimension(15, 0)));
 
             //create-button
             createButton = new JButton("Create");
@@ -279,7 +280,7 @@ public class MaintenancePanel extends SuperPanel {
             maintenanceTypeComboModel = new DefaultComboBoxModel();
             maintenanceTypeCombo = new JComboBox(maintenanceTypeComboModel);
 
-            typeIsServiceCheckBox = new JCheckBox("Is service?");
+            typeIsServiceCheckBox = new JCheckBox("Service check");
             typeIsServiceCheckBox.setEnabled(false);
             
             maintenanceTypeCombo.addActionListener(new ActionListener() {
@@ -305,21 +306,21 @@ public class MaintenancePanel extends SuperPanel {
             maintenanceTypePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             maintenanceTypePanel.add(maintenanceTypeLabel);
 
-            maintenanceTypePanel.add(Box.createRigidArea(new Dimension(48, 0)));
+            maintenanceTypePanel.add(Box.createRigidArea(new Dimension(30, 0)));
             maintenanceTypePanel.add(maintenanceTypeCombo);
             
-            maintenanceTypePanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            maintenanceTypePanel.add(Box.createRigidArea(new Dimension(30, 0)));
             maintenanceTypePanel.add(typeIsServiceCheckBox);
 
-            maintenanceTypePanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            maintenanceTypePanel.add(Box.createRigidArea(new Dimension(30, 0)));
             maintenanceTypePanel.add(viewSelectedTypeButton);
 
             centerPanel.add(maintenanceTypePanel);
             
             //Date
-            fromLabel = new JLabel("From:");
+            fromLabel = new JLabel("Start date");
             dateStartField = new JTextField(defaultJTextFieldColumns);
-            toLabel = new JLabel("To:");
+            toLabel = new JLabel("End date");
             dateEndField = new JTextField(defaultJTextFieldColumns);
             datePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
@@ -336,7 +337,7 @@ public class MaintenancePanel extends SuperPanel {
             centerPanel.add(datePanel);
             
             //Vehicle
-            vehicleLabel = new JLabel("Vehicle:");
+            vehicleLabel = new JLabel("Vehicle");
             vehicleComboModel = new DefaultComboBoxModel();
             vehicleCombo = new JComboBox(vehicleComboModel);
             for (Vehicle vehicle : vehicles) {
@@ -347,7 +348,7 @@ public class MaintenancePanel extends SuperPanel {
 
             vehiclePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             vehiclePanel.add(vehicleLabel);
-            vehiclePanel.add(Box.createRigidArea(new Dimension(48, 0)));
+            vehiclePanel.add(Box.createRigidArea(new Dimension(20, 0)));
             vehiclePanel.add(vehicleCombo);
             centerPanel.add(vehiclePanel);
             
@@ -462,12 +463,14 @@ public class MaintenancePanel extends SuperPanel {
 
             //View panel
             viewPanel = new JPanel();
-            typeLabel = new JLabel("Name:");
+            typeLabel = new JLabel("Name");
             typeField = new JTextField(defaultJTextFieldColumns);
-            isServiceBox = new JCheckBox("Is service?");
+            isServiceBox = new JCheckBox("Service check");
             
             viewPanel.add(typeLabel);
+            viewPanel.add(Box.createRigidArea(new Dimension(10, 0)));
             viewPanel.add(typeField);
+            viewPanel.add(Box.createRigidArea(new Dimension(10, 0)));
             viewPanel.add(isServiceBox);
             centerPanel.add(viewPanel);
 
@@ -485,6 +488,7 @@ public class MaintenancePanel extends SuperPanel {
                 }
             });
             buttonPanel.add(backButton);
+            buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 
             //Delete-button
             deleteButton = new JButton("Delete");
@@ -508,6 +512,7 @@ public class MaintenancePanel extends SuperPanel {
                 }
             });
             buttonPanel.add(deleteButton);
+            buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 
             // Edit-button
             editButton = new JButton("Save changes");
@@ -577,9 +582,9 @@ public class MaintenancePanel extends SuperPanel {
             //View panel
             viewPanel = new JPanel();
             
-            typeLabel = new JLabel("Name:");
+            typeLabel = new JLabel("Name");
             typeField = new JTextField(defaultJTextFieldColumns);
-            isServiceBox = new JCheckBox("Is service?");
+            isServiceBox = new JCheckBox("Service check");
             
             viewPanel.add(typeLabel);
             viewPanel.add(typeField);
@@ -678,7 +683,7 @@ public class MaintenancePanel extends SuperPanel {
             setBackground(new Color(216, 216, 208));
 
             //Creating the table
-            maintenanceTableModel = new DefaultTableModel(new Object[]{"Vehicle", "Type", "Is service?", "Date start", "Date end"}, 0);
+            maintenanceTableModel = new DefaultTableModel(new Object[]{"Vehicle", "Type", "Service check", "Start date", "End date"}, 0);
             maintenanceTable = new JTable(maintenanceTableModel);
 
             listScrollPane = new JScrollPane(maintenanceTable);
@@ -718,7 +723,7 @@ public class MaintenancePanel extends SuperPanel {
             topFilterPanel.add(Box.createRigidArea(new Dimension(91, 0)));
 
             //Checkbox
-            typeIsServiceBox = new JCheckBox("Is service?");
+            typeIsServiceBox = new JCheckBox("Service check");
             typeIsServiceBox.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -726,7 +731,7 @@ public class MaintenancePanel extends SuperPanel {
                 }
             });
             
-            topFilterPanel.add(Box.createRigidArea(new Dimension(45 + strutDistance, 0)));
+            topFilterPanel.add(Box.createRigidArea(new Dimension(62 + strutDistance, 0)));
             topFilterPanel.add(typeIsServiceBox);
             topFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 
@@ -735,7 +740,7 @@ public class MaintenancePanel extends SuperPanel {
             filterPanel.add(middleFilterPanel);
 
             //Date start
-            dateStartLabel = new JLabel("From:");
+            dateStartLabel = new JLabel("Start date");
             dateStartField = new JTextField(defaultJTextFieldColumns);
             dateStartField.addKeyListener(new KeyAdapter() {
                 @Override
@@ -750,7 +755,7 @@ public class MaintenancePanel extends SuperPanel {
             middleFilterPanel.add(dateStartField);
             
             //Date End
-            dateEndLabel = new JLabel("To:");
+            dateEndLabel = new JLabel("End date");
             dateEndField = new JTextField(defaultJTextFieldColumns);
             dateEndField.addKeyListener(new KeyAdapter() {
                 @Override
@@ -759,6 +764,7 @@ public class MaintenancePanel extends SuperPanel {
                             dateEndField.getText().trim().isEmpty()) filter();
                 }
             });
+            middleFilterPanel.add(Box.createRigidArea(new Dimension(10 + strutDistance, 0)));
             middleFilterPanel.add(dateEndLabel);
             middleFilterPanel.add(Box.createRigidArea(new Dimension(11 + strutDistance, 0)));
             middleFilterPanel.add(dateEndField);
@@ -780,7 +786,7 @@ public class MaintenancePanel extends SuperPanel {
                 }
             });
             buttonPanel.add(cancelButton);
-            buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            buttonPanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
 
             //View-button
             viewButton = new JButton("View selected");
