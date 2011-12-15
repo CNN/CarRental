@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * GUI for CarRental project
  * @author CNN
- * @version 2011-12-08
+ * @version 2011-12-15
  */
 public class View {
     private JFrame frame;
@@ -201,6 +201,7 @@ public class View {
             });
             
             northReservation.setLayout(new FlowLayout(FlowLayout.LEFT));
+            northReservation.add(new JLabel("Reservation:"));
             northReservation.add(reservationCreate);
             northReservation.add(reservationList);
             
@@ -222,6 +223,7 @@ public class View {
                 }
             });
             northCustomer.setLayout(new FlowLayout(FlowLayout.LEFT));
+            northCustomer.add(new JLabel("Customer:"));
             northCustomer.add(customerCreate);
             northCustomer.add(customerList);
             
@@ -259,6 +261,7 @@ public class View {
                 }
             });
             northVehicle.setLayout(new FlowLayout(FlowLayout.LEFT));
+            northVehicle.add(new JLabel("Vehicle:"));
             northVehicle.add(vehicleCreate);
             northVehicle.add(vehicleTypeCreate);
             northVehicle.add(vehicleList);
@@ -291,6 +294,7 @@ public class View {
             });
             
             northMaintenance.setLayout(new FlowLayout(FlowLayout.LEFT));
+            northMaintenance.add(new JLabel("Maintenance:"));
             northMaintenance.add(maintenanceCreate);
             northMaintenance.add(maintenanceTypeCreate);
             northMaintenance.add(maintenanceList);
