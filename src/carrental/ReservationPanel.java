@@ -39,6 +39,9 @@ public class ReservationPanel extends SuperPanel {
     private final JPanel emptyPanel = null;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
+    /**
+     * 
+     */
     public ReservationPanel() {
         this.reservations = CarRental.getInstance().requestReservations();
         if (!reservations.isEmpty()) {
@@ -79,13 +82,6 @@ public class ReservationPanel extends SuperPanel {
         createPanel.setVisible(true);
         createPanel.getVehiclePanel.setVisible(true);
     }
-    
-//    @Override
-//    public void showViewEntityPanel(){
-//        super.hideAll();
-//        viewEntityPanel.setVisible(true);
-//        viewEntityPanel.
-//    }
 
     @Override
     public void hideAll() {
