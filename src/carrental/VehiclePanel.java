@@ -413,7 +413,7 @@ public class VehiclePanel extends SuperPanel {
 
             drivenPanel.add(Box.createRigidArea(new Dimension(32 + strutDistance, 0)));
             drivenPanel.add(drivenField);
-            
+
             drivenPanel.add(kilometerLabel);
 
             centerPanel.add(drivenPanel);
@@ -502,10 +502,30 @@ public class VehiclePanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    CarRental.getInstance().deleteVehicle(vehicleToView.getID());
-                    CarRental.getInstance().appendLog("Vehicle \"" + vehicleToView.getDescription() + "\" deleted from the database.");
-                    vehicleList = CarRental.getInstance().requestVehicles();
-                    showListPanel();
+                    int tiedReservations = 0;
+                    //checks for any reservations tied to the vehicle
+                    for (Reservation reservation : CarRental.getInstance().requestReservations()) {
+                        if (reservation.getVehicleID() == vehicleToView.getID()) {
+                            tiedReservations++;
+                        }
+                    }
+
+                    if (tiedReservations == 0) {
+                        //delete the maintenances tied to the vehilce, then the vehicle itself
+                        for (Maintenance maintenance : CarRental.getInstance().requestMaintenances()) {
+                            if (maintenance.getVehicleID() == vehicleToView.getID()) {
+                                CarRental.getInstance().deleteMaintenance(maintenance.getID());
+                                CarRental.getInstance().appendLog("Maintenance #" + maintenance.getID() + " (tied to \"" + vehicleToView.getDescription() + "\") deleted from the database.");
+                            }
+                        }
+                        //Delete the vehicle
+                        CarRental.getInstance().deleteVehicle(vehicleToView.getID());
+                        CarRental.getInstance().appendLog("Vehicle \"" + vehicleToView.getDescription() + "\" deleted from the database.");
+                        vehicleList = CarRental.getInstance().requestVehicles();
+                        showListPanel();
+                    } else {
+                        CarRental.getInstance().appendLog("Vehicle \"" + vehicleToView.getDescription() + "\" cannot be deleted as it has " + tiedReservations + " reservation(s). Rearrange them first.");
+                    }
                 }
             });
             buttonPanel.add(deleteButton);
@@ -700,7 +720,7 @@ public class VehiclePanel extends SuperPanel {
                         boolean nameTaken = false;
                         for (VehicleType vehicleType : vehicleTypes) {
                             if (vehicleTypeTextList.get(0).getText().trim().toLowerCase(Locale.ENGLISH).equals(vehicleType.getName().toLowerCase(Locale.ENGLISH))
-                                 && vehicleType.getID() != vehicleTypeToView.getID()) { //if the name is in use and it´s not from the currently viewed vehicle
+                                    && vehicleType.getID() != vehicleTypeToView.getID()) { //if the name is in use and it´s not from the currently viewed vehicle
                                 nameTaken = true;
                             }
                         }
