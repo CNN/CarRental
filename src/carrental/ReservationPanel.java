@@ -329,7 +329,7 @@ public class ReservationPanel extends SuperPanel {
          */
         public void update() {
             vehicleList = CarRental.getInstance().requestVehicles();
- 
+
             //reset the selected vehicle type
             currentVehicleTypeIndex = -1;
 
