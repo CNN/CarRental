@@ -95,18 +95,6 @@ public class ReservationPanel extends SuperPanel {
         createPanel.getVehiclePanel.setVisible(false);
     }
 
-    //Temporary Main
-    //TODO: Remove main:
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("ReservationPanel");
-        frame.setPreferredSize(new Dimension(800, 600));
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container contentPane = frame.getContentPane();
-        contentPane.add(new CustomerPanel());
-        frame.pack();
-        frame.setVisible(true);
-    }
-
     public void setReservationToView(Reservation reservation) {
         reservationToView = reservation;
     }
@@ -141,7 +129,6 @@ public class ReservationPanel extends SuperPanel {
             titleBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Reservations");
             setBorder(titleBorder);
             add(new ViewEntityPanel());
-            // add(new ListPanel());
         }
     }
 
@@ -1210,19 +1197,6 @@ public class ReservationPanel extends SuperPanel {
             buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
             buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
             buttonPanel.add(Box.createHorizontalGlue());
-
-            //cancel-Button
-            cancelButton = new JButton("Back");
-            cancelButton.addActionListener(new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    setFilterTextFields();
-                    showListPanel();
-                }
-            });
-            buttonPanel.add(cancelButton);
-            buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 
             //View-button
             viewButton = new JButton("View selected");
