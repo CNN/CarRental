@@ -377,20 +377,22 @@ public class CustomerPanel extends SuperPanel {
                 public void actionPerformed(ActionEvent e) {
                     if (customerPhoneTextField.getText().trim().length() > 0
                             && customerNameTextField.getText().trim().length() > 0
-                            && customerAdressTextField.getText().trim().length() > 0
+                            //&& customerAdressTextField.getText().trim().length() > 0
                             && customerEMailTextField.getText().trim().length() > 0) {
                         String adress = customerStreetTextField.getText() + " " + customerZipcodeTextField.getText() + " " + customerCityTextField.getText();
                         try{
                         CarRental.getInstance().saveCustomer(new Customer(
-                                Integer.parseInt(customerIDTextField.getText()),
-                                Integer.parseInt(customerPhoneTextField.getText()),
-                                customerNameTextField.getText(),
+                                Integer.parseInt(customerIDTextField.getText().trim()),
+                                Integer.parseInt(customerPhoneTextField.getText().trim()),
+                                customerNameTextField.getText().trim(),
                                 adress,
                                 //customerAdressTextField.getText(),
-                                customerEMailTextField.getText()));
+                                customerEMailTextField.getText().trim()));
                         customers = CarRental.getInstance().requestCustomers();
                         CarRental.getInstance().appendLog("Customer " + customerIDTextField.getText() + " edited");
+                        customerToView = CarRental.getInstance().requestCustomer(customerToView.getID());
                         updateViewEntityPanel();
+                        listPanel.updateListPanel();
                         showViewEntityPanel();
                         }catch (NumberFormatException ex){
                             CarRental.getInstance().appendLog("Phone number must be numbers only");
@@ -599,6 +601,7 @@ public class CustomerPanel extends SuperPanel {
                 public void actionPerformed(ActionEvent e) {
                     if (customerTable.getSelectedRow() >= 0) {
                         customerToView = customers.get(customerTable.getSelectedRow());
+                        viewEntityPanel.updateViewEntityPanel();
                         showViewEntityPanel();
                         CarRental.getInstance().appendLog("Showing customer \"" + customerToView.getName() + " " + customerToView.getID() + "\" now.");
                     }
@@ -614,6 +617,8 @@ public class CustomerPanel extends SuperPanel {
             } else {
                 customerToView = CarRental.getInstance().requestCustomer();
             }
+            
+            customerTableModel.setRowCount(0);
             
             for (Customer customer : customers) { //update table
                 String[]split = customer.getAdress().split("\n"); //for nicer look

@@ -219,6 +219,7 @@ public class View {
             customerList.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    customerPanel.updateCustomerPanel();
                     customerPanel.showListPanel();
                 }
             });
