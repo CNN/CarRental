@@ -23,7 +23,7 @@ public class VehicleTypePanel extends JPanel {
      */
     public VehicleTypePanel() {
 
-        JLabel vehicleTypeNameLabel, priceLabel, kronerLabel, descriptionLabel;
+        JLabel vehicleTypeNameLabel, priceLabel, dkkLabel, descriptionLabel;
         JPanel centerPanel, buttonPanel, vehicleTypeNamePanel, pricePanel, descriptionPanel;
         JScrollPane descriptionScrollPane;
         final int defaultJTextFieldColumns = 20, strutDistance = 0;
@@ -58,14 +58,14 @@ public class VehicleTypePanel extends JPanel {
         //Price per day
         priceLabel = new JLabel("Price per day");
         priceField = new JTextField(defaultJTextFieldColumns);
-        kronerLabel = new JLabel("kroner");
+        dkkLabel = new JLabel("DKK");
         pricePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         pricePanel.add(Box.createRigidArea(new Dimension(5, 0)));
         pricePanel.add(priceLabel);
         pricePanel.add(Box.createRigidArea(new Dimension(33 + strutDistance, 0)));
         pricePanel.add(priceField);
-        pricePanel.add(kronerLabel);
+        pricePanel.add(dkkLabel);
         centerPanel.add(pricePanel);
 
         //Additional Comment
