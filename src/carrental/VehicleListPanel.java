@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package carrental;
 
 import java.awt.BorderLayout;
@@ -28,8 +24,9 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
- * @author Admin
+ * Shows a list of vehicles. Extends JPanel
+ * @author CNN
+ * @version 2011-12-17
  */
 public class VehicleListPanel extends JPanel {
 
