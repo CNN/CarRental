@@ -609,6 +609,8 @@ public class CustomerPanel extends SuperPanel {
                 customerToView = CarRental.getInstance().requestCustomer();
             }
             
+            customerTableModel.setRowCount(0);
+            
             for (Customer customer : customers) { //update table
                 String[]split = customer.getAdress().split("\n"); //for nicer look
                 String displayed = split[0];
