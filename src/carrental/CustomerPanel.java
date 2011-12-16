@@ -38,30 +38,20 @@ public class CustomerPanel extends SuperPanel {
 
         //Removes the default gaps between components
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-
-        //For testing: Choose your panel
-        //showCreatePanel();
-        //showMainScreenPanel();
-        //showViewEntityPanel();
-        //showListPanel();
-    }
-
-    //Temporary Main
-    //TODO: Remove main:
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("CustomerPanel");
-        frame.setPreferredSize(new Dimension(800, 600));
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Container contentPane = frame.getContentPane();
-        contentPane.add(new CustomerPanel());
-        frame.pack();
-        frame.setVisible(true);
     }
     
+    /*
+     * Sets the given customer as the customer to be shown.
+     * @param Customer customer
+     */
     public void setCustomerToView(Customer customer) {
         customerToView = customer;
     }
     
+    /**
+     * Sets the customer array
+     * @param customers 
+     */
     public void setCustomerList(ArrayList<Customer> customers) {
         this.customers = customers;
     }
@@ -94,6 +84,9 @@ public class CustomerPanel extends SuperPanel {
         }
     }
     
+    /**
+     * Inner class. For creating customers. Extends JPanel.
+     */
     public class CreatePanel extends JPanel {
         
         private JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
@@ -228,6 +221,9 @@ public class CustomerPanel extends SuperPanel {
             buttonPanel.add(createButton);
         }
         
+        /**
+         * Resets text fields.
+         */
         public void updateCreatePanel() {
             customerIDTextField.setText(" Automaticly generated");
             customerPhoneTextField.setText("");
@@ -237,6 +233,9 @@ public class CustomerPanel extends SuperPanel {
         }
     }
     
+    /**
+     * Inner class. Shows a single customer in detail. Extends JPanel.
+     */
     public class ViewEntityPanel extends JPanel {
         private String customerID, customerName, customerPhone, customerAdress, customerEMail;
         private JTextField customerZipcodeTextField, customerStreetTextField, customerCityTextField, customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
@@ -425,18 +424,27 @@ public class CustomerPanel extends SuperPanel {
             buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         }
         
+        /**
+         * Deletes the given customer. 
+         * @param customer
+         * @return success
+         */
         private boolean delete(Customer customer){
-            boolean succes;
+            boolean success;
             ArrayList<Reservation> bookings = CarRental.getInstance().requestReservationsByCustomer(customer.getID());
             if(bookings == null || bookings.isEmpty()){
                 CarRental.getInstance().deleteCustomer(customer.getID());
-                succes = true;
+                success = true;
             }else{
-                succes = false;
+                success = false;
             }
-            return succes;
+            return success;
         }
         
+        /**
+         * Sets the customer fields based on the given customer.
+         * @param customer 
+         */
         public void setCustomerTextFields(Customer customer) {
             if (customer == null) {
                 customer = CarRental.getInstance().requestCustomer();
@@ -461,6 +469,9 @@ public class CustomerPanel extends SuperPanel {
             }
         }
         
+        /**
+         * Sets customer fields based on 'customerToView'
+         */
         public void updateViewEntityPanel() {
             setCustomerTextFields(customerToView);
             customerIDTextField.setText(" " + customerID);
@@ -474,6 +485,9 @@ public class CustomerPanel extends SuperPanel {
     public void makeAddTypePanel() { //not used
     }
     
+    /**
+     * Shows a list of customers. Extends JPanel.
+     */
     public class ListPanel extends JPanel {
         
         private JTextField filterAdressTextField, filterPhoneTextField, filterNameTextField, filterIDTextField;
@@ -604,6 +618,9 @@ public class CustomerPanel extends SuperPanel {
             buttonPanel.add(viewButton);
         }
         
+        /**
+         * Reloads the list of customer.
+         */
         public void setCustomerTable() {
             customers = CarRental.getInstance().requestCustomers(); //update customers array
             if (customers.get(0) != null) {
@@ -630,11 +647,17 @@ public class CustomerPanel extends SuperPanel {
             }
         }
         
+        /**
+         * Reloads the list of customers and resets filter text fields.
+         */
         public void updateListPanel() {
             setFilterTextFields();
             setCustomerTable();
         }
         
+        /**
+         * Resets filter text fields
+         */
         public void setFilterTextFields() {
             filterAdressTextField.setText("");
             filterPhoneTextField.setText("");
@@ -642,6 +665,9 @@ public class CustomerPanel extends SuperPanel {
             filterIDTextField.setText("");
         }
         
+        /**
+         * Reloads list of customers. Shows only entries matching parameters.
+         */
         public void filter(){
             //Delete exisiting rows
             customerTableModel.setRowCount(0);
