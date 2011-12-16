@@ -205,15 +205,25 @@ public class MaintenancePanel extends SuperPanel {
                     if (!dateStartField.getText().trim().isEmpty()
                             && !dateEndField.getText().trim().isEmpty()) {
                         try {
-                            Maintenance newMaintenance = new Maintenance(CarRental.getInstance().requestNewMaintenanceId(),
-                                    vehicles.get(vehicleCombo.getSelectedIndex()).getID(),
-                                    new Timestamp(dateFormat.parse(dateStartField.getText().trim()).getTime()),
-                                    new Timestamp(dateFormat.parse(dateEndField.getText().trim()).getTime()),
-                                    maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getID());
-
-                            CarRental.getInstance().saveMaintenance(newMaintenance);
-                            CarRental.getInstance().appendLog("Maintenance for vehicle #" + vehicles.get(vehicleCombo.getSelectedIndex()).getID() + " added to the database.");
-                            maintenanceList = CarRental.getInstance().requestMaintenances();
+                            String[] dateStartSplit = dateStartField.getText().split("-");
+                            String[] dateEndSplit = dateEndField.getText().split("-");
+                            if(dateStartSplit[0].length() == 2 &&
+                                    dateStartSplit[1].length() == 2 &&
+                                    dateStartSplit[2].length() == 4 &&
+                                    dateEndSplit[0].length() == 2 &&
+                                    dateEndSplit[1].length() == 2 &&
+                                    dateEndSplit[2].length() == 4) {
+                                Maintenance newMaintenance = new Maintenance(CarRental.getInstance().requestNewMaintenanceId(),
+                                        vehicles.get(vehicleCombo.getSelectedIndex()).getID(),
+                                        new Timestamp(dateFormat.parse(dateStartField.getText().trim()).getTime()),
+                                        new Timestamp(dateFormat.parse(dateEndField.getText().trim()).getTime()),
+                                        maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getID());
+                                CarRental.getInstance().saveMaintenance(newMaintenance);
+                                maintenanceList = CarRental.getInstance().requestMaintenances();
+                            }
+                            else {
+                                CarRental.getInstance().appendLog("Date format in date-fields should be DD-MM-YYYY.");
+                            }
                         } catch (java.text.ParseException ex) {
                             CarRental.getInstance().appendLog("Could not format the date entered, maintenance not scheduled",ex);
                         }
