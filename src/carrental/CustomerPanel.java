@@ -12,9 +12,8 @@ import javax.swing.table.DefaultTableModel;
 /**
  * This is the main panel regarding vehicles.
  * It contains JPanels for every relevant screen, when dealing with customers.
- * Takes no parameters but requires access to a database through a controller - in this case CarRental.java
  * @author CNN
- * @version 2011-12-16
+ * @version 2011-12-07
  */
 public class CustomerPanel extends SuperPanel {
     
@@ -25,11 +24,7 @@ public class CustomerPanel extends SuperPanel {
     private final ViewEntityPanel viewEntityPanel = new ViewEntityPanel();
     private final ListPanel listPanel = new ListPanel();
     
-    /**
-     * Constructor
-     */
     public CustomerPanel() {
-        //Load arrays from database
         this.customers = CarRental.getInstance().requestCustomers();
         if (customers.get(0) != null) {
             customerToView = customers.get(0);
@@ -43,6 +38,32 @@ public class CustomerPanel extends SuperPanel {
 
         //Removes the default gaps between components
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+
+        //For testing: Choose your panel
+        //showCreatePanel();
+        //showMainScreenPanel();
+        //showViewEntityPanel();
+        //showListPanel();
+    }
+
+    //Temporary Main
+    //TODO: Remove main:
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("CustomerPanel");
+        frame.setPreferredSize(new Dimension(800, 600));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Container contentPane = frame.getContentPane();
+        contentPane.add(new CustomerPanel());
+        frame.pack();
+        frame.setVisible(true);
+    }
+    
+    public void setCustomerToView(Customer customer) {
+        customerToView = customer;
+    }
+    
+    public void setCustomerList(ArrayList<Customer> customers) {
+        this.customers = customers;
     }
 
     /**
@@ -61,9 +82,6 @@ public class CustomerPanel extends SuperPanel {
         listPanel.updateListPanel();
     }
     
-    /**
-     * Inner class for the MainScreen in CustomerPanel. Extends JPanel.
-     */
     public class MainScreenPanel extends JPanel {
         
         public MainScreenPanel() {
@@ -76,16 +94,10 @@ public class CustomerPanel extends SuperPanel {
         }
     }
     
-    /**
-     * Inner claas. Panel for creating a customer. Extends JPanel
-     */
     public class CreatePanel extends JPanel {
         
         private JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
         
-        /**
-         * Constructor for create panel. initializes GUI.
-         */
         public CreatePanel() {
             //Fields
             JPanel centerPanel, idPanel, namePanel, phonePanel, adressPanel, eMailPanel, buttonPanel;
@@ -216,9 +228,6 @@ public class CustomerPanel extends SuperPanel {
             buttonPanel.add(createButton);
         }
         
-        /**
-         * Resets text fields in create panel
-         */
         public void updateCreatePanel() {
             customerIDTextField.setText(" Automaticly generated");
             customerPhoneTextField.setText("");
@@ -228,9 +237,6 @@ public class CustomerPanel extends SuperPanel {
         }
     }
     
-    /**
-     * Inner class for viewing a single customer. Extends JPanel.
-     */
     public class ViewEntityPanel extends JPanel {
         private String customerID, customerName, customerPhone, customerAdress, customerEMail;
         private JTextField customerZipcodeTextField, customerStreetTextField, customerCityTextField, customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
@@ -419,27 +425,18 @@ public class CustomerPanel extends SuperPanel {
             buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         }
         
-        /**
-         * Deletes a given customer.
-         * @param customer
-         * @return success
-         */
         private boolean delete(Customer customer){
-            boolean success;
+            boolean succes;
             ArrayList<Reservation> bookings = CarRental.getInstance().requestReservationsByCustomer(customer.getID());
             if(bookings == null || bookings.isEmpty()){
                 CarRental.getInstance().deleteCustomer(customer.getID());
-                success = true;
+                succes = true;
             }else{
-                success = false;
+                succes = false;
             }
-            return success;
+            return succes;
         }
         
-        /**
-         * Sets text fields based upon the customer it takes as a parameter
-         * @param customer 
-         */
         public void setCustomerTextFields(Customer customer) {
             if (customer == null) {
                 customer = CarRental.getInstance().requestCustomer();
@@ -464,9 +461,6 @@ public class CustomerPanel extends SuperPanel {
             }
         }
         
-        /**
-         * Updates View entity panel
-         */
         public void updateViewEntityPanel() {
             setCustomerTextFields(customerToView);
             customerIDTextField.setText(" " + customerID);
@@ -477,9 +471,9 @@ public class CustomerPanel extends SuperPanel {
         }
     }
     
-    /**
-     * Inner class for view customers in a list. Extends JPanel.
-     */
+    public void makeAddTypePanel() { //not used
+    }
+    
     public class ListPanel extends JPanel {
         
         private JTextField filterAdressTextField, filterPhoneTextField, filterNameTextField, filterIDTextField;
@@ -636,9 +630,6 @@ public class CustomerPanel extends SuperPanel {
             }
         }
         
-        /**
-         * Used for updating the the list of customers. Resets filter text fields and reloads the table.
-         */
         public void updateListPanel() {
             setFilterTextFields();
             setCustomerTable();
@@ -651,9 +642,6 @@ public class CustomerPanel extends SuperPanel {
             filterIDTextField.setText("");
         }
         
-        /**
-         * Checks filter text fields against customers in the database. Reloads table and shows only entities that matches parameters.
-         */
         public void filter(){
             //Delete exisiting rows
             customerTableModel.setRowCount(0);
