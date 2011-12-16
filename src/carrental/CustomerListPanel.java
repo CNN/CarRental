@@ -24,8 +24,9 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
- * @author Admin
+ * Shows a list of costumers
+ * @author CNN
+ * @version 2011-12-16
  */
 public class CustomerListPanel extends JPanel {
 
@@ -147,6 +148,10 @@ public class CustomerListPanel extends JPanel {
         buttonPanel.add(viewButton);
     }
     
+    /**
+     * Returns customer ID of the selected row
+     * @return 
+     */
     public int getCustomerID(){
         if (customerTable.getSelectedRow() >= 0) {
             return customers.get(customerTable.getSelectedRow()).getID();
@@ -155,6 +160,9 @@ public class CustomerListPanel extends JPanel {
         }
     }
     
+    /**
+     * Updates the list of customers
+     */
     public void setCustomerTable() {
         customers = CarRental.getInstance().requestCustomers(); //update customers array
         
@@ -174,11 +182,17 @@ public class CustomerListPanel extends JPanel {
         }
     }
     
+    /**
+     * Updates list of customers and resets filter text fields
+     */
     public void updateListPanel() {
         setFilterTextFields();
         setCustomerTable();
     }
     
+    /**
+     * Resets filter text fields
+     */
     public void setFilterTextFields() {
         filterAdressTextField.setText("");
         filterPhoneTextField.setText("");
@@ -186,6 +200,9 @@ public class CustomerListPanel extends JPanel {
         filterIDTextField.setText("");
     }
     
+    /**
+     * Reloads list of customers showing only entries matching parameters.
+     */
     public void filter() {
         //Delete exisiting rows
         customerTableModel.setRowCount(0);
@@ -211,6 +228,11 @@ public class CustomerListPanel extends JPanel {
         }
     }
     
+    /**
+     * Sets text and action listeners for cancel button and view button
+     * @param cancelButton
+     * @param viewButton 
+     */
     public void setButtons(JButton cancelButton, JButton viewButton) {
         if (cancelButton != null) {
             this.cancelButton.setText(cancelButton.getText());
@@ -228,6 +250,11 @@ public class CustomerListPanel extends JPanel {
         }
     }
     
+    /**
+     * Sets the dimensions of the table
+     * @param width
+     * @param height 
+     */
     public void setTableSize(int width, int height){
         customerTable.setPreferredScrollableViewportSize(new Dimension(width, height));
     }
