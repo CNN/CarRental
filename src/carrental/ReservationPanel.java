@@ -16,17 +16,6 @@ import java.text.SimpleDateFormat;
  * @version 2011-12-17
  */
 public class ReservationPanel extends SuperPanel {
-
-    //TODO check if vehicle already lent on date, Calendar
-    
-    /** time occupied 
-     * 
-     * for(reservations){
-     * check times against vehicleid
-     * } if(!succes){
-     * try another vehicle of same type
-     * }
-     */
     private Reservation reservationToView; //specific customer, used to view details
     private ArrayList<Reservation> reservations; //array of reservations
     private final CreatePanel createPanel = new CreatePanel();
