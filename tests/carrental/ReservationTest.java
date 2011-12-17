@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package carrental;
 
 import java.sql.Timestamp;
@@ -11,7 +7,7 @@ import static org.junit.Assert.*;
 /**
  * Test class for Reservation class
  * @author CNN
- * @version 2011-12-08
+ * @version 2011-12-17
  */
 public class ReservationTest {
   private Reservation reservation;

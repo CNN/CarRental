@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package carrental;
 
 import org.junit.Test;
@@ -10,11 +6,11 @@ import static org.junit.Assert.*;
 /**
  * Test class for Customer class         NIELS :) !! Kan du lige fixe sådan at postalcode tingen virker :) Ved ikke om man opretter customer med \n eller hvad?
  * @author CNN
- * @version 2011-12-08
+ * @version 2011-12-17
  */
 public class CustomerTest {
 
-    private Customer customer; //Should these be static? maybe it doesn't matter??
+    private Customer customer;
 
     public CustomerTest() {
         customer = new Customer(1, 24736456, "Poul Poulsen", "Enghavevej 13\n7420 Viborg", "p.poulsen@gmail.com");

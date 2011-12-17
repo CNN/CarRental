@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package carrental;
 
 import org.junit.Test;
@@ -10,7 +6,7 @@ import static org.junit.Assert.*;
 /**
  * Test class for MaintenanceType class
  * @author CNN
- * @verstion 2011-12-08
+ * @verstion 2011-12-17
  */
 public class MaintenanceTypeTest {
 
