@@ -310,7 +310,7 @@ public class CustomerPanel extends SuperPanel {
 //            adressPanel.add(customerAdressTextField);
 //            centerPanel.add(adressPanel);
             
-            //Adress
+            //Split Adress
             streetPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             zipPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             cityPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
