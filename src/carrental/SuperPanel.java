@@ -11,7 +11,6 @@ import java.util.ArrayList;
  * @version 2011-12-17
  */
 public abstract class SuperPanel extends JPanel {
-
     private ArrayList<JPanel> panels;
     private int mainScreen, create, viewEntity, addType, viewType, list;
 
@@ -55,6 +54,9 @@ public abstract class SuperPanel extends JPanel {
         }
     }
 
+    /**
+     * Hides all the panels.
+     */
     public void hideAll() {
         for (JPanel panel : panels) {
             if (panel != null) {
@@ -63,6 +65,10 @@ public abstract class SuperPanel extends JPanel {
         }
     }
 
+    /**
+     * Sets one specific panel visible, hiding all the others.
+     * @param chosen visible panel
+     */
     private void onlyVisible(JPanel chosen) {
         if (chosen != null) {
             hideAll();
@@ -70,51 +76,92 @@ public abstract class SuperPanel extends JPanel {
         }
     }
 
-    //Methods for showing the panel
+    /**
+     * Shows the main panel only
+     */
     public void showMainScreenPanel() {
         onlyVisible(panels.get(mainScreen));
     }
 
+    /**
+     * Shows the create panel only
+     */
     public void showCreatePanel() {
         onlyVisible(panels.get(create));
     }
 
+    /**
+     * Shows the view panel only
+     */
     public void showViewEntityPanel() {
         onlyVisible(panels.get(viewEntity));
     }
 
+    /**
+     * Shows the add type panel only
+     */
     public void showAddTypePanel() {
         onlyVisible(panels.get(addType));
     }
 
+    /**
+     * Shows the view type panel only
+     */
     public void showViewTypePanel() {
         onlyVisible(panels.get(viewType));
     }
 
+    /**
+     * Shows the list panel only
+     */
     public void showListPanel() {
         onlyVisible(panels.get(list));
     }
 
+    /**
+     * Gets the main screen panel
+     * @return main panel
+     */
     public JPanel getMainScreenPanel() {
         return panels.get(mainScreen);
     }
 
+    /**
+     * Gets the create panel
+     * @return create panel
+     */
     public JPanel getCreatePanel() {
         return panels.get(create);
     }
 
+    /**
+     * Gets the view panel
+     * @return view panel
+     */
     public JPanel getViewEntityPanel() {
         return panels.get(viewEntity);
     }
 
+    /**
+     * Gets the add type panel
+     * @return add type panel
+     */
     public JPanel getAddTypePanel() {
         return panels.get(addType);
     }
 
+    /**
+     * Gets the view type panel
+     * @return view type panel
+     */
     public JPanel getViewTypePanel() {
         return panels.get(viewType);
     }
 
+    /**
+     * Gets the list panel
+     * @return list panel
+     */
     public JPanel getListPanel() {
         return panels.get(list);
     }
