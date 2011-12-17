@@ -54,7 +54,6 @@ public class Maintenance implements Booking {
             this.vehicle_id = vehicle_id;
         } else {
             CarRental.getInstance().appendLog("Dates supplied for Maintenance #" + id + " in updateObject not valid. End date must be AFTER start date.");
-            //The dates will not be updated.
         }
 
     }
@@ -65,10 +64,6 @@ public class Maintenance implements Booking {
      */
     public int getTypeID() {
         return type_id;
-    }
-
-    public boolean isBooked(Timestamp timestamp) {
-        return (timestamp.after(date_start) && timestamp.before(date_end));
     }
 
     public boolean isMaintenance() {

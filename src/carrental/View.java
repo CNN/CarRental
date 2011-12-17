@@ -15,7 +15,7 @@ import java.util.Date;
  */
 public class View {
     private JFrame frame;
-    private final String title = "CarRental Project :: Renting Cars Made Easy";
+    private final String title = "CarRental Project - Renting Cars Made Easy";
     private MainPanel main;
     
     public View() {

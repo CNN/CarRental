@@ -425,6 +425,10 @@ public final class CarRental {
         System.out.println(log);
     }
      
+    /**
+     * Set off this shizzle
+     * @param args Not used
+     */
     public static void main(String[] args) {
         CarRental controller = new CarRental();
     }

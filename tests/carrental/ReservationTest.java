@@ -61,14 +61,6 @@ public class ReservationTest {
     public void testGetCustomerID() {
         assertEquals(3, reservation.getCustomerID());
     }
-    
-    /**
-     * Test of isBooked method
-     */
-    @Test
-    public void testIsBooked(){
-        assertEquals(true, reservation.isBooked(new Timestamp(23)));
-    }
 
     /**
      * Test of updateObject method, of class Reservation.

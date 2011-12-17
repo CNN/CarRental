@@ -38,11 +38,4 @@ public interface Booking {
      * @return Returns 'true' if this Booking is a maintenance. Returns 'false' if not
      */
     public boolean isMaintenance();
-
-    /**
-     * This method states if the Timestamp is in the booked period of this Booking
-     * @param timestamp The Timestamp to check
-     * @return Returns 'true' if that Timestamp is in this booked period. Returns 'false' if not
-     */
-    public boolean isBooked(Timestamp timestamp);
 }

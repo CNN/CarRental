@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package carrental;
 import java.sql.*;
 import java.util.ArrayList;
@@ -88,7 +84,6 @@ public class DbCom {
      * @param object the collumns to save, ordered as the collumns in the table
      */
     public void saveArray(String table, ArrayList<String> object) {
-        //find types
         try {
             if(newStatement().execute("SELECT * FROM "+table+" LIMIT 1")) {
                 ResultSetMetaData meta = stm.getResultSet().getMetaData();
@@ -180,7 +175,6 @@ public class DbCom {
      */
     private void openConnection() {
         try {
-            // Fra mysql-connector-java-5.1.5-bin.jar, lagt i /program files/java/jdk1.7.0_01/jre/lib/ext/
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection("jdbc:mysql://localhost/carrental", "carrental", "");
             CarRental.getInstance().appendLog("Connected to database.");

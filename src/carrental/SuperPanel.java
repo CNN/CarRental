@@ -5,22 +5,23 @@ import javax.swing.*;
 import java.util.ArrayList;
 
 /**
- *
+ * The super panel is an abstract class that determines how all the subpanels
+ * behave.
  * @author CNN
+ * @version 2011-12-17
  */
 public abstract class SuperPanel extends JPanel {
 
-    // private JPanel mainScreenPanel, createPanel, viewEntityPanel, addTypePanel, listPanel;
     private ArrayList<JPanel> panels;
     private int mainScreen, create, viewEntity, addType, viewType, list;
 
     public SuperPanel() {
-        //Removes the default gaps between components
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
     }
 
     /**
-     * This method serves as a way for the superpanels to assign their subpanels as well as add them to their own core.
+     * This method serves as a way for the superpanels to assign their subpanels
+     * as well as add them to their own core.
      * @param mainScreenPanel The JPanel that resembles the main screen 
      * @param createPanel The JPanel that shows the create-functionality
      * @param addTypePanel The JPanel that shows the add new type-functionality
@@ -46,7 +47,7 @@ public abstract class SuperPanel extends JPanel {
 
         panels.add(listPanel);
         list = panels.size() - 1;
-        //adding all the panels to this JPanel.
+        
         for (JPanel panel : panels) {
             if (panel != null) {
                 add(panel);

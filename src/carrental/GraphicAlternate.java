@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
@@ -42,7 +41,6 @@ public class GraphicAlternate extends JComponent {
     public GraphicAlternate() {
         calendar = Calendar.getInstance();
         
-        //click logic follows:
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 int x = e.getX();
@@ -56,7 +54,6 @@ public class GraphicAlternate extends JComponent {
                     refreshDataAndPaint();
                 }
                 else {
-                    //check if maintenance or reservation
                     x = ((x - textSpace) / collumnWidth);
                     y = ((y - 5)/ rowHeight);
                     if(reference.size() > y && reference.get(y) != null) {
@@ -85,12 +82,10 @@ public class GraphicAlternate extends JComponent {
      */
     public final void refreshDataAndPaint() {
         reference = new ArrayList<>();
-        //get vehicles, set row amounts
         vehicles = CarRental.getInstance().requestVehicles();
         if(!vehicles.isEmpty()) numberOfRows = vehicles.size();
         else numberOfRows = 0;
         
-        //find all bookings and first date
         first_date = new Timestamp(calendar.getTimeInMillis() * 1000);
         vehicle_bookings = new ArrayList<>();
         for(Vehicle v : vehicles) {
@@ -106,7 +101,6 @@ public class GraphicAlternate extends JComponent {
             vehicle_bookings.add(bs);
         }
         
-        //find millis pr. unit and number of collumns
         switch(display) {
             case(VIEW_DAYS):
                 unit = S_IN_DAY;
@@ -124,20 +118,17 @@ public class GraphicAlternate extends JComponent {
         
         if(numberOfCollumns != 0) collumnWidth = width / numberOfCollumns;
         else collumnWidth = width;
-                
-        //generate all timestamps
+        
         timestamps = new ArrayList<>();
         for(int i = 0; i < numberOfCollumns; i++) {
             timestamps.add(new Timestamp(first_date.getTime() - (first_date.getTime() % (unit * 1000)) + (i * unit * 1000)));
         }
         
-        //calculate amount of collumns from the number of timestamps.
         if(timestamps.isEmpty()) numberOfCollumns = 0;
         else numberOfCollumns = timestamps.size();
         if(numberOfCollumns > 0) collumnWidth = (width - textSpace) / numberOfCollumns;
         else collumnWidth = (width - textSpace);
         
-        //convert timestamps to specific date format
         dateString = new ArrayList<>();
         for (Timestamp timestamp : timestamps) {
             dateString.add(dateFormat.format(timestamp));
@@ -178,18 +169,15 @@ public class GraphicAlternate extends JComponent {
         pointerX = textSpace;
         pointerY = 0;
         
-        //print reservation blocks for each row
         for(int y = 0; y < numberOfRows; y++) {
             if(y % 2 == 0) {
                 g.setColor(new Color(220,220,220));
                 g.fillRect(0, y*rowHeight + 5, width, rowHeight);
             }
             reference.add(new ArrayList<Booking>());
-            //for each cell
             for(int x = 0; x < numberOfCollumns; x++) {
                 boolean booked = false;
                 Booking bkng = null;
-                //for each booking, check
                 for(Booking b : vehicle_bookings.get(y)) {
                     if(b.getTStart().before(timestamps.get(x)) && b.getTEnd().after(timestamps.get(x))) {
                         booked = true;
@@ -209,7 +197,6 @@ public class GraphicAlternate extends JComponent {
         }
         pointerY = rowHeight;
         
-        //print y-axis text
         for(Vehicle v : vehicles) {
             g.setColor(Color.black);
             String desc = "";
@@ -228,17 +215,14 @@ public class GraphicAlternate extends JComponent {
         g.setColor(Color.LIGHT_GRAY);
         g.drawLine(0, height - 3*textHeight, width, height - 3*textHeight);
 
-        //draw x-axis text
         for (int x = 0; x < numberOfCollumns; x++) {
             boolean draw_this = false, draw_line = false;
             g.setColor(Color.GRAY);
             g.drawLine(pointerX, 0, pointerX, height - 3*textHeight);
             g.setColor(Color.black);
-            //draw all if less than 10 cols
+            
             if(numberOfCollumns < 10) draw_this = true;
-            //draw every second if less than 20
             if(numberOfCollumns < 20 && numberOfCollumns >= 10 && x % 2 == 0) draw_this = true;
-            //draw every fouth if less than 35
             if(numberOfCollumns < 35 && numberOfCollumns >= 20 && x % 3 == 0) {
                 draw_this = true;
                 draw_line = true;

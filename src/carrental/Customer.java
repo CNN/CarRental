@@ -18,8 +18,7 @@ public class Customer {
      * @param ID The ID number of this Customer.
      * @param telephone The telephone number of this Customer.
      * @param name The name of this Customer.
-     * @param adress The adress of this Customer.
-     * //TODO Clarification on how the adress string should be written. Do we write \n for line breaks etc.? Fix on the line above.
+     * @param adress The adress of this Customer, in the format "[Road] [Number]\n[Zip code] [Town]".
      * @param eMail The e-mail adress of this Customer.
      */
     public Customer(int ID, int telephone, String name, String adress, String eMail) {
@@ -34,8 +33,7 @@ public class Customer {
      * This method updates this Customer object
      * @param telephone The updated telephone number of this Customer.
      * @param name The updated name of this Customer.
-     * @param adress The updated adress of this Customer.
-     * //TODO Clarification on how the adress string should be written. Do we write \n for line breaks etc.? Fix on the line above.
+     * @param adress The updated adress of this Customer, in the format "[Road] [Number]\n[Zip code] [Town]".
      * @param eMail The updated e-mail adress of this Customer.
      */
     public void updateObject(int telephone, String name, String adress, String eMail) {

@@ -1,26 +1,10 @@
 package carrental;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Locale;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,14 +13,12 @@ import javax.swing.table.DefaultTableModel;
  * @version 2011-12-17
  */
 public class VehicleListPanel extends JPanel {
-
     private DefaultTableModel vehicleTableModel;
     private JComboBox vehicleTypeCombo;
     private DefaultComboBoxModel vehicleTypeComboModel;
     private JTextField descriptionField, licensePlateField, vinField, drivenField;
     private int currentVehicleTypeIndex = -1; //this is for storing the currently selected choice from the combobox.
     private ArrayList<Vehicle> vehicleList;
-    private Vehicle vehicleToView;
     private ArrayList<VehicleType> vehicleTypes;
     private JButton cancelButton, viewButton;
     private final JTable vehicleTable;

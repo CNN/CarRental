@@ -29,7 +29,7 @@ public class VehicleTypePanel extends JPanel {
         final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
         //Panel settings
-        setLayout(new BorderLayout(0, 0));// no gaps between components.
+        setLayout(new BorderLayout(0, 0));
 
         //Center Panel
         centerPanel = new JPanel();
@@ -41,7 +41,7 @@ public class VehicleTypePanel extends JPanel {
         buttonPanel = new JPanel();
         add(buttonPanel, BorderLayout.SOUTH);
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
         buttonPanel.add(Box.createHorizontalGlue());
 
         //Vehicle type name
