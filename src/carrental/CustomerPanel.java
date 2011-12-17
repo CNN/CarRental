@@ -588,19 +588,6 @@ public class CustomerPanel extends SuperPanel {
             buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
             buttonPanel.add(Box.createHorizontalGlue());
 
-            //cancel-Button
-            cancelButton = new JButton("Back");
-            cancelButton.addActionListener(new ActionListener() {
-                
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    setFilterTextFields();
-                    showMainScreenPanel();
-                }
-            });
-            buttonPanel.add(cancelButton);
-            buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-
             //View-button
             viewButton = new JButton("View selected");
             viewButton.addActionListener(new ActionListener() {

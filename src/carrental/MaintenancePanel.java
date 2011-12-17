@@ -205,15 +205,25 @@ public class MaintenancePanel extends SuperPanel {
                     if (!dateStartField.getText().trim().isEmpty()
                             && !dateEndField.getText().trim().isEmpty()) {
                         try {
-                            Maintenance newMaintenance = new Maintenance(CarRental.getInstance().requestNewMaintenanceId(),
-                                    vehicles.get(vehicleCombo.getSelectedIndex()).getID(),
-                                    new Timestamp(dateFormat.parse(dateStartField.getText().trim()).getTime()),
-                                    new Timestamp(dateFormat.parse(dateEndField.getText().trim()).getTime()),
-                                    maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getID());
-
-                            CarRental.getInstance().saveMaintenance(newMaintenance);
-                            CarRental.getInstance().appendLog("Maintenance for vehicle #" + vehicles.get(vehicleCombo.getSelectedIndex()).getID() + " added to the database.");
-                            maintenanceList = CarRental.getInstance().requestMaintenances();
+                            String[] dateStartSplit = dateStartField.getText().split("-");
+                            String[] dateEndSplit = dateEndField.getText().split("-");
+                            if(dateStartSplit[0].length() == 2 &&
+                                    dateStartSplit[1].length() == 2 &&
+                                    dateStartSplit[2].length() == 4 &&
+                                    dateEndSplit[0].length() == 2 &&
+                                    dateEndSplit[1].length() == 2 &&
+                                    dateEndSplit[2].length() == 4) {
+                                Maintenance newMaintenance = new Maintenance(CarRental.getInstance().requestNewMaintenanceId(),
+                                        vehicles.get(vehicleCombo.getSelectedIndex()).getID(),
+                                        new Timestamp(dateFormat.parse(dateStartField.getText().trim()).getTime()),
+                                        new Timestamp(dateFormat.parse(dateEndField.getText().trim()).getTime()),
+                                        maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getID());
+                                CarRental.getInstance().saveMaintenance(newMaintenance);
+                                maintenanceList = CarRental.getInstance().requestMaintenances();
+                            }
+                            else {
+                                CarRental.getInstance().appendLog("Date format in date-fields should be DD-MM-YYYY.");
+                            }
                         } catch (java.text.ParseException ex) {
                             CarRental.getInstance().appendLog("Could not format the date entered, maintenance not scheduled",ex);
                         }
@@ -775,19 +785,7 @@ public class MaintenancePanel extends SuperPanel {
             buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
             buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
             buttonPanel.add(Box.createHorizontalGlue());
-
-            //cancel-Button
-            cancelButton = new JButton("Back");
-            cancelButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    update();
-                    showMainScreenPanel();
-                }
-            });
-            buttonPanel.add(cancelButton);
-            buttonPanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
-
+            
             //View-button
             viewButton = new JButton("View selected");
             viewButton.addActionListener(new ActionListener() {
