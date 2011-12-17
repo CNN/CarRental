@@ -241,10 +241,12 @@ public class MaintenancePanel extends SuperPanel {
          */
         public void update() {
             //Update combo boxes
+            vehicles = CarRental.getInstance().requestVehicles();
             vehicleComboModel.removeAllElements();
             for(Vehicle v : vehicles) {
                 vehicleComboModel.addElement(v.getDescription());
             }
+            maintenanceTypes = CarRental.getInstance().requestMaintenanceTypes();
             maintenanceTypeComboModel.removeAllElements();
             for (MaintenanceType maintenanceType : maintenanceTypes) {
                 maintenanceTypeComboModel.addElement(maintenanceType.getName());
@@ -427,6 +429,7 @@ public class MaintenancePanel extends SuperPanel {
          */
         public void update() {
             //Update comboboxes
+            vehicles = CarRental.getInstance().requestVehicles();
             int v_index = 0;
             vehicleComboModel.removeAllElements();
             for(Vehicle v : vehicles) {
@@ -435,6 +438,7 @@ public class MaintenancePanel extends SuperPanel {
                     vehicleCombo.setSelectedIndex(v_index);
                 v_index++;
             }
+            maintenanceTypes = CarRental.getInstance().requestMaintenanceTypes();
             maintenanceTypeComboModel.removeAllElements();
             int type_index = 0;
             for (MaintenanceType maintenanceType : maintenanceTypes) {
@@ -815,6 +819,7 @@ public class MaintenancePanel extends SuperPanel {
         public void update() {
             currentVehicleTypeIndex = -1;
 
+            maintenanceList = CarRental.getInstance().requestMaintenances();
             //Delete exisiting rows
             maintenanceTableModel.setRowCount(0);
             //Add the updated rows with vehicles
