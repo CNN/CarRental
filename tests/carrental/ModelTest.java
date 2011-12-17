@@ -70,14 +70,11 @@ public class ModelTest {
     @Test
     public void testSaveGetDeleteMaintenance() {
         long now_time = Calendar.getInstance().getTimeInMillis();
-        System.out.println(now_time);
         Maintenance mTest = new Maintenance(222, 1,
                 new Timestamp(now_time - (now_time % 86400)),
                 new Timestamp(now_time - (now_time % 86400) + 86400),1);
         model.saveMaintenance(mTest);
         Maintenance mModel = model.getMaintenance(mTest.getID());
-        System.out.println(mTest.getTStart().getTime());
-        System.out.println(mModel.getTStart().getTime());
         
         //TODO: Notice the insecurity that arises here, as timestamps in database
         // are saved without millis.
@@ -94,7 +91,6 @@ public class ModelTest {
     @Test
     public void testUpdateOnExistsMaintenance() {
         long now_time = Calendar.getInstance().getTimeInMillis();
-        System.out.println(now_time);
         Maintenance mTest = new Maintenance(222, 1,
                 new Timestamp(now_time - (now_time % 86400)),
                 new Timestamp(now_time - (now_time % 86400) + 86400),1);
@@ -111,12 +107,19 @@ public class ModelTest {
     }
     
     //TODO: Repeat above 2 tests for all other simple classes there are.
-        
+    
+    /**
+     * Tests whether the bookings gotten that are supposed to belong to a vehicle
+     * actually belong to this vehicle
+     */
     @Test
     public void testGetBookingsByVehicle() {
-        ArrayList<Booking> bs = model.getBookingsByVehicleId(model.getHighestVehicleId());
-        for(Booking b : bs) {
-            assertEquals(b.getVehicleID(), model.getHighestVehicleId());
+        ArrayList<Vehicle> vs = model.getVehicles();
+        for(Vehicle v : vs) {
+            ArrayList<Booking> bs = model.getBookingsByVehicleId(v.getID());
+            for(Booking b : bs) {
+                assertEquals(b.getVehicleID(), v.getID());
+            }
         }
     }
 }
