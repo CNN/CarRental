@@ -21,7 +21,7 @@ public class ReservationPanel extends SuperPanel {
 
     //TODO check if vehicle already lent on date, Calendar
     
-    /** time occupied
+    /** time occupied 
      * 
      * for(reservations){
      * check times against vehicleid
