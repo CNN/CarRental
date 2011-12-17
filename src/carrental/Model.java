@@ -13,7 +13,7 @@ import java.sql.Timestamp;
  */
 public class Model {
     private DbCom database;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.0");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     
     public Model() {
         CarRental.getInstance().appendLog("Creating model...");

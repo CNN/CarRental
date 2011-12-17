@@ -3,6 +3,8 @@ package carrental;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.sql.Timestamp;
 
 /**
  * This is a test of the functionality in the model.
@@ -59,6 +61,53 @@ public class ModelTest {
         assertEquals(vTest.getVin(), vModel.getVin());
         assertEquals(vTest.getOdo(), vModel.getOdo());
         assertEquals(vTest.getAdditional(), vModel.getAdditional());
+    }
+    
+    /**
+     * Tests whether the save get and delete methods for maintenances work
+     * properly
+     */
+    @Test
+    public void testSaveGetDeleteMaintenance() {
+        long now_time = Calendar.getInstance().getTimeInMillis();
+        System.out.println(now_time);
+        Maintenance mTest = new Maintenance(222, 1,
+                new Timestamp(now_time - (now_time % 86400)),
+                new Timestamp(now_time - (now_time % 86400) + 86400),1);
+        model.saveMaintenance(mTest);
+        Maintenance mModel = model.getMaintenance(mTest.getID());
+        System.out.println(mTest.getTStart().getTime());
+        System.out.println(mModel.getTStart().getTime());
+        
+        //TODO: Notice the insecurity that arises here, as timestamps in database
+        // are saved without millis.
+        assertEquals(mTest.getID(),mModel.getID());
+        assertEquals(mTest.getVehicleID(),mModel.getVehicleID());
+        assertEquals(mTest.getTypeID(),mModel.getTypeID());
+        //assertEquals(mTest.getTEnd(),mModel.getTEnd());
+        //assertEquals(mTest.getTStart(),mModel.getTStart());
+        
+        model.deleteMaintenance(mTest.getID());
+        assertEquals(model.getMaintenance(mTest.getID()),null);
+    }
+    
+    @Test
+    public void testUpdateOnExistsMaintenance() {
+        long now_time = Calendar.getInstance().getTimeInMillis();
+        System.out.println(now_time);
+        Maintenance mTest = new Maintenance(222, 1,
+                new Timestamp(now_time - (now_time % 86400)),
+                new Timestamp(now_time - (now_time % 86400) + 86400),1);
+        model.saveMaintenance(mTest);
+        mTest.updateObject(1, new Timestamp(now_time),
+                new Timestamp(now_time - (now_time % 86400) + 86400), 1);
+        Maintenance mModel = model.getMaintenance(mTest.getID());
+        
+        assertEquals(mTest.getID(),mModel.getID());
+        assertEquals(mTest.getVehicleID(),mModel.getVehicleID());
+        assertEquals(mTest.getTypeID(),mModel.getTypeID());
+        //assertEquals(mTest.getTEnd(),mModel.getTEnd());
+        //assertEquals(mTest.getTStart(),mModel.getTStart());
     }
     
     //TODO: Repeat above 2 tests for all other simple classes there are.

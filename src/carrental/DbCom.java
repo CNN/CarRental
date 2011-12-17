@@ -26,9 +26,10 @@ public class DbCom {
         try {
             if(newStatement().execute(query)) {
                 int columns = stm.getResultSet().getMetaData().getColumnCount();
-                stm.getResultSet().next();
-                for(int i = 0; i < columns; i++) {
-                    result.add(stm.getResultSet().getString(i + 1));
+                if(stm.getResultSet().next()) {
+                    for(int i = 0; i < columns; i++) {
+                        result.add(stm.getResultSet().getString(i + 1));
+                    }
                 }
             }
             else CarRental.getInstance().appendLog("Could not get matches, query execution failed.");
