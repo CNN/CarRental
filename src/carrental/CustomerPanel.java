@@ -507,21 +507,24 @@ public class CustomerPanel extends SuperPanel {
          * Sets customer text fields based on 'customerToView'
          */
         public void updateViewEntityPanel() {
-            String[] split = customerToView.getAdress().split(" ");
-            if (split.length > 0) {
-                customerStreetTextField.setText(split[0]);
-            }
-            if (split.length > 1) {
-                customerZipcodeTextField.setText(split[1]);
-            }
-            if (split.length > 2) {
-                customerCityTextField.setText(split[2]);
+            if(customerToView == null) customerToView = CarRental.getInstance().requestCustomer();
+            if(customerToView.getAdress() != null) {
+                String[] split = customerToView.getAdress().split(" ");
+                if (!split[0].isEmpty() && split.length > 0) {
+                    customerStreetTextField.setText(split[0]);
+                }
+                if (!split[1].isEmpty() && split.length > 1) {
+                    customerZipcodeTextField.setText(split[1]);
+                }
+                if (!split[2].isEmpty() && split.length > 2) {
+                    customerCityTextField.setText(split[2]);
+                }
             }
 
-            customerIDTextField.setText("" + customerToView.getID());
-            customerNameTextField.setText(customerToView.getName());
-            customerPhoneTextField.setText("" + customerToView.getTelephone());
-            customerEMailTextField.setText(customerToView.getEMail());
+            if(customerToView.getID() != 0) customerIDTextField.setText("" + customerToView.getID());
+            if(customerToView.getName() != null) customerNameTextField.setText(customerToView.getName());
+            if(customerToView.getTelephone() != 0) customerPhoneTextField.setText("" + customerToView.getTelephone());
+            if(customerToView.getEMail() != null) customerEMailTextField.setText(customerToView.getEMail());
         }
     }
 
