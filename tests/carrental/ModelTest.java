@@ -97,6 +97,7 @@ public class ModelTest {
         model.saveMaintenance(mTest);
         mTest.updateObject(1, new Timestamp(now_time),
                 new Timestamp(now_time - (now_time % 86400) + 86400), 1);
+        model.saveMaintenance(mTest);
         Maintenance mModel = model.getMaintenance(mTest.getID());
         
         assertEquals(mTest.getID(),mModel.getID());
@@ -106,7 +107,44 @@ public class ModelTest {
         //assertEquals(mTest.getTStart(),mModel.getTStart());
     }
     
+    /**
+     * Tests that the save, get and delete functionality for the customers works
+     * properly in the model.
+     */
+    @Test
+    public void testSaveGetDeleteCustomer() {
+        Customer cTest = new Customer(117,12121212,"John Stewart", "45th Street 20111\n2191911 Washington","johnstwart@comedycentral.com");
+        model.saveCustomer(cTest);
+        Customer cModel = model.getCustomer(cTest.getID());
+        
+        assertEquals(cTest.getID(),cModel.getID());
+        assertEquals(cTest.getTelephone(),cModel.getTelephone());
+        assertEquals(cTest.getName(),cModel.getName());
+        assertEquals(cTest.getAdress(),cModel.getAdress());
+        assertEquals(cTest.getEMail(),cModel.getEMail());
+    }
+    
+    /**
+     * Test that customer updates when saved if an entry with the same id already exists.
+     */
+    @Test
+    public void testUpdateOnExistsCustomer() {
+        Customer cTest = new Customer(117,12121212,"John Stewart", "45th Street 20111\n2191911 Washington","johnstwart@comedycentral.com");
+        model.saveCustomer(cTest);
+        cTest.updateObject(12122111, "John Stewart", "2 Londong St.\n1212 HelloKitty", "jst@cc.com");
+        model.saveCustomer(cTest);
+        
+        Customer cModel = model.getCustomer(cTest.getID());
+        
+        assertEquals(cTest.getID(),cModel.getID());
+        assertEquals(cTest.getTelephone(),cModel.getTelephone());
+        assertEquals(cTest.getName(),cModel.getName());
+        assertEquals(cTest.getAdress(),cModel.getAdress());
+        assertEquals(cTest.getEMail(),cModel.getEMail());
+    }
+    
     //TODO: Repeat above 2 tests for all other simple classes there are.
+    //Missing: VehicleType, MaintenanceType, Reservation
     
     /**
      * Tests whether the bookings gotten that are supposed to belong to a vehicle
