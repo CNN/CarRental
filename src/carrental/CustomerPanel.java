@@ -16,14 +16,14 @@ import javax.swing.table.DefaultTableModel;
  * @version 2011-12-07
  */
 public class CustomerPanel extends SuperPanel {
-    
+
     private JPanel emptyPanel = null;
     private Customer customerToView; //specific customer, used to view details
     private ArrayList<Customer> customers; //array of costumers
     private final CreatePanel createPanel = new CreatePanel();
     private final ViewEntityPanel viewEntityPanel = new ViewEntityPanel();
     private final ListPanel listPanel = new ListPanel();
-    
+
     public CustomerPanel() {
         this.customers = CarRental.getInstance().requestCustomers();
         if (customers.get(0) != null) {
@@ -39,7 +39,7 @@ public class CustomerPanel extends SuperPanel {
         //Removes the default gaps between components
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
     }
-    
+
     /*
      * Sets the given customer as the customer to be shown.
      * @param Customer customer
@@ -47,7 +47,7 @@ public class CustomerPanel extends SuperPanel {
     public void setCustomerToView(Customer customer) {
         customerToView = customer;
     }
-    
+
     /**
      * Sets the customer array
      * @param customers 
@@ -66,35 +66,35 @@ public class CustomerPanel extends SuperPanel {
         } else {
             customerToView = CarRental.getInstance().requestCustomer();
         }
-        
+
         createPanel.updateCreatePanel();
         viewEntityPanel.updateViewEntityPanel();
         listPanel.updateListPanel();
     }
-    
+
     public class MainScreenPanel extends JPanel {
-        
+
         public MainScreenPanel() {
             //Fields
             TitledBorder titleBorder;
-            
+
             setLayout(new BorderLayout());
             titleBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Customers");
             setBorder(titleBorder);
         }
     }
-    
+
     /**
      * Inner class. For creating customers. Extends JPanel.
      */
     public class CreatePanel extends JPanel {
-        
-        private JTextField customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
-        
+
+        private JTextField customerCityTextField, customerZipcodeTextField, customerStreetTextField, customerIDTextField, customerNameTextField, customerPhoneTextField, customerEMailTextField;
+
         public CreatePanel() {
             //Fields
-            JPanel centerPanel, idPanel, namePanel, phonePanel, adressPanel, eMailPanel, buttonPanel;
-            JLabel customerIDLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel, customerEMailLabel;
+            JPanel centerPanel, idPanel, namePanel, phonePanel, streetPanel, zipPanel, cityPanel, eMailPanel, buttonPanel;
+            JLabel customerCityLabel, customerIDLabel, customerZipcodeLabel, customerNameLabel, customerPhoneLabel, customerStreetLabel, customerEMailLabel;
             JButton createButton, cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
@@ -128,7 +128,7 @@ public class CustomerPanel extends SuperPanel {
             customerNameLabel = new JLabel("Name");
             customerNameTextField = new JTextField(defaultJTextFieldColumns);
             namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            
+
             namePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             namePanel.add(customerNameLabel);
             namePanel.add(Box.createRigidArea(new Dimension(87 + strutDistance, 0)));
@@ -139,30 +139,57 @@ public class CustomerPanel extends SuperPanel {
             customerPhoneLabel = new JLabel("Phone number");
             customerPhoneTextField = new JTextField(defaultJTextFieldColumns);
             phonePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            
+
             phonePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             phonePanel.add(customerPhoneLabel);
             phonePanel.add(Box.createRigidArea(new Dimension(37 + strutDistance, 0)));
             phonePanel.add(customerPhoneTextField);
             centerPanel.add(phonePanel);
 
-            //TODO Split adress
             //Adress
-            customerAdressLabel = new JLabel("Adress");
-            customerAdressTextField = new JTextField(defaultJTextFieldColumns);
-            adressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            
-            adressPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            adressPanel.add(customerAdressLabel);
-            adressPanel.add(Box.createRigidArea(new Dimension(79 + strutDistance, 0)));
-            adressPanel.add(customerAdressTextField);
-            centerPanel.add(adressPanel);
+//            customerAdressLabel = new JLabel("Adress");
+//            customerAdressTextField = new JTextField(defaultJTextFieldColumns);
+//            adressPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+//            
+//            adressPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+//            adressPanel.add(customerAdressLabel);
+//            adressPanel.add(Box.createRigidArea(new Dimension(79 + strutDistance, 0)));
+//            adressPanel.add(customerAdressTextField);
+//            centerPanel.add(adressPanel);
+
+            //Split Adress
+            streetPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            zipPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            cityPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            customerStreetLabel = new JLabel("Street and number");
+            customerStreetTextField = new JTextField(defaultJTextFieldColumns);
+            customerZipcodeLabel = new JLabel("Zip/postal code");
+            customerZipcodeTextField = new JTextField(defaultJTextFieldColumns);
+            customerCityLabel = new JLabel("City/Town");
+            customerCityTextField = new JTextField(defaultJTextFieldColumns);
+
+            streetPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            streetPanel.add(customerStreetLabel);
+            streetPanel.add(Box.createRigidArea(new Dimension(16 + strutDistance, 0)));
+            streetPanel.add(customerStreetTextField);
+            zipPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            zipPanel.add(customerZipcodeLabel);
+            zipPanel.add(Box.createRigidArea(new Dimension(36 + strutDistance, 0)));
+            zipPanel.add(customerZipcodeTextField);
+            cityPanel.add(Box.createRigidArea(new Dimension(5, 0)));
+            cityPanel.add(customerCityLabel);
+            cityPanel.add(Box.createRigidArea(new Dimension(68 + strutDistance, 0)));
+            cityPanel.add(customerCityTextField);
+            centerPanel.add(streetPanel);
+            centerPanel.add(zipPanel);
+            centerPanel.add(cityPanel);
+
 
             //EMail
             customerEMailLabel = new JLabel("E-Mail");
             customerEMailTextField = new JTextField(defaultJTextFieldColumns);
             eMailPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            
+
             eMailPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             eMailPanel.add(customerEMailLabel);
             eMailPanel.add(Box.createRigidArea(new Dimension(85 + strutDistance, 0)));
@@ -179,7 +206,7 @@ public class CustomerPanel extends SuperPanel {
             //cancelButton
             cancelButton = new JButton("Cancel");
             cancelButton.addActionListener(new ActionListener() {
-                
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     updateCreatePanel();
@@ -192,24 +219,27 @@ public class CustomerPanel extends SuperPanel {
             //create-button
             createButton = new JButton("Create");
             createButton.addActionListener(new ActionListener() {
-                
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (customerPhoneTextField.getText().trim().length() > 0
-                            && customerNameTextField.getText().trim().length() > 0
-                            && customerAdressTextField.getText().trim().length() > 0
-                            && customerEMailTextField.getText().trim().length() > 0) {
-                        try{
-                        customerIDTextField.setText(" " + CarRental.getInstance().requestNewCustomerId());
-                        CarRental.getInstance().saveCustomer(new Customer(
-                                CarRental.getInstance().requestNewCustomerId(),
-                                Integer.parseInt(customerPhoneTextField.getText()),
-                                customerNameTextField.getText(),
-                                customerAdressTextField.getText(),
-                                customerEMailTextField.getText()));
-                        customers = CarRental.getInstance().requestCustomers();
-                        updateCreatePanel();
-                        }catch (NumberFormatException ex){
+                    if (!customerPhoneTextField.getText().trim().isEmpty()
+                            && !customerNameTextField.getText().trim().isEmpty()
+                            && !customerStreetTextField.getText().trim().isEmpty()
+                            && !customerZipcodeTextField.getText().trim().isEmpty()
+                            && !customerCityTextField.getText().trim().isEmpty()
+                            && !customerEMailTextField.getText().trim().isEmpty()) {
+                        String adress = customerStreetTextField.getText() + " " + customerZipcodeTextField.getText() + " " + customerCityTextField.getText();
+                        try {
+                            customerIDTextField.setText(" " + CarRental.getInstance().requestNewCustomerId());
+                            CarRental.getInstance().saveCustomer(new Customer(
+                                    CarRental.getInstance().requestNewCustomerId(),
+                                    Integer.parseInt(customerPhoneTextField.getText()),
+                                    customerNameTextField.getText(),
+                                    adress,
+                                    customerEMailTextField.getText()));
+                            customers = CarRental.getInstance().requestCustomers();
+                            updateCreatePanel();
+                        } catch (NumberFormatException ex) {
                             CarRental.getInstance().appendLog("Phone number must be numbers only");
                         }
                     } else { //A TextFild is empty
@@ -220,7 +250,7 @@ public class CustomerPanel extends SuperPanel {
             });
             buttonPanel.add(createButton);
         }
-        
+
         /**
          * Resets text fields.
          */
@@ -228,27 +258,30 @@ public class CustomerPanel extends SuperPanel {
             customerIDTextField.setText(" Automaticly generated");
             customerPhoneTextField.setText("");
             customerNameTextField.setText("");
-            customerAdressTextField.setText("");
+            customerCityTextField.setText("");
+            customerZipcodeTextField.setText("");
+            customerStreetTextField.setText("");
             customerEMailTextField.setText("");
         }
     }
-    
+
     /**
      * Inner class. Shows a single customer in detail. Extends JPanel.
      */
     public class ViewEntityPanel extends JPanel {
+
         private String customerID, customerName, customerPhone, customerAdress, customerEMail;
         private JTextField customerZipcodeTextField, customerStreetTextField, customerCityTextField, customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
-        
+
         public ViewEntityPanel() {
             //Fields
             JPanel cityPanel, streetPanel, zipPanel, centerPanel, idPanel, namePanel, phonePanel, adressPanel, eMailPanel, buttonPanel;
             JLabel customerZipcodeLabel, customerStreetLabel, customerCityLabel, customerIDLabel, customerNameLabel, customerPhoneLabel, customerAdressLabel, customerEMailLabel;
             JButton cancelButton, deleteButton, editButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
-            
-            setCustomerTextFields(customerToView);
-            
+
+            updateViewEntityPanel();
+
             setLayout(new BorderLayout());
             setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "View customers"));
 
@@ -279,7 +312,7 @@ public class CustomerPanel extends SuperPanel {
             customerNameTextField = new JTextField(defaultJTextFieldColumns);
             customerNameTextField.setBackground(Color.WHITE);
             namePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            
+
             namePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             namePanel.add(customerNameLabel);
             namePanel.add(Box.createRigidArea(new Dimension(87 + strutDistance, 0)));
@@ -291,7 +324,7 @@ public class CustomerPanel extends SuperPanel {
             customerPhoneTextField = new JTextField(defaultJTextFieldColumns);
             customerPhoneTextField.setBackground(Color.WHITE);
             phonePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            
+
             phonePanel.add(Box.createRigidArea(new Dimension(5, 0)));
             phonePanel.add(customerPhoneLabel);
             phonePanel.add(Box.createRigidArea(new Dimension(38 + strutDistance, 0)));
@@ -309,7 +342,7 @@ public class CustomerPanel extends SuperPanel {
 //            adressPanel.add(Box.createRigidArea(new Dimension(80 + strutDistance, 0)));
 //            adressPanel.add(customerAdressTextField);
 //            centerPanel.add(adressPanel);
-            
+
             //Split Adress
             streetPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             zipPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -320,7 +353,7 @@ public class CustomerPanel extends SuperPanel {
             customerZipcodeTextField = new JTextField(defaultJTextFieldColumns);
             customerCityLabel = new JLabel("City/Town");
             customerCityTextField = new JTextField(defaultJTextFieldColumns);
-            
+
             streetPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             streetPanel.add(customerStreetLabel);
             streetPanel.add(Box.createRigidArea(new Dimension(16 + strutDistance, 0)));
@@ -342,7 +375,7 @@ public class CustomerPanel extends SuperPanel {
             customerEMailTextField = new JTextField(defaultJTextFieldColumns);
             customerEMailTextField.setBackground(Color.WHITE);
             eMailPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-            
+
             eMailPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             eMailPanel.add(customerEMailLabel);
             eMailPanel.add(Box.createRigidArea(new Dimension(88 + strutDistance, 0)));
@@ -355,51 +388,52 @@ public class CustomerPanel extends SuperPanel {
             buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
             buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
             buttonPanel.add(Box.createHorizontalGlue());
-            
+
             //deleteButton
             deleteButton = new JButton("Delete");
             deleteButton.addActionListener(new ActionListener() {
-                
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     String id = Integer.toString(customerToView.getID());
-                    if(delete(customerToView)){
+                    if (delete(customerToView)) {
                         CarRental.getInstance().appendLog("Succesfully deleted customer " + id);
                         updateViewEntityPanel();
-                    }else{
+                    } else {
                         CarRental.getInstance().appendLog("Failed to delete customer " + id);
                     }
                 }
             });
             buttonPanel.add(deleteButton);
             buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
-            
+
             //editButton
             editButton = new JButton("Save changes");
             editButton.addActionListener(new ActionListener() {
-                
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (customerPhoneTextField.getText().trim().length() > 0
-                            && customerNameTextField.getText().trim().length() > 0
-                            //&& customerAdressTextField.getText().trim().length() > 0
-                            && customerEMailTextField.getText().trim().length() > 0) {
+                    if (!customerPhoneTextField.getText().trim().isEmpty()
+                            && !customerNameTextField.getText().trim().isEmpty()
+                            && !customerStreetTextField.getText().trim().isEmpty()
+                            && !customerZipcodeTextField.getText().trim().isEmpty()
+                            && !customerCityTextField.getText().trim().isEmpty()
+                            && !customerEMailTextField.getText().trim().isEmpty()) {
                         String adress = customerStreetTextField.getText() + " " + customerZipcodeTextField.getText() + " " + customerCityTextField.getText();
-                        try{
-                        CarRental.getInstance().saveCustomer(new Customer(
-                                Integer.parseInt(customerIDTextField.getText().trim()),
-                                Integer.parseInt(customerPhoneTextField.getText().trim()),
-                                customerNameTextField.getText().trim(),
-                                adress,
-                                //customerAdressTextField.getText(),
-                                customerEMailTextField.getText().trim()));
-                        customers = CarRental.getInstance().requestCustomers();
-                        CarRental.getInstance().appendLog("Customer " + customerIDTextField.getText() + " edited");
-                        customerToView = CarRental.getInstance().requestCustomer(customerToView.getID());
-                        updateViewEntityPanel();
-                        listPanel.updateListPanel();
-                        showViewEntityPanel();
-                        }catch (NumberFormatException ex){
+                        try {
+                            CarRental.getInstance().saveCustomer(new Customer(
+                                    Integer.parseInt(customerIDTextField.getText().trim()),
+                                    Integer.parseInt(customerPhoneTextField.getText().trim()),
+                                    customerNameTextField.getText().trim(),
+                                    adress,
+                                    customerEMailTextField.getText().trim()));
+                            customers = CarRental.getInstance().requestCustomers();
+                            CarRental.getInstance().appendLog("Customer " + customerIDTextField.getText() + " edited");
+                            customerToView = CarRental.getInstance().requestCustomer(customerToView.getID());
+                            updateViewEntityPanel();
+                            listPanel.updateListPanel();
+                            showViewEntityPanel();
+                        } catch (NumberFormatException ex) {
                             CarRental.getInstance().appendLog("Phone number must be numbers only");
                         }
                     } else { //A TextFild is empty
@@ -413,7 +447,7 @@ public class CustomerPanel extends SuperPanel {
             //cancelButton
             cancelButton = new JButton("Back");
             cancelButton.addActionListener(new ActionListener() {
-                
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     updateViewEntityPanel();
@@ -423,24 +457,24 @@ public class CustomerPanel extends SuperPanel {
             buttonPanel.add(cancelButton);
             buttonPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         }
-        
+
         /**
          * Deletes the given customer. 
          * @param customer
          * @return success
          */
-        private boolean delete(Customer customer){
+        private boolean delete(Customer customer) {
             boolean success;
             ArrayList<Reservation> bookings = CarRental.getInstance().requestReservationsByCustomer(customer.getID());
-            if(bookings == null || bookings.isEmpty()){
+            if (bookings == null || bookings.isEmpty()) {
                 CarRental.getInstance().deleteCustomer(customer.getID());
                 success = true;
-            }else{
+            } else {
                 success = false;
             }
             return success;
         }
-        
+
         /**
          * Sets the customer fields based on the given customer.
          * @param customer 
@@ -449,7 +483,7 @@ public class CustomerPanel extends SuperPanel {
             if (customer == null) {
                 customer = CarRental.getInstance().requestCustomer();
             }
-            
+
             customerID = "" + customer.getID();
             if (customer.getName() != null) {
                 customerName = customer.getName();
@@ -468,32 +502,41 @@ public class CustomerPanel extends SuperPanel {
                 customerEMail = "Unknown E-Mail";
             }
         }
-        
+
         /**
-         * Sets customer fields based on 'customerToView'
+         * Sets customer text fields based on 'customerToView'
          */
         public void updateViewEntityPanel() {
-            setCustomerTextFields(customerToView);
-            customerIDTextField.setText(" " + customerID);
-            customerNameTextField.setText(" " + customerName);
-            customerPhoneTextField.setText(" " + customerPhone);
-//            customerAdressTextField.setText(" " + customerAdress);
-            customerEMailTextField.setText(" " + customerEMail);
+            String[] split = customerToView.getAdress().split(" ");
+            if (split.length > 0) {
+                customerStreetTextField.setText(split[0]);
+            }
+            if (split.length > 1) {
+                customerZipcodeTextField.setText(split[1]);
+            }
+            if (split.length > 2) {
+                customerCityTextField.setText(split[2]);
+            }
+
+            customerIDTextField.setText("" + customerToView.getID());
+            customerNameTextField.setText(customerToView.getName());
+            customerPhoneTextField.setText("" + customerToView.getTelephone());
+            customerEMailTextField.setText(customerToView.getEMail());
         }
     }
-    
+
     public void makeAddTypePanel() { //not used
     }
-    
+
     /**
      * Shows a list of customers. Extends JPanel.
      */
     public class ListPanel extends JPanel {
-        
+
         private JTextField filterAdressTextField, filterPhoneTextField, filterNameTextField, filterIDTextField;
         private JTable customerTable;
         private DefaultTableModel customerTableModel;
-        
+
         public ListPanel() {
             //Fields
             JPanel centerPanel, customerListPanel, filterPanel, topFilterPanel, bottomFilterPanel, buttonPanel;
@@ -532,7 +575,7 @@ public class CustomerPanel extends SuperPanel {
 
             //FilterPanel
             JLabel filterAdressLabel, filterPhoneLabel, filterNameLabel, filterIDLabel;
-            
+
             filterPanel = new JPanel();
             filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.PAGE_AXIS));
             filterPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2), "Filters"));
@@ -545,7 +588,7 @@ public class CustomerPanel extends SuperPanel {
             //ID
             filterIDLabel = new JLabel("ID");
             filterIDTextField = new JTextField(defaultJTextFieldColumns);
-            
+
             topFilterPanel.add(Box.createRigidArea(new Dimension(0, 0)));
             topFilterPanel.add(filterIDLabel);
             topFilterPanel.add(Box.createRigidArea(new Dimension(68 + strutDistance, 0)));
@@ -554,7 +597,7 @@ public class CustomerPanel extends SuperPanel {
             //Name
             filterNameLabel = new JLabel("Name");
             filterNameTextField = new JTextField(defaultJTextFieldColumns);
-            
+
             topFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             topFilterPanel.add(filterNameLabel);
             topFilterPanel.add(Box.createRigidArea(new Dimension(12 + strutDistance, 0)));
@@ -567,7 +610,7 @@ public class CustomerPanel extends SuperPanel {
             //Phone
             filterPhoneLabel = new JLabel("Phone number");
             filterPhoneTextField = new JTextField(defaultJTextFieldColumns);
-            
+
             bottomFilterPanel.add(filterPhoneLabel);
             bottomFilterPanel.add(Box.createRigidArea(new Dimension(strutDistance, 0)));
             bottomFilterPanel.add(filterPhoneTextField);
@@ -575,7 +618,7 @@ public class CustomerPanel extends SuperPanel {
             //Adress
             filterAdressLabel = new JLabel("Adress");
             filterAdressTextField = new JTextField(defaultJTextFieldColumns);
-            
+
             bottomFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
             bottomFilterPanel.add(filterAdressLabel);
             bottomFilterPanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
@@ -591,7 +634,7 @@ public class CustomerPanel extends SuperPanel {
             //View-button
             viewButton = new JButton("View selected");
             viewButton.addActionListener(new ActionListener() {
-                
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (customerTable.getSelectedRow() >= 0) {
@@ -604,7 +647,7 @@ public class CustomerPanel extends SuperPanel {
             });
             buttonPanel.add(viewButton);
         }
-        
+
         /**
          * Reloads the list of customer.
          */
@@ -615,16 +658,16 @@ public class CustomerPanel extends SuperPanel {
             } else {
                 customerToView = CarRental.getInstance().requestCustomer();
             }
-            
+
             customerTableModel.setRowCount(0);
-            
+
             for (Customer customer : customers) { //update table
-                String[]split = customer.getAdress().split("\n"); //for nicer look
+                String[] split = customer.getAdress().split("\n"); //for nicer look
                 String displayed = split[0];
-                for(int i = 1; i < split.length; i++){
+                for (int i = 1; i < split.length; i++) {
                     displayed = displayed + ", " + split[i];
                 }
-                
+
                 customerTableModel.addRow(new Object[]{customer.getID(), //ID
                             customer.getTelephone(), //Phone
                             customer.getName(), //Name
@@ -633,7 +676,7 @@ public class CustomerPanel extends SuperPanel {
                         });
             }
         }
-        
+
         /**
          * Reloads the list of customers and resets filter text fields.
          */
@@ -641,7 +684,7 @@ public class CustomerPanel extends SuperPanel {
             setFilterTextFields();
             setCustomerTable();
         }
-        
+
         /**
          * Resets filter text fields
          */
@@ -651,30 +694,30 @@ public class CustomerPanel extends SuperPanel {
             filterNameTextField.setText("");
             filterIDTextField.setText("");
         }
-        
+
         /**
          * Reloads list of customers. Shows only entries matching parameters.
          */
-        public void filter(){
+        public void filter() {
             //Delete exisiting rows
             customerTableModel.setRowCount(0);
             //Add the rows that match the filter
-            for(Customer customer : customers){
+            for (Customer customer : customers) {
                 //parameters
-                if(filterIDTextField.getText().trim().isEmpty() || //Filter ID is empty OR
-                   Integer.toString(customer.getID()).trim().toLowerCase(Locale.ENGLISH).contains(filterIDTextField.getText().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
-                   filterNameTextField.getText().trim().isEmpty() || //Filter name is empty OR
-                   customer.getName().trim().toLowerCase(Locale.ENGLISH).contains(filterNameTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
-                   filterPhoneTextField.getText().trim().isEmpty() || //Filter Phone is empty OR
-                   Integer.toString(customer.getTelephone()).trim().toLowerCase(Locale.ENGLISH).contains(filterPhoneTextField.getText().trim().toLowerCase(Locale.ENGLISH)) &&//Customer matches criteria
-                   filterAdressTextField.getText().trim().isEmpty() || //Adress field is empty OR
-                   customer.getAdress().trim().toLowerCase(Locale.ENGLISH).contains(filterAdressTextField.getText().trim().toLowerCase(Locale.ENGLISH))) //Customer matches criteria
+                if (filterIDTextField.getText().trim().isEmpty() || //Filter ID is empty OR
+                        Integer.toString(customer.getID()).trim().toLowerCase(Locale.ENGLISH).contains(filterIDTextField.getText().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
+                        filterNameTextField.getText().trim().isEmpty() || //Filter name is empty OR
+                        customer.getName().trim().toLowerCase(Locale.ENGLISH).contains(filterNameTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
+                        filterPhoneTextField.getText().trim().isEmpty() || //Filter Phone is empty OR
+                        Integer.toString(customer.getTelephone()).trim().toLowerCase(Locale.ENGLISH).contains(filterPhoneTextField.getText().trim().toLowerCase(Locale.ENGLISH)) &&//Customer matches criteria
+                        filterAdressTextField.getText().trim().isEmpty() || //Adress field is empty OR
+                        customer.getAdress().trim().toLowerCase(Locale.ENGLISH).contains(filterAdressTextField.getText().trim().toLowerCase(Locale.ENGLISH))) //Customer matches criteria
                 {
                     customerTableModel.addRow(new Object[]{customer.getID(), //ID
-                            customer.getTelephone(), //Phone
-                            customer.getName(), //Name
-                            customer.getAdress(), //Adress
-                            customer.getEMail() //E-Mail
+                                customer.getTelephone(), //Phone
+                                customer.getName(), //Name
+                                customer.getAdress(), //Adress
+                                customer.getEMail() //E-Mail
                             });
                 }
             }

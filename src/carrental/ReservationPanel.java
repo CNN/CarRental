@@ -19,7 +19,7 @@ public class ReservationPanel extends SuperPanel {
 
     //TODO check if vehicle already lent on date, Calendar
     
-    /** time occupied
+    /** time occupied 
      * 
      * for(reservations){
      * check times against vehicleid
@@ -786,10 +786,10 @@ public class ReservationPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (reservationIDTextField.getText().trim().length() > 0
-                            && vehicleIDTextField.getText().trim().length() > 0
-                            && startDateTextField.getText().trim().length() > 0
-                            && endDateTextField.getText().trim().length() > 0) {
+                    if (!reservationIDTextField.getText().trim().isEmpty()
+                            && !vehicleIDTextField.getText().trim().isEmpty()
+                            && !startDateTextField.getText().trim().isEmpty()
+                            && !endDateTextField.getText().trim().isEmpty()){
                         try {
                             CarRental.getInstance().saveReservation(new Reservation(
                                     CarRental.getInstance().requestNewReservationId(),
@@ -1026,10 +1026,10 @@ public class ReservationPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    if (reservationIDTextField.getText().trim().length() > 0
-                            && vehicleIDTextField.getText().trim().length() > 0
-                            && startDateTextField.getText().trim().length() > 0
-                            && endDateTextField.getText().trim().length() > 0) {
+                    if (!reservationIDTextField.getText().trim().isEmpty()
+                            && !vehicleIDTextField.getText().trim().isEmpty()
+                            && !startDateTextField.getText().trim().isEmpty()
+                            && !endDateTextField.getText().trim().isEmpty()) {
                         try {
                             CarRental.getInstance().saveReservation(new Reservation(
                                     Integer.parseInt(reservationIDTextField.getText().trim()),
