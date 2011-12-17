@@ -18,8 +18,6 @@ public final class CarRental {
     private String log;
     
     private CarRental() {
-        //next line is ugly
-        if(instance == null) instance = this;
         appendLog("Initializing...");
         model = new Model();
         view = new View();
@@ -33,7 +31,7 @@ public final class CarRental {
      */
     public static CarRental getInstance() {
         //should never happen that there is no instance, but just in case
-        if(instance == null) return new CarRental();
+        if(instance == null) instance = new CarRental();
         return instance;
     }
     
