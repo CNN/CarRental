@@ -4,8 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Locale;
+import java.util.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;
 
@@ -14,7 +13,7 @@ import javax.swing.text.JTextComponent;
  * It contains JPanels for every relevant screen, when dealing with vehicles.
  * These are implemented as inner classes.
  * @author CNN
- * @version 2011-12-11
+ * @version 2011-12-17
  */
 public class VehiclePanel extends SuperPanel {
 

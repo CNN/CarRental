@@ -3,19 +3,17 @@ package carrental;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.*;
 import javax.swing.*;
-import java.util.Locale;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * This is the main panel for reservations
  * It contains JPanels for every relevant screen, when dealing with reservations.
  * @author CNN
- * @version 2011-12-14
+ * @version 2011-12-17
  */
 public class ReservationPanel extends SuperPanel {
 
