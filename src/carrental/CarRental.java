@@ -18,6 +18,7 @@ public final class CarRental {
     private String log;
     
     private CarRental() {
+        if(instance == null) instance = this;
         appendLog("Initializing...");
         model = new Model();
         view = new View();
@@ -31,7 +32,7 @@ public final class CarRental {
      */
     public static CarRental getInstance() {
         //should never happen that there is no instance, but just in case
-        if(instance == null) instance = new CarRental();
+        if(instance == null) return new CarRental();
         return instance;
     }
     
@@ -421,6 +422,13 @@ public final class CarRental {
      */
     private void printLog() {
         System.out.println(log);
+    }
+    
+    /**
+     * Gets the entire log
+     */
+    public String getLog() {
+        return log;
     }
      
     /**

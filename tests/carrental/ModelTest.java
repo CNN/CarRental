@@ -34,7 +34,7 @@ public class ModelTest {
         assertEquals(vTest.getAdditional(), vModel.getAdditional());
         
         model.deleteVehicle(vTest.getID());
-        //test that vehicle no longer exists
+        assertEquals(model.getVehicle(vTest.getID()),null);
     }
     
     /**
@@ -49,6 +49,14 @@ public class ModelTest {
         vTest.updateObject(2, vTest.getDescription(), vTest.getLicensePlate(), vTest.getVin(), vTest.getOdo() + 5, "Fixed!");
         model.saveVehicle(vTest);
         
-        //test that there are not TWO entries with same id now!
+        Vehicle vModel = model.getVehicle(vTest.getID());
+        
+        assertEquals(vTest.getID(), vModel.getID());
+        assertEquals(vTest.getVehicleType(), vModel.getVehicleType());
+        assertEquals(vTest.getDescription(), vModel.getDescription());
+        assertEquals(vTest.getLicensePlate(), vModel.getLicensePlate());
+        assertEquals(vTest.getVin(), vModel.getVin());
+        assertEquals(vTest.getOdo(), vModel.getOdo());
+        assertEquals(vTest.getAdditional(), vModel.getAdditional());
     }
 }
