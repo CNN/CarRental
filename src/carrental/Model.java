@@ -38,7 +38,7 @@ public class Model {
      */
     public Vehicle getVehicle(int id) {
         ArrayList<String> v = database.getFirstMatch("SELECT * FROM vehicle WHERE id = '"+id+"'");
-        if(v.size() == 7) return new Vehicle(Integer.parseInt(v.get(0)),Integer.parseInt(v.get(1)),v.get(3),v.get(4),v.get(2),Integer.parseInt(v.get(5)),v.get(6));
+        if(!v.isEmpty() && v.size() == 7) return new Vehicle(Integer.parseInt(v.get(0)),Integer.parseInt(v.get(1)),v.get(3),v.get(4),v.get(2),Integer.parseInt(v.get(5)),v.get(6));
         else return null;
     }
     
@@ -105,7 +105,7 @@ public class Model {
      */
     public VehicleType getVehicleType(int id) {
         ArrayList<String> vt = database.getFirstMatch("SELECT * FROM vehicletype WHERE id = '"+id+"'");
-        if(vt.size() == 4) return new VehicleType(Integer.parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt(vt.get(3)));
+        if(!vt.isEmpty() && vt.size() == 4) return new VehicleType(Integer.parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt(vt.get(3)));
         else return null;
     }
     
@@ -116,7 +116,7 @@ public class Model {
      */
     public VehicleType getVehicleType(String name) {
         ArrayList<String> vt = database.getFirstMatch("SELECT * FROM vehicletype WHERE name = '"+name+"'");
-        if(vt.size() == 4) return new VehicleType(Integer.parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt(vt.get(3)));
+        if(!vt.isEmpty() && vt.size() == 4) return new VehicleType(Integer.parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt(vt.get(3)));
         else return null;
     }
     
@@ -180,7 +180,7 @@ public class Model {
      */
     public Customer getCustomer(int id) {
         ArrayList<String> c = database.getFirstMatch("SELECT * FROM customer WHERE id = '"+id+"'");
-        if(c.size() == 5) return new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4));
+        if(!c.isEmpty() && c.size() == 5) return new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4));
         else return null;
     }
     
@@ -191,7 +191,7 @@ public class Model {
      */
     public Customer getCustomerByPhone(int phonenumber) {
         ArrayList<String> c = database.getFirstMatch("SELECT * FROM customer WHERE telephone = '"+phonenumber+"' LIMIT 1");
-        if(c.size() == 5) return new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4));
+        if(!c.isEmpty() && c.size() == 5) return new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4));
         else return null;
     }
     
@@ -256,7 +256,7 @@ public class Model {
      */
     public Reservation getReservation(int id) {
         ArrayList<String> r = database.getFirstMatch("SELECT * FROM reservation WHERE id = '"+id+"'");
-        if(r.size() == 5) {
+        if(!r.isEmpty() && r.size() == 5) {
             try {
                 Date date_start_parsed = dateFormat.parse(r.get(2));
                 Date date_end_parsed = dateFormat.parse(r.get(3));
@@ -375,7 +375,7 @@ public class Model {
     public MaintenanceType getMaintenanceType(int id) {
         ArrayList<String> m = database.getFirstMatch("SELECT * FROM maintenance_type WHERE id = '"+id+"'");
         boolean is_service = false;
-        if(m.size() == 3) {
+        if(!m.isEmpty() && m.size() == 3) {
             if(Integer.parseInt(m.get(2)) == 1) is_service = true;
             return new MaintenanceType(Integer.parseInt(m.get(0)),m.get(1),is_service);
         }
@@ -461,7 +461,7 @@ public class Model {
      */
     public Maintenance getMaintenance(int id) {
         ArrayList<String> m = database.getFirstMatch("SELECT * FROM maintenance WHERE id = '"+id+"'");
-        if(m.size() == 5) {
+        if(!m.isEmpty() && m.size() == 5) {
             try {
                 Date date_start_parsed = dateFormat.parse(m.get(3));
                 Date date_end_parsed = dateFormat.parse(m.get(4));
