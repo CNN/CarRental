@@ -2,6 +2,7 @@ package carrental;
 
 import org.junit.Test;
 import static org.junit.Assert.*;
+import java.util.ArrayList;
 
 /**
  * This is a test of the functionality in the model.
@@ -58,5 +59,37 @@ public class ModelTest {
         assertEquals(vTest.getVin(), vModel.getVin());
         assertEquals(vTest.getOdo(), vModel.getOdo());
         assertEquals(vTest.getAdditional(), vModel.getAdditional());
+    }
+    
+    //TODO: Repeat above 2 tests for all other simple classes there are.
+    
+    @Test
+    public void testGetVehicles() {
+        ArrayList<Vehicle> vs = model.getVehicles();
+        for(Vehicle v : vs) {
+            boolean success = false;
+            if(v.getID() > 0) success = true;
+            assertEquals(success, true);
+            success = false;
+            if(v.getDescription() != null) success = true;
+            assertEquals(success, true);
+            success = false;
+            if(v.getLicensePlate() != null) success = true;
+            assertEquals(success, true);
+            success = false;
+            if(v.getVin() != null) success = true;
+            assertEquals(success, true);
+            success = false;
+            if(v.getAdditional() != null) success = true;
+            assertEquals(success, true);
+            success = false;
+            if(v.getVehicleType() > 0) success = true;
+            assertEquals(success, true);
+            success = false;
+            if(v.getOdo() > -1) success = true;
+            assertEquals(success, true);
+            success = false;
+        }
+        //TODO: repeat above test for all other simple classes
     }
 }
