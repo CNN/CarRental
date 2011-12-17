@@ -62,34 +62,12 @@ public class ModelTest {
     }
     
     //TODO: Repeat above 2 tests for all other simple classes there are.
-    
+        
     @Test
-    public void testGetVehicles() {
-        ArrayList<Vehicle> vs = model.getVehicles();
-        for(Vehicle v : vs) {
-            boolean success = false;
-            if(v.getID() > 0) success = true;
-            assertEquals(success, true);
-            success = false;
-            if(v.getDescription() != null) success = true;
-            assertEquals(success, true);
-            success = false;
-            if(v.getLicensePlate() != null) success = true;
-            assertEquals(success, true);
-            success = false;
-            if(v.getVin() != null) success = true;
-            assertEquals(success, true);
-            success = false;
-            if(v.getAdditional() != null) success = true;
-            assertEquals(success, true);
-            success = false;
-            if(v.getVehicleType() > 0) success = true;
-            assertEquals(success, true);
-            success = false;
-            if(v.getOdo() > -1) success = true;
-            assertEquals(success, true);
-            success = false;
+    public void testGetBookingsByVehicle() {
+        ArrayList<Booking> bs = model.getBookingsByVehicleId(model.getHighestVehicleId());
+        for(Booking b : bs) {
+            assertEquals(b.getVehicleID(), model.getHighestVehicleId());
         }
-        //TODO: repeat above test for all other simple classes
     }
 }
