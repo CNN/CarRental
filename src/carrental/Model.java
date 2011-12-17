@@ -38,7 +38,8 @@ public class Model {
      */
     public Vehicle getVehicle(int id) {
         ArrayList<String> v = database.getFirstMatch("SELECT * FROM vehicle WHERE id = '"+id+"'");
-        return new Vehicle(Integer.parseInt(v.get(0)),Integer.parseInt(v.get(1)),v.get(3),v.get(4),v.get(2),Integer.parseInt(v.get(5)),v.get(6));
+        if(v.size() == 7) return new Vehicle(Integer.parseInt(v.get(0)),Integer.parseInt(v.get(1)),v.get(3),v.get(4),v.get(2),Integer.parseInt(v.get(5)),v.get(6));
+        else return null;
     }
     
     /**
@@ -104,7 +105,8 @@ public class Model {
      */
     public VehicleType getVehicleType(int id) {
         ArrayList<String> vt = database.getFirstMatch("SELECT * FROM vehicletype WHERE id = '"+id+"'");
-        return new VehicleType(Integer.parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt(vt.get(3)));
+        if(vt.size() == 4) return new VehicleType(Integer.parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt(vt.get(3)));
+        else return null;
     }
     
     /**
@@ -114,7 +116,8 @@ public class Model {
      */
     public VehicleType getVehicleType(String name) {
         ArrayList<String> vt = database.getFirstMatch("SELECT * FROM vehicletype WHERE name = '"+name+"'");
-        return new VehicleType(Integer.parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt(vt.get(3)));
+        if(vt.size() == 4) return new VehicleType(Integer.parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt(vt.get(3)));
+        else return null;
     }
     
     /**
@@ -177,7 +180,8 @@ public class Model {
      */
     public Customer getCustomer(int id) {
         ArrayList<String> c = database.getFirstMatch("SELECT * FROM customer WHERE id = '"+id+"'");
-        return new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4));
+        if(c.size() == 5) return new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4));
+        else return null;
     }
     
     /**
@@ -187,7 +191,8 @@ public class Model {
      */
     public Customer getCustomerByPhone(int phonenumber) {
         ArrayList<String> c = database.getFirstMatch("SELECT * FROM customer WHERE telephone = '"+phonenumber+"' LIMIT 1");
-        return new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4));
+        if(c.size() == 5) return new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4));
+        else return null;
     }
     
     /**
@@ -251,20 +256,23 @@ public class Model {
      */
     public Reservation getReservation(int id) {
         ArrayList<String> r = database.getFirstMatch("SELECT * FROM reservation WHERE id = '"+id+"'");
-        try {
-            Date date_start_parsed = dateFormat.parse(r.get(2));
-            Date date_end_parsed = dateFormat.parse(r.get(3));
-            Timestamp t = new Timestamp(date_start_parsed.getTime());
-            return new Reservation(Integer.parseInt(r.get(0)),
-                    Integer.parseInt(r.get(1)),
-                    new Timestamp(date_start_parsed.getTime()),
-                    new Timestamp(date_end_parsed.getTime()),
-                    Integer.parseInt(r.get(4)));
+        if(r.size() == 5) {
+            try {
+                Date date_start_parsed = dateFormat.parse(r.get(2));
+                Date date_end_parsed = dateFormat.parse(r.get(3));
+                Timestamp t = new Timestamp(date_start_parsed.getTime());
+                return new Reservation(Integer.parseInt(r.get(0)),
+                        Integer.parseInt(r.get(1)),
+                        new Timestamp(date_start_parsed.getTime()),
+                        new Timestamp(date_end_parsed.getTime()),
+                        Integer.parseInt(r.get(4)));
+            }
+            catch (ParseException e) {
+                CarRental.getInstance().appendLog("Failed to get reservation, parse exception when parsing dates.",e);
+                return null;
+            }
         }
-        catch (ParseException e) {
-            CarRental.getInstance().appendLog("Failed to get reservation, parse exception when parsing dates.",e);
-            return null;
-        }
+        else return null;
     }
     
     /**
@@ -367,8 +375,11 @@ public class Model {
     public MaintenanceType getMaintenanceType(int id) {
         ArrayList<String> m = database.getFirstMatch("SELECT * FROM maintenance_type WHERE id = '"+id+"'");
         boolean is_service = false;
-        if(Integer.parseInt(m.get(2)) == 1) is_service = true;
-        return new MaintenanceType(Integer.parseInt(m.get(0)),m.get(1),is_service);
+        if(m.size() == 3) {
+            if(Integer.parseInt(m.get(2)) == 1) is_service = true;
+            return new MaintenanceType(Integer.parseInt(m.get(0)),m.get(1),is_service);
+        }
+        else return null;
     }
     
     /**
@@ -450,19 +461,22 @@ public class Model {
      */
     public Maintenance getMaintenance(int id) {
         ArrayList<String> m = database.getFirstMatch("SELECT * FROM maintenance WHERE id = '"+id+"'");
-        try {
-            Date date_start_parsed = dateFormat.parse(m.get(3));
-            Date date_end_parsed = dateFormat.parse(m.get(4));
-            return new Maintenance(Integer.parseInt(m.get(0)),
-                    Integer.parseInt(m.get(1)),
-                    new Timestamp(date_start_parsed.getTime()),
-                    new Timestamp(date_end_parsed.getTime()),
-                    Integer.parseInt(m.get(2)));
+        if(m.size() == 5) {
+            try {
+                Date date_start_parsed = dateFormat.parse(m.get(3));
+                Date date_end_parsed = dateFormat.parse(m.get(4));
+                return new Maintenance(Integer.parseInt(m.get(0)),
+                        Integer.parseInt(m.get(1)),
+                        new Timestamp(date_start_parsed.getTime()),
+                        new Timestamp(date_end_parsed.getTime()),
+                        Integer.parseInt(m.get(2)));
+            }
+            catch (ParseException e) {
+                CarRental.getInstance().appendLog("Failed to get maintenance from database, parse error when parsing dates.",e);
+                return null;
+            }
         }
-        catch (ParseException e) {
-            CarRental.getInstance().appendLog("Failed to get maintenance from database, parse error when parsing dates.",e);
-            return null;
-        }
+        else return null;
     }
     
     /**
