@@ -43,6 +43,12 @@ public class VehiclePanel extends SuperPanel {
         this.setPreferredSize(new Dimension(800, 600));
         showMainScreenPanel();
     }
+    
+    @Override
+    public void showMainScreenPanel() {
+        graph.refreshDataAndPaint();
+        super.showMainScreenPanel();
+    }
 
     @Override
     public void showCreatePanel() {
