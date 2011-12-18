@@ -31,11 +31,6 @@ public class ReservationPanel extends SuperPanel {
      */
     public ReservationPanel() {
         this.reservations = CarRental.getInstance().requestReservations();
-        if (!reservations.isEmpty()) {
-            reservationToView = reservations.get(0);
-        } else {
-            reservationToView = CarRental.getInstance().requestReservation();
-        }
 
         //Sets the different subpanels. Also adds them to this object with JPanel.add().
         AssignAndAddSubPanels(null, createPanel, viewEntityPanel, null, null, listPanel);
@@ -296,7 +291,6 @@ public class ReservationPanel extends SuperPanel {
                 public void actionPerformed(ActionEvent e) {
                     if (vehicleTable.getSelectedRow() >= 0) {
                         
-
                         //Sets all filter text fields blank
                         descriptionField.setText(null);
                         licensePlateField.setText(null);
@@ -608,7 +602,6 @@ public class ReservationPanel extends SuperPanel {
      * Inner class. Panel for creating reservation.
      */
     public class CreatePanel extends SubPanel {
-        //Uses Calendar libary to create Timestamps
         //Dropdown of VehicleTypes
 
         private JTextField vehicleIDTextField, reservationIDTextField, customerIDTextField, startDateTextField, endDateTextField;
