@@ -64,6 +64,7 @@ public class ReservationPanel extends SuperPanel {
     public void showGetCustomerPanel() {
         hideAll();
         createPanel.setVisible(true);
+        createPanel.getCustomerPanel.setCustomerTable();
         createPanel.getCustomerPanel.setVisible(true);
     }
 
@@ -73,6 +74,7 @@ public class ReservationPanel extends SuperPanel {
     public void showGetVehiclePanel() {
         hideAll();
         createPanel.setVisible(true);
+        createPanel.getVehiclePanel.update();
         createPanel.getVehiclePanel.setVisible(true);
     }
 
@@ -557,6 +559,7 @@ public class ReservationPanel extends SuperPanel {
          */
         public void setCustomerTable() {
             customers = CarRental.getInstance().requestCustomers(); //update customers array
+            customerTableModel.setRowCount(0);
 
             for (Customer customer : customers) { //update table
                 String[] split = customer.getAdress().split("\n"); //for nicer look
