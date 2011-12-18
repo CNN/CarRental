@@ -141,6 +141,7 @@ public class CustomerListPanel extends JPanel {
      */
     public void setCustomerTable() {
         customers = CarRental.getInstance().requestCustomers(); //update customers array
+        customerTableModel.setRowCount(0);
         
         for (Customer customer : customers) { //update table
             String[] split = customer.getAdress().split("\n"); //for nicer look
