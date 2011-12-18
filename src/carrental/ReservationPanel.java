@@ -1004,6 +1004,7 @@ public class ReservationPanel extends SuperPanel {
                     CarRental.getInstance().appendLog("Succesfully deleted reservation " + id);
                     updateViewEntityPanel();
                     listPanel.updateListPanel();
+                    showListPanel();
                 }
             });
             buttonPanel.add(deleteButton);

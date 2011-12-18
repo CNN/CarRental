@@ -13,20 +13,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class CustomerListPanel extends JPanel {
 
-    private ArrayList<Customer> customers = CarRental.getInstance().requestCustomers(); //update customers array
-    private Customer customerToView;
+    private ArrayList<Customer> customers = CarRental.getInstance().requestCustomers(); //load customers array
     private JTextField filterAdressTextField, filterPhoneTextField, filterNameTextField, filterIDTextField;
     private JTable customerTable;
     private DefaultTableModel customerTableModel;
     private JButton cancelButton, viewButton;
     
     public CustomerListPanel() {
-        if (customers.get(0) != null) {
-            customerToView = customers.get(0);
-        } else {
-            customerToView = CarRental.getInstance().requestCustomer();
-        }
-
         //Fields
         JPanel centerPanel, customerListPanel, filterPanel, topFilterPanel, bottomFilterPanel, buttonPanel;
         JScrollPane scrollPane;
