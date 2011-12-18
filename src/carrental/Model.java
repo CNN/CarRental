@@ -200,7 +200,7 @@ public class Model {
      * @return Array of customers
      */
     public ArrayList<Customer> getCustomers() {
-        ArrayList<ArrayList<String>> cs = database.getMatches("SELECT * FROM customer ORDER BY telephone,name DESC");
+        ArrayList<ArrayList<String>> cs = database.getMatches("SELECT * FROM customer ORDER BY name DESC");
         ArrayList<Customer> results = new ArrayList<>();
         for(ArrayList<String> c : cs) {
             results.add(new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4)));
