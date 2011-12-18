@@ -584,20 +584,21 @@ public class VehiclePanel extends SuperPanel {
          */
         public void update() {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            ArrayList<Reservation> reservations = new ArrayList<Reservation>(); //The bookings are sorted into reservations -
-            ArrayList<Maintenance> maintenances = new ArrayList<Maintenance>();    // and maintenances in the code
+            ArrayList<Reservation> reservations = new ArrayList<>(); //The bookings are sorted into reservations -
+            ArrayList<Maintenance> maintenances = new ArrayList<>();    // and maintenances in the code
             String[] tableRow;
             int typeIndex = 0;
 
             //refresh the vehicle types in the Combobox and get the index to be displayed
             vehicleTypeComboModel.removeAllElements();
-
-            for (int i = 0;
-                    i < vehicleTypes.size();
-                    i++) {
-                vehicleTypeComboModel.addElement(vehicleTypes.get(i).getName()); //add the row
-                if (vehicleTypes.get(i).getID() == vehicleToView.getVehicleType()) {
-                    typeIndex = i;
+            if(vehicleToView != null) {
+                for (int i = 0;
+                        i < vehicleTypes.size();
+                        i++) {
+                    vehicleTypeComboModel.addElement(vehicleTypes.get(i).getName()); //add the row
+                    if (vehicleTypes.get(i).getID() == vehicleToView.getVehicleType()) {
+                        typeIndex = i;
+                    }
                 }
             }
 

@@ -576,8 +576,10 @@ public class MaintenancePanel extends SuperPanel {
          * selected in the ViewMaintenancePanel-class
          */
         public void update() {
-            typeField.setText(maintenanceTypeToView.getName());
-            isServiceBox.setSelected(maintenanceTypeToView.getIs_service());
+            if(maintenanceTypeToView != null) {
+                typeField.setText(maintenanceTypeToView.getName());
+                isServiceBox.setSelected(maintenanceTypeToView.getIs_service());
+            }
         }
     }
 

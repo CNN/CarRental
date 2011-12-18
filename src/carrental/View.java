@@ -70,7 +70,6 @@ public class View {
      * Sets the viewed panel to the customer panel
      */
     public void viewCustomer() {
-        getCustomerPanel().updateAll();
         main.selectCustomer();
     }
     
@@ -78,7 +77,6 @@ public class View {
      * Sets the viewed panel to the reservation panel
      */
     public void viewReservation() {
-        getReservationPanel().updateAll();
         main.selectReservation();
     }
     
@@ -86,7 +84,6 @@ public class View {
      * Sets the viewed panel to the maintenance panel
      */
     public void viewMaintenance() {
-        getMaintenancePanel().updateAll();
         main.selectMaintenance();
     }
     
@@ -94,7 +91,6 @@ public class View {
      * Sets the viewed panel to the vehicle panel
      */
     public void viewVehicle() {
-        getVehiclePanel().updateAll();
         main.selectVehicle();
     }
     
@@ -365,6 +361,7 @@ public class View {
             center.add(vehiclePanel);
             center_north.add(northVehicle);
             frame.pack();
+            vehiclePanel.updateAll();
         }
         
         /**
@@ -378,6 +375,7 @@ public class View {
             center.add(maintenancePanel);
             center_north.add(northMaintenance);
             frame.pack();
+            maintenancePanel.updateAll();
         }
         
         /**
@@ -391,6 +389,7 @@ public class View {
             center.add(reservationPanel);
             center_north.add(northReservation);
             frame.pack();
+            reservationPanel.updateAll();
         }
         
         /**
@@ -405,6 +404,7 @@ public class View {
             center.add(customerPanel);
             center_north.add(northCustomer);
             frame.pack();
+            customerPanel.updateAll();
         }
         
         /**
