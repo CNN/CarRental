@@ -206,10 +206,14 @@ public class MaintenancePanel extends SuperPanel {
                             String[] dateStartSplit = dateStartField.getText().split("-");
                             String[] dateEndSplit = dateEndField.getText().split("-");
                             if(dateStartSplit[0].length() == 2 &&
+                                    Integer.parseInt(dateStartSplit[0]) < 32 &&
                                     dateStartSplit[1].length() == 2 &&
+                                    Integer.parseInt(dateStartSplit[1]) < 13 &&
                                     dateStartSplit[2].length() == 4 &&
                                     dateEndSplit[0].length() == 2 &&
+                                    Integer.parseInt(dateStartSplit[0]) < 32 &&
                                     dateEndSplit[1].length() == 2 &&
+                                    Integer.parseInt(dateStartSplit[1]) < 13 &&
                                     dateEndSplit[2].length() == 4) {
                                 Maintenance newMaintenance = new Maintenance(CarRental.getInstance().requestNewMaintenanceId(),
                                         vehicles.get(vehicleCombo.getSelectedIndex()).getID(),
