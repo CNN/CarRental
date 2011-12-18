@@ -76,7 +76,7 @@ public class VehiclePanel extends SuperPanel {
     /**
      * This inner class creates a JPanel with an overview of reservations for the vehicles.
      */
-    public class MainScreenPanel extends JPanel {
+    public class MainScreenPanel extends SubPanel {
 
         /**
          * Creates the panel with the overview.
@@ -86,12 +86,16 @@ public class VehiclePanel extends SuperPanel {
             graph.setPreferredSize(new Dimension(800, 600));
             add(graph);
         }
+        
+        public void update() {
+            graph.refreshDataAndPaint();
+        }
     }
 
     /**
      * This inner class creates a JPanel with the functionality to create a vehicle.
      */
-    public class CreatePanel extends JPanel {
+    public class CreatePanel extends SubPanel {
 
         private JTextField descriptionField, licensePlateField, vinField, drivenField;
         private JTextArea additionalArea;
@@ -304,7 +308,7 @@ public class VehiclePanel extends SuperPanel {
     /**
      * This inner class creates a JPanel which shows a certain vehicle. The vehicle is selected in the ListPanel-class
      */
-    public class ViewVehiclePanel extends JPanel {
+    public class ViewVehiclePanel extends SubPanel {
 
         private JTextField descriptionField, licensePlateField, vinField, drivenField;
         private DefaultComboBoxModel vehicleTypeComboModel;
@@ -657,7 +661,7 @@ public class VehiclePanel extends SuperPanel {
     /**
      * This inner class creates a JPanel which shows a certain vehicle type. The vehicletype is selected in the ViewVehiclePanel-class
      */
-    public class ViewVehicleTypePanel extends JPanel {
+    public class ViewVehicleTypePanel extends SubPanel {
 
         private JButton backButton, saveButton, deleteButton;
         private VehicleTypePanel vehicleTypePanel;
@@ -761,8 +765,7 @@ public class VehiclePanel extends SuperPanel {
     /**
      * This inner class creates a JPanel with the functionality to create a new vehicle type.
      */
-    public class AddTypePanel extends JPanel {
-
+    public class AddTypePanel extends SubPanel {
         private JButton cancelButton, createButton;
         private VehicleTypePanel vehicleTypePanel;
 
@@ -781,7 +784,6 @@ public class VehiclePanel extends SuperPanel {
             //Cancel-button
             cancelButton = new JButton("Cancel");
             cancelButton.addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     vehicleTypePanel.setPanel(null, null, null, null); //resets the panel
@@ -792,7 +794,6 @@ public class VehiclePanel extends SuperPanel {
             // Create-button
             createButton = new JButton("Create");
             createButton.addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     ArrayList<JTextComponent> vehicleTypeTextList = vehicleTypePanel.getTextComponents();
@@ -828,12 +829,15 @@ public class VehiclePanel extends SuperPanel {
             vehicleTypePanel.setPanel(null, cancelButton, null, createButton);
             add(vehicleTypePanel, BorderLayout.CENTER);
         }
+        
+        public void update() {
+        }
     }
 
     /**
      * This inner class creates a JPanel with a list of vehicles. It is possible to search in the list.
      */
-    public class ListPanel extends JPanel {
+    public class ListPanel extends SubPanel {
 
         private DefaultTableModel vehicleTableModel;
         private JComboBox vehicleTypeCombo;

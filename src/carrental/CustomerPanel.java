@@ -16,8 +16,6 @@ import javax.swing.table.DefaultTableModel;
  * @version 2011-12-07
  */
 public class CustomerPanel extends SuperPanel {
-
-    private JPanel emptyPanel = null;
     private Customer customerToView; //specific customer, used to view details
     private ArrayList<Customer> customers; //array of costumers
     private final CreatePanel createPanel = new CreatePanel();
@@ -33,7 +31,7 @@ public class CustomerPanel extends SuperPanel {
         }
 
         //Sets the different subpanels. Also adds them to this object with JPanel.add().
-        AssignAndAddSubPanels(new MainScreenPanel(), createPanel, viewEntityPanel, emptyPanel, emptyPanel, listPanel);
+        AssignAndAddSubPanels(null, createPanel, viewEntityPanel, null, null, listPanel);
         this.setPreferredSize(new Dimension(800, 600));
 
         //Removes the default gaps between components
@@ -67,27 +65,15 @@ public class CustomerPanel extends SuperPanel {
             customerToView = CarRental.getInstance().requestCustomer();
         }
 
-        createPanel.updateCreatePanel();
-        viewEntityPanel.updateViewEntityPanel();
-        listPanel.updateListPanel();
-    }
-
-    public class MainScreenPanel extends JPanel {
-
-        public MainScreenPanel() {
-            //Fields
-            TitledBorder titleBorder;
-
-            setLayout(new BorderLayout());
-            titleBorder = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "Customers");
-            setBorder(titleBorder);
-        }
+        createPanel.update();
+        viewEntityPanel.update();
+        listPanel.update();
     }
 
     /**
-     * Inner class. For creating customers. Extends JPanel.
+     * Inner class. For creating customers.
      */
-    public class CreatePanel extends JPanel {
+    public class CreatePanel extends SubPanel {
 
         private JTextField customerCityTextField, customerZipcodeTextField, customerStreetTextField, customerIDTextField, customerNameTextField, customerPhoneTextField, customerEMailTextField;
 
@@ -209,7 +195,7 @@ public class CustomerPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    updateCreatePanel();
+                    update();
                     showListPanel();
                 }
             });
@@ -238,14 +224,14 @@ public class CustomerPanel extends SuperPanel {
                                     adress,
                                     customerEMailTextField.getText()));
                             customers = CarRental.getInstance().requestCustomers();
-                            updateCreatePanel();
+                            update();
                         } catch (NumberFormatException ex) {
                             CarRental.getInstance().appendLog("Phone number must be numbers only");
                         }
                     } else { //A TextFild is empty
                         CarRental.getInstance().appendLog("A text field is empty");
                     }
-                    updateCreatePanel();
+                    update();
                 }
             });
             buttonPanel.add(createButton);
@@ -254,7 +240,7 @@ public class CustomerPanel extends SuperPanel {
         /**
          * Resets text fields.
          */
-        public void updateCreatePanel() {
+        public void update() {
             customerIDTextField.setText(" Automaticly generated");
             customerPhoneTextField.setText("");
             customerNameTextField.setText("");
@@ -266,9 +252,9 @@ public class CustomerPanel extends SuperPanel {
     }
 
     /**
-     * Inner class. Shows a single customer in detail. Extends JPanel.
+     * Inner class. Shows a single customer in detail.
      */
-    public class ViewEntityPanel extends JPanel {
+    public class ViewEntityPanel extends SubPanel {
 
         private String customerID, customerName, customerPhone, customerAdress, customerEMail;
         private JTextField customerZipcodeTextField, customerStreetTextField, customerCityTextField, customerIDTextField, customerNameTextField, customerPhoneTextField, customerAdressTextField, customerEMailTextField;
@@ -280,7 +266,7 @@ public class CustomerPanel extends SuperPanel {
             JButton cancelButton, deleteButton, editButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
-            updateViewEntityPanel();
+            update();
 
             setLayout(new BorderLayout());
             setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "View customers"));
@@ -398,7 +384,7 @@ public class CustomerPanel extends SuperPanel {
                     String id = Integer.toString(customerToView.getID());
                     if (delete(customerToView)) {
                         CarRental.getInstance().appendLog("Succesfully deleted customer " + id);
-                        updateViewEntityPanel();
+                        update();
                     } else {
                         CarRental.getInstance().appendLog("Failed to delete customer " + id);
                     }
@@ -430,8 +416,8 @@ public class CustomerPanel extends SuperPanel {
                             customers = CarRental.getInstance().requestCustomers();
                             CarRental.getInstance().appendLog("Customer " + customerIDTextField.getText() + " edited");
                             customerToView = CarRental.getInstance().requestCustomer(customerToView.getID());
-                            updateViewEntityPanel();
-                            listPanel.updateListPanel();
+                            update();
+                            listPanel.update();
                             showViewEntityPanel();
                         } catch (NumberFormatException ex) {
                             CarRental.getInstance().appendLog("Phone number must be numbers only");
@@ -450,7 +436,7 @@ public class CustomerPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    updateViewEntityPanel();
+                    update();
                     showListPanel();
                 }
             });
@@ -506,7 +492,7 @@ public class CustomerPanel extends SuperPanel {
         /**
          * Sets customer text fields based on 'customerToView'
          */
-        public void updateViewEntityPanel() {
+        public void update() {
             if(customerToView == null) customerToView = CarRental.getInstance().requestCustomer();
             if(customerToView.getAdress() != null) {
                 String[] split = customerToView.getAdress().split(" ");
@@ -532,9 +518,9 @@ public class CustomerPanel extends SuperPanel {
     }
 
     /**
-     * Shows a list of customers. Extends JPanel.
+     * Shows a list of customers.
      */
-    public class ListPanel extends JPanel {
+    public class ListPanel extends SubPanel {
 
         private JTextField filterAdressTextField, filterPhoneTextField, filterNameTextField, filterIDTextField;
         private JTable customerTable;
@@ -637,12 +623,11 @@ public class CustomerPanel extends SuperPanel {
             //View-button
             viewButton = new JButton("View selected");
             viewButton.addActionListener(new ActionListener() {
-
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (customerTable.getSelectedRow() >= 0) {
                         customerToView = customers.get(customerTable.getSelectedRow());
-                        viewEntityPanel.updateViewEntityPanel();
+                        viewEntityPanel.update();
                         showViewEntityPanel();
                         CarRental.getInstance().appendLog("Showing customer \"" + customerToView.getName() + " " + customerToView.getID() + "\" now.");
                     }
@@ -683,7 +668,7 @@ public class CustomerPanel extends SuperPanel {
         /**
          * Reloads the list of customers and resets filter text fields.
          */
-        public void updateListPanel() {
+        public void update() {
             setFilterTextFields();
             setCustomerTable();
         }

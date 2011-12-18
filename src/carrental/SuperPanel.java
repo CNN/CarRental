@@ -8,10 +8,10 @@ import java.util.ArrayList;
  * The super panel is an abstract class that determines how all the subpanels
  * behave.
  * @author CNN
- * @version 2011-12-17
+ * @version 2011-12-18
  */
 public abstract class SuperPanel extends JPanel {
-    private ArrayList<JPanel> panels;
+    private ArrayList<SubPanel> panels;
     private int mainScreen, create, viewEntity, addType, viewType, list;
 
     public SuperPanel() {
@@ -26,7 +26,7 @@ public abstract class SuperPanel extends JPanel {
      * @param addTypePanel The JPanel that shows the add new type-functionality
      * @param listPanel  The JPanel that shows the list of entities
      */
-    public void AssignAndAddSubPanels(JPanel mainScreenPanel, JPanel createPanel, JPanel viewEntityPanel, JPanel addTypePanel, JPanel viewTypePanel, JPanel listPanel) {
+    public void AssignAndAddSubPanels(SubPanel mainScreenPanel, SubPanel createPanel, SubPanel viewEntityPanel, SubPanel addTypePanel, SubPanel viewTypePanel, SubPanel listPanel) {
         panels = new ArrayList();
 
         panels.add(mainScreenPanel);
@@ -47,7 +47,7 @@ public abstract class SuperPanel extends JPanel {
         panels.add(listPanel);
         list = panels.size() - 1;
         
-        for (JPanel panel : panels) {
+        for (SubPanel panel : panels) {
             if (panel != null) {
                 add(panel);
             }
@@ -58,7 +58,7 @@ public abstract class SuperPanel extends JPanel {
      * Hides all the panels.
      */
     public void hideAll() {
-        for (JPanel panel : panels) {
+        for (SubPanel panel : panels) {
             if (panel != null) {
                 panel.setVisible(false);
             }
@@ -69,9 +69,10 @@ public abstract class SuperPanel extends JPanel {
      * Sets one specific panel visible, hiding all the others.
      * @param chosen visible panel
      */
-    private void onlyVisible(JPanel chosen) {
+    private void onlyVisible(SubPanel chosen) {
         if (chosen != null) {
             hideAll();
+            chosen.update();
             chosen.setVisible(true);
         }
     }
@@ -122,7 +123,7 @@ public abstract class SuperPanel extends JPanel {
      * Gets the main screen panel
      * @return main panel
      */
-    public JPanel getMainScreenPanel() {
+    public SubPanel getMainScreenPanel() {
         return panels.get(mainScreen);
     }
 
@@ -130,7 +131,7 @@ public abstract class SuperPanel extends JPanel {
      * Gets the create panel
      * @return create panel
      */
-    public JPanel getCreatePanel() {
+    public SubPanel getCreatePanel() {
         return panels.get(create);
     }
 
@@ -138,7 +139,7 @@ public abstract class SuperPanel extends JPanel {
      * Gets the view panel
      * @return view panel
      */
-    public JPanel getViewEntityPanel() {
+    public SubPanel getViewEntityPanel() {
         return panels.get(viewEntity);
     }
 
@@ -146,7 +147,7 @@ public abstract class SuperPanel extends JPanel {
      * Gets the add type panel
      * @return add type panel
      */
-    public JPanel getAddTypePanel() {
+    public SubPanel getAddTypePanel() {
         return panels.get(addType);
     }
 
@@ -154,7 +155,7 @@ public abstract class SuperPanel extends JPanel {
      * Gets the view type panel
      * @return view type panel
      */
-    public JPanel getViewTypePanel() {
+    public SubPanel getViewTypePanel() {
         return panels.get(viewType);
     }
 
@@ -162,7 +163,13 @@ public abstract class SuperPanel extends JPanel {
      * Gets the list panel
      * @return list panel
      */
-    public JPanel getListPanel() {
+    public SubPanel getListPanel() {
         return panels.get(list);
+    }
+    
+    public void updateAll() {
+        for(SubPanel p : panels) {
+            p.update();
+        }
     }
 }

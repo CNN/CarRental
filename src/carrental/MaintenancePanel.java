@@ -41,7 +41,7 @@ public class MaintenancePanel extends SuperPanel {
         viewMaintenanceTypePanel = new ViewMaintenanceTypePanel();
         listPanel = new ListPanel();
         //Sets the different subpanels. Also adds them to this object with JPanel.add().
-        AssignAndAddSubPanels(new MainScreenPanel(), createPanel, viewMaintenancePanel, new AddTypePanel(), viewMaintenanceTypePanel, listPanel);
+        AssignAndAddSubPanels(null, createPanel, viewMaintenancePanel, new AddTypePanel(), viewMaintenanceTypePanel, listPanel);
         this.setPreferredSize(new Dimension(800, 600));
         showListPanel();
     }
@@ -73,13 +73,11 @@ public class MaintenancePanel extends SuperPanel {
         viewMaintenanceTypePanel.update();
         super.showViewTypePanel();
     }
-    
-    public class MainScreenPanel extends JPanel {}
 
     /**
      * This inner class creates a JPanel with the functionality to create a maintenance.
      */
-    public class CreatePanel extends JPanel {
+    public class CreatePanel extends SubPanel {
 
         private JTextField dateStartField, dateEndField;
         private DefaultComboBoxModel maintenanceTypeComboModel, vehicleComboModel;
@@ -261,7 +259,7 @@ public class MaintenancePanel extends SuperPanel {
      * This inner class creates a JPanel which shows a certain maintenance. The
      * maintenance is selected in the ListPanel-class
      */
-    public class ViewMaintenancePanel extends JPanel {
+    public class ViewMaintenancePanel extends SubPanel {
         private JTextField dateStartField, dateEndField;
         private DefaultComboBoxModel maintenanceTypeComboModel, vehicleComboModel;
         private JComboBox maintenanceTypeCombo, vehicleCombo;
@@ -457,7 +455,7 @@ public class MaintenancePanel extends SuperPanel {
      * This inner class creates a JPanel which shows a certain maintenance type.
      * The maintenance type is selected in the ViewMaintenancePanel-class
      */
-    public class ViewMaintenanceTypePanel extends JPanel {
+    public class ViewMaintenanceTypePanel extends SubPanel {
         private JButton backButton, editButton, deleteButton;
         JTextField typeField;
         JCheckBox isServiceBox;
@@ -573,7 +571,7 @@ public class MaintenancePanel extends SuperPanel {
      * This inner class creates a JPanel with the functionality to create a new
      * maintenance type.
      */
-    public class AddTypePanel extends JPanel {
+    public class AddTypePanel extends SubPanel {
 
         private JButton cancelButton, createButton;
         private JTextField typeField;
@@ -663,7 +661,7 @@ public class MaintenancePanel extends SuperPanel {
      * This inner class creates a JPanel with a list of maintenances. It is
      * possible to filter the list.
      */
-    public class ListPanel extends JPanel {
+    public class ListPanel extends SubPanel {
 
         private DefaultTableModel maintenanceTableModel;
         private JComboBox maintenanceTypeCombo;
