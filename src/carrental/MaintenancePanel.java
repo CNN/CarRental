@@ -215,13 +215,23 @@ public class MaintenancePanel extends SuperPanel {
                                     dateEndSplit[1].length() == 2 &&
                                     Integer.parseInt(dateStartSplit[1]) < 13 &&
                                     dateEndSplit[2].length() == 4) {
-                                Maintenance newMaintenance = new Maintenance(CarRental.getInstance().requestNewMaintenanceId(),
-                                        vehicles.get(vehicleCombo.getSelectedIndex()).getID(),
-                                        new Timestamp(dateFormat.parse(dateStartField.getText().trim()).getTime()),
-                                        new Timestamp(dateFormat.parse(dateEndField.getText().trim()).getTime()),
-                                        maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getID());
-                                CarRental.getInstance().saveMaintenance(newMaintenance);
-                                maintenanceList = CarRental.getInstance().requestMaintenances();
+                                if(maintenanceTypes.size() > maintenanceTypeCombo.getSelectedIndex()) {
+                                    if(vehicles.size() > vehicleCombo.getSelectedIndex()) {
+                                        Maintenance newMaintenance = new Maintenance(CarRental.getInstance().requestNewMaintenanceId(),
+                                                vehicles.get(vehicleCombo.getSelectedIndex()).getID(),
+                                                new Timestamp(dateFormat.parse(dateStartField.getText().trim()).getTime()),
+                                                new Timestamp(dateFormat.parse(dateEndField.getText().trim()).getTime()),
+                                                maintenanceTypes.get(maintenanceTypeCombo.getSelectedIndex()).getID());
+                                        CarRental.getInstance().saveMaintenance(newMaintenance);
+                                        maintenanceList = CarRental.getInstance().requestMaintenances();
+                                    }
+                                    else {
+                                        CarRental.getInstance().appendLog("No vehicle selected, or invalid vehicle");
+                                    }
+                                }
+                                else {
+                                    CarRental.getInstance().appendLog("No maintenance selected, or invalid maintenance.");
+                                }
                             }
                             else {
                                 CarRental.getInstance().appendLog("Date format in date-fields should be DD-MM-YYYY.");
