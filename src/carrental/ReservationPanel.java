@@ -116,6 +116,7 @@ public class ReservationPanel extends SuperPanel {
         }
 
         createPanel.update();
+        createPanel.clearCustomerAndVehicleID();
         viewEntityPanel.update();
         listPanel.update();
     }
@@ -294,15 +295,16 @@ public class ReservationPanel extends SuperPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (vehicleTable.getSelectedRow() >= 0) {
-                        createPanel.setVehicle(Integer.toString(vehicleList.get(vehicleTable.getSelectedRow()).getID()));
+                        
 
-                        //Sets all text fields blank
+                        //Sets all filter text fields blank
                         descriptionField.setText(null);
                         licensePlateField.setText(null);
                         vinField.setText(null);
                         drivenField.setText(null);
 
                         showCreatePanel();
+                        createPanel.setVehicle(Integer.toString(vehicleList.get(vehicleTable.getSelectedRow()).getID()));
                     }
                 }
             });
@@ -545,6 +547,7 @@ public class ReservationPanel extends SuperPanel {
          */
         public void setCustomerTable() {
             customers = CarRental.getInstance().requestCustomers(); //update customers array
+            customerTableModel.setRowCount(0);
 
             for (Customer customer : customers) { //update table
                 String[] split = customer.getAdress().split("\n"); //for nicer look
@@ -675,6 +678,7 @@ public class ReservationPanel extends SuperPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    getCustomerPanel.setCustomerTable();
                     showGetCustomerPanel();
                 }
             });
@@ -752,6 +756,7 @@ public class ReservationPanel extends SuperPanel {
                 public void actionPerformed(ActionEvent e) {
                     listPanel.update();
                     update();
+                    clearCustomerAndVehicleID();
                     showListPanel();
                 }
             });
@@ -773,12 +778,12 @@ public class ReservationPanel extends SuperPanel {
                         if (CarRental.getInstance().requestVehicle(Integer.parseInt(vehicleIDTextField.getText().trim())) != null) {
                             vehicle = true;
                         } else {
-                            CarRental.getInstance().appendLog("Vehicle doesn't exsist");
+                            CarRental.getInstance().appendLog("Vehicle doesn't exist");
                         }
                         if (CarRental.getInstance().requestCustomer(Integer.parseInt(customerIDTextField.getText().trim())) != null) {
                             customer = true;
                         } else {
-                            CarRental.getInstance().appendLog("Customer doesn't exsist");
+                            CarRental.getInstance().appendLog("Customer doesn't exist");
                         }
                         if (customer && vehicle) {
                             try {
@@ -789,24 +794,19 @@ public class ReservationPanel extends SuperPanel {
                                         new Timestamp(dateFormat.parse(endDateTextField.getText().trim()).getTime()),
                                         Integer.parseInt(customerIDTextField.getText())));
                                 CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
+                                reservations = CarRental.getInstance().requestReservations();
+                                update();
+                                clearCustomerAndVehicleID();
+                                showListPanel();
                             } catch (NumberFormatException ex) {
                                 CarRental.getInstance().appendLog("Vehicle ID number must be numbers only");
                             } catch (java.text.ParseException ex) {
                                 CarRental.getInstance().appendLog("Time fields must be in format dd-mm-yyyy");
                             }
-                            reservations = CarRental.getInstance().requestReservations();
-                            update();
-                            showListPanel();
                         }
-                        reservations = CarRental.getInstance().requestReservations();
-                        update();
-                        showListPanel();
-
                     } else { //A TextFild is empty
                         CarRental.getInstance().appendLog("A text field is empty");
                     }
-                    update();
-                    listPanel.update();
                 }
             });
             buttonPanel.add(createButton);
@@ -833,10 +833,16 @@ public class ReservationPanel extends SuperPanel {
          */
         public void update() {
             reservationIDTextField.setText(" Automaticly generated");
-            vehicleIDTextField.setText("");
-            customerIDTextField.setText("");
             startDateTextField.setText("");
             endDateTextField.setText("");
+        }
+        
+        /**
+         * These have to be cleared seperetly since we don't always want to clear them
+         */
+        public void clearCustomerAndVehicleID(){
+            vehicleIDTextField.setText("");
+            customerIDTextField.setText("");
         }
     }
 
@@ -1010,6 +1016,7 @@ public class ReservationPanel extends SuperPanel {
                     CarRental.getInstance().appendLog("Succesfully deleted reservation " + id);
                     update();
                     listPanel.update();
+                    showListPanel();
                 }
             });
             buttonPanel.add(deleteButton);
@@ -1030,12 +1037,12 @@ public class ReservationPanel extends SuperPanel {
                         if (CarRental.getInstance().requestVehicle(Integer.parseInt(vehicleIDTextField.getText().trim())) != null) {
                             vehicle = true;
                         } else {
-                            CarRental.getInstance().appendLog("Vehicle doesn't exsist");
+                            CarRental.getInstance().appendLog("Vehicle doesn't exist");
                         }
                         if (CarRental.getInstance().requestCustomer(Integer.parseInt(customerIDTextField.getText().trim())) != null) {
                             customer = true;
                         } else {
-                            CarRental.getInstance().appendLog("Customer doesn't exsist");
+                            CarRental.getInstance().appendLog("Customer doesn't exist");
                         }
                         if (customer && vehicle) {
                             try {
@@ -1047,6 +1054,7 @@ public class ReservationPanel extends SuperPanel {
                                         Integer.parseInt(customerIDTextField.getText().trim())));
                                 reservations = CarRental.getInstance().requestReservations();
                                 CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
+                                reservationToView = CarRental.getInstance().requestReservation(reservationToView.getID());
                                 listPanel.update();
                                 update();
                                 showViewEntityPanel();
@@ -1056,8 +1064,6 @@ public class ReservationPanel extends SuperPanel {
                                 CarRental.getInstance().appendLog("NumberFormatExceptopm...");
                             }
                         }
-                        reservationToView = CarRental.getInstance().requestReservation(reservationToView.getID());
-                        update();
                     } else { //A TextFild is empty
                         CarRental.getInstance().appendLog("A text field is empty");
                     }
