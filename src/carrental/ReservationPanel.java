@@ -63,6 +63,7 @@ public class ReservationPanel extends SuperPanel {
     public void showGetCustomerPanel() {
         hideAll();
         createPanel.setVisible(true);
+        createPanel.getCustomerPanel.setCustomerTable();
         createPanel.getCustomerPanel.setVisible(true);
     }
 
@@ -72,6 +73,7 @@ public class ReservationPanel extends SuperPanel {
     public void showGetVehiclePanel() {
         hideAll();
         createPanel.setVisible(true);
+        createPanel.getVehiclePanel.update();
         createPanel.getVehiclePanel.setVisible(true);
     }
 
