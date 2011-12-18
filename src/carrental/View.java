@@ -70,6 +70,7 @@ public class View {
      * Sets the viewed panel to the customer panel
      */
     public void viewCustomer() {
+        getCustomerPanel().updateAll();
         main.selectCustomer();
     }
     
@@ -77,6 +78,7 @@ public class View {
      * Sets the viewed panel to the reservation panel
      */
     public void viewReservation() {
+        getReservationPanel().updateAll();
         main.selectReservation();
     }
     
@@ -84,6 +86,7 @@ public class View {
      * Sets the viewed panel to the maintenance panel
      */
     public void viewMaintenance() {
+        getMaintenancePanel().updateAll();
         main.selectMaintenance();
     }
     
@@ -91,6 +94,7 @@ public class View {
      * Sets the viewed panel to the vehicle panel
      */
     public void viewVehicle() {
+        getVehiclePanel().updateAll();
         main.selectVehicle();
     }
     

@@ -169,7 +169,7 @@ public abstract class SuperPanel extends JPanel {
     
     public void updateAll() {
         for(SubPanel p : panels) {
-            p.update();
+            if(p != null) p.update();
         }
     }
 }
