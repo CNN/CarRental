@@ -17,16 +17,6 @@ import java.text.SimpleDateFormat;
  */
 public class ReservationPanel extends SuperPanel {
 
-    //TODO check if vehicle already lent on date, Calendar
-    
-    /** time occupied 
-     * 
-     * for(reservations){
-     * check times against vehicleid
-     * } if(!succes){
-     * try another vehicle of same type
-     * }
-     */
     private Reservation reservationToView; //specific customer, used to view details
     private ArrayList<Reservation> reservations; //array of reservations
     private final CreatePanel createPanel = new CreatePanel();
@@ -772,19 +762,36 @@ public class ReservationPanel extends SuperPanel {
                     if (!reservationIDTextField.getText().trim().isEmpty()
                             && !vehicleIDTextField.getText().trim().isEmpty()
                             && !startDateTextField.getText().trim().isEmpty()
-                            && !endDateTextField.getText().trim().isEmpty()){
-                        try {
-                            CarRental.getInstance().saveReservation(new Reservation(
-                                    CarRental.getInstance().requestNewReservationId(),
-                                    Integer.parseInt(vehicleIDTextField.getText()),
-                                    new Timestamp(dateFormat.parse(startDateTextField.getText().trim()).getTime()),
-                                    new Timestamp(dateFormat.parse(endDateTextField.getText().trim()).getTime()),
-                                    Integer.parseInt(customerIDTextField.getText())));
-                            CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
-                        } catch (NumberFormatException ex) {
-                            CarRental.getInstance().appendLog("Vehicle ID number must be numbers only");
-                        } catch (java.text.ParseException ex) {
-                            CarRental.getInstance().appendLog("Time fields must be in format dd-mm-yyyy");
+                            && !endDateTextField.getText().trim().isEmpty()) {
+                        boolean customer = false;
+                        boolean vehicle = false;
+                        if(CarRental.getInstance().requestVehicle(Integer.parseInt(vehicleIDTextField.getText().trim())) != null) {
+                            vehicle = true;
+                        } else{
+                            CarRental.getInstance().appendLog("Vehicle doesn't exsist");
+                        }
+                        if (CarRental.getInstance().requestCustomer(Integer.parseInt(customerIDTextField.getText().trim())) != null){
+                            customer = true;
+                        } else{
+                            CarRental.getInstance().appendLog("Customer doesn't exsist");
+                        }
+                        if (customer && vehicle) {
+                            try {
+                                CarRental.getInstance().saveReservation(new Reservation(
+                                        CarRental.getInstance().requestNewReservationId(),
+                                        Integer.parseInt(vehicleIDTextField.getText()),
+                                        new Timestamp(dateFormat.parse(startDateTextField.getText().trim()).getTime()),
+                                        new Timestamp(dateFormat.parse(endDateTextField.getText().trim()).getTime()),
+                                        Integer.parseInt(customerIDTextField.getText())));
+                                CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
+                            } catch (NumberFormatException ex) {
+                                CarRental.getInstance().appendLog("Vehicle ID number must be numbers only");
+                            } catch (java.text.ParseException ex) {
+                                CarRental.getInstance().appendLog("Time fields must be in format dd-mm-yyyy");
+                            }
+                            reservations = CarRental.getInstance().requestReservations();
+                            update();
+                            showListPanel();
                         }
                         reservations = CarRental.getInstance().requestReservations();
                         update();
@@ -849,7 +856,7 @@ public class ReservationPanel extends SuperPanel {
             JLabel customerNameLabel, vehicleIDLabel, dateFormatLabel, dateFormatLabel2, reservationIDLabel, customerIDLabel, startDateLabel, endDateLabel;
             JButton changeVehicleButton, changeCustomerButton, deleteButton, editButton, cancelButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
-            
+
             //View entity panel
             setLayout(new BorderLayout());
             setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "View a reservation"));
@@ -960,28 +967,28 @@ public class ReservationPanel extends SuperPanel {
             buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
             buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
             buttonPanel.add(Box.createHorizontalGlue());
-            
+
             //Change customer
             changeCustomerButton = new JButton("Change Customer");
             changeCustomerButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    setCustomerIDTextField(customerListPanel.getCustomerID()) ;
+                    setCustomerIDTextField(customerListPanel.getCustomerID());
                 }
             });
-            
+
             buttonPanel.add(changeCustomerButton);
             buttonPanel.add(Box.createRigidArea(new Dimension(8 + strutDistance, 0)));
-            
+
             //Change vehicle
             changeVehicleButton = new JButton("Change Vehicle");
             changeVehicleButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    setVehicleIDTextField(vehicleListPanel.getVehicleID()) ;
+                    setVehicleIDTextField(vehicleListPanel.getVehicleID());
                 }
             });
-            
+
             buttonPanel.add(changeVehicleButton);
             buttonPanel.add(Box.createRigidArea(new Dimension(50 + strutDistance, 0)));
 
@@ -1058,21 +1065,25 @@ public class ReservationPanel extends SuperPanel {
         private void delete(Reservation reservation) {
             CarRental.getInstance().deleteReservation(reservation.getID());
         }
-        
+
         /**
          * Sets the customer ID text field if it is or is above zero
          * @param id 
          */
-        public void setCustomerIDTextField(int id){
-            if(id > -1) customerIDTextField.setText(" " + id);
+        public void setCustomerIDTextField(int id) {
+            if (id > -1) {
+                customerIDTextField.setText(" " + id);
+            }
         }
-        
+
         /**
          * Sets the vehicle ID text field if it is or is above zero
          * @param id 
          */
-        public void setVehicleIDTextField(int id){
-            if(id > -1) vehicleIDTextField.setText(" " + id);
+        public void setVehicleIDTextField(int id) {
+            if (id > -1) {
+                vehicleIDTextField.setText(" " + id);
+            }
         }
 
         /**
@@ -1098,7 +1109,7 @@ public class ReservationPanel extends SuperPanel {
         private DefaultTableModel reservationTableModel;
 
         public ListPanel() {
-            
+
             //Fields
             JPanel centerPanel, reservationListPanel, filterPanel, topFilterPanel, middleFilterPanel, bottomFilterPanel, buttonPanel;
             JScrollPane scrollPane;

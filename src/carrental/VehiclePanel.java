@@ -553,7 +553,7 @@ public class VehiclePanel extends SuperPanel {
                             && !drivenField.getText().trim().isEmpty()) {
                         //Checks if VIN number is in use already
                         boolean VinTaken = false;
-                        for (Vehicle vehicle : vehicleList) {                  //TODO hvorfor virker !vehicle.equals(vehicleToView) ikke her!!
+                        for (Vehicle vehicle : vehicleList) {
                             if (vinField.getText().trim().equals(vehicle.getVin()) && vehicle.getID() != vehicleToView.getID()) { //if the vin is in use and it´s not from the currently viewed vehicle
                                 VinTaken = true;
                             }

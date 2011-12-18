@@ -24,11 +24,6 @@ public class CustomerPanel extends SuperPanel {
 
     public CustomerPanel() {
         this.customers = CarRental.getInstance().requestCustomers();
-        if (customers.get(0) != null) {
-            customerToView = customers.get(0);
-        } else {
-            customerToView = CarRental.getInstance().requestCustomer();
-        }
 
         //Sets the different subpanels. Also adds them to this object with JPanel.add().
         AssignAndAddSubPanels(null, createPanel, viewEntityPanel, null, null, listPanel);
@@ -59,11 +54,6 @@ public class CustomerPanel extends SuperPanel {
      */
     public void updateCustomerPanel() {
         customers = CarRental.getInstance().requestCustomers();
-        if (customers.get(0) != null) {
-            customerToView = customers.get(0);
-        } else {
-            customerToView = CarRental.getInstance().requestCustomer();
-        }
 
         createPanel.update();
         viewEntityPanel.update();
@@ -214,7 +204,7 @@ public class CustomerPanel extends SuperPanel {
                             && !customerZipcodeTextField.getText().trim().isEmpty()
                             && !customerCityTextField.getText().trim().isEmpty()
                             && !customerEMailTextField.getText().trim().isEmpty()) {
-                        String adress = customerStreetTextField.getText() + " " + customerZipcodeTextField.getText() + " " + customerCityTextField.getText();
+                        String adress = customerStreetTextField.getText().trim() + " " + customerZipcodeTextField.getText().trim() + " " + customerCityTextField.getText().trim();
                         try {
                             customerIDTextField.setText(" " + CarRental.getInstance().requestNewCustomerId());
                             CarRental.getInstance().saveCustomer(new Customer(
@@ -408,7 +398,7 @@ public class CustomerPanel extends SuperPanel {
                         String adress = customerStreetTextField.getText() + " " + customerZipcodeTextField.getText() + " " + customerCityTextField.getText();
                         try {
                             CarRental.getInstance().saveCustomer(new Customer(
-                                    Integer.parseInt(customerIDTextField.getText().trim()),
+                                    customerToView.getID(),
                                     Integer.parseInt(customerPhoneTextField.getText().trim()),
                                     customerNameTextField.getText().trim(),
                                     adress,
@@ -641,12 +631,6 @@ public class CustomerPanel extends SuperPanel {
          */
         public void setCustomerTable() {
             customers = CarRental.getInstance().requestCustomers(); //update customers array
-            if (customers.get(0) != null) {
-                customerToView = customers.get(0);
-            } else {
-                customerToView = CarRental.getInstance().requestCustomer();
-            }
-
             customerTableModel.setRowCount(0);
 
             for (Customer customer : customers) { //update table
