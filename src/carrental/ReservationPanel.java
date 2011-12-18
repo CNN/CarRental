@@ -527,6 +527,7 @@ public class ReservationPanel extends SuperPanel {
             //Set-button
             setButton = new JButton("Set selected");
             setButton.addActionListener(new ActionListener() {
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (customerTable.getSelectedRow() >= 0) {
@@ -746,6 +747,7 @@ public class ReservationPanel extends SuperPanel {
             //cancelButton
             cancelButton = new JButton("Cancel");
             cancelButton.addActionListener(new ActionListener() {
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     listPanel.update();
@@ -759,6 +761,7 @@ public class ReservationPanel extends SuperPanel {
             //create-button
             createButton = new JButton("Create");
             createButton.addActionListener(new ActionListener() {
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (!reservationIDTextField.getText().trim().isEmpty()
@@ -767,14 +770,14 @@ public class ReservationPanel extends SuperPanel {
                             && !endDateTextField.getText().trim().isEmpty()) {
                         boolean customer = false;
                         boolean vehicle = false;
-                        if(CarRental.getInstance().requestVehicle(Integer.parseInt(vehicleIDTextField.getText().trim())) != null) {
+                        if (CarRental.getInstance().requestVehicle(Integer.parseInt(vehicleIDTextField.getText().trim())) != null) {
                             vehicle = true;
-                        } else{
+                        } else {
                             CarRental.getInstance().appendLog("Vehicle doesn't exsist");
                         }
-                        if (CarRental.getInstance().requestCustomer(Integer.parseInt(customerIDTextField.getText().trim())) != null){
+                        if (CarRental.getInstance().requestCustomer(Integer.parseInt(customerIDTextField.getText().trim())) != null) {
                             customer = true;
-                        } else{
+                        } else {
                             CarRental.getInstance().appendLog("Customer doesn't exsist");
                         }
                         if (customer && vehicle) {
@@ -973,6 +976,7 @@ public class ReservationPanel extends SuperPanel {
             //Change customer
             changeCustomerButton = new JButton("Change Customer");
             changeCustomerButton.addActionListener(new ActionListener() {
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     setCustomerIDTextField(customerListPanel.getCustomerID());
@@ -985,6 +989,7 @@ public class ReservationPanel extends SuperPanel {
             //Change vehicle
             changeVehicleButton = new JButton("Change Vehicle");
             changeVehicleButton.addActionListener(new ActionListener() {
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     setVehicleIDTextField(vehicleListPanel.getVehicleID());
@@ -997,6 +1002,7 @@ public class ReservationPanel extends SuperPanel {
             //deleteButton
             deleteButton = new JButton("Delete");
             deleteButton.addActionListener(new ActionListener() {
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     String id = Integer.toString(reservationToView.getID());
@@ -1012,28 +1018,43 @@ public class ReservationPanel extends SuperPanel {
             //editButton
             editButton = new JButton("Save changes");
             editButton.addActionListener(new ActionListener() {
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (!reservationIDTextField.getText().trim().isEmpty()
                             && !vehicleIDTextField.getText().trim().isEmpty()
                             && !startDateTextField.getText().trim().isEmpty()
                             && !endDateTextField.getText().trim().isEmpty()) {
-                        try {
-                            CarRental.getInstance().saveReservation(new Reservation(
-                                    Integer.parseInt(reservationIDTextField.getText().trim()),
-                                    Integer.parseInt(vehicleIDTextField.getText().trim()),
-                                    new Timestamp(dateFormat.parse(startDateTextField.getText().trim()).getTime()),
-                                    new Timestamp(dateFormat.parse(endDateTextField.getText().trim()).getTime()),
-                                    Integer.parseInt(customerIDTextField.getText().trim())));
-                            reservations = CarRental.getInstance().requestReservations();
-                            CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
-                            listPanel.update();
-                            update();
-                            showViewEntityPanel();
-                        } catch (java.text.ParseException ex) {
-                            CarRental.getInstance().appendLog("Time fields must be in format dd-mm-yyyy");
-                        } catch (NumberFormatException ex) {
-                            CarRental.getInstance().appendLog("NumberFormatExceptopm...");
+                        boolean customer = false;
+                        boolean vehicle = false;
+                        if (CarRental.getInstance().requestVehicle(Integer.parseInt(vehicleIDTextField.getText().trim())) != null) {
+                            vehicle = true;
+                        } else {
+                            CarRental.getInstance().appendLog("Vehicle doesn't exsist");
+                        }
+                        if (CarRental.getInstance().requestCustomer(Integer.parseInt(customerIDTextField.getText().trim())) != null) {
+                            customer = true;
+                        } else {
+                            CarRental.getInstance().appendLog("Customer doesn't exsist");
+                        }
+                        if (customer && vehicle) {
+                            try {
+                                CarRental.getInstance().saveReservation(new Reservation(
+                                        Integer.parseInt(reservationIDTextField.getText().trim()),
+                                        Integer.parseInt(vehicleIDTextField.getText().trim()),
+                                        new Timestamp(dateFormat.parse(startDateTextField.getText().trim()).getTime()),
+                                        new Timestamp(dateFormat.parse(endDateTextField.getText().trim()).getTime()),
+                                        Integer.parseInt(customerIDTextField.getText().trim())));
+                                reservations = CarRental.getInstance().requestReservations();
+                                CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
+                                listPanel.update();
+                                update();
+                                showViewEntityPanel();
+                            } catch (java.text.ParseException ex) {
+                                CarRental.getInstance().appendLog("Time fields must be in format dd-mm-yyyy");
+                            } catch (NumberFormatException ex) {
+                                CarRental.getInstance().appendLog("NumberFormatExceptopm...");
+                            }
                         }
                         reservationToView = CarRental.getInstance().requestReservation(reservationToView.getID());
                         update();
