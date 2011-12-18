@@ -659,7 +659,7 @@ public class ReservationPanel extends SuperPanel {
 
             //Reservation ID
             reservationIDLabel = new JLabel("Reservation ID");
-            reservationIDTextField = new JTextField(" Automaticly generated", defaultJTextFieldColumns);
+            reservationIDTextField = new JTextField(" Automatically generated", defaultJTextFieldColumns);
             reservationIDTextField.setEditable(false);
             reservationIDPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
@@ -787,13 +787,14 @@ public class ReservationPanel extends SuperPanel {
                         }
                         if (customer && vehicle) {
                             try {
+                                int resID = CarRental.getInstance().requestNewReservationId();
                                 CarRental.getInstance().saveReservation(new Reservation(
-                                        CarRental.getInstance().requestNewReservationId(),
+                                        resID,
                                         Integer.parseInt(vehicleIDTextField.getText()),
                                         new Timestamp(dateFormat.parse(startDateTextField.getText().trim()).getTime()),
                                         new Timestamp(dateFormat.parse(endDateTextField.getText().trim()).getTime()),
                                         Integer.parseInt(customerIDTextField.getText())));
-                                CarRental.getInstance().appendLog("Reservation " + reservationIDTextField.getText() + " edited");
+                                CarRental.getInstance().appendLog("Reservation " + resID + " c");
                                 reservations = CarRental.getInstance().requestReservations();
                                 update();
                                 clearCustomerAndVehicleID();
@@ -832,7 +833,7 @@ public class ReservationPanel extends SuperPanel {
          * Resets text fields
          */
         public void update() {
-            reservationIDTextField.setText(" Automaticly generated");
+            reservationIDTextField.setText(" Automatically generated");
             startDateTextField.setText("");
             endDateTextField.setText("");
         }
@@ -898,7 +899,7 @@ public class ReservationPanel extends SuperPanel {
 
             //Reservation ID
             reservationIDLabel = new JLabel("Reservation ID");
-            reservationIDTextField = new JTextField(" Automaticly generated", defaultJTextFieldColumns);
+            reservationIDTextField = new JTextField(" Automatically generated", defaultJTextFieldColumns);
             reservationIDTextField.setEditable(false);
             reservationIDPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
