@@ -782,15 +782,15 @@ public class ReservationPanel extends SuperPanel {
                             && !endDateTextField.getText().trim().isEmpty()) {
                         boolean customer = false;
                         boolean vehicle = false;
-                        if (CarRental.getInstance().requestCustomer(Integer.parseInt(customerIDTextField.getText().trim())) != null){
-                            customer = true;
-                        } else{
-                            CarRental.getInstance().appendLog("Customer doesn't exsist");
-                        }
                         if(CarRental.getInstance().requestVehicle(Integer.parseInt(vehicleIDTextField.getText().trim())) != null) {
                             vehicle = true;
                         } else{
                             CarRental.getInstance().appendLog("Vehicle doesn't exsist");
+                        }
+                        if (CarRental.getInstance().requestCustomer(Integer.parseInt(customerIDTextField.getText().trim())) != null){
+                            customer = true;
+                        } else{
+                            CarRental.getInstance().appendLog("Customer doesn't exsist");
                         }
                         if (customer && vehicle) {
                             try {
@@ -814,7 +814,6 @@ public class ReservationPanel extends SuperPanel {
                     } else { //A TextFild is empty
                         CarRental.getInstance().appendLog("A text field is empty");
                     }
-                    updateCreatePanel();
                     listPanel.updateListPanel();
                 }
             });
