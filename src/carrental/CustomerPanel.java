@@ -90,7 +90,7 @@ public class CustomerPanel extends SuperPanel {
 
             //ID
             customerIDLabel = new JLabel("Customer ID");
-            customerIDTextField = new JTextField(" Automaticly generated", defaultJTextFieldColumns);
+            customerIDTextField = new JTextField(" Automatically generated", defaultJTextFieldColumns);
             customerIDTextField.setEditable(false);
             customerIDTextField.setBackground(Color.WHITE);
             idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -231,7 +231,7 @@ public class CustomerPanel extends SuperPanel {
          * Resets text fields.
          */
         public void update() {
-            customerIDTextField.setText(" Automaticly generated");
+            customerIDTextField.setText(" Automatically generated");
             customerPhoneTextField.setText("");
             customerNameTextField.setText("");
             customerCityTextField.setText("");
