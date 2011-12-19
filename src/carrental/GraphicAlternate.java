@@ -100,6 +100,7 @@ public class GraphicAlternate extends JComponent {
             }
             vehicle_bookings.add(bs);
         }
+        if(vehicles.isEmpty()) first_date = new Timestamp(calendar.getTimeInMillis());
         
         switch(display) {
             case(VIEW_DAYS):
