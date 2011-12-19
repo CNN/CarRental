@@ -57,15 +57,24 @@ public class GraphicAlternate extends JComponent {
                     x = ((x - textSpace) / collumnWidth);
                     y = ((y - 5)/ rowHeight);
                     if(reference.size() > y && reference.get(y) != null) {
-                        if(reference.get(y).size() > x && reference.get(y).get(x) != null) {
+                        if(reference.get(y).size() > x && reference.get(y).
+                                get(x) != null) {
                             if(reference.get(y).get(x).isMaintenance()) {
-                                CarRental.getView().getMaintenancePanel().setMaintenanceToView(CarRental.getInstance().requestMaintenance(reference.get(y).get(x).getID()));
-                                CarRental.getView().getMaintenancePanel().showViewEntityPanel();
+                                CarRental.getView().getMaintenancePanel().
+                                        setMaintenanceToView(CarRental.
+                                        getInstance().requestMaintenance
+                                        (reference.get(y).get(x).getID()));
+                                CarRental.getView().getMaintenancePanel().
+                                        showViewEntityPanel();
                                 CarRental.getView().viewMaintenance();
                             }
                             else {
-                                CarRental.getView().getReservationPanel().setReservationToView(CarRental.getInstance().requestReservation(reference.get(y).get(x).getID()));
-                                CarRental.getView().getReservationPanel().showViewEntityPanel();
+                                CarRental.getView().getReservationPanel().
+                                        setReservationToView(CarRental.
+                                        getInstance().requestReservation
+                                        (reference.get(y).get(x).getID()));
+                                CarRental.getView().getReservationPanel().
+                                        showViewEntityPanel();
                                 CarRental.getView().viewReservation();
                             }
                         }
@@ -89,10 +98,12 @@ public class GraphicAlternate extends JComponent {
         first_date = new Timestamp(calendar.getTimeInMillis() * 1000);
         vehicle_bookings = new ArrayList<>();
         for(Vehicle v : vehicles) {
-            ArrayList<Booking> bs = CarRental.getInstance().requestBookingsByVehicle(v.getID());
+            ArrayList<Booking> bs = CarRental.getInstance().
+                    requestBookingsByVehicle(v.getID());
             if(!bs.isEmpty()) {
                 for(Booking b : bs) {
-                    if(b.getTStart().before(first_date) && b.getTEnd().after(new Timestamp(calendar.getTimeInMillis())))
+                    if(b.getTStart().before(first_date) && b.getTEnd().
+                            after(new Timestamp(calendar.getTimeInMillis())))
                         first_date = b.getTStart();
                 }
                 if(first_date.before(new Timestamp(calendar.getTimeInMillis())))
@@ -100,7 +111,8 @@ public class GraphicAlternate extends JComponent {
             }
             vehicle_bookings.add(bs);
         }
-        if(vehicles.isEmpty()) first_date = new Timestamp(calendar.getTimeInMillis());
+        if(vehicles.isEmpty()) first_date = new Timestamp(calendar.
+                getTimeInMillis());
         
         switch(display) {
             case(VIEW_DAYS):
@@ -122,12 +134,14 @@ public class GraphicAlternate extends JComponent {
         
         timestamps = new ArrayList<>();
         for(int i = 0; i < numberOfCollumns; i++) {
-            timestamps.add(new Timestamp(first_date.getTime() - (first_date.getTime() % (unit * 1000)) + (i * unit * 1000)));
+            timestamps.add(new Timestamp(first_date.getTime() - (first_date.
+                    getTime() % (unit * 1000)) + (i * unit * 1000)));
         }
         
         if(timestamps.isEmpty()) numberOfCollumns = 0;
         else numberOfCollumns = timestamps.size();
-        if(numberOfCollumns > 0) collumnWidth = (width - textSpace) / numberOfCollumns;
+        if(numberOfCollumns > 0) collumnWidth = (width - textSpace) / 
+                numberOfCollumns;
         else collumnWidth = (width - textSpace);
         
         dateString = new ArrayList<>();
@@ -180,7 +194,8 @@ public class GraphicAlternate extends JComponent {
                 boolean booked = false;
                 Booking bkng = null;
                 for(Booking b : vehicle_bookings.get(y)) {
-                    if(b.getTStart().before(timestamps.get(x)) && b.getTEnd().after(timestamps.get(x))) {
+                    if(b.getTStart().before(timestamps.get(x)) && b.getTEnd().
+                            after(timestamps.get(x))) {
                         booked = true;
                         bkng = b;
                         if(b.isMaintenance()) g.setColor(Color.RED);
@@ -188,7 +203,8 @@ public class GraphicAlternate extends JComponent {
                     }
                 }
                 if(booked) {
-                    g.fillRect(x * collumnWidth + textSpace, y * rowHeight + 6, collumnWidth, rowHeight - 2);
+                    g.fillRect(x * collumnWidth + textSpace, y * rowHeight + 6,
+                            collumnWidth, rowHeight - 2);
                 }
                 reference.get(y).add(bkng);
                 movePointerX();
@@ -223,13 +239,17 @@ public class GraphicAlternate extends JComponent {
             g.setColor(Color.black);
             
             if(numberOfCollumns < 10) draw_this = true;
-            if(numberOfCollumns < 20 && numberOfCollumns >= 10 && x % 2 == 0) draw_this = true;
+            if(numberOfCollumns < 20 && numberOfCollumns >= 10 && x % 2 == 0) 
+                draw_this = true;
             if(numberOfCollumns < 35 && numberOfCollumns >= 20 && x % 3 == 0) {
                 draw_this = true;
                 draw_line = true;
             }
-            if(draw_this) g.drawString(dateString.get(x), (int)(pointerX + (0.5 * (collumnWidth - 60))), textpointer); //60, collumnWidth
-            if(draw_line) g.drawLine((int)(pointerX + (0.5 * (collumnWidth - 60)) + 30), textpointer - 12, (int)(pointerX + (0.5 * (collumnWidth - 60)) + 30), height - 3*textHeight);
+            if(draw_this) g.drawString(dateString.get(x), (int)(pointerX + (0.5
+                    * (collumnWidth - 60))), textpointer); //60, collumnWidth
+            if(draw_line) g.drawLine((int)(pointerX + (0.5 * (collumnWidth - 
+                    60)) + 30), textpointer - 12, (int)(pointerX + (0.5 * 
+                    (collumnWidth - 60)) + 30), height - 3*textHeight);
             movePointerX();
             if (textpointer == height - textHeight) {
                 textpointer -= textHeight;

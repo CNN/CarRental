@@ -34,10 +34,12 @@ public class DbCom {
                     }
                 }
             } else {
-                CarRental.getInstance().appendLog("Could not get matches, query execution failed.");
+                CarRental.getInstance().appendLog("Could not get matches, "
+                        + "query execution failed.");
             }
         } catch (SQLException e) {
-            CarRental.getInstance().appendLog("Error while getting matches from database.", e);
+            CarRental.getInstance().appendLog("Error while getting matches "
+                    + "from database.", e);
         }
         return result;
     }
@@ -61,7 +63,8 @@ public class DbCom {
                     record = new ArrayList<>();
 
                     for (int i = 0; i < columns; i++) {
-                        if (!table.equals(rs.getMetaData().getTableName(i + 1))) {
+                        if (!table.equals(rs.getMetaData().getTableName
+                                (i + 1))) {
                             table = rs.getMetaData().getTableName(i + 1);
                             results.add(record);
                             record = new ArrayList<>();
@@ -72,10 +75,12 @@ public class DbCom {
                 }
                 return results;
             } else {
-                CarRental.getInstance().appendLog("Could not get matches, query execution failed.");
+                CarRental.getInstance().appendLog("Could not get matches, "
+                        + "query execution failed.");
             }
         } catch (SQLException e) {
-            CarRental.getInstance().appendLog("Error while getting matches from database.", e);
+            CarRental.getInstance().appendLog("Error while getting matches "
+                    + "from database.", e);
         }
         return null;
     }
@@ -88,17 +93,20 @@ public class DbCom {
      */
     public void saveArray(String table, ArrayList<String> object) {
         try {
-            if (newStatement().execute("SELECT * FROM " + cleanInput(table) + " LIMIT 1")) {
+            if (newStatement().execute("SELECT * FROM " + cleanInput(table) + 
+                    " LIMIT 1")) {
                 ResultSetMetaData meta = stm.getResultSet().getMetaData();
                 if (object.size() <= meta.getColumnCount()) {
                     boolean exists = false;
-                    newStatement().execute("SELECT * FROM " + cleanInput(table) + " WHERE id='" + cleanInput(object.get(0)) + "'");
+                    newStatement().execute("SELECT * FROM " + cleanInput(table)
+                            + " WHERE id='" + cleanInput(object.get(0)) + "'");
                     String query = "";
                     if (stm.getResultSet().next()) {
                         exists = true;
                         query = "UPDATE " + cleanInput(table) + " SET ";
                     } else {
-                        query = "INSERT INTO " + cleanInput(table) + " VALUES (";
+                        query = "INSERT INTO " + cleanInput(table) + " VALUES "
+                                + "(";
                     }
                     for (int i = 0; i < meta.getColumnCount(); i++) {
                         String name = meta.getColumnName(i + 1);
@@ -116,29 +124,37 @@ public class DbCom {
                         }
                     }
                     if (exists) {
-                        query += " WHERE id='" + cleanInput(object.get(0)) + "'";
+                        query += " WHERE id='" + cleanInput(object.get(0)) + 
+                                "'";
                     } else {
                         query += ")";
                     }
                     newStatement().execute(query);
-                    CarRental.getInstance().appendLog("Saved entry #" + object.get(0) + " to table " + table + " in database");
+                    CarRental.getInstance().appendLog("Saved entry #" + object.
+                            get(0) + " to table " + table + " in database");
                 } else {
-                    CarRental.getInstance().appendLog("Object given is larger than table size in database");
+                    CarRental.getInstance().appendLog("Object given is larger "
+                            + "than table size in database");
                 }
             } else {
-                CarRental.getInstance().appendLog("Failed to get column names from database");
+                CarRental.getInstance().appendLog("Failed to get column names "
+                        + "from database");
             }
         } catch (SQLException e) {
-            CarRental.getInstance().appendLog("Failed to save an object to database", e);
+            CarRental.getInstance().appendLog("Failed to save an object to "
+                    + "database", e);
         }
     }
 
     public void deleteMatch(String table, String where) {
         try {
-            newStatement().executeUpdate("DELETE FROM " + cleanInput(table) + " WHERE " + cleanInput(where));
-            CarRental.getInstance().appendLog("Succesfully deleted from " + table + " rows matching " + where + ".");
+            newStatement().executeUpdate("DELETE FROM " + cleanInput(table) 
+                    + " WHERE " + cleanInput(where));
+            CarRental.getInstance().appendLog("Succesfully deleted from " + 
+                    table + " rows matching " + where + ".");
         } catch (SQLException e) {
-            CarRental.getInstance().appendLog("Failed to delete from database table " + table + ".", e);
+            CarRental.getInstance().appendLog("Failed to delete from database "
+                    + "table " + table + ".", e);
         }
     }
 
@@ -150,15 +166,18 @@ public class DbCom {
      */
     public int getHighestId(String table) {
         try {
-            if (newStatement().execute("SELECT * FROM " + cleanInput(table) + " ORDER BY id DESC LIMIT 1")) {
+            if (newStatement().execute("SELECT * FROM " + cleanInput(table) + 
+                    " ORDER BY id DESC LIMIT 1")) {
                 if (stm.getResultSet().next()) {
                     return stm.getResultSet().getInt(1);
                 } else {
-                    CarRental.getInstance().appendLog("Tried to get highest id from " + table + ", but it has no entries");
+                    CarRental.getInstance().appendLog("Tried to get highest id "
+                            + "from " + table + ", but it has no entries");
                 }
             }
         } catch (SQLException e) {
-            CarRental.getInstance().appendLog("Failed to get highest id from table " + table, e);
+            CarRental.getInstance().appendLog("Failed to get highest id from "
+                    + "table " + table, e);
         }
         return 0;
     }
@@ -171,11 +190,12 @@ public class DbCom {
         try {
             stm = conn.createStatement();
         } catch (SQLException e) {
-            CarRental.getInstance().appendLog("Failed to create a new statement.", e);
+            CarRental.getInstance().appendLog("Failed to create a new "
+                    + "statement.", e);
         }
         return stm;
     }
-    
+
     /**
      * Cleans the query provided making sure no 's slip through.
      * @param query to clean
@@ -184,14 +204,15 @@ public class DbCom {
     public static String cleanInput(String query) {
         query = query.trim();
         int index01 = query.indexOf("'");
-           while (index01 != -1) {
-              query = query.substring(0,index01) + "\"" + query.substring(index01+1);
-              index01 += 2;
-              index01 = query.indexOf( "'", index01 );
-           }
-           return query;
+        while (index01 != -1) {
+            query = query.substring(0, index01) + "\"" + query.substring
+                    (index01 + 1);
+            index01 += 2;
+            index01 = query.indexOf("'", index01);
+        }
+        return query;
     }
-    
+
     public static String cleanInput(int id) {
         return cleanInput(Integer.toString(id));
     }
@@ -202,10 +223,12 @@ public class DbCom {
     private void openConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/carrental", "carrental", "");
+            conn = DriverManager.getConnection
+                    ("jdbc:mysql://localhost/carrental", "carrental", "");
             CarRental.getInstance().appendLog("Connected to database.");
         } catch (SQLException e) {
-            CarRental.getInstance().appendLog("Could not open database connection.", e);
+            CarRental.getInstance().appendLog
+                    ("Could not open database connection.", e);
         } catch (ClassNotFoundException e) {
             CarRental.getInstance().appendLog("Cannot find database", e);
         }
@@ -220,7 +243,8 @@ public class DbCom {
                 conn.close();
             }
         } catch (SQLException e) {
-            CarRental.getInstance().appendLog("Kan ikke lukke databaseforbindelsen", e);
+            CarRental.getInstance().appendLog
+                    ("Kan ikke lukke databaseforbindelsen", e);
         }
     }
 }

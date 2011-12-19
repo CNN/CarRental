@@ -17,19 +17,24 @@ public class Maintenance implements Booking {
     private boolean isMaintenance;
 
     /**
-     * This constructor is used to initialize the fields needed for an instance of Maintenance
+     * This constructor is used to initialize the fields needed for an 
+     * instanceof Maintenance
      * @param id The ID number of this Maintenance
      * @param vehicle_id The vehicle ID number of this Maintenance
      * @param date_start The start time of this Maintenance
      * @param date_end id The end time of this Maintenance
      * @param type_id id The type ID number of this Maintenance
      */
-    public Maintenance(int id, int vehicle_id, Timestamp date_start, Timestamp date_end, int type_id) {
-        if (date_end != null && date_start != null && date_end.after(date_start)) {
+    public Maintenance(int id, int vehicle_id, Timestamp date_start, Timestamp 
+            date_end, int type_id) {
+        if (date_end != null && date_start != null && date_end.after
+                (date_start)) {
             this.date_start = date_start;
             this.date_end = date_end;
         } else {
-            CarRental.getInstance().appendLog("Dates supplied for Maintenance #" + id + " in constuctor not valid. End date must be AFTER start date.");
+            CarRental.getInstance().appendLog("Dates supplied for Maintenance"
+                    + " #" + id + " in constuctor not valid. End date must "
+                    + "be AFTER start date.");
             this.date_start = new Timestamp(0);
             this.date_end = new Timestamp(0);
         }
@@ -46,14 +51,17 @@ public class Maintenance implements Booking {
      * @param date_end id The updated end time of this Maintenance
      * @param type_id id The updated type ID number of this Maintenance
      */
-    public void updateObject(int vehicle_id, Timestamp date_start, Timestamp date_end, int type_id) {
+    public void updateObject(int vehicle_id, Timestamp date_start, Timestamp 
+            date_end, int type_id) {
         if (date_end.after(date_start)) {
             this.date_start = date_start;
             this.date_end = date_end;
             this.type_id = type_id;
             this.vehicle_id = vehicle_id;
         } else {
-            CarRental.getInstance().appendLog("Dates supplied for Maintenance #" + id + " in updateObject not valid. End date must be AFTER start date.");
+            CarRental.getInstance().appendLog("Dates supplied for Maintenance "
+                    + "#" + id + " in updateObject not valid. End date must "
+                    + "be AFTER start date.");
         }
 
     }

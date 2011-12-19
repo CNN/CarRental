@@ -13,7 +13,8 @@ import java.sql.Timestamp;
  */
 public class Model {
     private DbCom database;
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat
+            ("yyyy-MM-dd hh:mm:ss");
     
     public Model() {
         CarRental.getInstance().appendLog("Creating model...");
@@ -28,8 +29,11 @@ public class Model {
      * @return Vehicle
      */
     public Vehicle getVehicle(int id) {
-        ArrayList<String> v = database.getFirstMatch("SELECT * FROM vehicle WHERE id = '"+DbCom.cleanInput(id)+"'");
-        if(!v.isEmpty() && v.size() == 7) return new Vehicle(Integer.parseInt(v.get(0)),Integer.parseInt(v.get(1)),v.get(3),v.get(4),v.get(2),Integer.parseInt(v.get(5)),v.get(6));
+        ArrayList<String> v = database.getFirstMatch("SELECT * FROM "
+                + "vehicle WHERE id = '"+DbCom.cleanInput(id)+"'");
+        if(!v.isEmpty() && v.size() == 7) return new Vehicle(Integer.
+                parseInt(v.get(0)),Integer.parseInt(v.get(1)),v.get(3),
+                v.get(4),v.get(2),Integer.parseInt(v.get(5)),v.get(6));
         else return null;
     }
     
@@ -38,10 +42,13 @@ public class Model {
      * @return Array of vehicles
      */
     public ArrayList<Vehicle> getVehicles() {
-        ArrayList<ArrayList<String>> vs = database.getMatches("SELECT * FROM vehicle ORDER BY id DESC");
+        ArrayList<ArrayList<String>> vs = database.getMatches("SELECT * "
+                + "FROM vehicle ORDER BY id DESC");
         ArrayList<Vehicle> results = new ArrayList<>();
         for(ArrayList<String> v : vs) {
-            results.add(new Vehicle(Integer.parseInt(v.get(0)),Integer.parseInt(v.get(1)),v.get(3),v.get(4),v.get(2),Integer.parseInt(v.get(5)),v.get(6)));
+            results.add(new Vehicle(Integer.parseInt(v.get(0)),Integer.
+                    parseInt(v.get(1)),v.get(3),v.get(4),v.get(2),Integer.
+                    parseInt(v.get(5)),v.get(6)));
         }
         return results;
     }
@@ -86,8 +93,11 @@ public class Model {
      * @return VehicleType
      */
     public VehicleType getVehicleType(int id) {
-        ArrayList<String> vt = database.getFirstMatch("SELECT * FROM vehicletype WHERE id = '"+DbCom.cleanInput(id)+"'");
-        if(!vt.isEmpty() && vt.size() == 4) return new VehicleType(Integer.parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt(vt.get(3)));
+        ArrayList<String> vt = database.getFirstMatch("SELECT * FROM "
+                + "vehicletype WHERE id = '"+DbCom.cleanInput(id)+"'");
+        if(!vt.isEmpty() && vt.size() == 4) return new VehicleType(Integer.
+                parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt
+                (vt.get(3)));
         else return null;
     }
     
@@ -97,8 +107,11 @@ public class Model {
      * @return VehicleType
      */
     public VehicleType getVehicleType(String name) {
-        ArrayList<String> vt = database.getFirstMatch("SELECT * FROM vehicletype WHERE name = '"+DbCom.cleanInput(name)+"'");
-        if(!vt.isEmpty() && vt.size() == 4) return new VehicleType(Integer.parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt(vt.get(3)));
+        ArrayList<String> vt = database.getFirstMatch("SELECT * FROM "
+                + "vehicletype WHERE name = '"+DbCom.cleanInput(name)+"'");
+        if(!vt.isEmpty() && vt.size() == 4) return new VehicleType(Integer.
+                parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt
+                (vt.get(3)));
         else return null;
     }
     
@@ -107,10 +120,12 @@ public class Model {
      * @return Array of vehicletypes
      */
     public ArrayList<VehicleType> getVehicleTypes() {
-        ArrayList<ArrayList<String>> vts = database.getMatches("SELECT * FROM vehicletype ORDER BY id DESC");
+        ArrayList<ArrayList<String>> vts = database.getMatches("SELECT * "
+                + "FROM vehicletype ORDER BY id DESC");
         ArrayList<VehicleType> results = new ArrayList<>();
         for(ArrayList<String> vt : vts) {
-            results.add(new VehicleType(Integer.parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt(vt.get(3))));
+            results.add(new VehicleType(Integer.parseInt(vt.get(0)),vt.
+                    get(1),vt.get(2),Integer.parseInt(vt.get(3))));
         }
         return results;
     }
@@ -152,31 +167,40 @@ public class Model {
      * @return Customer
      */
     public Customer getCustomer(int id) {
-        ArrayList<String> c = database.getFirstMatch("SELECT * FROM customer WHERE id = '"+DbCom.cleanInput(id)+"'");
-        if(!c.isEmpty() && c.size() == 5) return new Customer(Integer.parseInt(c.get(0)),c.get(1),c.get(2),c.get(3),c.get(4));
+        ArrayList<String> c = database.getFirstMatch("SELECT * FROM customer "
+                + "WHERE id = '"+DbCom.cleanInput(id)+"'");
+        if(!c.isEmpty() && c.size() == 5) return new Customer(Integer.parseInt
+                (c.get(0)),c.get(1),c.get(2),c.get(3),c.get(4));
         else return null;
     }
     
     /**
-     * Get a customer by it's phonenumber, only gets the first customer matching the number.
+     * Get a customer by it's phonenumber, only gets the first customer 
+     * matching the number.
      * @param phonenumber phone number of customer
      * @return Customer
      */
     public Customer getCustomerByPhone(int phonenumber) {
-        ArrayList<String> c = database.getFirstMatch("SELECT * FROM customer WHERE telephone = '"+DbCom.cleanInput(phonenumber)+"' LIMIT 1");
-        if(!c.isEmpty() && c.size() == 5) return new Customer(Integer.parseInt(c.get(0)),c.get(1),c.get(2),c.get(3),c.get(4));
+        ArrayList<String> c = database.getFirstMatch("SELECT * FROM customer "
+                + "WHERE telephone = '"+DbCom.cleanInput(phonenumber)+"' "
+                + "LIMIT 1");
+        if(!c.isEmpty() && c.size() == 5) return new Customer(Integer.
+                parseInt(c.get(0)),c.get(1),c.get(2),c.get(3),c.get(4));
         else return null;
     }
     
     /**
-     * Get an array of all customers in the database ordered by phone number and name
+     * Get an array of all customers in the database ordered by phone 
+     * number and name
      * @return Array of customers
      */
     public ArrayList<Customer> getCustomers() {
-        ArrayList<ArrayList<String>> cs = database.getMatches("SELECT * FROM customer ORDER BY name DESC");
+        ArrayList<ArrayList<String>> cs = database.getMatches("SELECT * "
+                + "FROM customer ORDER BY name DESC");
         ArrayList<Customer> results = new ArrayList<>();
         for(ArrayList<String> c : cs) {
-            results.add(new Customer(Integer.parseInt(c.get(0)),c.get(1),c.get(2),c.get(3),c.get(4)));
+            results.add(new Customer(Integer.parseInt(c.get(0)),c.get(1),
+                    c.get(2),c.get(3),c.get(4)));
         }
         return results;
     }
@@ -219,7 +243,8 @@ public class Model {
      * @return Reservation
      */
     public Reservation getReservation(int id) {
-        ArrayList<String> r = database.getFirstMatch("SELECT * FROM reservation WHERE id = '"+DbCom.cleanInput(id)+"'");
+        ArrayList<String> r = database.getFirstMatch("SELECT * FROM "
+                + "reservation WHERE id = '"+DbCom.cleanInput(id)+"'");
         if(!r.isEmpty() && r.size() == 5) {
             try {
                 Date date_start_parsed = dateFormat.parse(r.get(2));
@@ -232,7 +257,8 @@ public class Model {
                         Integer.parseInt(r.get(4)));
             }
             catch (ParseException e) {
-                CarRental.getInstance().appendLog("Failed to get reservation, parse exception when parsing dates.",e);
+                CarRental.getInstance().appendLog("Failed to get reservation, "
+                        + "parse exception when parsing dates.",e);
                 return null;
             }
         }
@@ -244,7 +270,8 @@ public class Model {
      * @return Array of reservations
      */
     public ArrayList<Reservation> getReservations() {
-        ArrayList<ArrayList<String>> rs = database.getMatches("SELECT * FROM reservation ORDER BY start,end DESC");
+        ArrayList<ArrayList<String>> rs = database.getMatches("SELECT * "
+                + "FROM reservation ORDER BY start,end DESC");
         ArrayList<Reservation> results = new ArrayList<>();
         for(ArrayList<String> r : rs) {
             try {
@@ -257,7 +284,8 @@ public class Model {
                         Integer.parseInt(r.get(4))));
             }
             catch (ParseException e) {
-                CarRental.getInstance().appendLog("Failed to get reservation, parse exception when parsing dates.",e);
+                CarRental.getInstance().appendLog("Failed to get reservation, "
+                        + "parse exception when parsing dates.",e);
                 return null;
             }
         }
@@ -270,7 +298,9 @@ public class Model {
      * @return Array of reservations
      */
     public ArrayList<Reservation> getReservationsByCustomerId(int id) {
-        ArrayList<ArrayList<String>> rs = database.getMatches("SELECT * FROM reservation WHERE customerid = '"+DbCom.cleanInput(id)+"' ORDER BY start,end DESC");
+        ArrayList<ArrayList<String>> rs = database.getMatches("SELECT * "
+                + "FROM reservation WHERE customerid = '"+DbCom.
+                cleanInput(id)+"' ORDER BY start,end DESC");
         ArrayList<Reservation> results = new ArrayList<>();
         for(ArrayList<String> r : rs) {
             try {
@@ -283,7 +313,8 @@ public class Model {
                         Integer.parseInt(r.get(4))));
             }
             catch (ParseException e) {
-                CarRental.getInstance().appendLog("Failed to get reservation, parse exception when parsing dates.",e);
+                CarRental.getInstance().appendLog("Failed to get reservation,"
+                        + " parse exception when parsing dates.",e);
                 return null;
             }
         }
@@ -328,42 +359,51 @@ public class Model {
      * @return Maintenance Type
      */
     public MaintenanceType getMaintenanceType(int id) {
-        ArrayList<String> m = database.getFirstMatch("SELECT * FROM maintenance_type WHERE id = '"+DbCom.cleanInput(id)+"'");
+        ArrayList<String> m = database.getFirstMatch("SELECT * FROM "
+                + "maintenance_type WHERE id = '"+DbCom.cleanInput(id)+"'");
         boolean is_service = false;
         if(!m.isEmpty() && m.size() == 3) {
             if(Integer.parseInt(m.get(2)) == 1) is_service = true;
-            return new MaintenanceType(Integer.parseInt(m.get(0)),m.get(1),is_service);
+            return new MaintenanceType(Integer.parseInt(m.get(0)),m.get(1),
+                    is_service);
         }
         else return null;
     }
     
     /**
-     * Get an array of all maintenance types in the database ordered alphabetically by name
+     * Get an array of all maintenance types in the database ordered 
+     * alphabetically by name
      * @return Array of maintenance types
      */
     public ArrayList<MaintenanceType> getMaintenanceTypes() {
-        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * FROM maintenance_type ORDER BY name ASC");
+        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * "
+                + "FROM maintenance_type ORDER BY name ASC");
         ArrayList<MaintenanceType> results = new ArrayList<>();
         for(ArrayList<String> m : ms) {
             boolean is_service = false;
             if(Integer.parseInt(m.get(2)) == 1) is_service = true;
-            results.add(new MaintenanceType(Integer.parseInt(m.get(0)),m.get(1),is_service));
+            results.add(new MaintenanceType(Integer.parseInt(m.get(0)),
+                    m.get(1),is_service));
         }
         return results;
     }
     
     /**
-     * Get an array of all maintenance types in the database, that are considered
+     * Get an array of all maintenance types in the database, that
+     * are considered
      * service checks, ordered alphabetically by name
      * @return Array of maintenance types
      */
     public ArrayList<MaintenanceType> getMaintenanceTypesService() {
-        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * FROM maintenance_type WHERE is_service = '1' ORDER BY name ASC");
+        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * "
+                + "FROM maintenance_type WHERE is_service = '1' ORDER BY "
+                + "name ASC");
         ArrayList<MaintenanceType> results = new ArrayList<>();
         for(ArrayList<String> m : ms) {
             boolean is_service = false;
             if(Integer.parseInt(m.get(2)) == 1) is_service = true;
-            results.add(new MaintenanceType(Integer.parseInt(m.get(0)),m.get(1),is_service));
+            results.add(new MaintenanceType(Integer.parseInt(m.get(0)),
+                    m.get(1),is_service));
         }
         return results;
     }
@@ -395,7 +435,8 @@ public class Model {
      * @param mt_id id of maintenance type
      */
     public void deleteMaintenanceType(int mt_id) {
-        database.deleteMatch("maintenance_type", "id='"+DbCom.cleanInput(mt_id)+"'");
+        database.deleteMatch("maintenance_type", "id='"+DbCom.cleanInput
+                (mt_id)+"'");
     }
     
     //MAINTENANCE
@@ -406,7 +447,8 @@ public class Model {
      * @return Maintenance
      */
     public Maintenance getMaintenance(int id) {
-        ArrayList<String> m = database.getFirstMatch("SELECT * FROM maintenance WHERE id = '"+DbCom.cleanInput(id)+"'");
+        ArrayList<String> m = database.getFirstMatch("SELECT * FROM "
+                + "maintenance WHERE id = '"+DbCom.cleanInput(id)+"'");
         if(!m.isEmpty() && m.size() == 5) {
             try {
                 Date date_start_parsed = dateFormat.parse(m.get(3));
@@ -418,7 +460,8 @@ public class Model {
                         Integer.parseInt(m.get(2)));
             }
             catch (ParseException e) {
-                CarRental.getInstance().appendLog("Failed to get maintenance from database, parse error when parsing dates.",e);
+                CarRental.getInstance().appendLog("Failed to get maintenance"
+                        + " from database, parse error when parsing dates.",e);
                 return null;
             }
         }
@@ -430,7 +473,8 @@ public class Model {
      * @return Array of maintenances
      */
     public ArrayList<Maintenance> getMaintenances() {
-        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * FROM maintenance ORDER BY date_start,date_end DESC");
+        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * FROM "
+                + "maintenance ORDER BY date_start,date_end DESC");
         ArrayList<Maintenance> results = new ArrayList<>();
         for(ArrayList<String> m : ms) {
             try {
@@ -443,7 +487,8 @@ public class Model {
                         Integer.parseInt(m.get(2))));
             }
             catch (ParseException e) {
-                CarRental.getInstance().appendLog("Failed to get maintenances from database, parse error when parsing dates.",e);
+                CarRental.getInstance().appendLog("Failed to get maintenances "
+                        + "from database, parse error when parsing dates.",e);
                 return null;
             }
         }
@@ -485,18 +530,25 @@ public class Model {
      * @return Bookings
      */
     public ArrayList<Booking> getBookings() {
-        ArrayList<ArrayList<String>> rs = database.getMatches("SELECT * FROM reservation ORDER BY start");
-        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * FROM maintenance ORDER BY date_start");
+        ArrayList<ArrayList<String>> rs = database.getMatches("SELECT * "
+                + "FROM reservation ORDER BY start");
+        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * "
+                + "FROM maintenance ORDER BY date_start");
         ArrayList<Booking> results = new ArrayList<>();
         for(ArrayList<String> rm : rs) {
             if(rm.size() > 0) {
                 try {
                     Date date_start = dateFormat.parse(rm.get(2));
                     Date date_end = dateFormat.parse(rm.get(3));
-                    results.add(new Reservation(Integer.parseInt(rm.get(0)),Integer.parseInt(rm.get(1)), new Timestamp(date_start.getTime()), new Timestamp(date_end.getTime()),Integer.parseInt(rm.get(4))));
+                    results.add(new Reservation(Integer.parseInt(rm.get(0)),
+                            Integer.parseInt(rm.get(1)), new Timestamp
+                                    (date_start.getTime()), new Timestamp
+                                            (date_end.getTime()),Integer.
+                            parseInt(rm.get(4))));
                 }
                 catch (ParseException e) {
-                    CarRental.getInstance().appendLog("Exception while parsing date when getting bookings.",e);
+                    CarRental.getInstance().appendLog("Exception while parsing"
+                            + " date when getting bookings.",e);
                 }
             }
         }
@@ -505,7 +557,11 @@ public class Model {
                 try {
                     Date date_start = dateFormat.parse(rm.get(3));
                     Date date_end = dateFormat.parse(rm.get(4));
-                    results.add(new Maintenance(Integer.parseInt(rm.get(0)),Integer.parseInt(rm.get(1)),new Timestamp(date_start.getTime()),new Timestamp(date_end.getTime()),Integer.parseInt(rm.get(2))));
+                    results.add(new Maintenance(Integer.parseInt(rm.get(0)),
+                            Integer.parseInt(rm.get(1)),new Timestamp
+                                    (date_start.getTime()),new Timestamp
+                                            (date_end.getTime()),Integer.
+                            parseInt(rm.get(2))));
                 }
                 catch (ParseException e) {
 
@@ -520,18 +576,27 @@ public class Model {
      * @return Bookings
      */
     public ArrayList<Booking> getBookingsByVehicleId(int vehicle_id) {
-        ArrayList<ArrayList<String>> rs = database.getMatches("SELECT * FROM reservation WHERE vehicleid = '"+DbCom.cleanInput(vehicle_id)+"' ORDER BY start");
-        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * FROM maintenance WHERE vehicle_id = '"+DbCom.cleanInput(vehicle_id)+"' ORDER BY date_start");
+        ArrayList<ArrayList<String>> rs = database.getMatches("SELECT * "
+                + "FROM reservation WHERE vehicleid = '"+DbCom.cleanInput
+                (vehicle_id)+"' ORDER BY start");
+        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * "
+                + "FROM maintenance WHERE vehicle_id = '"+DbCom.cleanInput
+                (vehicle_id)+"' ORDER BY date_start");
         ArrayList<Booking> results = new ArrayList<>();
         for(ArrayList<String> rm : rs) {
             if(rm.size() > 0) {
                 try {
                     Date date_start = dateFormat.parse(rm.get(2));
                     Date date_end = dateFormat.parse(rm.get(3));
-                    results.add(new Reservation(Integer.parseInt(rm.get(0)),Integer.parseInt(rm.get(1)), new Timestamp(date_start.getTime()), new Timestamp(date_end.getTime()),Integer.parseInt(rm.get(4))));
+                    results.add(new Reservation(Integer.parseInt(rm.get(0)),
+                            Integer.parseInt(rm.get(1)), new Timestamp
+                                    (date_start.getTime()), new Timestamp
+                                            (date_end.getTime()),Integer.
+                            parseInt(rm.get(4))));
                 }
                 catch (ParseException e) {
-                    CarRental.getInstance().appendLog("Exception while parsing date when getting bookings.",e);
+                    CarRental.getInstance().appendLog("Exception while parsing"
+                            + " date when getting bookings.",e);
                 }
             }
         }
@@ -540,7 +605,11 @@ public class Model {
                 try {
                     Date date_start = dateFormat.parse(rm.get(3));
                     Date date_end = dateFormat.parse(rm.get(4));
-                    results.add(new Maintenance(Integer.parseInt(rm.get(0)),Integer.parseInt(rm.get(1)),new Timestamp(date_start.getTime()),new Timestamp(date_end.getTime()),Integer.parseInt(rm.get(2))));
+                    results.add(new Maintenance(Integer.parseInt(rm.get(0)),
+                            Integer.parseInt(rm.get(1)),new Timestamp
+                                    (date_start.getTime()),new Timestamp
+                                            (date_end.getTime()),Integer.
+                            parseInt(rm.get(2))));
                 }
                 catch (ParseException e) {
 

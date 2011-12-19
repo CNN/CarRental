@@ -22,20 +22,24 @@ public interface Booking {
     public int getVehicleID();
 
     /**
-     * This method returns the starting time of this Booking as a Timestamp object
+     * This method returns the starting time of this Booking as a 
+     * Timestamp object
      * @return The starting time of this Booking as a Timestamp object
      */
     public Timestamp getTStart();
 
     /**
-     * This method returns the ending time of this Booking as a Timestamp object
+     * This method returns the ending time of this Booking as a 
+     * Timestamp object
      * @return The ending time of this Booking as a Timestamp object
      */
     public Timestamp getTEnd();
 
     /**
-     * This method should state if this Booking is a regarded as a maintenance in the system
-     * @return Returns 'true' if this Booking is a maintenance. Returns 'false' if not
+     * This method should state if this Booking is a regarded as a 
+     * maintenance in the system
+     * @return Returns 'true' if this Booking is a maintenance. 
+     * Returns 'false' if not
      */
     public boolean isMaintenance();
 }

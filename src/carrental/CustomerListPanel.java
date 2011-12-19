@@ -13,21 +13,25 @@ import javax.swing.table.DefaultTableModel;
  */
 public class CustomerListPanel extends JPanel {
 
-    private ArrayList<Customer> customers = CarRental.getInstance().requestCustomers(); //load customers array
-    private JTextField filterAdressTextField, filterPhoneTextField, filterNameTextField, filterIDTextField;
+    private ArrayList<Customer> customers = 
+            CarRental.getInstance().requestCustomers(); //load customers array
+    private JTextField filterAdressTextField, filterPhoneTextField, 
+            filterNameTextField, filterIDTextField;
     private JTable customerTable;
     private DefaultTableModel customerTableModel;
     private JButton cancelButton, viewButton;
     
     public CustomerListPanel() {
         //Fields
-        JPanel centerPanel, customerListPanel, filterPanel, topFilterPanel, bottomFilterPanel, buttonPanel;
+        JPanel centerPanel, customerListPanel, filterPanel, topFilterPanel, 
+                bottomFilterPanel, buttonPanel;
         JScrollPane scrollPane;
         final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
         //listPanel
         setLayout(new BorderLayout());
-        setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK), "List of customers"));
+        setBorder(BorderFactory.createTitledBorder(BorderFactory.
+                createLineBorder(Color.BLACK), "List of customers"));
 
         //centerPanel
         centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -42,7 +46,8 @@ public class CustomerListPanel extends JPanel {
         setBackground(new Color(216, 216, 208));
 
         //Creating the table model
-        customerTableModel = new DefaultTableModel(new Object[]{"ID", "Phone", "Name", "Adress", "E-Mail"}, 0);
+        customerTableModel = new DefaultTableModel(new Object[]{"ID", "Phone", 
+            "Name", "Adress", "E-Mail"}, 0);
         setCustomerTable();
 
         //Creating the table
@@ -50,16 +55,19 @@ public class CustomerListPanel extends JPanel {
         //adding it to it's own scrollpane
         scrollPane = new JScrollPane(customerTable);
         //Setting the default size for the scrollpane
-        customerTable.setPreferredScrollableViewportSize(new Dimension(680, 200));
+        customerTable.setPreferredScrollableViewportSize
+                (new Dimension(680, 200));
         customerListPanel.add(scrollPane);
         centerPanel.add(customerListPanel);
 
         //FilterPanel
-        JLabel filterAdressLabel, filterPhoneLabel, filterNameLabel, filterIDLabel;
+        JLabel filterAdressLabel, filterPhoneLabel, filterNameLabel, 
+                filterIDLabel;
         
         filterPanel = new JPanel();
         filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.PAGE_AXIS));
-        filterPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2), "Filters"));
+        filterPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.
+                createLineBorder(Color.BLACK, 2), "Filters"));
         //centerPanel.add(filterPanel);
 
         //top row of filters
@@ -72,7 +80,8 @@ public class CustomerListPanel extends JPanel {
         
         topFilterPanel.add(Box.createRigidArea(new Dimension(0, 0)));
         topFilterPanel.add(filterIDLabel);
-        topFilterPanel.add(Box.createRigidArea(new Dimension(68 + strutDistance, 0)));
+        topFilterPanel.add(Box.createRigidArea(new Dimension
+                (68 + strutDistance, 0)));
         topFilterPanel.add(filterIDTextField);
 
         //Name
@@ -81,7 +90,8 @@ public class CustomerListPanel extends JPanel {
         
         topFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         topFilterPanel.add(filterNameLabel);
-        topFilterPanel.add(Box.createRigidArea(new Dimension(12 + strutDistance, 0)));
+        topFilterPanel.add(Box.createRigidArea(new Dimension
+                (12 + strutDistance, 0)));
         topFilterPanel.add(filterNameTextField);
 
         //Bottom Filter panel
@@ -93,7 +103,8 @@ public class CustomerListPanel extends JPanel {
         filterPhoneTextField = new JTextField(defaultJTextFieldColumns);
         
         bottomFilterPanel.add(filterPhoneLabel);
-        bottomFilterPanel.add(Box.createRigidArea(new Dimension(strutDistance, 0)));
+        bottomFilterPanel.add(Box.createRigidArea(new Dimension
+                (strutDistance, 0)));
         bottomFilterPanel.add(filterPhoneTextField);
 
         //Adress
@@ -102,14 +113,16 @@ public class CustomerListPanel extends JPanel {
         
         bottomFilterPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         bottomFilterPanel.add(filterAdressLabel);
-        bottomFilterPanel.add(Box.createRigidArea(new Dimension(5 + strutDistance, 0)));
+        bottomFilterPanel.add(Box.createRigidArea(new Dimension
+                (5 + strutDistance, 0)));
         bottomFilterPanel.add(filterAdressTextField);
 
         //ButtonPanels
         buttonPanel = new JPanel();
         add(buttonPanel, BorderLayout.SOUTH);
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
-        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); //add some space between the right edge of the screen
+        //add some space between the right edge of the screen
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));
         buttonPanel.add(Box.createHorizontalGlue());
 
         //cancel-Button
@@ -140,7 +153,8 @@ public class CustomerListPanel extends JPanel {
      * Updates the list of customers
      */
     public void setCustomerTable() {
-        customers = CarRental.getInstance().requestCustomers(); //update customers array
+        //update customers array
+        customers = CarRental.getInstance().requestCustomers(); 
         customerTableModel.setRowCount(0);
         
         for (Customer customer : customers) { //update table
@@ -186,14 +200,27 @@ public class CustomerListPanel extends JPanel {
         //Add the rows that match the filter
         for (Customer customer : customers) {
             //parameters
-            if ((filterIDTextField.getText().trim().isEmpty() || //Filter ID is empty OR
-                    Integer.toString(customer.getID()).trim().toLowerCase(Locale.ENGLISH).contains(filterIDTextField.getText().toLowerCase(Locale.ENGLISH))) && //Customer matches criteria
-                    (filterNameTextField.getText().trim().isEmpty() || //Filter name is empty OR
-                    customer.getName().trim().toLowerCase(Locale.ENGLISH).contains(filterNameTextField.getText().trim().toLowerCase(Locale.ENGLISH))) && //Customer matches criteria
-                    (filterPhoneTextField.getText().trim().isEmpty() || //Filter Phone is empty OR
-                    customer.getTelephone().trim().toLowerCase(Locale.ENGLISH).contains(filterPhoneTextField.getText().trim().toLowerCase(Locale.ENGLISH))) &&//Customer matches criteria
-                    (filterAdressTextField.getText().trim().isEmpty() || //Adress field is empty OR
-                    customer.getAdress().trim().toLowerCase(Locale.ENGLISH).contains(filterAdressTextField.getText().trim().toLowerCase(Locale.ENGLISH)))) //Customer matches criteria
+            if ((filterIDTextField.getText().trim().isEmpty()
+                    || //Filter ID is empty OR
+                    Integer.toString(customer.getID()).trim().toLowerCase
+                    (Locale.ENGLISH).contains(filterIDTextField.getText().
+                    toLowerCase(Locale.ENGLISH))) 
+                    && //Customer matches criteria
+                    (filterNameTextField.getText().trim().isEmpty() 
+                    || //Filter name is empty OR
+                    customer.getName().trim().toLowerCase(Locale.ENGLISH).
+                    contains(filterNameTextField.getText().trim().toLowerCase
+                    (Locale.ENGLISH))) && //Customer matches criteria
+                    (filterPhoneTextField.getText().trim().isEmpty() 
+                    || //Filter Phone is empty OR
+                    customer.getTelephone().trim().toLowerCase(Locale.ENGLISH).
+                    contains(filterPhoneTextField.getText().trim().toLowerCase
+                    (Locale.ENGLISH))) &&//Customer matches criteria
+                    (filterAdressTextField.getText().trim().isEmpty() 
+                    || //Adress field is empty OR
+                    customer.getAdress().trim().toLowerCase(Locale.ENGLISH).
+                    contains(filterAdressTextField.getText().trim().toLowerCase
+                    (Locale.ENGLISH)))) //Customer matches criteria
             {
                 customerTableModel.addRow(new Object[]{customer.getID(), //ID
                             customer.getTelephone(), //Phone
@@ -233,6 +260,7 @@ public class CustomerListPanel extends JPanel {
      * @param height 
      */
     public void setTableSize(int width, int height){
-        customerTable.setPreferredScrollableViewportSize(new Dimension(width, height));
+        customerTable.setPreferredScrollableViewportSize(new Dimension
+                (width, height));
     }
 }

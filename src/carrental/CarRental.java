@@ -233,8 +233,8 @@ public final class CarRental {
     }
     
     /**
-     * Request a list of bookings from the model related to the vehicle with the
-     * specified id. Bookings are either reservations or maintenances.
+     * Request a list of bookings from the model related to the vehicle with 
+     * the specified id. Bookings are either reservations or maintenances.
      * @return list of bookings
      */
     public ArrayList<Booking> requestBookingsByVehicle(int v_id) {
@@ -353,8 +353,9 @@ public final class CarRental {
      * Append a string as a new line to the log. If something goes wrong or
      * is of interest as to determine when something goes wrong, it should be
      * added to the log.
-     * Additionally takes an exception e, that will be printed before the string
-     * and hence there is no reason to specify exception type in the string.
+     * Additionally takes an exception e, that will be printed before the 
+     * string and hence there is no reason to specify exception type in the 
+     * string.
      * @param string New line to add to the log.
      * @param e Exception of add as a prefix to the string.
      */

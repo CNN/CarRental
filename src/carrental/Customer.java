@@ -14,14 +14,17 @@ public class Customer {
     private String eMail;
 
     /**
-     * This constructor is used to initialize the fields needed for an instance of Customer
+     * This constructor is used to initialize the fields needed for an instance 
+     * of Customer
      * @param ID The ID number of this Customer.
      * @param telephone The telephone number of this Customer.
      * @param name The name of this Customer.
-     * @param adress The adress of this Customer, in the format "[Road] [Number]\n[Zip code] [Town]".
+     * @param adress The adress of this Customer, in the format "[Road] 
+     * [Number]\n[Zip code] [Town]".
      * @param eMail The e-mail adress of this Customer.
      */
-    public Customer(int ID, String telephone, String name, String adress, String eMail) {
+    public Customer(int ID, String telephone, String name, String adress, 
+            String eMail) {
         this.ID = ID;
         this.telephone = telephone;
         this.name = name;
@@ -33,10 +36,12 @@ public class Customer {
      * This method updates this Customer object
      * @param telephone The updated telephone number of this Customer.
      * @param name The updated name of this Customer.
-     * @param adress The updated adress of this Customer, in the format "[Road] [Number]\n[Zip code] [Town]".
+     * @param adress The updated adress of this Customer, in the format 
+     * "[Road] [Number]\n[Zip code] [Town]".
      * @param eMail The updated e-mail adress of this Customer.
      */
-    public void updateObject(String telephone, String name, String adress, String eMail) {
+    public void updateObject(String telephone, String name, String adress, 
+            String eMail) {
         this.telephone = telephone;
         this.name = name;
         this.adress = adress;
@@ -76,7 +81,8 @@ public class Customer {
     }
     
     /**
-     * This method returns the postal code of this Customer. The postal code is found from the provided adress.
+     * This method returns the postal code of this Customer. The postal code 
+     * is found from the provided adress.
      * @return The postal code of this Customer.
      */
     public int getPostalCode() {

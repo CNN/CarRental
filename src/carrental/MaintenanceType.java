@@ -12,10 +12,12 @@ public class MaintenanceType {
     private boolean is_service;
 
     /**
-     * This constructor is used to initialize the fields needed for an instance of MaintenanceType
+     * This constructor is used to initialize the fields needed for an 
+     * instance of MaintenanceType
      * @param ID  The ID number of the this MaintenanceType
      * @param name The name of this MaintenanceType
-     * @param is_service A boolean for whether or not this is a service maintenance. Use 'true' if it is
+     * @param is_service A boolean for whether or not this is a service 
+     * maintenance. Use 'true' if it is
      */
     public MaintenanceType(int ID, String name, boolean is_service) {
         this.ID = ID;
@@ -26,7 +28,8 @@ public class MaintenanceType {
     /**
      * This method updates the MaintenanceType with the supplied parameters
      * @param name The name of the updated MaintenanceType
-     * @param is_service A boolean for whether or not the updated object is a service maintenance. Use 'true' if it is
+     * @param is_service A boolean for whether or not the updated object is 
+     * a service maintenance. Use 'true' if it is
      */
     public void updateObject(String name, boolean is_service) {
         this.name = name;
@@ -34,8 +37,10 @@ public class MaintenanceType {
     }
 
     /**
-     * This method states if this MaintenanceType is a service maintenance. Returns'true' if it is
-     * @return A boolean for wheter or not this MaintenanceType is a service maintenance. Returns'true' if it is
+     * This method states if this MaintenanceType is a service maintenance. 
+     * Returns'true' if it is
+     * @return A boolean for wheter or not this MaintenanceType is a service 
+     * maintenance. Returns'true' if it is
      */
     public boolean getIs_service() {
         return is_service;
