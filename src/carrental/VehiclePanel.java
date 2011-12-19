@@ -630,7 +630,7 @@ public class VehiclePanel extends SuperPanel {
             for (Reservation reservation : reservations) {
                 tableRow = new String[]{
                     CarRental.getInstance().requestCustomer(reservation.getCustomerID()).getName(),
-                    Integer.toString(CarRental.getInstance().requestCustomer(reservation.getCustomerID()).getTelephone()),
+                    CarRental.getInstance().requestCustomer(reservation.getCustomerID()).getTelephone(),
                     dateFormat.format(reservation.getTStart()),
                     dateFormat.format(reservation.getTEnd())};
                 reservationTableModel.addRow(tableRow);

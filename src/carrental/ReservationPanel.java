@@ -583,7 +583,7 @@ public class ReservationPanel extends SuperPanel {
                         filterNameTextField.getText().trim().isEmpty() || //Filter name is empty OR
                         customer.getName().trim().toLowerCase(Locale.ENGLISH).contains(filterNameTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
                         filterPhoneTextField.getText().trim().isEmpty() || //Filter Phone is empty OR
-                        Integer.toString(customer.getTelephone()).trim().toLowerCase(Locale.ENGLISH).contains(filterPhoneTextField.getText().trim().toLowerCase(Locale.ENGLISH)) &&//Customer matches criteria
+                        customer.getTelephone().trim().toLowerCase(Locale.ENGLISH).contains(filterPhoneTextField.getText().trim().toLowerCase(Locale.ENGLISH)) &&//Customer matches criteria
                         filterAdressTextField.getText().trim().isEmpty() || //Adress field is empty OR
                         customer.getAdress().trim().toLowerCase(Locale.ENGLISH).contains(filterAdressTextField.getText().trim().toLowerCase(Locale.ENGLISH))) //Customer matches criteria
                 {

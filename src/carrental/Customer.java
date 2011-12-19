@@ -8,7 +8,7 @@ package carrental;
 public class Customer {
 
     private final int ID;
-    private int telephone;
+    private String telephone;
     private String name;
     private String adress;
     private String eMail;
@@ -21,7 +21,7 @@ public class Customer {
      * @param adress The adress of this Customer, in the format "[Road] [Number]\n[Zip code] [Town]".
      * @param eMail The e-mail adress of this Customer.
      */
-    public Customer(int ID, int telephone, String name, String adress, String eMail) {
+    public Customer(int ID, String telephone, String name, String adress, String eMail) {
         this.ID = ID;
         this.telephone = telephone;
         this.name = name;
@@ -36,7 +36,7 @@ public class Customer {
      * @param adress The updated adress of this Customer, in the format "[Road] [Number]\n[Zip code] [Town]".
      * @param eMail The updated e-mail adress of this Customer.
      */
-    public void updateObject(int telephone, String name, String adress, String eMail) {
+    public void updateObject(String telephone, String name, String adress, String eMail) {
         this.telephone = telephone;
         this.name = name;
         this.adress = adress;
@@ -55,7 +55,7 @@ public class Customer {
      * This method returns the telephone number of this Customer.
      * @return The telephone number of this Customer.
      */
-    public int getTelephone() {
+    public String getTelephone() {
         return telephone;
     }
 
@@ -82,9 +82,9 @@ public class Customer {
     public int getPostalCode() {
         String[] address = adress.split("\n");
         if (address.length == 3) {
-            address = address[2].split(" ");
+            address = address[2].split("\n");
         } else if (address.length == 2) {
-            address = address[1].split(" ");
+            address = address[1].split("\n");
         } else {
             address[0] = "0000";
         }

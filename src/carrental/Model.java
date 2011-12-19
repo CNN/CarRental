@@ -170,7 +170,7 @@ public class Model {
      * @return Customer
      */
     public Customer getCustomer() {
-        return new Customer(0,0,null,null,null);
+        return new Customer(0,null,null,null,null);
     }
     
     /**
@@ -180,7 +180,7 @@ public class Model {
      */
     public Customer getCustomer(int id) {
         ArrayList<String> c = database.getFirstMatch("SELECT * FROM customer WHERE id = '"+id+"'");
-        if(!c.isEmpty() && c.size() == 5) return new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4));
+        if(!c.isEmpty() && c.size() == 5) return new Customer(Integer.parseInt(c.get(0)),c.get(1),c.get(2),c.get(3),c.get(4));
         else return null;
     }
     
@@ -191,7 +191,7 @@ public class Model {
      */
     public Customer getCustomerByPhone(int phonenumber) {
         ArrayList<String> c = database.getFirstMatch("SELECT * FROM customer WHERE telephone = '"+phonenumber+"' LIMIT 1");
-        if(!c.isEmpty() && c.size() == 5) return new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4));
+        if(!c.isEmpty() && c.size() == 5) return new Customer(Integer.parseInt(c.get(0)),c.get(1),c.get(2),c.get(3),c.get(4));
         else return null;
     }
     
@@ -203,7 +203,7 @@ public class Model {
         ArrayList<ArrayList<String>> cs = database.getMatches("SELECT * FROM customer ORDER BY telephone,name DESC");
         ArrayList<Customer> results = new ArrayList<>();
         for(ArrayList<String> c : cs) {
-            results.add(new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4)));
+            results.add(new Customer(Integer.parseInt(c.get(0)),c.get(1),c.get(2),c.get(3),c.get(4)));
         }
         return results;
     }
@@ -223,7 +223,7 @@ public class Model {
     public void saveCustomer(Customer c) {
         ArrayList<String> save_data = new ArrayList<>();
         save_data.add(Integer.toString(c.getID()));
-        save_data.add(Integer.toString(c.getTelephone()));
+        save_data.add(c.getTelephone());
         save_data.add(c.getName());
         save_data.add(c.getAdress());
         save_data.add(c.getEMail());

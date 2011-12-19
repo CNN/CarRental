@@ -209,7 +209,7 @@ public class CustomerPanel extends SuperPanel {
                             customerIDTextField.setText(" " + CarRental.getInstance().requestNewCustomerId());
                             CarRental.getInstance().saveCustomer(new Customer(
                                     CarRental.getInstance().requestNewCustomerId(),
-                                    Integer.parseInt(customerPhoneTextField.getText()),
+                                    customerPhoneTextField.getText(),
                                     customerNameTextField.getText(),
                                     adress,
                                     customerEMailTextField.getText()));
@@ -399,7 +399,7 @@ public class CustomerPanel extends SuperPanel {
                         try {
                             CarRental.getInstance().saveCustomer(new Customer(
                                     customerToView.getID(),
-                                    Integer.parseInt(customerPhoneTextField.getText().trim()),
+                                    customerPhoneTextField.getText().trim(),
                                     customerNameTextField.getText().trim(),
                                     adress,
                                     customerEMailTextField.getText().trim()));
@@ -499,7 +499,7 @@ public class CustomerPanel extends SuperPanel {
 
             if(customerToView.getID() != 0) customerIDTextField.setText("" + customerToView.getID());
             if(customerToView.getName() != null) customerNameTextField.setText(customerToView.getName());
-            if(customerToView.getTelephone() != 0) customerPhoneTextField.setText("" + customerToView.getTelephone());
+            if(customerToView.getTelephone() != null) customerPhoneTextField.setText(customerToView.getTelephone());
             if(customerToView.getEMail() != null) customerEMailTextField.setText(customerToView.getEMail());
         }
     }
@@ -681,7 +681,7 @@ public class CustomerPanel extends SuperPanel {
                         filterNameTextField.getText().trim().isEmpty() || //Filter name is empty OR
                         customer.getName().trim().toLowerCase(Locale.ENGLISH).contains(filterNameTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
                         filterPhoneTextField.getText().trim().isEmpty() || //Filter Phone is empty OR
-                        Integer.toString(customer.getTelephone()).trim().toLowerCase(Locale.ENGLISH).contains(filterPhoneTextField.getText().trim().toLowerCase(Locale.ENGLISH)) &&//Customer matches criteria
+                        customer.getTelephone().trim().toLowerCase(Locale.ENGLISH).contains(filterPhoneTextField.getText().trim().toLowerCase(Locale.ENGLISH)) &&//Customer matches criteria
                         filterAdressTextField.getText().trim().isEmpty() || //Adress field is empty OR
                         customer.getAdress().trim().toLowerCase(Locale.ENGLISH).contains(filterAdressTextField.getText().trim().toLowerCase(Locale.ENGLISH))) //Customer matches criteria
                 {

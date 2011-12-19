@@ -113,7 +113,7 @@ public class ModelTest {
      */
     @Test
     public void testSaveGetDeleteCustomer() {
-        Customer cTest = new Customer(117,12121212,"John Stewart", "45th Street 20111\n2191911 Washington","johnstwart@comedycentral.com");
+        Customer cTest = new Customer(117,"12121212","John Stewart", "45th Street 20111\n2191911 Washington","johnstwart@comedycentral.com");
         model.saveCustomer(cTest);
         Customer cModel = model.getCustomer(cTest.getID());
         
@@ -129,9 +129,9 @@ public class ModelTest {
      */
     @Test
     public void testUpdateOnExistsCustomer() {
-        Customer cTest = new Customer(117,12121212,"John Stewart", "45th Street 20111\n2191911 Washington","johnstwart@comedycentral.com");
+        Customer cTest = new Customer(117,"12121212","John Stewart", "45th Street 20111\n2191911 Washington","johnstwart@comedycentral.com");
         model.saveCustomer(cTest);
-        cTest.updateObject(12122111, "John Stewart", "2 Londong St.\n1212 HelloKitty", "jst@cc.com");
+        cTest.updateObject("12122111", "John Stewart", "2 Londong St.\n1212 HelloKitty", "jst@cc.com");
         model.saveCustomer(cTest);
         
         Customer cModel = model.getCustomer(cTest.getID());

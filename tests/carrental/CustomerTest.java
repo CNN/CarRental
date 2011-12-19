@@ -13,7 +13,7 @@ public class CustomerTest {
     private Customer customer;
 
     public CustomerTest() {
-        customer = new Customer(1, 24736456, "Poul Poulsen", "Enghavevej 13\n7420 Viborg", "p.poulsen@gmail.com");
+        customer = new Customer(1, "24736456", "Poul Poulsen", "Enghavevej 13\n7420 Viborg", "p.poulsen@gmail.com");
     }
 
     /**
@@ -23,7 +23,7 @@ public class CustomerTest {
     public void testGetID() {
         assertEquals(1, customer.getID());
         //also testing updating of this, to ensure it's not just 1 always. The other getters are tested this way through testUpdateObject()
-        customer = new Customer(4, 24736456, "Poul Poulsen", "Enghavevej 13\n7420 Viborg", "p.poulsen@gmail.com");
+        customer = new Customer(4, "24736456", "Poul Poulsen", "Enghavevej 13\n7420 Viborg", "p.poulsen@gmail.com");
         assertEquals(4, customer.getID());
     }
 
@@ -72,7 +72,7 @@ public class CustomerTest {
      */
     @Test
     public void testUpdateObject() {
-        customer.updateObject(24736400, "Poul Erik Poulsen", "Enghavevej 15\n7500 Viborg", "p.e.poulsen@gmail.com");
+        customer.updateObject("24736400", "Poul Erik Poulsen", "Enghavevej 15\n7500 Viborg", "p.e.poulsen@gmail.com");
         //test that the customer's fields equals the new values.
         assertEquals(24736400, customer.getTelephone());
         assertEquals("Poul Erik Poulsen", customer.getName());
