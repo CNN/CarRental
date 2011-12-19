@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.JTextComponent;
+import java.sql.Timestamp;
 
 /**
  * This is the main panel regarding vehicles.
@@ -846,16 +847,17 @@ public class VehiclePanel extends SuperPanel {
         private DefaultTableModel vehicleTableModel;
         private JComboBox vehicleTypeCombo;
         private DefaultComboBoxModel vehicleTypeComboModel;
-        private JTextField descriptionField, licensePlateField, vinField, drivenField;
+        private JTextField descriptionField, licensePlateField, vinField, drivenField, availableFromField, availableToField;
         private int currentVehicleTypeIndex = -1; //this is for storing the currently selected choice from the combobox.
+        private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
         /**
          * Sets up the basic functionality needed to show the list of vehicles.
          */
         public ListPanel() {
 
-            JPanel centerPanel, vehicleListPanel, filterPanel, topFilterPanel, middleFilterPanel, bottomFilterPanel, buttonPanel;
-            JLabel vehicleTypeLabel, descriptionLabel, licensePlateLabel, vinLabel, drivenLabel;
+            JPanel centerPanel, vehicleListPanel, filterPanel, topFilterPanel, middleFilterPanel, bottomFilterPanel, buttonPanel, availableFilterPanel;
+            JLabel vehicleTypeLabel, descriptionLabel, licensePlateLabel, vinLabel, drivenLabel, availableFromLabel, availableToLabel;
             JButton cancelButton, viewButton;
             final JTable vehicleTable;
             JScrollPane listScrollPane;
@@ -894,11 +896,45 @@ public class VehiclePanel extends SuperPanel {
             filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.PAGE_AXIS));
             filterPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2), "Filters"));
             centerPanel.add(filterPanel);
+            
+            //availability row of filters
+            availableFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+            filterPanel.add(availableFilterPanel);
+            
+            //Availability
+            availableFromLabel = new JLabel("Availible from");
+            availableFromField = new JTextField(defaultJTextFieldColumns);
+            availableFromField.addKeyListener(new KeyAdapter() {
+
+                public void keyReleased(KeyEvent e) {
+                    if (availableFromField.getText().matches("[0-9]{2}-[0-9]{2}-[0-9]{4}")
+                            || availableFromField.getText().trim().isEmpty())
+                    filter();
+                }
+            });
+            availableToLabel = new JLabel("Availible to");
+            availableToField = new JTextField(defaultJTextFieldColumns);
+            availableToField.addKeyListener(new KeyAdapter() {
+
+                public void keyReleased(KeyEvent e) {
+                    if (availableToField.getText().matches("[0-9]{2}-[0-9]{2}-[0-9]{4}")
+                            || availableToField.getText().trim().isEmpty())
+                    filter();
+                }
+            });
+            
+            availableFilterPanel.add(availableFromLabel);
+            availableFilterPanel.add(Box.createRigidArea(new Dimension(11,0)));
+            availableFilterPanel.add(availableFromField);
+            availableFilterPanel.add(Box.createRigidArea(new Dimension(4,0)));
+            availableFilterPanel.add(availableToLabel);
+            availableFilterPanel.add(Box.createRigidArea(new Dimension(49,0)));
+            availableFilterPanel.add(availableToField);
 
             //top row of filters
             topFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             filterPanel.add(topFilterPanel);
-
+            
             //Vehicle Type
             vehicleTypeLabel = new JLabel("Vehicle Type");
             vehicleTypeComboModel = new DefaultComboBoxModel();
@@ -1072,9 +1108,25 @@ public class VehiclePanel extends SuperPanel {
 
             //Add the rows that match the filter
             for (Vehicle vehicle : vehicleList) {
-
+                boolean isavailable = false;
+                Timestamp date_from = null, date_to = null;
+                try {
+                    if(!availableFromField.getText().trim().isEmpty() && !availableToField.getText().trim().isEmpty()) {
+                        date_from = new Timestamp(dateFormat.parse(availableFromField.getText()).getTime());
+                        date_to = new Timestamp(dateFormat.parse(availableToField.getText()).getTime());
+                        isavailable = vehicle.isAvailable(date_from, date_to);
+                    }
+                    else {
+                        isavailable = true;
+                    }
+                }
+                catch (java.text.ParseException e) {
+                    CarRental.getInstance().appendLog("Failed to parse input from available fields should be in DD-MM-YYYY format.",e);
+                }
+                
                 //As long as -
-                if (((vehicleTypeCombo.getSelectedIndex() == -1 || vehicleTypeCombo.getSelectedIndex() == 0) || //vehicle type is not chosen or set to "All" OR
+                if (isavailable &&
+                        ((vehicleTypeCombo.getSelectedIndex() == -1 || vehicleTypeCombo.getSelectedIndex() == 0) || //vehicle type is not chosen or set to "All" OR
                         vehicle.getVehicleType() == vehicleTypes.get(vehicleTypeCombo.getSelectedIndex() - 1).getID()) && //Vehicle's type is the vehicle type chosen AND
                         (descriptionField.getText().trim().isEmpty() || //description field is empty OR
                         vehicle.getDescription().toLowerCase(Locale.ENGLISH).contains(descriptionField.getText().trim().toLowerCase(Locale.ENGLISH))) && //vehicles descripton equals the description given AND
