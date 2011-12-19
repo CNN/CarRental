@@ -135,7 +135,7 @@ public class Model {
      * @return id
      */
     public int getHighestVehicleTypeId() {
-        return database.getHighestId("vehicletype");
+        return database.getHighestId("vehicle_type");
     }
     
     /**

@@ -87,14 +87,11 @@ public class Customer {
      */
     public int getPostalCode() {
         String[] address = adress.split("\n");
-        if (address.length == 3) {
-            address = address[2].split("\n");
-        } else if (address.length == 2) {
-            address = address[1].split("\n");
+        if (address.length > 1) {
+            return Integer.parseInt(address[1]);
         } else {
-            address[0] = "0000";
+            return 0;
         }
-        return Integer.parseInt(address[0]);
     }
 
     /**
