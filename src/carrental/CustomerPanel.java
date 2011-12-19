@@ -481,7 +481,7 @@ public class CustomerPanel extends SuperPanel {
          */
         public void update() {
             if (customerToView != null) {
-                if (customerToView.getAdress() != null && customerToView.getAdress().trim().equals("")) {
+                if (customerToView.getAdress() != null && !customerToView.getAdress().trim().isEmpty()) {
                     String[] split = customerToView.getAdress().split("\n");
                     if (split.length > 0 && !split[0].isEmpty()) {
                         customerStreetTextField.setText(split[0]);
