@@ -1022,20 +1022,16 @@ public class MaintenancePanel extends SuperPanel {
                     //getSelectedRow returns -1 if no row is selected
                     if (maintenanceTable.getSelectedRow() >= 0) { 
                         for (Maintenance maintenance : maintenanceList) {
-                            if ((maintenance.getVehicleID() < 1 && 
-                                    maintenanceTableModel.getValueAt
-                                    (maintenanceTable.getSelectedRow(), 0).
-                                    toString().isEmpty()
-                                    || CarRental.getInstance().requestVehicle
+                            if (CarRental.getInstance().requestVehicle
                                     (maintenance.getVehicleID()).
                                     getDescription().trim().equals
                                     (maintenanceTableModel.getValueAt
                                     (maintenanceTable.getSelectedRow(), 0).
-                                    toString().trim()))
-                                    && dateFormat.format(maintenance.getTStart()
-                                    .getTime()).equals(maintenanceTableModel.
-                                    getValueAt(maintenanceTable.getSelectedRow()
-                                    , 3))
+                                    toString().trim())
+                                    && dateFormat.format(maintenance.
+                                    getTStart().getTime()).equals
+                                    (maintenanceTableModel.getValueAt
+                                    (maintenanceTable.getSelectedRow(), 3))
                                     && dateFormat.format(maintenance.getTEnd().
                                     getTime()).equals(maintenanceTableModel.
                                     getValueAt(maintenanceTable.

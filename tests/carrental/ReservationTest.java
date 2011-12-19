@@ -21,7 +21,7 @@ public class ReservationTest {
     @Test
     public void testGetID() {
         assertEquals(1, reservation.getID());
-        //also testing updating of this, to ensure it's not just 1 always. The other getters are tested this way through testUpdateObject()
+        //also testing updating of this, to ensure it's not just 1 always.
         reservation = new Reservation(4, 2, new Timestamp(22), new Timestamp(23), 3);
         assertEquals(4, reservation.getID());
     }

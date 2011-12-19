@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
  */
 public class VehicleTypeTest {
 
-    private VehicleType vehicleType; //Should these be static? maybe it doesn't matter??
+    private VehicleType vehicleType;
 
     public VehicleTypeTest() {
         vehicleType = new VehicleType(1, "Stationcar", "This is a description", 300);
@@ -22,7 +22,7 @@ public class VehicleTypeTest {
     @Test
     public void testGetID() {
         assertEquals(1, vehicleType.getID());
-        //also testing updating of this, to ensure it's not just 1 always. The other getters are tested this way through testUpdateObject()
+        //also testing updating of this, to ensure it's not just 1 always.
         vehicleType = new VehicleType(4, "Stationcar", "This is a description", 300);
         assertEquals(4, vehicleType.getID());
     }
