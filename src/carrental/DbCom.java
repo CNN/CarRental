@@ -88,17 +88,17 @@ public class DbCom {
      */
     public void saveArray(String table, ArrayList<String> object) {
         try {
-            if (newStatement().execute("SELECT * FROM " + table + " LIMIT 1")) {
+            if (newStatement().execute("SELECT * FROM " + cleanInput(table) + " LIMIT 1")) {
                 ResultSetMetaData meta = stm.getResultSet().getMetaData();
                 if (object.size() <= meta.getColumnCount()) {
                     boolean exists = false;
-                    newStatement().execute("SELECT * FROM " + table + " WHERE id='" + object.get(0) + "'");
+                    newStatement().execute("SELECT * FROM " + cleanInput(table) + " WHERE id='" + cleanInput(object.get(0)) + "'");
                     String query = "";
                     if (stm.getResultSet().next()) {
                         exists = true;
-                        query = "UPDATE " + table + " SET ";
+                        query = "UPDATE " + cleanInput(table) + " SET ";
                     } else {
-                        query = "INSERT INTO " + table + " VALUES (";
+                        query = "INSERT INTO " + cleanInput(table) + " VALUES (";
                     }
                     for (int i = 0; i < meta.getColumnCount(); i++) {
                         String name = meta.getColumnName(i + 1);
@@ -107,16 +107,16 @@ public class DbCom {
                             if (i != 0) {
                                 query += ", ";
                             }
-                            query += name + "='" + value + "'";
+                            query += name + "='" + cleanInput(value) + "'";
                         } else {
                             if (i != 0) {
                                 query += ", ";
                             }
-                            query += "'" + value + "'";
+                            query += "'" + cleanInput(value) + "'";
                         }
                     }
                     if (exists) {
-                        query += " WHERE id='" + object.get(0) + "'";
+                        query += " WHERE id='" + cleanInput(object.get(0)) + "'";
                     } else {
                         query += ")";
                     }
@@ -135,7 +135,7 @@ public class DbCom {
 
     public void deleteMatch(String table, String where) {
         try {
-            newStatement().executeUpdate("DELETE FROM " + table + " WHERE " + where);
+            newStatement().executeUpdate("DELETE FROM " + cleanInput(table) + " WHERE " + cleanInput(where));
             CarRental.getInstance().appendLog("Succesfully deleted from " + table + " rows matching " + where + ".");
         } catch (SQLException e) {
             CarRental.getInstance().appendLog("Failed to delete from database table " + table + ".", e);
@@ -150,7 +150,7 @@ public class DbCom {
      */
     public int getHighestId(String table) {
         try {
-            if (newStatement().execute("SELECT * FROM " + table + " ORDER BY id DESC LIMIT 1")) {
+            if (newStatement().execute("SELECT * FROM " + cleanInput(table) + " ORDER BY id DESC LIMIT 1")) {
                 if (stm.getResultSet().next()) {
                     return stm.getResultSet().getInt(1);
                 } else {
@@ -174,6 +174,26 @@ public class DbCom {
             CarRental.getInstance().appendLog("Failed to create a new statement.", e);
         }
         return stm;
+    }
+    
+    /**
+     * Cleans the query provided making sure no 's slip through.
+     * @param query to clean
+     * @return cleaned query
+     */
+    public static String cleanInput(String query) {
+        query = query.trim();
+        int index01 = query.indexOf("'");
+           while (index01 != -1) {
+              query = query.substring(0,index01) + "\"" + query.substring(index01+1);
+              index01 += 2;
+              index01 = query.indexOf( "'", index01 );
+           }
+           return query;
+    }
+    
+    public static String cleanInput(int id) {
+        return cleanInput(Integer.toString(id));
     }
 
     /**
