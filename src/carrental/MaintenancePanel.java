@@ -849,8 +849,7 @@ public class MaintenancePanel extends SuperPanel {
                 public void actionPerformed(ActionEvent e) {
                     if (maintenanceTable.getSelectedRow() >= 0) { //getSelectedRow returns -1 if no row is selected
                         for (Maintenance maintenance : maintenanceList) {
-                            if ((maintenance.getVehicleID() < 1 && maintenanceTableModel.getValueAt(maintenanceTable.getSelectedRow(), 0).toString().isEmpty()
-                                    || CarRental.getInstance().requestVehicle(maintenance.getVehicleID()).getDescription().trim().equals(maintenanceTableModel.getValueAt(maintenanceTable.getSelectedRow(), 0).toString().trim()))
+                            if (CarRental.getInstance().requestVehicle(maintenance.getVehicleID()).getDescription().trim().equals(maintenanceTableModel.getValueAt(maintenanceTable.getSelectedRow(), 0).toString().trim())
                                     && dateFormat.format(maintenance.getTStart().getTime()).equals(maintenanceTableModel.getValueAt(maintenanceTable.getSelectedRow(), 3))
                                     && dateFormat.format(maintenance.getTEnd().getTime()).equals(maintenanceTableModel.getValueAt(maintenanceTable.getSelectedRow(), 4))) {
                                 maintenanceToView = maintenance;
