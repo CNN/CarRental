@@ -1,5 +1,8 @@
 package carrental;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+
 /**
  * Vehicle holds information about a vehicle
  * @author CNN
@@ -103,5 +106,15 @@ public class Vehicle {
      */
     public String getAdditional() {
         return additional;
+    }
+    
+    public boolean isAvailible(Timestamp start, Timestamp end) {
+        ArrayList<Booking> bs = CarRental.getInstance().requestBookingsByVehicle(ID);
+        for(Booking b : bs) {
+            if(!(start.before(b.getTStart()) && end.before(b.getTStart())) &&
+                    !(start.after(b.getTEnd()) && end.after(b.getTEnd()))) 
+                return false;
+        }
+        return true;
     }
 }
