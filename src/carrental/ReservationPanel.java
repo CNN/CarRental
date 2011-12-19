@@ -1312,7 +1312,7 @@ public class ReservationPanel extends SuperPanel {
                 reservationTableModel.addRow(new Object[]{
                             CarRental.getInstance().requestCustomer(reservation.getCustomerID()).getName(), //Customer name
                             CarRental.getInstance().requestVehicle(reservation.getVehicleID()).getDescription(), //Vehicle
-                            CarRental.getInstance().requestVehicle(reservation.getVehicleID()).getVehicleType(), //Vehicle type
+                            CarRental.getInstance().requestVehicleType(CarRental.getInstance().requestVehicle(reservation.getVehicleID()).getVehicleType()).getDescription(), //Vehicle type
                             dateFormat.format(new Date(reservation.getTStart().getTime())), //TStart 
                             dateFormat.format(new Date(reservation.getTEnd().getTime())), //TEnd 
                         });
