@@ -290,7 +290,7 @@ public class ReservationPanel extends SuperPanel {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (vehicleTable.getSelectedRow() >= 0) {
-                        
+
                         //Sets all filter text fields blank
                         descriptionField.setText(null);
                         licensePlateField.setText(null);
@@ -830,11 +830,11 @@ public class ReservationPanel extends SuperPanel {
             startDateTextField.setText("");
             endDateTextField.setText("");
         }
-        
+
         /**
          * These have to be cleared seperetly since we don't always want to clear them
          */
-        public void clearCustomerAndVehicleID(){
+        public void clearCustomerAndVehicleID() {
             vehicleIDTextField.setText("");
             customerIDTextField.setText("");
         }
@@ -1338,22 +1338,23 @@ public class ReservationPanel extends SuperPanel {
 
                 //parameters
                 if (filterReservationIDTextField.getText().trim().isEmpty() || //Filter ID is empty OR
-                        Integer.toString(reservation.getID()).trim().toLowerCase(Locale.ENGLISH).contains(filterReservationIDTextField.getText().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
-                        filterCustomerIDTextField.getText().trim().isEmpty() || //Filter Phone is empty OR
-                        Integer.toString(reservation.getCustomerID()).trim().toLowerCase(Locale.ENGLISH).contains(filterCustomerIDTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
-                        filterVehicleIDTextField.getText().trim().isEmpty() || //Adress field is empty OR
-                        Integer.toString(reservation.getVehicleID()).trim().toLowerCase(Locale.ENGLISH).contains(filterVehicleIDTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Customer matches criteria
-                        filterStartDateTextField.getText().trim().isEmpty()
-                        || tStart.before(reservation.getTEnd())
-                        && filterEndDateTextField.getText().trim().isEmpty()
-                        || tEnd.before(reservation.getTStart())) {
+                        Integer.toString(reservation.getID()).trim().toLowerCase(Locale.ENGLISH).contains(filterReservationIDTextField.getText().toLowerCase(Locale.ENGLISH)) && //Reservation matches criteria
+                        filterCustomerIDTextField.getText().trim().isEmpty() || //Filter Customer ID is empty OR
+                        Integer.toString(reservation.getCustomerID()).trim().toLowerCase(Locale.ENGLISH).contains(filterCustomerIDTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Reservation matches criteria
+                        filterVehicleIDTextField.getText().trim().isEmpty() || //Adress Vehicle ID is empty OR
+                        Integer.toString(reservation.getVehicleID()).trim().toLowerCase(Locale.ENGLISH).contains(filterVehicleIDTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Reservation matches criteria
+                        filterStartDateTextField.getText().trim().isEmpty() //Filter start date is empty OR
+                        || tStart.before(reservation.getTEnd()) //Reservation matches criteria
+                        && filterEndDateTextField.getText().trim().isEmpty() //Filter end date is empty OR
+                        || tEnd.before(reservation.getTStart())) { //Reservation matches criteria
 
                     reservationTableModel.addRow(new Object[]{
                                 reservation.getID(), //ID
                                 reservation.getVehicleID(), //Vehicle ID
                                 dateFormat.format(new Date(reservation.getTStart().getTime())), //TStart
                                 dateFormat.format(new Date(reservation.getTEnd().getTime())), //TEnd
-                                reservation.getCustomerID(),});
+                                reservation.getCustomerID()
+                            });
                 }
             }
         }
