@@ -1124,7 +1124,7 @@ public class ReservationPanel extends SuperPanel {
      */
     public class ListPanel extends SubPanel {
 
-        private JTextField filterCustomerIDTextField, filterReservationIDTextField, filterVehicleIDTextField, filterStartDateTextField, filterEndDateTextField;
+        private JTextField filterCustomerNameTextField, filterVehicleTextField, filterVehicleTypeTextField, filterStartDateTextField, filterEndDateTextField;
         private JTable reservationTable;
         private DefaultTableModel reservationTableModel;
 
@@ -1153,7 +1153,7 @@ public class ReservationPanel extends SuperPanel {
             setBackground(new Color(216, 216, 208));
 
             //Creating the table model
-            reservationTableModel = new DefaultTableModel(new Object[]{"ID", "VehicleID", "Start date", "End date", "CustomerID"}, 0);
+            reservationTableModel = new DefaultTableModel(new Object[]{"Customer name", "Vehicle", "Vehicle type", "Start date", "End date"}, 0);
 
             //Creating the table
             reservationTable = new JTable(reservationTableModel);
@@ -1165,7 +1165,7 @@ public class ReservationPanel extends SuperPanel {
             centerPanel.add(reservationListPanel);
 
             //FilterPanel
-            JLabel filterReservationIDLabel, filterCustomerIDLabel, filterVehicleIDLabel, filterStartDateLabel, filterEndDateLabel;
+            JLabel filterCustomerNameLabel, filterVehicleLabel, filterVehicleTypeLabel, filterStartDateLabel, filterEndDateLabel;
 
             filterPanel = new JPanel();
             filterPanel.setLayout(new BoxLayout(filterPanel, BoxLayout.PAGE_AXIS));
@@ -1176,10 +1176,10 @@ public class ReservationPanel extends SuperPanel {
             topFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
             filterPanel.add(topFilterPanel);
 
-            //Reservation ID
-            filterReservationIDLabel = new JLabel("Reservation ID");
-            filterReservationIDTextField = new JTextField(defaultJTextFieldColumns);
-            filterReservationIDTextField.addKeyListener(new KeyAdapter() {
+            //Customer name
+            filterCustomerNameLabel = new JLabel("Customer name");
+            filterCustomerNameTextField = new JTextField(defaultJTextFieldColumns);
+            filterCustomerNameTextField.addKeyListener(new KeyAdapter() {
 
                 public void keyReleased(KeyEvent e) {
                     filter();
@@ -1187,14 +1187,14 @@ public class ReservationPanel extends SuperPanel {
             });
 
             topFilterPanel.add(Box.createRigidArea(new Dimension(0, 0)));
-            topFilterPanel.add(filterReservationIDLabel);
+            topFilterPanel.add(filterCustomerNameLabel);
             topFilterPanel.add(Box.createRigidArea(new Dimension(17 + strutDistance, 0)));
-            topFilterPanel.add(filterReservationIDTextField);
+            topFilterPanel.add(filterCustomerNameTextField);
 
-            //Vehicle ID
-            filterVehicleIDLabel = new JLabel("Vehicle ID");
-            filterVehicleIDTextField = new JTextField(defaultJTextFieldColumns);
-            filterVehicleIDTextField.addKeyListener(new KeyAdapter() {
+            //Vehicle 
+            filterVehicleLabel = new JLabel("Vehicle");
+            filterVehicleTextField = new JTextField(defaultJTextFieldColumns);
+            filterVehicleTextField.addKeyListener(new KeyAdapter() {
 
                 public void keyReleased(KeyEvent e) {
                     filter();
@@ -1202,14 +1202,14 @@ public class ReservationPanel extends SuperPanel {
             });
 
             topFilterPanel.add(Box.createRigidArea(new Dimension(19, 0)));
-            topFilterPanel.add(filterVehicleIDLabel);
+            topFilterPanel.add(filterVehicleLabel);
             topFilterPanel.add(Box.createRigidArea(new Dimension(12 + strutDistance, 0)));
-            topFilterPanel.add(filterVehicleIDTextField);
+            topFilterPanel.add(filterVehicleTextField);
 
-            //Customer ID
-            filterCustomerIDLabel = new JLabel("Customer ID");
-            filterCustomerIDTextField = new JTextField(defaultJTextFieldColumns);
-            filterCustomerIDTextField.addKeyListener(new KeyAdapter() {
+            //Vehicle type
+            filterVehicleTypeLabel = new JLabel("Vehicle type");
+            filterVehicleTypeTextField = new JTextField(defaultJTextFieldColumns);
+            filterVehicleTypeTextField.addKeyListener(new KeyAdapter() {
 
                 public void keyReleased(KeyEvent e) {
                     filter();
@@ -1220,9 +1220,9 @@ public class ReservationPanel extends SuperPanel {
             filterPanel.add(middleFilterPanel);
 
             middleFilterPanel.add(Box.createRigidArea(new Dimension(0, 0)));
-            middleFilterPanel.add(filterCustomerIDLabel);
+            middleFilterPanel.add(filterVehicleTypeLabel);
             middleFilterPanel.add(Box.createRigidArea(new Dimension(28 + strutDistance, 0)));
-            middleFilterPanel.add(filterCustomerIDTextField);
+            middleFilterPanel.add(filterVehicleTypeTextField);
 
             //Bottom Filter panel
             bottomFilterPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -1292,11 +1292,11 @@ public class ReservationPanel extends SuperPanel {
             reservationTableModel.setRowCount(0);
             for (Reservation reservation : reservations) { //update table
                 reservationTableModel.addRow(new Object[]{
-                            reservation.getID(), //ID
-                            reservation.getVehicleID(), //Vehicle ID
+                            CarRental.getInstance().requestCustomer(reservation.getCustomerID()).getName(), //Customer name
+                            CarRental.getInstance().requestVehicle(reservation.getVehicleID()).getDescription(), //Vehicle
+                            CarRental.getInstance().requestVehicle(reservation.getVehicleID()).getVehicleType(), //Vehicle type
                             dateFormat.format(new Date(reservation.getTStart().getTime())), //TStart 
                             dateFormat.format(new Date(reservation.getTEnd().getTime())), //TEnd 
-                            reservation.getCustomerID() //Customer
                         });
             }
         }
@@ -1305,11 +1305,11 @@ public class ReservationPanel extends SuperPanel {
          * Resets the filter text fields.
          */
         public void setFilterTextFields() {
-            filterCustomerIDTextField.setText("");
+            filterCustomerNameTextField.setText("");
             filterEndDateTextField.setText("");
-            filterReservationIDTextField.setText("");
+            filterVehicleTypeTextField.setText("");
             filterStartDateTextField.setText("");
-            filterVehicleIDTextField.setText("");
+            filterVehicleTextField.setText("");
         }
 
         /**
@@ -1332,25 +1332,25 @@ public class ReservationPanel extends SuperPanel {
                         CarRental.getInstance().appendLog("Time fields must be in format dd-mm-yyyy");
                     }
                 }
-
+                
                 //parameters
-                if ((filterReservationIDTextField.getText().trim().isEmpty() || //Filter ID is empty OR
-                        Integer.toString(reservation.getID()).trim().toLowerCase(Locale.ENGLISH).contains(filterReservationIDTextField.getText().toLowerCase(Locale.ENGLISH))) && //Reservation matches criteria
-                        (filterCustomerIDTextField.getText().trim().isEmpty() || //Filter Customer ID is empty OR
-                        Integer.toString(reservation.getCustomerID()).trim().toLowerCase(Locale.ENGLISH).contains(filterCustomerIDTextField.getText().trim().toLowerCase(Locale.ENGLISH))) && //Reservation matches criteria
-                        (filterVehicleIDTextField.getText().trim().isEmpty() || //Adress Vehicle ID is empty OR
-                        Integer.toString(reservation.getVehicleID()).trim().toLowerCase(Locale.ENGLISH).contains(filterVehicleIDTextField.getText().trim().toLowerCase(Locale.ENGLISH))) && //Reservation matches criteria
+                if ((filterVehicleTextField.getText().trim().isEmpty() || //Filter vehicle is empty OR
+                        CarRental.getInstance().requestVehicle(reservation.getVehicleID()).getDescription().trim().toLowerCase(Locale.ENGLISH).contains(filterVehicleTextField.getText().trim().toLowerCase(Locale.ENGLISH))) && //Reservation matches criteria
+                        (filterCustomerNameTextField.getText().trim().isEmpty() || //Filter Customer name is empty OR
+                        CarRental.getInstance().requestCustomer(reservation.getCustomerID()).getName().trim().toLowerCase(Locale.ENGLISH).contains(filterCustomerNameTextField.getText().trim().toLowerCase(Locale.ENGLISH))) && //Reservation matches criteria
+                        (filterVehicleTypeTextField.getText().trim().isEmpty() || //Adress Vehicle type is empty OR
+                        Integer.toString(CarRental.getInstance().requestVehicle(reservation.getVehicleID()).getVehicleType()).trim().toLowerCase(Locale.ENGLISH).contains(filterVehicleTypeTextField.getText().trim().toLowerCase(Locale.ENGLISH))) && //Reservation matches criteria
                         (filterStartDateTextField.getText().trim().isEmpty() //Filter start date is empty OR
                         || tStart.before(reservation.getTEnd())) //Reservation matches criteria
                         && (filterEndDateTextField.getText().trim().isEmpty() //Filter end date is empty OR
                         || tEnd.before(reservation.getTStart()))) { //Reservation matches criteria
 
                     reservationTableModel.addRow(new Object[]{
-                                reservation.getID(), //ID
-                                reservation.getVehicleID(), //Vehicle ID
-                                dateFormat.format(new Date(reservation.getTStart().getTime())), //TStart
-                                dateFormat.format(new Date(reservation.getTEnd().getTime())), //TEnd
-                                reservation.getCustomerID()
+                            CarRental.getInstance().requestCustomer(reservation.getCustomerID()).getName(), //Customer name
+                            CarRental.getInstance().requestVehicle(reservation.getVehicleID()).getDescription(), //Vehicle
+                            CarRental.getInstance().requestVehicle(reservation.getVehicleID()).getVehicleType(), //Vehicle type
+                            dateFormat.format(new Date(reservation.getTStart().getTime())), //TStart 
+                            dateFormat.format(new Date(reservation.getTEnd().getTime())), //TEnd 
                             });
                 }
             }
