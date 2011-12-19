@@ -1108,12 +1108,14 @@ public class ReservationPanel extends SuperPanel {
          * Updates the text fields
          */
         public void update() {
-            customerNameTextField.setText(" ");
-            customerIDTextField.setText(" " + reservationToView.getCustomerID());
-            reservationIDTextField.setText(" " + reservationToView.getID());
-            vehicleIDTextField.setText(" " + reservationToView.getVehicleID());
-            startDateTextField.setText(" " + dateFormat.format(new Date(reservationToView.getTStart().getTime())));
-            endDateTextField.setText(" " + dateFormat.format(new Date(reservationToView.getTEnd().getTime())));
+            if(reservationToView != null) {
+                customerNameTextField.setText(" ");
+                customerIDTextField.setText(" " + reservationToView.getCustomerID());
+                reservationIDTextField.setText(" " + reservationToView.getID());
+                vehicleIDTextField.setText(" " + reservationToView.getVehicleID());
+                startDateTextField.setText(" " + dateFormat.format(new Date(reservationToView.getTStart().getTime())));
+                endDateTextField.setText(" " + dateFormat.format(new Date(reservationToView.getTEnd().getTime())));
+            }
         }
     }
 
@@ -1131,7 +1133,7 @@ public class ReservationPanel extends SuperPanel {
             //Fields
             JPanel centerPanel, reservationListPanel, filterPanel, topFilterPanel, middleFilterPanel, bottomFilterPanel, buttonPanel;
             JScrollPane scrollPane;
-            JButton cancelButton, viewButton;
+            JButton viewButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
             //listPanel
@@ -1332,16 +1334,16 @@ public class ReservationPanel extends SuperPanel {
                 }
 
                 //parameters
-                if (filterReservationIDTextField.getText().trim().isEmpty() || //Filter ID is empty OR
-                        Integer.toString(reservation.getID()).trim().toLowerCase(Locale.ENGLISH).contains(filterReservationIDTextField.getText().toLowerCase(Locale.ENGLISH)) && //Reservation matches criteria
-                        filterCustomerIDTextField.getText().trim().isEmpty() || //Filter Customer ID is empty OR
-                        Integer.toString(reservation.getCustomerID()).trim().toLowerCase(Locale.ENGLISH).contains(filterCustomerIDTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Reservation matches criteria
-                        filterVehicleIDTextField.getText().trim().isEmpty() || //Adress Vehicle ID is empty OR
-                        Integer.toString(reservation.getVehicleID()).trim().toLowerCase(Locale.ENGLISH).contains(filterVehicleIDTextField.getText().trim().toLowerCase(Locale.ENGLISH)) && //Reservation matches criteria
-                        filterStartDateTextField.getText().trim().isEmpty() //Filter start date is empty OR
-                        || tStart.before(reservation.getTEnd()) //Reservation matches criteria
-                        && filterEndDateTextField.getText().trim().isEmpty() //Filter end date is empty OR
-                        || tEnd.before(reservation.getTStart())) { //Reservation matches criteria
+                if ((filterReservationIDTextField.getText().trim().isEmpty() || //Filter ID is empty OR
+                        Integer.toString(reservation.getID()).trim().toLowerCase(Locale.ENGLISH).contains(filterReservationIDTextField.getText().toLowerCase(Locale.ENGLISH))) && //Reservation matches criteria
+                        (filterCustomerIDTextField.getText().trim().isEmpty() || //Filter Customer ID is empty OR
+                        Integer.toString(reservation.getCustomerID()).trim().toLowerCase(Locale.ENGLISH).contains(filterCustomerIDTextField.getText().trim().toLowerCase(Locale.ENGLISH))) && //Reservation matches criteria
+                        (filterVehicleIDTextField.getText().trim().isEmpty() || //Adress Vehicle ID is empty OR
+                        Integer.toString(reservation.getVehicleID()).trim().toLowerCase(Locale.ENGLISH).contains(filterVehicleIDTextField.getText().trim().toLowerCase(Locale.ENGLISH))) && //Reservation matches criteria
+                        (filterStartDateTextField.getText().trim().isEmpty() //Filter start date is empty OR
+                        || tStart.before(reservation.getTEnd())) //Reservation matches criteria
+                        && (filterEndDateTextField.getText().trim().isEmpty() //Filter end date is empty OR
+                        || tEnd.before(reservation.getTStart()))) { //Reservation matches criteria
 
                     reservationTableModel.addRow(new Object[]{
                                 reservation.getID(), //ID
