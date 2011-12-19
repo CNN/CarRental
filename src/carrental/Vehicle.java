@@ -108,7 +108,7 @@ public class Vehicle {
         return additional;
     }
     
-    public boolean isAvailible(Timestamp start, Timestamp end) {
+    public boolean isAvailable(Timestamp start, Timestamp end) {
         ArrayList<Booking> bs = CarRental.getInstance().requestBookingsByVehicle(ID);
         for(Booking b : bs) {
             if(!(start.before(b.getTStart()) && end.before(b.getTStart())) &&
