@@ -774,23 +774,27 @@ public class ReservationPanel extends SuperPanel {
                             CarRental.getInstance().appendLog("Customer doesn't exist");
                         }
                         if (customer && vehicle) {
-                            try {
-                                int resID = CarRental.getInstance().requestNewReservationId();
-                                CarRental.getInstance().saveReservation(new Reservation(
-                                        resID,
-                                        Integer.parseInt(vehicleIDTextField.getText()),
-                                        new Timestamp(dateFormat.parse(startDateTextField.getText().trim()).getTime()),
-                                        new Timestamp(dateFormat.parse(endDateTextField.getText().trim()).getTime()),
-                                        Integer.parseInt(customerIDTextField.getText())));
-                                CarRental.getInstance().appendLog("Reservation " + resID + " c");
-                                reservations = CarRental.getInstance().requestReservations();
-                                update();
-                                clearCustomerAndVehicleID();
-                                showListPanel();
-                            } catch (NumberFormatException ex) {
-                                CarRental.getInstance().appendLog("Vehicle ID number must be numbers only");
-                            } catch (java.text.ParseException ex) {
-                                CarRental.getInstance().appendLog("Time fields must be in format dd-mm-yyyy");
+                            if(CarRental.getInstance().requestVehicle(Integer.parseInt(vehicleIDTextField.getText().trim())).isAvailable(new Timestamp(dateFormat.parse(startDateTextField.getText().trim()).getTime()), new Timestamp(dateFormat.parse(endDateTextField.getText().trim()).getTime()))) {
+                                try {
+                                    int resID = CarRental.getInstance().requestNewReservationId();
+                                    CarRental.getInstance().saveReservation(new Reservation(
+                                            resID,
+                                            Integer.parseInt(vehicleIDTextField.getText().trim()),
+                                            new Timestamp(dateFormat.parse(startDateTextField.getText().trim()).getTime()),
+                                            new Timestamp(dateFormat.parse(endDateTextField.getText().trim()).getTime()),
+                                            Integer.parseInt(customerIDTextField.getText())));
+                                    CarRental.getInstance().appendLog("Reservation " + resID + " c");
+                                    reservations = CarRental.getInstance().requestReservations();
+                                    update();
+                                    clearCustomerAndVehicleID();
+                                    showListPanel();
+                                } catch (NumberFormatException ex) {
+                                    CarRental.getInstance().appendLog("Vehicle ID number must be numbers only");
+                                } catch (java.text.ParseException ex) {
+                                    CarRental.getInstance().appendLog("Time fields must be in format dd-mm-yyyy");
+                                }
+                            } else { //Vehicle not available
+                                CarRental.getInstance().appendLog("The vehicle is not available in that time period");
                             }
                         }
                     } else { //A TextFild is empty
@@ -1034,6 +1038,7 @@ public class ReservationPanel extends SuperPanel {
                             CarRental.getInstance().appendLog("Customer doesn't exist");
                         }
                         if (customer && vehicle) {
+                            if(CarRental.getInstance().requestVehicle(Integer.parseInt(vehicleIDTextField.getText().trim())).isAvailable(new Timestamp(dateFormat.parse(startDateTextField.getText().trim()).getTime()), new Timestamp(dateFormat.parse(endDateTextField.getText().trim()).getTime()))) {
                             try {
                                 CarRental.getInstance().saveReservation(new Reservation(
                                         Integer.parseInt(reservationIDTextField.getText().trim()),
@@ -1052,7 +1057,9 @@ public class ReservationPanel extends SuperPanel {
                             } catch (NumberFormatException ex) {
                                 CarRental.getInstance().appendLog("NumberFormatExceptopm...");
                             }
-                        }
+                        }else{
+                                CarRental.getInstance().appendLog("Vehicle not available in that time period");
+                            }}
                     } else { //A TextFild is empty
                         CarRental.getInstance().appendLog("A text field is empty");
                     }
