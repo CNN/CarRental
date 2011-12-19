@@ -139,7 +139,7 @@ public class CustomerListPanel extends JPanel {
     
     /**
      * Returns customer ID of the selected row
-     * @return 
+     * @return Returns the customer ID
      */
     public int getCustomerID(){
         if (customerTable.getSelectedRow() >= 0) {

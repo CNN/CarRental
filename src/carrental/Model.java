@@ -94,7 +94,7 @@ public class Model {
      */
     public VehicleType getVehicleType(int id) {
         ArrayList<String> vt = database.getFirstMatch("SELECT * FROM "
-                + "vehicletype WHERE id = '"+DbCom.cleanInput(id)+"'");
+                + "vehicle_type WHERE id = '"+DbCom.cleanInput(id)+"'");
         if(!vt.isEmpty() && vt.size() == 4) return new VehicleType(Integer.
                 parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt
                 (vt.get(3)));
@@ -108,7 +108,7 @@ public class Model {
      */
     public VehicleType getVehicleType(String name) {
         ArrayList<String> vt = database.getFirstMatch("SELECT * FROM "
-                + "vehicletype WHERE name = '"+DbCom.cleanInput(name)+"'");
+                + "vehicle_type WHERE name = '"+DbCom.cleanInput(name)+"'");
         if(!vt.isEmpty() && vt.size() == 4) return new VehicleType(Integer.
                 parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt
                 (vt.get(3)));
@@ -121,7 +121,7 @@ public class Model {
      */
     public ArrayList<VehicleType> getVehicleTypes() {
         ArrayList<ArrayList<String>> vts = database.getMatches("SELECT * "
-                + "FROM vehicletype ORDER BY id DESC");
+                + "FROM vehicle_type ORDER BY id DESC");
         ArrayList<VehicleType> results = new ArrayList<>();
         for(ArrayList<String> vt : vts) {
             results.add(new VehicleType(Integer.parseInt(vt.get(0)),vt.
@@ -148,7 +148,7 @@ public class Model {
         save_data.add(vt.getName());
         save_data.add(vt.getDescription());
         save_data.add(Integer.toString(vt.getPricePerDay()));
-        database.saveArray("vehicletype", save_data);
+        database.saveArray("vehicle_type", save_data);
     }
     
     /**
@@ -156,7 +156,7 @@ public class Model {
      * @param vt_id id of vehicle type
      */
     public void deleteVehicleType(int vt_id) {
-        database.deleteMatch("vehicletype", "id='"+DbCom.cleanInput(vt_id)+"'");
+        database.deleteMatch("vehicle_type", "id='"+DbCom.cleanInput(vt_id)+"'");
     }
     
     //CUSTOMER
