@@ -13,13 +13,15 @@ public class VehicleType {
     private int pricePerDay;
 
     /**
-     * This constructor is used to initialize the fields needed for an instance of VehicleType
+     * This constructor is used to initialize the fields needed for an 
+     * instance of VehicleType
      * @param ID The ID number of this VehicleTypeType
      * @param name The name of this VehicleType
      * @param description The description of this VehicleType
      * @param pricePerDay The approximate price per day of this VehicleType
      */
-    public VehicleType(int ID, String name, String description, int pricePerDay) {
+    public VehicleType(int ID, String name, String description, 
+            int pricePerDay) {
         this.ID = ID;
         this.name = name;
         this.description = description;
@@ -30,7 +32,8 @@ public class VehicleType {
      * This method updates this VehicleType object
      * @param name The updated name of this VehicleType
      * @param description The updated description of this VehicleType
-     * @param pricePerDay The updated approximate price per day of this VehicleType
+     * @param pricePerDay The updated approximate price per day of this 
+     * VehicleType
      */
     public void updateObject(String name, String description, int pricePerDay) {
         this.name = name;

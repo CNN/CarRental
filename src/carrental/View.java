@@ -103,8 +103,8 @@ public class View {
     }
     
     /**
-     * MainPanel is the primary panel of CarRental - it shows the static portion
-     * of the GUI and displays the different panels in its center space.
+     * MainPanel is the primary panel of CarRental - it shows the static 
+     * portion of the GUI and displays the different panels in its center space.
      */
     class MainPanel extends JPanel {
         private JPanel west = new JPanel(),
@@ -129,7 +129,8 @@ public class View {
             
             //build west
             west.setLayout(new FlowLayout());
-            west.setBorder(BorderFactory.createMatteBorder(0,0,0,2,Color.LIGHT_GRAY));
+            west.setBorder(BorderFactory.createMatteBorder(0,0,0,2,Color.
+                    LIGHT_GRAY));
             west.add(west_inner);
             west_inner.setLayout(new GridLayout(0,1));
             
@@ -278,7 +279,8 @@ public class View {
                }
             });
             //maintenance: create type button
-            JButton maintenanceTypeCreate = new JButton("Create Maintenance Type");
+            JButton maintenanceTypeCreate = new JButton
+                    ("Create Maintenance Type");
             maintenanceTypeCreate.addActionListener(new ActionListener() {
                @Override
                public void actionPerformed(ActionEvent e) {
@@ -307,7 +309,8 @@ public class View {
             
             center_north.setLayout(new FlowLayout(FlowLayout.LEFT));
             center_north.add(northVehicle);
-            center_north.setBorder(BorderFactory.createMatteBorder(0,0,2,0, Color.LIGHT_GRAY));
+            center_north.setBorder(BorderFactory.createMatteBorder(0,0,2,0, 
+                    Color.LIGHT_GRAY));
             
             center_super.setLayout(new BorderLayout());
             center_super.add(center, BorderLayout.CENTER);
@@ -412,7 +415,8 @@ public class View {
          * @param error_message message to display
          */
         public void setErrorLabelMessage(String error_message) {
-            errorLabel.setText(dateFormat.format(new Date(Calendar.getInstance().getTimeInMillis()))+" - "+error_message);
+            errorLabel.setText(dateFormat.format(new Date(Calendar.
+                    getInstance().getTimeInMillis()))+" - "+error_message);
         }
     }
 }

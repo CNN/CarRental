@@ -33,8 +33,10 @@ public class ControllerTest {
     @Test
     public void testRequestReservation() {
         boolean success = false;
-        if (controller.requestReservation(controller.requestNewReservationId() - 1) != null
-                && controller.requestReservation(controller.requestNewReservationId() - 1) instanceof Reservation) {
+        if (controller.requestReservation(controller.requestNewReservationId()
+                - 1) != null
+                && controller.requestReservation(controller.
+                requestNewReservationId() - 1) instanceof Reservation) {
             success = true;
         }
         assertEquals(success, true);
@@ -46,8 +48,10 @@ public class ControllerTest {
     @Test
     public void testRequestCustomer() {
         boolean success = false;
-        if (controller.requestCustomer(controller.requestNewCustomerId() - 1) != null
-                && controller.requestCustomer(controller.requestNewCustomerId() - 1) instanceof Customer) {
+        if (controller.requestCustomer(controller.requestNewCustomerId() - 1)
+                != null
+                && controller.requestCustomer(controller.requestNewCustomerId()
+                - 1) instanceof Customer) {
             success = true;
         }
         assertEquals(success, true);
@@ -59,8 +63,10 @@ public class ControllerTest {
     @Test
     public void testRequestVehicle() {
         boolean success = false;
-        if (controller.requestVehicle(controller.requestNewVehicleId() - 1) != null
-                && controller.requestVehicle(controller.requestNewVehicleId() - 1) instanceof Vehicle) {
+        if (controller.requestVehicle(controller.requestNewVehicleId() - 1) 
+                != null
+                && controller.requestVehicle(controller.requestNewVehicleId()
+                - 1) instanceof Vehicle) {
             success = true;
         }
         assertEquals(success, true);
@@ -72,8 +78,10 @@ public class ControllerTest {
     @Test
     public void testRequestVehicleType() {
         boolean success = false;
-        if (controller.requestVehicleType(controller.requestNewVehicleTypeId() - 1) != null
-                && controller.requestVehicleType(controller.requestNewVehicleTypeId() - 1) instanceof VehicleType) {
+        if (controller.requestVehicleType(controller.requestNewVehicleTypeId()
+                - 1) != null
+                && controller.requestVehicleType(controller.
+                requestNewVehicleTypeId() - 1) instanceof VehicleType) {
             success = true;
         }
         assertEquals(success, true);
@@ -85,8 +93,10 @@ public class ControllerTest {
     @Test
     public void testRequestMaintenance() {
         boolean success = false;
-        if (controller.requestMaintenance(controller.requestNewMaintenanceId() - 1) != null
-                && controller.requestMaintenance(controller.requestNewMaintenanceId() - 1) instanceof Maintenance
+        if (controller.requestMaintenance(controller.requestNewMaintenanceId()
+                - 1) != null
+                && controller.requestMaintenance(controller.
+                requestNewMaintenanceId() - 1) instanceof Maintenance
                 || controller.requestNewMaintenanceId() == 1 ) {
             success = true;
         }
@@ -94,13 +104,16 @@ public class ControllerTest {
     }
 
     /**
-     * Tests whether the requested object exists, and is infact a maintenance type
+     * Tests whether the requested object exists, and is infact a 
+     * maintenance type
      */
     @Test
     public void testRequestMaintenanceType() {
         boolean success = false;
-        if (controller.requestMaintenanceType(controller.requestNewMaintenanceTypeId() - 1) != null
-                && controller.requestMaintenanceType(controller.requestNewMaintenanceTypeId() - 1) instanceof MaintenanceType) {
+        if (controller.requestMaintenanceType(controller.
+                requestNewMaintenanceTypeId() - 1) != null
+                && controller.requestMaintenanceType(controller.
+                requestNewMaintenanceTypeId() - 1) instanceof MaintenanceType){
             success = true;
         }
         assertEquals(success, true);

@@ -8,7 +8,8 @@ import javax.swing.text.JTextComponent;
 
 /**
  * This class provides a panel with an overview of a vehicle types attributes.
- * The panel can be customized with up to 3 buttons and can be set to show information about a certain vehicle type.
+ * The panel can be customized with up to 3 buttons and can be set to show 
+ * information about a certain vehicle type.
  * @author CNN
  * @version 2011-12-09
  */
@@ -24,7 +25,8 @@ public class VehicleTypePanel extends JPanel {
     public VehicleTypePanel() {
 
         JLabel vehicleTypeNameLabel, priceLabel, dkkLabel, descriptionLabel;
-        JPanel centerPanel, buttonPanel, vehicleTypeNamePanel, pricePanel, descriptionPanel;
+        JPanel centerPanel, buttonPanel, vehicleTypeNamePanel, pricePanel, 
+                descriptionPanel;
         JScrollPane descriptionScrollPane;
         final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
@@ -51,7 +53,8 @@ public class VehicleTypePanel extends JPanel {
 
         vehicleTypeNamePanel.add(Box.createRigidArea(new Dimension(5, 0)));
         vehicleTypeNamePanel.add(vehicleTypeNameLabel);
-        vehicleTypeNamePanel.add(Box.createRigidArea(new Dimension(strutDistance, 0)));
+        vehicleTypeNamePanel.add(Box.createRigidArea(new Dimension
+                (strutDistance, 0)));
         vehicleTypeNamePanel.add(vehicleTypeNameField);
         centerPanel.add(vehicleTypeNamePanel);
 
@@ -63,7 +66,8 @@ public class VehicleTypePanel extends JPanel {
 
         pricePanel.add(Box.createRigidArea(new Dimension(5, 0)));
         pricePanel.add(priceLabel);
-        pricePanel.add(Box.createRigidArea(new Dimension(33 + strutDistance, 0)));
+        pricePanel.add(Box.createRigidArea(new Dimension
+                (33 + strutDistance, 0)));
         pricePanel.add(priceField);
         pricePanel.add(dkkLabel);
         centerPanel.add(pricePanel);
@@ -76,7 +80,8 @@ public class VehicleTypePanel extends JPanel {
 
         descriptionPanel.add(Box.createRigidArea(new Dimension(5, 0)));
         descriptionPanel.add(descriptionLabel);
-        descriptionPanel.add(Box.createRigidArea(new Dimension(43 + strutDistance, 0)));
+        descriptionPanel.add(Box.createRigidArea(new Dimension
+                (43 + strutDistance, 0)));
         descriptionPanel.add(descriptionScrollPane);
         centerPanel.add(descriptionPanel);
 
@@ -97,12 +102,17 @@ public class VehicleTypePanel extends JPanel {
 
     /**
      * Sets the panel to show the given parameters.
-     * @param vehicleType This is the vehicle type to show information about. If null, the text fields will be blank.
-     * @param backButton The button positioned the furthest to the left. If null, the button will not be shown.
-     * @param deleteButton The button positioned in the middle. If null, the button will not be shown.
-     * @param actionButton The button positioned the furthest to the left. If null, the button will not be shown.
+     * @param vehicleType This is the vehicle type to show information about.
+     * If null, the text fields will be blank.
+     * @param backButton The button positioned the furthest to the left. 
+     * If null, the button will not be shown.
+     * @param deleteButton The button positioned in the middle. If null, the 
+     * button will not be shown.
+     * @param actionButton The button positioned the furthest to the left.
+     * If null, the button will not be shown.
      */
-    public void setPanel(VehicleType vehicleType, JButton backButton, JButton deleteButton, JButton actionButton) {
+    public void setPanel(VehicleType vehicleType, JButton backButton, JButton 
+            deleteButton, JButton actionButton) {
         resetPanel();
         if (vehicleType != null) {
             vehicleTypeNameField.setText(vehicleType.getName());
@@ -137,7 +147,8 @@ public class VehicleTypePanel extends JPanel {
      * These text fields can contain text or be blank.
      * 
      * @return An array of text components regarding a vehicle type. 
-     * The array will have the name at index 0, the price at index 1 and the description at index 2.
+     * The array will have the name at index 0, the price at index 1 and the 
+     * description at index 2.
      */
     public ArrayList<JTextComponent> getTextComponents() {
         ArrayList<JTextComponent> array = new ArrayList<>();
@@ -149,7 +160,8 @@ public class VehicleTypePanel extends JPanel {
     }
 
     /**
-     * Resets the panels text fields to be blank. Also strips the buttons for actionlisteners and sets them invisible.
+     * Resets the panels text fields to be blank. Also strips the buttons for 
+     * actionlisteners and sets them invisible.
      */
     private void resetPanel() {
         vehicleTypeNameField.setText(null);

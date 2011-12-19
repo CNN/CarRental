@@ -13,7 +13,8 @@ public class VehicleTypeTest {
     private VehicleType vehicleType;
 
     public VehicleTypeTest() {
-        vehicleType = new VehicleType(1, "Stationcar", "This is a description", 300);
+        vehicleType = new VehicleType(1, "Stationcar", "This is a "
+                + "description", 300);
     }
 
     /**
@@ -23,7 +24,8 @@ public class VehicleTypeTest {
     public void testGetID() {
         assertEquals(1, vehicleType.getID());
         //also testing updating of this, to ensure it's not just 1 always.
-        vehicleType = new VehicleType(4, "Stationcar", "This is a description", 300);
+        vehicleType = new VehicleType(4, "Stationcar", "This is a "
+                + "description", 300);
         assertEquals(4, vehicleType.getID());
     }
 

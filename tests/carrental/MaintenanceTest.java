@@ -12,7 +12,8 @@ import static org.junit.Assert.*;
 public class MaintenanceTest {
     private Maintenance maintenance;
     public MaintenanceTest() {
-      maintenance = new Maintenance(1, 2, new Timestamp(22), new Timestamp(23), 3);
+      maintenance = new Maintenance(1, 2, new Timestamp(22), new Timestamp(23),
+              3);
     }
 
     /**
@@ -22,7 +23,8 @@ public class MaintenanceTest {
     public void testGetID() {
         assertEquals(1, maintenance.getID());
         //also testing updating of this, to ensure it's not just 1 always.
-        maintenance = new Maintenance(4, 2, new Timestamp(22), new Timestamp(23), 3);
+        maintenance = new Maintenance(4, 2, new Timestamp(22), 
+                new Timestamp(23), 3);
         assertEquals(4, maintenance.getID());
     }
     
@@ -76,7 +78,8 @@ public class MaintenanceTest {
      */
     @Test
     public void testIncorrectTimestamps(){
-        maintenance = new Maintenance(4, 2, new Timestamp(23), new Timestamp(22), 3);
+        maintenance = new Maintenance(4, 2, new Timestamp(23), 
+                new Timestamp(22), 3);
         assertEquals(0, maintenance.getTStart().getTime());
         assertEquals(0, maintenance.getTEnd().getTime());
     }

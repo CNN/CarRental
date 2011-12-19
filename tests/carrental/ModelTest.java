@@ -24,7 +24,8 @@ public class ModelTest {
      */
     @Test
     public void testSaveGetDeleteVehicle() {
-        Vehicle vTest = new Vehicle(714,1,"test car","xq12891","1091LKi1USL119s",35,"Flat tire front left");
+        Vehicle vTest = new Vehicle(714,1,"test car","xq12891",
+                "1091LKi1USL119s",35,"Flat tire front left");
         model.saveVehicle(vTest);
         Vehicle vModel = model.getVehicle(vTest.getID());
         
@@ -41,15 +42,18 @@ public class ModelTest {
     }
     
     /**
-     * Test whether the model updates an entry on save instead of inserting as new,
+     * Test whether the model updates an entry on save instead of 
+     * inserting as new,
      * if it already exists in the database.
      */
     @Test
     public void testUpdateOnExistsVehicle() {
-        Vehicle vTest = new Vehicle(714,1,"test car","xq12891","1091LKi1USL119s",35,"Flat tire and broken windshield");
+        Vehicle vTest = new Vehicle(714,1,"test car","xq12891",
+                "1091LKi1USL119s",35,"Flat tire and broken windshield");
         
         model.saveVehicle(vTest);
-        vTest.updateObject(2, vTest.getDescription(), vTest.getLicensePlate(), vTest.getVin(), vTest.getOdo() + 5, "Fixed!");
+        vTest.updateObject(2, vTest.getDescription(), vTest.getLicensePlate(),
+                vTest.getVin(), vTest.getOdo() + 5, "Fixed!");
         model.saveVehicle(vTest);
         
         Vehicle vModel = model.getVehicle(vTest.getID());
@@ -76,7 +80,8 @@ public class ModelTest {
         model.saveMaintenance(mTest);
         Maintenance mModel = model.getMaintenance(mTest.getID());
         
-        //TODO: Notice the insecurity that arises here, as timestamps in database
+        //TODO: Notice the insecurity that arises here, as timestamps in 
+        //database
         // are saved without millis.
         assertEquals(mTest.getID(),mModel.getID());
         assertEquals(mTest.getVehicleID(),mModel.getVehicleID());
@@ -113,7 +118,9 @@ public class ModelTest {
      */
     @Test
     public void testSaveGetDeleteCustomer() {
-        Customer cTest = new Customer(117,"12121212","John Stewart", "45th Street 20111\n2191911 Washington","johnstwart@comedycentral.com");
+        Customer cTest = new Customer(117,"12121212","John Stewart", 
+                "45th Street 20111\n2191911 Washington",
+                "johnstwart@comedycentral.com");
         model.saveCustomer(cTest);
         Customer cModel = model.getCustomer(cTest.getID());
         
@@ -128,13 +135,17 @@ public class ModelTest {
     }
     
     /**
-     * Test that customer updates when saved if an entry with the same id already exists.
+     * Test that customer updates when saved if an entry with the same 
+     * id already exists.
      */
     @Test
     public void testUpdateOnExistsCustomer() {
-        Customer cTest = new Customer(117,"12121212","John Stewart", "45th Street 20111\n2191911 Washington","johnstwart@comedycentral.com");
+        Customer cTest = new Customer(117,"12121212","John Stewart", 
+                "45th Street 20111\n2191911 Washington",
+                "johnstwart@comedycentral.com");
         model.saveCustomer(cTest);
-        cTest.updateObject("12122111", "John Stewart", "2 Londong St.\n1212 HelloKitty", "jst@cc.com");
+        cTest.updateObject("12122111", "John Stewart", "2 Londong St.\n1212 "
+                + "HelloKitty", "jst@cc.com");
         model.saveCustomer(cTest);
         
         Customer cModel = model.getCustomer(cTest.getID());
@@ -147,12 +158,14 @@ public class ModelTest {
     }
     
     /**
-     * Tests that the save, get and delete functionality of the vehicle type part
+     * Tests that the save, get and delete functionality of the vehicle type 
+     * part
      * of the model.
      */
     @Test
     public void testSaveGetDeleteVehicleType() {
-        VehicleType vTest = new VehicleType(144,"Racecar","Superfast and furious awesome car",40);
+        VehicleType vTest = new VehicleType(144,"Racecar","Superfast and "
+                + "furious awesome car",40);
         model.saveVehicleType(vTest);
         VehicleType vModel = model.getVehicleType(vTest.getID());
         
@@ -171,7 +184,8 @@ public class ModelTest {
      */
     @Test
     public void testUpdateOnExistsVehicleType() {
-        VehicleType vTest = new VehicleType(144,"Racecar","Superfast and furious awesome car",40);
+        VehicleType vTest = new VehicleType(144,"Racecar","Superfast and "
+                + "furious awesome car",40);
         model.saveVehicleType(vTest);
         vTest.updateObject("Racecar", "Okay, really it's just kinda-fast.", 35);
         model.saveVehicleType(vTest);
@@ -179,7 +193,8 @@ public class ModelTest {
         
         assertEquals(vTest.getID(),vModel.getID());
         assertEquals(vTest.getName(),vModel.getName());
-        assertEquals(DbCom.cleanInput(vTest.getDescription()),vModel.getDescription());
+        assertEquals(DbCom.cleanInput(vTest.getDescription()),vModel.
+                getDescription());
         assertEquals(vTest.getPricePerDay(),vModel.getPricePerDay());
     }
     
@@ -227,7 +242,8 @@ public class ModelTest {
     public void testSaveGetDeleteReservation() {
         Reservation rTest = new Reservation(711,1,
                 new Timestamp(Calendar.getInstance().getTimeInMillis()),
-                new Timestamp(Calendar.getInstance().getTimeInMillis() + 86400000),
+                new Timestamp(Calendar.getInstance().getTimeInMillis() +
+                86400000),
                 1);
         model.saveReservation(rTest);
         Reservation rModel = model.getReservation(rTest.getID());
@@ -266,7 +282,8 @@ public class ModelTest {
     }
     
     /**
-     * Tests whether the bookings gotten that are supposed to belong to a vehicle
+     * Tests whether the bookings gotten that are supposed to belong to a 
+     * vehicle
      * actually belong to this vehicle
      */
     @Test
