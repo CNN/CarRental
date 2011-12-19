@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
  * @version 2011-12-07
  */
 public class CustomerPanel extends SuperPanel {
+
     private Customer customerToView; //specific customer, used to view details
     private ArrayList<Customer> customers; //array of costumers
     private final CreatePanel createPanel = new CreatePanel();
@@ -480,24 +481,34 @@ public class CustomerPanel extends SuperPanel {
          * Sets customer text fields based on 'customerToView'
          */
         public void update() {
-            if(customerToView != null) {
-                if(customerToView.getAdress() != null) {
-                    String[] split = customerToView.getAdress().split("\n");
-                    if (!split[0].isEmpty() && split.length > 0) {
-                        customerStreetTextField.setText(split[0]);
-                    }
-                    if (!split[1].isEmpty() && split.length > 1) {
-                        customerZipcodeTextField.setText(split[1]);
-                    }
-                    if (!split[2].isEmpty() && split.length > 2) {
-                        customerCityTextField.setText(split[2]);
+            if (customerToView != null) {
+                if (customerToView.getAdress() != null) {
+                    if (customerToView.getAdress() != null && customerToView.getAdress().trim().equals("")) {
+                        String[] split = customerToView.getAdress().split("\n");
+                        if (split.length > 0 && !split[0].isEmpty()) {
+                            customerStreetTextField.setText(split[0]);
+                        }
+                        if (split.length > 1 && !split[1].isEmpty()) {
+                            customerZipcodeTextField.setText(split[1]);
+                        }
+                        if (split.length > 2 && !split[2].isEmpty()) {
+                            customerCityTextField.setText(split[2]);
+                        }
                     }
                 }
 
-                if(customerToView.getID() != 0) customerIDTextField.setText("" + customerToView.getID());
-                if(customerToView.getName() != null) customerNameTextField.setText(customerToView.getName());
-                if(customerToView.getTelephone() != null) customerPhoneTextField.setText(customerToView.getTelephone());
-                if(customerToView.getEMail() != null) customerEMailTextField.setText(customerToView.getEMail());
+                if (customerToView.getID() != 0) {
+                    customerIDTextField.setText("" + customerToView.getID());
+                }
+                if (customerToView.getName() != null) {
+                    customerNameTextField.setText(customerToView.getName());
+                }
+                if (customerToView.getTelephone() != null) {
+                    customerPhoneTextField.setText(customerToView.getTelephone());
+                }
+                if (customerToView.getEMail() != null) {
+                    customerEMailTextField.setText(customerToView.getEMail());
+                }
             }
         }
     }
@@ -611,6 +622,7 @@ public class CustomerPanel extends SuperPanel {
             //View-button
             viewButton = new JButton("View selected");
             viewButton.addActionListener(new ActionListener() {
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (customerTable.getSelectedRow() >= 0) {
