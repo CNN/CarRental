@@ -71,8 +71,8 @@ public class ModelTest {
     public void testSaveGetDeleteMaintenance() {
         long now_time = Calendar.getInstance().getTimeInMillis();
         Maintenance mTest = new Maintenance(222, 1,
-                new Timestamp(now_time - (now_time % 86400)),
-                new Timestamp(now_time - (now_time % 86400) + 86400),1);
+                new Timestamp(now_time - (now_time % 86400000)),
+                new Timestamp(now_time - (now_time % 86400000) + 86400000),1);
         model.saveMaintenance(mTest);
         Maintenance mModel = model.getMaintenance(mTest.getID());
         
@@ -92,11 +92,11 @@ public class ModelTest {
     public void testUpdateOnExistsMaintenance() {
         long now_time = Calendar.getInstance().getTimeInMillis();
         Maintenance mTest = new Maintenance(222, 1,
-                new Timestamp(now_time - (now_time % 86400)),
-                new Timestamp(now_time - (now_time % 86400) + 86400),1);
+                new Timestamp(now_time - (now_time % 86400000)),
+                new Timestamp(now_time - (now_time % 86400000) + 86400000),1);
         model.saveMaintenance(mTest);
         mTest.updateObject(1, new Timestamp(now_time),
-                new Timestamp(now_time - (now_time % 86400) + 86400), 1);
+                new Timestamp(now_time - (now_time % 86400000) + 86400000), 1);
         model.saveMaintenance(mTest);
         Maintenance mModel = model.getMaintenance(mTest.getID());
         
@@ -227,7 +227,7 @@ public class ModelTest {
     public void testSaveGetDeleteReservation() {
         Reservation rTest = new Reservation(711,1,
                 new Timestamp(Calendar.getInstance().getTimeInMillis()),
-                new Timestamp(Calendar.getInstance().getTimeInMillis() + 86400),
+                new Timestamp(Calendar.getInstance().getTimeInMillis() + 86400000),
                 1);
         model.saveReservation(rTest);
         Reservation rModel = model.getReservation(rTest.getID());
