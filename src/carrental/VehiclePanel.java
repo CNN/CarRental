@@ -42,7 +42,7 @@ public class VehiclePanel extends SuperPanel {
         this.setPreferredSize(new Dimension(800, 600));
         showMainScreenPanel();
     }
-    
+
     @Override
     public void showMainScreenPanel() {
         graph.refreshDataAndPaint();
@@ -86,7 +86,7 @@ public class VehiclePanel extends SuperPanel {
             graph.setPreferredSize(new Dimension(800, 600));
             add(graph);
         }
-        
+
         public void update() {
             graph.refreshDataAndPaint();
         }
@@ -587,75 +587,75 @@ public class VehiclePanel extends SuperPanel {
             ArrayList<Reservation> reservations = new ArrayList<>(); //The bookings are sorted into reservations -
             ArrayList<Maintenance> maintenances = new ArrayList<>();    // and maintenances in the code
             String[] tableRow;
-            int typeIndex = 0;
+            if (vehicleToView != null) {
+                int typeIndex = -1;
 
-            //refresh the vehicle types in the Combobox and get the index to be displayed
-            vehicleTypeComboModel.removeAllElements();
-            if(vehicleToView != null) {
-                for (int i = 0;
-                        i < vehicleTypes.size();
-                        i++) {
+                //refresh the vehicle types in the Combobox and get the index to be displayed
+                vehicleTypeComboModel.removeAllElements();
+
+                for (int i = 0; i < vehicleTypes.size(); i++) {
                     vehicleTypeComboModel.addElement(vehicleTypes.get(i).getName()); //add the row
                     if (vehicleTypes.get(i).getID() == vehicleToView.getVehicleType()) {
                         typeIndex = i;
                     }
                 }
-            }
 
-            //Refresh the textfields
-            vehicleTypeCombo.setSelectedIndex(typeIndex);
 
-            descriptionField.setText(vehicleToView.getDescription());
-            licensePlateField.setText(vehicleToView.getLicensePlate());
-            vinField.setText(vehicleToView.getVin());
-            drivenField.setText(Integer.toString(vehicleToView.getOdo()));
-            additionalArea.setText(vehicleToView.getAdditional());
+                //Refresh the textfields
+                vehicleTypeCombo.setSelectedIndex(typeIndex);
 
-            //Splits bookings into reservations and maintenances
+                descriptionField.setText(vehicleToView.getDescription());
+                licensePlateField.setText(vehicleToView.getLicensePlate());
+                vinField.setText(vehicleToView.getVin());
+                drivenField.setText(Integer.toString(vehicleToView.getOdo()));
+                additionalArea.setText(vehicleToView.getAdditional());
 
-            for (Booking booking : CarRental.getInstance().requestBookingsByVehicle(vehicleToView.getID())) {
-                if (!booking.isMaintenance()) {
-                    reservations.add((Reservation) booking);
-                } else {
-                    maintenances.add((Maintenance) booking);
+                //Splits bookings into reservations and maintenances
+
+                for (Booking booking : CarRental.getInstance().requestBookingsByVehicle(vehicleToView.getID())) {
+                    if (!booking.isMaintenance()) {
+                        reservations.add((Reservation) booking);
+                    } else {
+                        maintenances.add((Maintenance) booking);
+                    }
                 }
-            }
 
-            //Removes the old rows before adding the new ones
-            reservationTableModel.setRowCount(0);
-            maintenanceTableModel.setRowCount(0);
+                //Removes the old rows before adding the new ones
+                reservationTableModel.setRowCount(0);
+                maintenanceTableModel.setRowCount(0);
 
-            //Add the rows with reservations
+                //Add the rows with reservations
 
-            for (Reservation reservation : reservations) {
-                tableRow = new String[]{
-                    CarRental.getInstance().requestCustomer(reservation.getCustomerID()).getName(),
-                    CarRental.getInstance().requestCustomer(reservation.getCustomerID()).getTelephone(),
-                    dateFormat.format(reservation.getTStart()),
-                    dateFormat.format(reservation.getTEnd())};
-                reservationTableModel.addRow(tableRow);
-            }
-
-            assert (reservations.size() == reservationTableModel.getRowCount()) : "size: " + reservations.size() + " rows: " + reservationTableModel.getRowCount();
-
-            //Add the rows with maintenances
-
-            for (Maintenance maintenance : maintenances) {
-                String serviceCheck;
-                if (CarRental.getInstance().requestMaintenanceType(maintenance.getTypeID()).getIs_service()) {
-                    serviceCheck = "Yes";
-                } else {
-                    serviceCheck = "No";
+                for (Reservation reservation : reservations) {
+                    tableRow = new String[]{
+                        CarRental.getInstance().requestCustomer(reservation.getCustomerID()).getName(),
+                        CarRental.getInstance().requestCustomer(reservation.getCustomerID()).getTelephone(),
+                        dateFormat.format(reservation.getTStart()),
+                        dateFormat.format(reservation.getTEnd())};
+                    reservationTableModel.addRow(tableRow);
                 }
-                tableRow = new String[]{
-                    CarRental.getInstance().requestMaintenanceType(maintenance.getTypeID()).getName(),
-                    serviceCheck,
-                    dateFormat.format(maintenance.getTStart()),
-                    dateFormat.format(maintenance.getTEnd())};
-                maintenanceTableModel.addRow(tableRow);
-            }
 
-            assert (maintenances.size() == maintenanceTableModel.getRowCount()) : "size: " + maintenances.size() + " rows: " + maintenanceTableModel.getRowCount();
+                assert (reservations.size() == reservationTableModel.getRowCount()) : "size: " + reservations.size() + " rows: " + reservationTableModel.getRowCount();
+
+                //Add the rows with maintenances
+
+                for (Maintenance maintenance : maintenances) {
+                    String serviceCheck;
+                    if (CarRental.getInstance().requestMaintenanceType(maintenance.getTypeID()).getIs_service()) {
+                        serviceCheck = "Yes";
+                    } else {
+                        serviceCheck = "No";
+                    }
+                    tableRow = new String[]{
+                        CarRental.getInstance().requestMaintenanceType(maintenance.getTypeID()).getName(),
+                        serviceCheck,
+                        dateFormat.format(maintenance.getTStart()),
+                        dateFormat.format(maintenance.getTEnd())};
+                    maintenanceTableModel.addRow(tableRow);
+                }
+
+                assert (maintenances.size() == maintenanceTableModel.getRowCount()) : "size: " + maintenances.size() + " rows: " + maintenanceTableModel.getRowCount();
+            }
         }
     }
 
@@ -767,6 +767,7 @@ public class VehiclePanel extends SuperPanel {
      * This inner class creates a JPanel with the functionality to create a new vehicle type.
      */
     public class AddTypePanel extends SubPanel {
+
         private JButton cancelButton, createButton;
         private VehicleTypePanel vehicleTypePanel;
 
@@ -785,6 +786,7 @@ public class VehiclePanel extends SuperPanel {
             //Cancel-button
             cancelButton = new JButton("Cancel");
             cancelButton.addActionListener(new ActionListener() {
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     vehicleTypePanel.setPanel(null, null, null, null); //resets the panel
@@ -795,6 +797,7 @@ public class VehiclePanel extends SuperPanel {
             // Create-button
             createButton = new JButton("Create");
             createButton.addActionListener(new ActionListener() {
+
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     ArrayList<JTextComponent> vehicleTypeTextList = vehicleTypePanel.getTextComponents();
@@ -830,7 +833,7 @@ public class VehiclePanel extends SuperPanel {
             vehicleTypePanel.setPanel(null, cancelButton, null, createButton);
             add(vehicleTypePanel, BorderLayout.CENTER);
         }
-        
+
         public void update() {
         }
     }
