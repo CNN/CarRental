@@ -456,9 +456,6 @@ public class CustomerPanel extends SuperPanel {
          * @param customer 
          */
         public void setCustomerTextFields(Customer customer) {
-            if (customer == null) {
-                customer = CarRental.getInstance().requestCustomer();
-            }
 
             customerID = "" + customer.getID();
             if (customer.getName() != null) {
@@ -483,24 +480,25 @@ public class CustomerPanel extends SuperPanel {
          * Sets customer text fields based on 'customerToView'
          */
         public void update() {
-            if(customerToView == null) customerToView = CarRental.getInstance().requestCustomer();
-            if(customerToView.getAdress() != null) {
-                String[] split = customerToView.getAdress().split("\n");
-                if (!split[0].isEmpty() && split.length > 0) {
-                    customerStreetTextField.setText(split[0]);
+            if(customerToView != null) {
+                if(customerToView.getAdress() != null) {
+                    String[] split = customerToView.getAdress().split("\n");
+                    if (!split[0].isEmpty() && split.length > 0) {
+                        customerStreetTextField.setText(split[0]);
+                    }
+                    if (!split[1].isEmpty() && split.length > 1) {
+                        customerZipcodeTextField.setText(split[1]);
+                    }
+                    if (!split[2].isEmpty() && split.length > 2) {
+                        customerCityTextField.setText(split[2]);
+                    }
                 }
-                if (!split[1].isEmpty() && split.length > 1) {
-                    customerZipcodeTextField.setText(split[1]);
-                }
-                if (!split[2].isEmpty() && split.length > 2) {
-                    customerCityTextField.setText(split[2]);
-                }
-            }
 
-            if(customerToView.getID() != 0) customerIDTextField.setText("" + customerToView.getID());
-            if(customerToView.getName() != null) customerNameTextField.setText(customerToView.getName());
-            if(customerToView.getTelephone() != null) customerPhoneTextField.setText(customerToView.getTelephone());
-            if(customerToView.getEMail() != null) customerEMailTextField.setText(customerToView.getEMail());
+                if(customerToView.getID() != 0) customerIDTextField.setText("" + customerToView.getID());
+                if(customerToView.getName() != null) customerNameTextField.setText(customerToView.getName());
+                if(customerToView.getTelephone() != null) customerPhoneTextField.setText(customerToView.getTelephone());
+                if(customerToView.getEMail() != null) customerEMailTextField.setText(customerToView.getEMail());
+            }
         }
     }
 

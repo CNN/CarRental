@@ -104,11 +104,6 @@ public class ReservationPanel extends SuperPanel {
      */
     public void updateReservationPanel() {
         reservations = CarRental.getInstance().requestReservations();
-        if (reservations.get(0) != null) {
-            reservationToView = reservations.get(0);
-        } else {
-            reservationToView = CarRental.getInstance().requestReservation();
-        }
 
         createPanel.update();
         createPanel.clearCustomerAndVehicleID();

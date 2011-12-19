@@ -55,20 +55,11 @@ public final class CarRental {
     }
     
     /**
-     * Request empty vehicle from the model
-     * @return empty vehicle
-     */
-    public Vehicle requestVehicle() {
-        return model.getVehicle();
-    }
-    
-    /**
      * Request vehicle matching id from model
      * @param id id of vehicle
      * @return vehicle
      */
     public Vehicle requestVehicle(int id) {
-        if(id < 1) return model.getVehicle();
         return model.getVehicle(id);
     }
     
@@ -89,20 +80,11 @@ public final class CarRental {
     }
     
     /**
-     * Request an empty vehicle type object
-     * @return empty vehicle type
-     */
-    public VehicleType requestVehicleType() {
-        return model.getVehicleType();
-    }
-    
-    /**
      * Request a vehicle type matching the provided id
      * @param id id of vehicle type
      * @return vehicle type
      */
     public VehicleType requestVehicleType(int id) {
-        if(id < 1) return model.getVehicleType();
         return model.getVehicleType(id);
     }
     
@@ -132,20 +114,11 @@ public final class CarRental {
     }
     
     /**
-     * Request a single, empty maintenance from model
-     * @return maintenance
-     */
-    public Maintenance requestMaintenance() {
-        return model.getMaintenance();
-    }
-    
-    /**
      * Request a maintenance from the model, matching the id
      * @param id id of maintenance
      * @return maintenance
      */
     public Maintenance requestMaintenance(int id) {
-        if(id < 1) return model.getMaintenance();
         return model.getMaintenance(id);
     }
     
@@ -163,14 +136,6 @@ public final class CarRental {
      */
     public ArrayList<MaintenanceType> requestMaintenanceTypes() {
         return model.getMaintenanceTypes();
-    }
-    
-    /**
-     * Request a single, empty maintenance type from the model
-     * @return maintenance type
-     */
-    public MaintenanceType requestMaintenanceType() {
-        return model.getMaintenanceType();
     }
     
     /**
@@ -199,20 +164,11 @@ public final class CarRental {
     }
     
     /**
-     * Request a single, empty customer from the model
-     * @return customer
-     */
-    public Customer requestCustomer() {
-        return model.getCustomer();
-    }
-    
-    /**
      * Request a customer matching the id provided
      * @param id id of customer
      * @return customer
      */
     public Customer requestCustomer(int id) {
-        if(id < 1) return model.getCustomer();
         return model.getCustomer(id);
     }
     
@@ -251,20 +207,11 @@ public final class CarRental {
     }
     
     /**
-     * Request an empty reservation from the model
-     * @return reservation
-     */
-    public Reservation requestReservation() {
-        return model.getReservation();
-    }
-    
-    /**
      * Request the reservation matching the provided id from the model
      * @param id id of reservation
      * @return reservation
      */
     public Reservation requestReservation(int id) {
-        if(id < 1) return model.getReservation();
         return model.getReservation(id);
     }
     
