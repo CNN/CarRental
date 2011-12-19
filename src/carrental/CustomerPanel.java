@@ -205,7 +205,7 @@ public class CustomerPanel extends SuperPanel {
                             && !customerZipcodeTextField.getText().trim().isEmpty()
                             && !customerCityTextField.getText().trim().isEmpty()
                             && !customerEMailTextField.getText().trim().isEmpty()) {
-                        String adress = customerStreetTextField.getText().trim() + " " + customerZipcodeTextField.getText().trim() + " " + customerCityTextField.getText().trim();
+                        String adress = customerStreetTextField.getText().trim() + "\n" + customerZipcodeTextField.getText().trim() + "\n" + customerCityTextField.getText().trim();
                         try {
                             customerIDTextField.setText(" " + CarRental.getInstance().requestNewCustomerId());
                             CarRental.getInstance().saveCustomer(new Customer(
@@ -396,7 +396,7 @@ public class CustomerPanel extends SuperPanel {
                             && !customerZipcodeTextField.getText().trim().isEmpty()
                             && !customerCityTextField.getText().trim().isEmpty()
                             && !customerEMailTextField.getText().trim().isEmpty()) {
-                        String adress = customerStreetTextField.getText() + " " + customerZipcodeTextField.getText() + " " + customerCityTextField.getText();
+                        String adress = customerStreetTextField.getText() + "\n" + customerZipcodeTextField.getText() + "\n" + customerCityTextField.getText();
                         try {
                             CarRental.getInstance().saveCustomer(new Customer(
                                     customerToView.getID(),
@@ -457,7 +457,6 @@ public class CustomerPanel extends SuperPanel {
          * @param customer 
          */
         public void setCustomerTextFields(Customer customer) {
-
             customerID = "" + customer.getID();
             if (customer.getName() != null) {
                 customerName = customer.getName();
@@ -482,19 +481,18 @@ public class CustomerPanel extends SuperPanel {
          */
         public void update() {
             if (customerToView != null) {
-                if (customerToView.getAdress() != null) {
-                    if (customerToView.getAdress() != null && customerToView.getAdress().trim().equals("")) {
-                        String[] split = customerToView.getAdress().split("\n");
-                        if (split.length > 0 && !split[0].isEmpty()) {
-                            customerStreetTextField.setText(split[0]);
-                        }
-                        if (split.length > 1 && !split[1].isEmpty()) {
-                            customerZipcodeTextField.setText(split[1]);
-                        }
-                        if (split.length > 2 && !split[2].isEmpty()) {
-                            customerCityTextField.setText(split[2]);
-                        }
+                if (customerToView.getAdress() != null && customerToView.getAdress().trim().equals("")) {
+                    String[] split = customerToView.getAdress().split("\n");
+                    if (split.length > 0 && !split[0].isEmpty()) {
+                        customerStreetTextField.setText(split[0]);
                     }
+                    if (split.length > 1 && !split[1].isEmpty()) {
+                        customerZipcodeTextField.setText(split[1]);
+                    }
+                    if (split.length > 2 && !split[2].isEmpty()) {
+                        customerCityTextField.setText(split[2]);
+                    }
+
                 }
 
                 if (customerToView.getID() != 0) {
@@ -529,7 +527,7 @@ public class CustomerPanel extends SuperPanel {
             //Fields
             JPanel centerPanel, customerListPanel, filterPanel, topFilterPanel, bottomFilterPanel, buttonPanel;
             JScrollPane scrollPane;
-            JButton cancelButton, viewButton;
+            JButton viewButton;
             final int defaultJTextFieldColumns = 20, strutDistance = 0;
 
             //listPanel
