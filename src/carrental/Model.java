@@ -37,7 +37,7 @@ public class Model {
      * @return Vehicle
      */
     public Vehicle getVehicle(int id) {
-        ArrayList<String> v = database.getFirstMatch("SELECT * FROM vehicle WHERE id = '"+id+"'");
+        ArrayList<String> v = database.getFirstMatch("SELECT * FROM vehicle WHERE id = '"+DbCom.cleanInput(id)+"'");
         if(!v.isEmpty() && v.size() == 7) return new Vehicle(Integer.parseInt(v.get(0)),Integer.parseInt(v.get(1)),v.get(3),v.get(4),v.get(2),Integer.parseInt(v.get(5)),v.get(6));
         else return null;
     }
@@ -84,7 +84,7 @@ public class Model {
      * @param v_id id of vehicle to delete
      */
     public void deleteVehicle(int v_id) {
-        database.deleteMatch("vehicle","id='"+v_id+"'");
+        database.deleteMatch("vehicle","id='"+DbCom.cleanInput(v_id)+"'");
     }
     
     //VEHICLE TYPE
@@ -104,7 +104,7 @@ public class Model {
      * @return VehicleType
      */
     public VehicleType getVehicleType(int id) {
-        ArrayList<String> vt = database.getFirstMatch("SELECT * FROM vehicletype WHERE id = '"+id+"'");
+        ArrayList<String> vt = database.getFirstMatch("SELECT * FROM vehicletype WHERE id = '"+DbCom.cleanInput(id)+"'");
         if(!vt.isEmpty() && vt.size() == 4) return new VehicleType(Integer.parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt(vt.get(3)));
         else return null;
     }
@@ -115,7 +115,7 @@ public class Model {
      * @return VehicleType
      */
     public VehicleType getVehicleType(String name) {
-        ArrayList<String> vt = database.getFirstMatch("SELECT * FROM vehicletype WHERE name = '"+name+"'");
+        ArrayList<String> vt = database.getFirstMatch("SELECT * FROM vehicletype WHERE name = '"+DbCom.cleanInput(name)+"'");
         if(!vt.isEmpty() && vt.size() == 4) return new VehicleType(Integer.parseInt(vt.get(0)),vt.get(1),vt.get(2),Integer.parseInt(vt.get(3)));
         else return null;
     }
@@ -159,7 +159,7 @@ public class Model {
      * @param vt_id id of vehicle type
      */
     public void deleteVehicleType(int vt_id) {
-        database.deleteMatch("vehicletype", "id='"+vt_id+"'");
+        database.deleteMatch("vehicletype", "id='"+DbCom.cleanInput(vt_id)+"'");
     }
     
     //CUSTOMER
@@ -179,7 +179,7 @@ public class Model {
      * @return Customer
      */
     public Customer getCustomer(int id) {
-        ArrayList<String> c = database.getFirstMatch("SELECT * FROM customer WHERE id = '"+id+"'");
+        ArrayList<String> c = database.getFirstMatch("SELECT * FROM customer WHERE id = '"+DbCom.cleanInput(id)+"'");
         if(!c.isEmpty() && c.size() == 5) return new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4));
         else return null;
     }
@@ -190,7 +190,7 @@ public class Model {
      * @return Customer
      */
     public Customer getCustomerByPhone(int phonenumber) {
-        ArrayList<String> c = database.getFirstMatch("SELECT * FROM customer WHERE telephone = '"+phonenumber+"' LIMIT 1");
+        ArrayList<String> c = database.getFirstMatch("SELECT * FROM customer WHERE telephone = '"+DbCom.cleanInput(phonenumber)+"' LIMIT 1");
         if(!c.isEmpty() && c.size() == 5) return new Customer(Integer.parseInt(c.get(0)),Integer.parseInt(c.get(1)),c.get(2),c.get(3),c.get(4));
         else return null;
     }
@@ -235,7 +235,7 @@ public class Model {
      * @param c_id id of customer
      */
     public void deleteCustomer(int c_id) {
-        database.deleteMatch("customer", "id='"+c_id+"'");
+        database.deleteMatch("customer", "id='"+DbCom.cleanInput(c_id)+"'");
     }
     
     //RESERVATION
@@ -255,7 +255,7 @@ public class Model {
      * @return Reservation
      */
     public Reservation getReservation(int id) {
-        ArrayList<String> r = database.getFirstMatch("SELECT * FROM reservation WHERE id = '"+id+"'");
+        ArrayList<String> r = database.getFirstMatch("SELECT * FROM reservation WHERE id = '"+DbCom.cleanInput(id)+"'");
         if(!r.isEmpty() && r.size() == 5) {
             try {
                 Date date_start_parsed = dateFormat.parse(r.get(2));
@@ -306,7 +306,7 @@ public class Model {
      * @return Array of reservations
      */
     public ArrayList<Reservation> getReservationsByCustomerId(int id) {
-        ArrayList<ArrayList<String>> rs = database.getMatches("SELECT * FROM reservation WHERE customerid = '"+id+"' ORDER BY start,end DESC");
+        ArrayList<ArrayList<String>> rs = database.getMatches("SELECT * FROM reservation WHERE customerid = '"+DbCom.cleanInput(id)+"' ORDER BY start,end DESC");
         ArrayList<Reservation> results = new ArrayList<>();
         for(ArrayList<String> r : rs) {
             try {
@@ -353,7 +353,7 @@ public class Model {
      * @param r_id id of reservation
      */
     public void deleteReservation(int r_id) {
-        database.deleteMatch("reservation", "id='"+r_id+"'");
+        database.deleteMatch("reservation", "id='"+DbCom.cleanInput(r_id)+"'");
     }
     
     //MAINTENANCE TYPE
@@ -373,7 +373,7 @@ public class Model {
      * @return Maintenance Type
      */
     public MaintenanceType getMaintenanceType(int id) {
-        ArrayList<String> m = database.getFirstMatch("SELECT * FROM maintenance_type WHERE id = '"+id+"'");
+        ArrayList<String> m = database.getFirstMatch("SELECT * FROM maintenance_type WHERE id = '"+DbCom.cleanInput(id)+"'");
         boolean is_service = false;
         if(!m.isEmpty() && m.size() == 3) {
             if(Integer.parseInt(m.get(2)) == 1) is_service = true;
@@ -403,7 +403,7 @@ public class Model {
      * @return Array of maintenance types
      */
     public ArrayList<MaintenanceType> getMaintenanceTypesService() {
-        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * FROM maintenance_type WHERE is_service = 1 ORDER BY name ASC");
+        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * FROM maintenance_type WHERE is_service = '1' ORDER BY name ASC");
         ArrayList<MaintenanceType> results = new ArrayList<>();
         for(ArrayList<String> m : ms) {
             boolean is_service = false;
@@ -440,7 +440,7 @@ public class Model {
      * @param mt_id id of maintenance type
      */
     public void deleteMaintenanceType(int mt_id) {
-        database.deleteMatch("maintenance_type", "id='"+mt_id+"'");
+        database.deleteMatch("maintenance_type", "id='"+DbCom.cleanInput(mt_id)+"'");
     }
     
     //MAINTENANCE
@@ -460,7 +460,7 @@ public class Model {
      * @return Maintenance
      */
     public Maintenance getMaintenance(int id) {
-        ArrayList<String> m = database.getFirstMatch("SELECT * FROM maintenance WHERE id = '"+id+"'");
+        ArrayList<String> m = database.getFirstMatch("SELECT * FROM maintenance WHERE id = '"+DbCom.cleanInput(id)+"'");
         if(!m.isEmpty() && m.size() == 5) {
             try {
                 Date date_start_parsed = dateFormat.parse(m.get(3));
@@ -531,7 +531,7 @@ public class Model {
      * @param m_id id of maintenance
      */
     public void deleteMaintenance(int m_id) {
-        database.deleteMatch("maintenance", "id='"+m_id+"'");
+        database.deleteMatch("maintenance", "id='"+DbCom.cleanInput(m_id)+"'");
     }
     
     /**
@@ -574,8 +574,8 @@ public class Model {
      * @return Bookings
      */
     public ArrayList<Booking> getBookingsByVehicleId(int vehicle_id) {
-        ArrayList<ArrayList<String>> rs = database.getMatches("SELECT * FROM reservation WHERE vehicleid = '"+vehicle_id+"' ORDER BY start");
-        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * FROM maintenance WHERE vehicle_id = '"+vehicle_id+"' ORDER BY date_start");
+        ArrayList<ArrayList<String>> rs = database.getMatches("SELECT * FROM reservation WHERE vehicleid = '"+DbCom.cleanInput(vehicle_id)+"' ORDER BY start");
+        ArrayList<ArrayList<String>> ms = database.getMatches("SELECT * FROM maintenance WHERE vehicle_id = '"+DbCom.cleanInput(vehicle_id)+"' ORDER BY date_start");
         ArrayList<Booking> results = new ArrayList<>();
         for(ArrayList<String> rm : rs) {
             if(rm.size() > 0) {

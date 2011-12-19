@@ -122,6 +122,9 @@ public class ModelTest {
         assertEquals(cTest.getName(),cModel.getName());
         assertEquals(cTest.getAdress(),cModel.getAdress());
         assertEquals(cTest.getEMail(),cModel.getEMail());
+        
+        model.deleteCustomer(cTest.getID());
+        assertEquals(model.getCustomer(cTest.getID()),null);
     }
     
     /**
@@ -143,8 +146,124 @@ public class ModelTest {
         assertEquals(cTest.getEMail(),cModel.getEMail());
     }
     
-    //TODO: Repeat above 2 tests for all other simple classes there are.
-    //Missing: VehicleType, MaintenanceType, Reservation
+    /**
+     * Tests that the save, get and delete functionality of the vehicle type part
+     * of the model.
+     */
+    @Test
+    public void testSaveGetDeleteVehicleType() {
+        VehicleType vTest = new VehicleType(144,"Racecar","Superfast and furious awesome car",40);
+        model.saveVehicleType(vTest);
+        VehicleType vModel = model.getVehicleType(vTest.getID());
+        
+        assertEquals(vTest.getID(),vModel.getID());
+        assertEquals(vTest.getName(),vModel.getName());
+        assertEquals(vTest.getDescription(),vModel.getDescription());
+        assertEquals(vTest.getPricePerDay(),vModel.getPricePerDay());
+        
+        model.deleteVehicleType(vTest.getID());
+        assertEquals(model.getVehicleType(vTest.getID()),null);
+    }
+    
+    /**
+     * Tests that vehicletypes are updated instead of saved if an entry of that
+     * id exists.
+     */
+    @Test
+    public void testUpdateOnExistsVehicleType() {
+        VehicleType vTest = new VehicleType(144,"Racecar","Superfast and furious awesome car",40);
+        model.saveVehicleType(vTest);
+        vTest.updateObject("Racecar", "Okay, really it's just kinda-fast.", 35);
+        model.saveVehicleType(vTest);
+        VehicleType vModel = model.getVehicleType(vTest.getID());
+        
+        assertEquals(vTest.getID(),vModel.getID());
+        assertEquals(vTest.getName(),vModel.getName());
+        assertEquals(DbCom.cleanInput(vTest.getDescription()),vModel.getDescription());
+        assertEquals(vTest.getPricePerDay(),vModel.getPricePerDay());
+    }
+    
+    /**
+     * Tests that the save, get and delete functions for the maintenance types
+     * in the model
+     */
+    @Test
+    public void testSaveGetDeleteMaintenanceType() {
+        MaintenanceType mTest = new MaintenanceType(102,"Insurance fraud",true);
+        model.saveMaintenanceType(mTest);
+        MaintenanceType mModel = model.getMaintenanceType(mTest.getID());
+        
+        assertEquals(mTest.getID(),mModel.getID());
+        assertEquals(mTest.getName(),mModel.getName());
+        assertEquals(mTest.getIs_service(),mModel.getIs_service());
+        
+        model.deleteMaintenanceType(mTest.getID());
+        assertEquals(model.getMaintenanceType(mTest.getID()),null);
+    }
+    
+    /**
+     * Tests that maintenance types are updated instead of created in the
+     * database if an entry of that id already exists
+     */
+    @Test
+    public void testUpdateOnExistsMaintenanceType() {
+        MaintenanceType mTest = new MaintenanceType(102,"Insurance fraud",true);
+        model.saveMaintenanceType(mTest);
+        mTest.updateObject("Very serious fix",true);
+        model.saveMaintenanceType(mTest);
+        MaintenanceType mModel = model.getMaintenanceType(mTest.getID());
+        
+        assertEquals(mTest.getID(),mModel.getID());
+        assertEquals(mTest.getName(),mModel.getName());
+        assertEquals(mTest.getIs_service(),mModel.getIs_service());
+    }
+    
+    //TODO: Reservation - make date checkable.
+    /**
+     * Tests that the save, get and delete functionality works for reservations
+     * in the model.
+     */
+    @Test
+    public void testSaveGetDeleteReservation() {
+        Reservation rTest = new Reservation(711,1,
+                new Timestamp(Calendar.getInstance().getTimeInMillis()),
+                new Timestamp(Calendar.getInstance().getTimeInMillis() + 86400),
+                1);
+        model.saveReservation(rTest);
+        Reservation rModel = model.getReservation(rTest.getID());
+        
+        assertEquals(rTest.getID(),rModel.getID());
+        assertEquals(rTest.getCustomerID(),rModel.getCustomerID());
+        assertEquals(rTest.getVehicleID(),rModel.getVehicleID());
+//        assertEquals(rTest.getTEnd(),rModel.getTEnd());
+//        assertEquals(rTest.getTStart(),rModel.getTStart());
+    }
+    
+    /**
+     * Tests that reservations are updated and not inserted in the database if
+     * an entry of that id already exists.
+     */
+    @Test
+    public void testUpdateOnExistsReservation() {
+        long now_time = Calendar.getInstance().getTimeInMillis();
+        Reservation rTest = new Reservation(711,1,
+                new Timestamp(now_time),
+                new Timestamp(now_time + 86400000),
+                1);
+        model.saveReservation(rTest);
+        rTest.updateObject(1,
+                new Timestamp(now_time + 10000000), 
+                new Timestamp(now_time + 86400000),
+                1);
+        model.saveReservation(rTest);
+        Reservation rModel = model.getReservation(rTest.getID());
+        
+        assertEquals(rTest.getID(),rModel.getID());
+        assertEquals(rTest.getCustomerID(),rModel.getCustomerID());
+        assertEquals(rTest.getVehicleID(),rModel.getVehicleID());
+//        assertEquals(rTest.getTEnd(),rModel.getTEnd());
+//        assertEquals(rTest.getTStart(),rModel.getTStart());
+    }
     
     /**
      * Tests whether the bookings gotten that are supposed to belong to a vehicle
