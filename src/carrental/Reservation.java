@@ -17,14 +17,16 @@ public class Reservation implements Booking {
     private boolean isMaintenance;
 
     /**
-     * This constructor is used to initialize the fields needed for an instance of Reservation
+     * This constructor is used to initialize the fields needed for an 
+     * instance of Reservation
      * @param ID The ID number of this Reservation
      * @param vehicleID The vehicle ID number of this Reservation
      * @param tStart The start time of this Reservation
      * @param tEnd The end time of this Reservation
      * @param customerID The customer ID number of this Reservation
      */
-    public Reservation(int ID, int vehicleID, Timestamp tStart, Timestamp tEnd, int customerID) {
+    public Reservation(int ID, int vehicleID, Timestamp tStart, Timestamp 
+            tEnd, int customerID) {
         this.ID = ID;
         this.vehicleID = vehicleID;
         this.tStart = tStart;
@@ -40,7 +42,8 @@ public class Reservation implements Booking {
      * @param tEnd The updated end time of this Reservation
      * @param customerID The updated customer ID number of this Reservation
      */
-    public void updateObject(int vehicleID, Timestamp tStart, Timestamp tEnd, int customerID) {
+    public void updateObject(int vehicleID, Timestamp tStart, Timestamp tEnd, 
+            int customerID) {
         this.vehicleID = vehicleID;
         this.tStart = tStart;
         this.tEnd = tEnd;

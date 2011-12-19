@@ -15,7 +15,8 @@ public class Vehicle {
     private String description, licensePlate, additional, vin;
 
     /**
-     * This constructor is used to initialize the fields needed for an instance of Vehicle
+     * This constructor is used to initialize the fields needed for an 
+     * instance of Vehicle
      * @param ID The ID number of this Vehicle
      * @param vehicleType The vehicle type of this Vehicle
      * @param description The description of this Vehicle
@@ -24,7 +25,8 @@ public class Vehicle {
      * @param odo The ODO number of this Vehicle
      * @param additional The additional comment of this Vehicle
      */
-    public Vehicle(int ID, int vehicleType, String description, String licensePlate, String vin, int odo, String additional) {
+    public Vehicle(int ID, int vehicleType, String description, String 
+            licensePlate, String vin, int odo, String additional) {
         this.ID = ID;
         this.vehicleType = vehicleType;
         this.description = description;
@@ -43,7 +45,8 @@ public class Vehicle {
      * @param odo The updated ODO number of this Vehicle
      * @param additional The updated additional comment of this Vehicle
      */
-    public void updateObject(int vehicleType, String description, String licensePlate, String vin, int odo, String additional) {
+    public void updateObject(int vehicleType, String description, String 
+            licensePlate, String vin, int odo, String additional) {
         this.vehicleType = vehicleType;
         this.description = description;
         this.licensePlate = licensePlate;
@@ -109,7 +112,8 @@ public class Vehicle {
     }
     
     public boolean isAvailable(Timestamp start, Timestamp end) {
-        ArrayList<Booking> bs = CarRental.getInstance().requestBookingsByVehicle(ID);
+        ArrayList<Booking> bs = CarRental.getInstance().
+                requestBookingsByVehicle(ID);
         for(Booking b : bs) {
             if(!(start.before(b.getTStart()) && end.before(b.getTStart())) &&
                     !(start.after(b.getTEnd()) && end.after(b.getTEnd()))) 

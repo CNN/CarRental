@@ -19,14 +19,16 @@ public abstract class SuperPanel extends JPanel {
     }
 
     /**
-     * This method serves as a way for the superpanels to assign their subpanels
-     * as well as add them to their own core.
+     * This method serves as a way for the superpanels to assign their 
+     * subpanels as well as add them to their own core.
      * @param mainScreenPanel The JPanel that resembles the main screen 
      * @param createPanel The JPanel that shows the create-functionality
      * @param addTypePanel The JPanel that shows the add new type-functionality
      * @param listPanel  The JPanel that shows the list of entities
      */
-    public void AssignAndAddSubPanels(SubPanel mainScreenPanel, SubPanel createPanel, SubPanel viewEntityPanel, SubPanel addTypePanel, SubPanel viewTypePanel, SubPanel listPanel) {
+    public void AssignAndAddSubPanels(SubPanel mainScreenPanel, SubPanel 
+            createPanel, SubPanel viewEntityPanel, SubPanel addTypePanel, 
+            SubPanel viewTypePanel, SubPanel listPanel) {
         panels = new ArrayList();
 
         panels.add(mainScreenPanel);
