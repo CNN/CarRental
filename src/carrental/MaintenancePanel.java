@@ -631,7 +631,7 @@ public class MaintenancePanel extends SuperPanel {
 
             //Create the buttons needed
             buttonPanel = new JPanel();
-            buttonPanel.setLayout(new FlowLayout());
+            buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
             //Back-button
             backButton = new JButton("Back");
@@ -781,7 +781,7 @@ public class MaintenancePanel extends SuperPanel {
 
             //Create the buttons needed
             buttonPanel = new JPanel();
-            buttonPanel.setLayout(new FlowLayout());
+            buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
             //Cancel-button
             cancelButton = new JButton("Cancel");
