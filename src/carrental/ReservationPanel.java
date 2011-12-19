@@ -1108,7 +1108,7 @@ public class ReservationPanel extends SuperPanel {
          * Updates the text fields
          */
         public void update() {
-            if(reservationToView != null) {
+            if (reservationToView != null) {
                 customerNameTextField.setText(" ");
                 customerIDTextField.setText(" " + reservationToView.getCustomerID());
                 reservationIDTextField.setText(" " + reservationToView.getID());
@@ -1234,7 +1234,10 @@ public class ReservationPanel extends SuperPanel {
             filterStartDateTextField.addKeyListener(new KeyAdapter() {
 
                 public void keyReleased(KeyEvent e) {
-                    filter();
+                    if (filterStartDateTextField.getText().matches("[0-9]{2}-[0-9]{2}-[0-9]{4}")
+                            || filterStartDateTextField.getText().trim().isEmpty()) {
+                        filter();
+                    }
                 }
             });
 
@@ -1249,7 +1252,10 @@ public class ReservationPanel extends SuperPanel {
             filterEndDateTextField.addKeyListener(new KeyAdapter() {
 
                 public void keyReleased(KeyEvent e) {
-                    filter();
+                    if (filterEndDateTextField.getText().matches("[0-9]{2}-[0-9]{2}-[0-9]{4}")
+                            || filterEndDateTextField.getText().trim().isEmpty()) {
+                        filter();
+                    }
                 }
             });
 
@@ -1332,25 +1338,25 @@ public class ReservationPanel extends SuperPanel {
                         CarRental.getInstance().appendLog("Time fields must be in format dd-mm-yyyy");
                     }
                 }
-                
+
                 //parameters
                 if ((filterVehicleTextField.getText().trim().isEmpty() || //Filter vehicle is empty OR
                         CarRental.getInstance().requestVehicle(reservation.getVehicleID()).getDescription().trim().toLowerCase(Locale.ENGLISH).contains(filterVehicleTextField.getText().trim().toLowerCase(Locale.ENGLISH))) && //Reservation matches criteria
                         (filterCustomerNameTextField.getText().trim().isEmpty() || //Filter Customer name is empty OR
                         CarRental.getInstance().requestCustomer(reservation.getCustomerID()).getName().trim().toLowerCase(Locale.ENGLISH).contains(filterCustomerNameTextField.getText().trim().toLowerCase(Locale.ENGLISH))) && //Reservation matches criteria
                         (filterVehicleTypeTextField.getText().trim().isEmpty() || //Adress Vehicle type is empty OR
-                        Integer.toString(CarRental.getInstance().requestVehicle(reservation.getVehicleID()).getVehicleType()).trim().toLowerCase(Locale.ENGLISH).contains(filterVehicleTypeTextField.getText().trim().toLowerCase(Locale.ENGLISH))) && //Reservation matches criteria
+                        CarRental.getInstance().requestVehicleType(CarRental.getInstance().requestVehicle(reservation.getVehicleID()).getVehicleType()).getDescription().trim().toLowerCase(Locale.ENGLISH).contains(filterVehicleTypeTextField.getText().trim().toLowerCase(Locale.ENGLISH))) && //Reservation matches criteria
                         (filterStartDateTextField.getText().trim().isEmpty() //Filter start date is empty OR
                         || tStart.before(reservation.getTEnd())) //Reservation matches criteria
                         && (filterEndDateTextField.getText().trim().isEmpty() //Filter end date is empty OR
                         || tEnd.before(reservation.getTStart()))) { //Reservation matches criteria
 
                     reservationTableModel.addRow(new Object[]{
-                            CarRental.getInstance().requestCustomer(reservation.getCustomerID()).getName(), //Customer name
-                            CarRental.getInstance().requestVehicle(reservation.getVehicleID()).getDescription(), //Vehicle
-                            CarRental.getInstance().requestVehicle(reservation.getVehicleID()).getVehicleType(), //Vehicle type
-                            dateFormat.format(new Date(reservation.getTStart().getTime())), //TStart 
-                            dateFormat.format(new Date(reservation.getTEnd().getTime())), //TEnd 
+                                CarRental.getInstance().requestCustomer(reservation.getCustomerID()).getName(), //Customer name
+                                CarRental.getInstance().requestVehicle(reservation.getVehicleID()).getDescription(), //Vehicle
+                                CarRental.getInstance().requestVehicleType(CarRental.getInstance().requestVehicle(reservation.getVehicleID()).getVehicleType()).getDescription(), //Vehicle type
+                                dateFormat.format(new Date(reservation.getTStart().getTime())), //TStart 
+                                dateFormat.format(new Date(reservation.getTEnd().getTime())), //TEnd 
                             });
                 }
             }
